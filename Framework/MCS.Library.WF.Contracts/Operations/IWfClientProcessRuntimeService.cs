@@ -242,6 +242,15 @@ namespace MCS.Library.WF.Contracts.Operations
         WfClientProcessCurrentInfoPageQueryResult QueryProcesses(WfClientProcessQueryCondition condition, int startRowIndex, int maximumRows, string orderBy, int totalCount);
 
         /// <summary>
+        /// 获取流程的Url
+        /// </summary>
+        /// <param name="processID">流程的ID</param>
+        /// <param name="autoNormalize">是否根据全局流程信息格式化Url</param>
+        /// <returns>流程所对应的Url。会先去查询AppCommonInfo，如果没有，则查询待办，最后是已办</returns>
+        [OperationContract]
+        string GetProcessUrl(string processID, bool autoNormalize);
+
+        /// <summary>
         /// 清除租户的业务流程相关的数据
         /// </summary>
         /// <param name="tenantCode">租户编码</param>

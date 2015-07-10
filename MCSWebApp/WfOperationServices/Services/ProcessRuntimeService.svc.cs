@@ -19,6 +19,7 @@ using MCS.Library.WF.Contracts.Workflow.DataObjects;
 using MCS.Library.WF.Contracts.Workflow.Runtime;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Principal;
@@ -40,8 +41,8 @@ namespace WfOperationServices.Services
                 throw new ApplicationException(Translator.Translate(Define.DefaultCulture, "流程的启动参数不能为空"));
 
             //设置标准参数,优先使用外部参数
-            if (!clientStartupParams.ApplicationRuntimeParameters.ContainsKey("ProcessRequestor")) 
-                clientStartupParams.ApplicationRuntimeParameters["ProcessRequestor"] = clientStartupParams.Creator; 
+            if (!clientStartupParams.ApplicationRuntimeParameters.ContainsKey("ProcessRequestor"))
+                clientStartupParams.ApplicationRuntimeParameters["ProcessRequestor"] = clientStartupParams.Creator;
 
             OperationContext.Current.FillContextToOguServiceContext();
 
@@ -93,8 +94,8 @@ namespace WfOperationServices.Services
                 throw new ApplicationException(Translator.Translate(Define.DefaultCulture, "流程的启动参数不能为空"));
 
             //设置标准参数,优先使用外部参数
-            if (!clientStartupParams.ApplicationRuntimeParameters.ContainsKey("ProcessRequestor")) 
-            clientStartupParams.ApplicationRuntimeParameters["ProcessRequestor"] = clientStartupParams.Creator;
+            if (!clientStartupParams.ApplicationRuntimeParameters.ContainsKey("ProcessRequestor"))
+                clientStartupParams.ApplicationRuntimeParameters["ProcessRequestor"] = clientStartupParams.Creator;
 
             OperationContext.Current.FillContextToOguServiceContext();
 
@@ -593,6 +594,42 @@ namespace WfOperationServices.Services
         }
 
         /// <summary>
+        /// 获取流程的Url
+        /// </summary>
+        /// <param name="processID">流程的ID</param>
+        /// <param name="autoNormalize">是否根据全局流程信息格式化Url</param>
+        /// <returns>流程所对应的Url。会先去查询AppCommonInfo，如果没有，则查询待办，最后是已办</returns>
+        [WfJsonFormatter]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string GetProcessUrl(string processID, bool autoNormalize)
+        {
+            IWfProcess process = WfRuntime.GetProcessByProcessID(processID);
+
+            string result = GetUrlFromCurrentUserTask(process);
+
+            if (result.IsNullOrEmpty())
+                result = GetUrlFromAppCommonInfo(process);
+
+            if (result.IsNullOrEmpty())
+                result = GetUrlFromUserAccomplishedTask(process);
+
+            if (result.IsNotEmpty() && autoNormalize)
+            {
+                NameValueCollection uriParams = UriHelper.GetUriParamsCollection(result);
+
+                uriParams.Remove("activityID");
+                uriParams["processID"] = process.ID;
+
+                result = UriHelper.CombineUrlParams(result, uriParams);
+
+                result = UserTask.GetNormalizedUrl(process.Descriptor.ApplicationName, process.Descriptor.ProgramName, result);
+            }
+
+
+            return result;
+        }
+
+        /// <summary>
         /// 清除租户的业务流程相关的数据
         /// </summary>
         /// <param name="tenantCode">租户编码</param>
@@ -835,6 +872,75 @@ namespace WfOperationServices.Services
                 ((WfProcess)process).UpdateTag = runtimeContext.UpdateTag;
 
             return process;
+        }
+
+        private static string GetUrlFromCurrentUserTask(IWfProcess process)
+        {
+            string result = string.Empty;
+
+            if (process.CurrentActivity != null)
+            {
+                WhereSqlClauseBuilder builder = new WhereSqlClauseBuilder();
+
+                builder.AppendItem("ACTIVITY_ID", process.CurrentActivity.ID).AppendItem("STATUS", (int)TaskStatus.Ban);
+
+                UserTaskCollection tasks = UserTaskAdapter.Instance.LoadUserTasks("WF.USER_TASK",
+                    builder,
+                    new OrderBySqlClauseBuilder().AppendItem("DELIVER_TIME", FieldSortDirection.Descending),
+                    1);
+
+                if (tasks.Count > 0)
+                    result = tasks[0].Url;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 从AppCommonInfo中获取，先查ProcessID，再查ResourceID
+        /// </summary>
+        /// <param name="process"></param>
+        /// <returns></returns>
+        private static string GetUrlFromAppCommonInfo(IWfProcess process)
+        {
+            string result = string.Empty;
+
+            string infoID = process.ResourceID;
+
+            if (AppCommonInfoAdapter.Instance.Exists(infoID) == false)
+                infoID = process.ID;
+
+            if (AppCommonInfoAdapter.Instance.Exists(infoID))
+            {
+                AppCommonInfo commonInfo = AppCommonInfoAdapter.Instance.Load(infoID);
+
+                result = commonInfo.Url;
+            }
+
+            return result;
+        }
+
+        private static string GetUrlFromUserAccomplishedTask(IWfProcess process)
+        {
+            string result = string.Empty;
+
+            if (process.CurrentActivity != null)
+            {
+                WhereSqlClauseBuilder builder = new WhereSqlClauseBuilder();
+
+                builder.AppendItem("PROCESS_ID", process.ID).AppendItem("STATUS", (int)TaskStatus.Ban);
+
+                UserTaskCollection tasks = UserTaskAdapter.Instance.LoadUserTasks(
+                    "WF.USER_ACCOMPLISHED_TASK",
+                    builder,
+                    new OrderBySqlClauseBuilder().AppendItem("DELIVER_TIME", FieldSortDirection.Descending),
+                    1);
+
+                if (tasks.Count > 0)
+                    result = tasks[0].Url;
+            }
+
+            return result;
         }
     }
 }

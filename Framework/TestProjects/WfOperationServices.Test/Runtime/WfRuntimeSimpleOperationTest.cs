@@ -611,6 +611,38 @@ namespace WfOperationServices.Test.Runtime
             Assert.IsTrue(result.QueryResult.ContainsKey(process.ID));
         }
 
+        [TestMethod]
+        public void GetProcessUrlFromUserTaskTest()
+        {
+            WfClientProcessInfo process = OperationHelper.PrepareSimpleProcessInstance();
+
+            string url = WfClientProcessRuntimeServiceProxy.Instance.GetProcessUrl(process.ID);
+
+            Console.WriteLine(url);
+
+            Assert.IsTrue(url.IsNotEmpty());
+            Assert.IsTrue(url.IndexOf("processID") > 0);
+            Assert.IsTrue(url.IndexOf("activityID") < 0);
+        }
+
+        [TestMethod]
+        public void GetProcessUrlFromUserAccomplishedTaskTest()
+        {
+            WfClientProcessInfo process = OperationHelper.PrepareSimpleProcessInstance();
+
+            WfClientProcessInfo processInfo = WfClientProcessRuntimeServiceProxy.Instance.MoveToNextDefaultActivity(process.ID, new WfClientRuntimeContext());
+
+            Assert.AreEqual(WfClientProcessStatus.Completed, processInfo.Status);
+
+            string url = WfClientProcessRuntimeServiceProxy.Instance.GetProcessUrl(process.ID);
+
+            Console.WriteLine(url);
+
+            Assert.IsTrue(url.IsNotEmpty());
+            Assert.IsTrue(url.IndexOf("processID") > 0);
+            Assert.IsTrue(url.IndexOf("activityID") < 0);
+        }
+
         [TestMethod()]
         public void ClearTenantProcessInstanceDataTest()
         {

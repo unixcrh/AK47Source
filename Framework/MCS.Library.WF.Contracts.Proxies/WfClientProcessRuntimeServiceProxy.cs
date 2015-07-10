@@ -187,6 +187,19 @@ namespace MCS.Library.WF.Contracts.Proxies
             return this.SingleCall(action => action.QueryProcesses(condition, startRowIndex, maximumRows, orderBy, totalCount));
         }
 
+        /// <summary>
+        /// 获取流程的Url
+        /// </summary>
+        /// <param name="processID">流程的ID</param>
+        /// <param name="autoNormalize">是否根据全局流程信息格式化Url</param>
+        /// <returns>流程所对应的Url。会先去查询AppCommonInfo，如果没有，则查询待办，最后是已办</returns>
+        public string GetProcessUrl(string processID, bool autoNormalize = true)
+        {
+            processID.CheckStringIsNullOrEmpty("processID");
+
+            return this.SingleCallWithScalar<string>(action => action.GetProcessUrl(processID, autoNormalize));
+        }
+
         public void ClearTenantProcessInstanceData(string tenantCode)
         {
             this.SingleCall(action => action.ClearTenantProcessInstanceData(tenantCode));
