@@ -32,6 +32,7 @@ namespace MCS.Library.SOA.DataObjects.Tenant.Test.Workflow
             IWfProcessDescriptor processDesp = PrepareProcessDescriptor(false);
 
             processDesp.CompletedActivity.EnterEventReceivers.Add(new WfUserResourceDescriptor(OguObjectSettings.GetConfig().Objects["approver1"].User));
+            //processDesp.Activities["NormalActivity"].LeaveEventReceivers.Add(new WfUserResourceDescriptor(OguObjectSettings.GetConfig().Objects["approver1"].User));
 
             IWfProcess process = processDesp.StartupProcess();
 

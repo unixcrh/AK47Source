@@ -47,7 +47,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow.Actions
                 task.Emergency = WfRuntime.ProcessContext.Emergency;
                 task.Purpose = WfRuntime.ProcessContext.Purpose;
 
-                task.Context["OperationType"] = WfRuntime.ProcessContext.OperationType;
+                AddTaskContextParameters(task);
 
                 string opName = WfRuntime.ProcessContext.OperationType.ToDescription();
 
@@ -70,6 +70,34 @@ namespace MCS.Library.SOA.DataObjects.Workflow.Actions
             }
 
             return tasks;
+        }
+
+        /// <summary>
+        /// 在任务的上下文中添加参数
+        /// </summary>
+        /// <param name="task"></param>
+        internal static void AddTaskContextParameters(UserTask task)
+        {
+            task.Context["OperationType"] = WfRuntime.ProcessContext.OperationType;
+
+            string opName = WfRuntime.ProcessContext.OperationType.ToDescription();
+
+            switch (WfRuntime.ProcessContext.OperationType)
+            {
+                case WfControlOperationType.MoveTo:
+                case WfControlOperationType.ObligeEnd:
+                case WfControlOperationType.Return:
+                case WfControlOperationType.AddApprover:
+                case WfControlOperationType.ChangeApprover:
+                case WfControlOperationType.Circulate:
+                case WfControlOperationType.Consign:
+                    string transitionName = WfRuntime.ProcessContext.CurrentProcess.ApplicationRuntimeParameters.GetValue("CurrentTransitionName", string.Empty);
+                    if (transitionName.IsNotEmpty())
+                        opName = transitionName;
+                    break;
+            }
+
+            task.Context["OperationName"] = opName;
         }
 
         internal static UserTaskCollection BuildUserTasksFromActivity(IWfActivity activity, TaskStatus status)
@@ -169,6 +197,8 @@ namespace MCS.Library.SOA.DataObjects.Workflow.Actions
             }
 
             task.Url = GetTaskUrl(activity);
+
+            AddTaskContextParameters(task);
 
             return task;
         }

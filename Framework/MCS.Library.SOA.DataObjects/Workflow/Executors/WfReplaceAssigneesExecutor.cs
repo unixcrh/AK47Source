@@ -186,6 +186,9 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                     newTask.SendToUserID = user.ID;
                     newTask.SendToUserName = user.DisplayName;
                     newTask.TaskStartTime = DateTime.Now;
+
+                    UserTaskActionBase.AddTaskContextParameters(newTask);
+
                     result.Add(newTask);
                 }
             }
@@ -212,6 +215,8 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                     newTask.SendToUserID = user.ID;
                     newTask.SendToUserName = user.DisplayName;
                     newTask.TaskStartTime = DateTime.Now;
+
+                    UserTaskActionBase.AddTaskContextParameters(newTask);
 
                     result.Add(newTask);
                 }

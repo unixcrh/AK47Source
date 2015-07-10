@@ -25,6 +25,10 @@
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <DefaultSchema>SC</DefaultSchema>
     <DefaultCollation>Chinese_PRC_CI_AS</DefaultCollation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
