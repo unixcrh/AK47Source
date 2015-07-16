@@ -16,7 +16,8 @@ namespace WfFormTemplate
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            Response.Redirect("PageTestFormController.ashx?processDescKey=WfDebugProcess");
+            //Response.Redirect("PageTestFormController.ashx?processDescKey=Expense");
+            Response.Redirect("DynamicFormController.ashx?processDescKey=Expense");
         }
     }
 }

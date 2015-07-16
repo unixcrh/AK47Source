@@ -52,6 +52,7 @@ namespace WfFormTemplate.Forms
             executor.PrepareApplicationData += new ExecutorEventHandler(executor_PrepareApplicationData);
             executor.AfterSaveApplicationData += new ExecutorEventHandler(executor_AfterSaveApplicationData);
         }
+
         protected void moveToControl_ProcessChanged(IWfProcess process)
         {
 
@@ -65,29 +66,49 @@ namespace WfFormTemplate.Forms
 
         void executor_SaveApplicationData(WfExecutorDataContext dataContext)
         {
-            if (Scene.Current.SceneID == "First_Default")
+            //if (Scene.Current.SceneID == "First_Default")
+            //{
+            //    var process = dataContext.CurrentProcess;
+            //    var properties = this.propertyForm.Properties;
+
+            //    var imgProStr = properties.GetValue("Image", "");
+            //    if (imgProStr != "")
+            //    {
+            //        ImageProperty imgPro = JSONSerializerExecute.Deserialize<ImageProperty>(imgProStr);
+            //        if (imgPro.Changed)
+            //        {
+            //            ImagePropertyAdapter.Instance.UpdateWithContent(imgPro);
+            //            properties.SetValue("Image", JSONSerializerExecute.Serialize(imgPro));
+            //        }
+            //    }
+
+            //    var deltaData = MaterialControl.GetCommonDeltaMaterials();
+            //    MaterialAdapter.Instance.SaveCommonDeltaMaterials(deltaData);
+
+            //    //DynamicFormDataAdapter.Instance.Update(this.ViewData.Data);
+            //    this.ViewData.Data.Properties = properties;
+            //    process.RootProcess.Context["appData"] = SerializationHelper.SerializeObjectToString(this.ViewData.Data, SerializationFormatterType.Binary);
+            //}
+            var process = dataContext.CurrentProcess;
+            var properties = this.propertyForm.Properties;
+
+            var imgProStr = properties.GetValue("Image", "");
+            if (imgProStr != "")
             {
-                var process = dataContext.CurrentProcess;
-                var properties = this.propertyForm.Properties;
-
-                var imgProStr = properties.GetValue("Image", "");
-                if (imgProStr != "")
+                ImageProperty imgPro = JSONSerializerExecute.Deserialize<ImageProperty>(imgProStr);
+                if (imgPro.Changed)
                 {
-                    ImageProperty imgPro = JSONSerializerExecute.Deserialize<ImageProperty>(imgProStr);
-                    if (imgPro.Changed)
-                    {
-                        ImagePropertyAdapter.Instance.UpdateWithContent(imgPro);
-                        properties.SetValue("Image", JSONSerializerExecute.Serialize(imgPro));
-                    }
+                    ImagePropertyAdapter.Instance.UpdateWithContent(imgPro);
+                    properties.SetValue("Image", JSONSerializerExecute.Serialize(imgPro));
                 }
-
-                var deltaData = MaterialControl.GetCommonDeltaMaterials();
-                MaterialAdapter.Instance.SaveCommonDeltaMaterials(deltaData);
-
-                //DynamicFormDataAdapter.Instance.Update(this.ViewData.Data);
-                this.ViewData.Data.Properties = properties;
-                process.RootProcess.Context["appData"] = SerializationHelper.SerializeObjectToString(this.ViewData.Data, SerializationFormatterType.Binary);
             }
+
+            var deltaData = MaterialControl.GetCommonDeltaMaterials();
+            MaterialAdapter.Instance.SaveCommonDeltaMaterials(deltaData);
+
+            //DynamicFormDataAdapter.Instance.Update(this.ViewData.Data);
+            this.ViewData.Data.Properties = properties;
+            process.RootProcess.Context["appData"] = SerializationHelper.SerializeObjectToString(this.ViewData.Data, SerializationFormatterType.Binary);
         }
 
         void executor_BeforeExecute(WfExecutorDataContext dataContext)
