@@ -258,13 +258,15 @@
     <Build Include="WF\Stored Procedures\ClearTenantProcessInstanceData.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MCSWorkflowDB.local.test.publish.xml" />
+    <None Include="MCSWorkflowDB.local.UnitTest.publish.xml" />
     <None Include="MCSWorkflowDB.local.publish.xml" />
-    <None Include="MCSWorkflowDB_DevTest.publish.xml" />
-    <None Include="MCSWorkflowDB.local.simulation.test.publish.xml" />
+    <None Include="MCSWorkflowDB.local.simulation.UnitTest.publish.xml" />
     <None Include="MCSWorkflowDB.local.simulation.publish.xml" />
-    <None Include="MCSWorkflowDB.archive.publish.xml" />
+    <None Include="MCSWorkflowDB.local.archive.publish.xml" />
     <None Include="Assemblies\MCS.SqlServer.Compression.dll" />
+    <None Include="MCSWorkflowDB.CFLD.130.publish.xml" />
+    <None Include="MCSWorkflowDB.CFLD.130_Simulation.publish.xml" />
+    <None Include="MCSWorkflowDB.CFLD.130_Archive.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment.sql" />

@@ -267,7 +267,7 @@ namespace MCS.Library.SOA.DataObjects.Security.AUObjects
 			return AUCommon.DoDbProcess(() => SchemaRelationObjectAdapter.Instance.GetChildrenCount(this.ID, null, DateTime.MinValue));
 		}
 
-		int ISCRelationContainer.GetCurrentMaxInnerSort()
+		long ISCRelationContainer.GetCurrentMaxInnerSort()
 		{
 			return AUCommon.DoDbProcess(() => SchemaRelationObjectAdapter.Instance.GetMaxInnerSort(this.ID, null, DateTime.MinValue));
 		}

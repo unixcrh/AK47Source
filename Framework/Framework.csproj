@@ -46,7 +46,11 @@
     <ProjectItem Include="MCS.Library.SOA.Web.SilverlightControls\WorkflowRuntime\WorkflowRuntime.csproj" />
     <ProjectItem Include="MCS.Library.SOA.Web.SilverlightControls\Designer\Designer.csproj" />
     <ProjectItem Include="MCS.Library.SOA.DataObjects.Schemas\MCS.Library.SOA.DataObjects.Schemas.csproj" />
+    
     <ProjectItem Include="MCS.Library.SOA.DataObjects.Security\MCS.Library.SOA.DataObjects.Security.csproj" />
+
+    <ProjectItem Include="MCS.Library.SOA.DataObjects.Dynamics\MCS.Library.SOA.DataObjects.Dynamics.csproj" />
+
     <ProjectItem Include="MCS.Library.SOA.Security.ADSyncUtilities\MCS.Library.SOA.Security.ADSyncUtilities.csproj" />
     <ProjectItem Include="MCS.Library.PermissionBridge\MCS.Library.PermissionBridge.csproj" />
     <ProjectItem Include="MCS.Library.SOA.DataObjects.Security.AUObjects\MCS.Library.SOA.DataObjects.Security.AUObjects.csproj" />

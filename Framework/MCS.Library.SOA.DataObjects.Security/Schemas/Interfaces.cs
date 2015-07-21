@@ -107,7 +107,7 @@ namespace MCS.Library.SOA.DataObjects.Security
 		/// 获取当前最大的内部序号
 		/// </summary>
 		/// <returns></returns>
-		int GetCurrentMaxInnerSort();
+		long GetCurrentMaxInnerSort();
 	}
 
 	/// <summary>

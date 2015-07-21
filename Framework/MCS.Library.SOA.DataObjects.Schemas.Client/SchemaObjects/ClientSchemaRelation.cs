@@ -19,7 +19,7 @@ namespace MCS.Library.SOA.DataObjects.Schemas.Client
 
 		public string FullPath { get; set; }
 
-		public int InnerSort { get; set; }
+		public long InnerSort { get; set; }
 
 		public string GolbalSort { get; set; }
 

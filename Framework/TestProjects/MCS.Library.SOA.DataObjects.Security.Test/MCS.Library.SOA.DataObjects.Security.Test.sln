@@ -27,16 +27,16 @@ Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://shsvr9141tfs.ciicsh.local:8080/tfs/rhso
+		SccTeamFoundationServer = http://code.cfldcn.com:8080/tfs/base
 		SccProjectUniqueName0 = ..\\..\\MCS.Library.PermissionBridge\\MCS.Library.PermissionBridge.csproj
 		SccProjectName0 = ../../MCS.Library.PermissionBridge
 		SccLocalPath0 = ..\\..\\MCS.Library.PermissionBridge
-		SccLocalPath1 = .
-		SccProjectUniqueName2 = MCS.Library.SOA.DataObjects.Security.Test.csproj
+		SccProjectUniqueName1 = ..\\..\\MCS.Library.SOA.DataObjects.Security\\MCS.Library.SOA.DataObjects.Security.csproj
+		SccProjectName1 = ../../MCS.Library.SOA.DataObjects.Security
+		SccLocalPath1 = ..\\..\\MCS.Library.SOA.DataObjects.Security
 		SccLocalPath2 = .
-		SccProjectUniqueName3 = ..\\..\\MCS.Library.SOA.DataObjects.Security\\MCS.Library.SOA.DataObjects.Security.csproj
-		SccProjectName3 = ../../MCS.Library.SOA.DataObjects.Security
-		SccLocalPath3 = ..\\..\\MCS.Library.SOA.DataObjects.Security
+		SccProjectUniqueName3 = MCS.Library.SOA.DataObjects.Security.Test.csproj
+		SccLocalPath3 = .
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

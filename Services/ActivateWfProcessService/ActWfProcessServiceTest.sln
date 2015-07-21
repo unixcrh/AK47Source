@@ -1,6 +1,7 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivateWfProcessService", "ActivateWfProcessService.csproj", "{E1AF2D04-05F7-4325-B0A1-9C95CEBE3191}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7905642F-4630-4D16-AF40-CB1FB70D516F} = {7905642F-4630-4D16-AF40-CB1FB70D516F}
@@ -15,7 +16,20 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Library.SOA.DataObjects", "..\..\Framework\MCS.Library.SOA.DataObjects\MCS.Library.SOA.DataObjects.csproj", "{7905642F-4630-4D16-AF40-CB1FB70D516F}"
 EndProject
 Global
-	
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://code.cfldcn.com:8080/tfs/base
+		SccProjectUniqueName0 = ..\\MCSServiceMain\\MCSServiceMain.csproj
+		SccProjectName0 = ../MCSServiceMain
+		SccLocalPath0 = ..\\MCSServiceMain
+		SccProjectUniqueName1 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects\\MCS.Library.SOA.DataObjects.csproj
+		SccProjectName1 = ../../Framework/MCS.Library.SOA.DataObjects
+		SccLocalPath1 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects
+		SccLocalPath2 = .
+		SccProjectUniqueName3 = ActivateWfProcessService.csproj
+		SccLocalPath3 = .
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

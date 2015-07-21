@@ -1,14 +1,14 @@
 ﻿/* 将整数扩展为指定的位数，前面补0 */
 CREATE FUNCTION [SC].[FormatInteger]
 (
-	@data INT,
+	@data BIGINT,
 	@len INT
 )
 RETURNS NVARCHAR(64) AS
 BEGIN
-	DECLARE @result NVARCHAR(64)
+	DECLARE @result NVARCHAR(128)
 
-	SET @result = CAST(@data AS NVARCHAR(64))
+	SET @result = CAST(@data AS NVARCHAR(128))
 
 	DECLARE @diff AS INT
 

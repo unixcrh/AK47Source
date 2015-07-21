@@ -13,9 +13,11 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MCS.Library.snk</AssemblyOriginatorKeyFile>
-    <FileUpgradeFlags></FileUpgradeFlags>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation></UpgradeBackupLocation>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -104,7 +106,8 @@
     <Compile Include="DeluxeGrid\DeluxeGrid.cs" />
     <Compile Include="DeluxeGrid\EnumDropDownField.cs" />
     <Compile Include="DeluxeGrid\GridPagerTemplate.cs" />
-    <Compile Include="DeluxeGrid\InnerInputButton.cs"></Compile>
+    <Compile Include="DeluxeGrid\InnerInputButton.cs">
+    </Compile>
     <Compile Include="DeluxeGrid\PagerTemplateDesigner.cs" />
     <Compile Include="DeluxeGrid\Utils.cs" />
     <Compile Include="DeluxeMenu\DeluxeMenu.cs" />
@@ -153,7 +156,8 @@
     <Compile Include="RelaxedTabStrip\RelaxedTabPage.cs" />
     <Compile Include="RelaxedTabStrip\RelaxedTabPageCollection.cs" />
     <Compile Include="RelaxedTabStrip\RelaxedTabStrip.cs">
-      <SubType></SubType>
+      <SubType>
+      </SubType>
     </Compile>
     <Compile Include="RelaxedTabStrip\RelaxedTabStripControlBuilder.cs" />
     <Compile Include="SampleControl\DialogSampleControl.cs" />
@@ -169,7 +173,8 @@
     <Compile Include="TextBoxDropdrownExtender\TextBoxControlConverter.cs" />
     <Compile Include="TextBoxDropdrownExtender\TextBoxDropdownExtender.cs" />
     <Compile Include="TimePoint\TimePointDisplayControl.cs" />
-    <Compile Include="TranslatorLabel\TranslatorLabel.cs"></Compile>
+    <Compile Include="TranslatorLabel\TranslatorLabel.cs">
+    </Compile>
     <Compile Include="WebBrowserWrapper\WebBrowserWrapper.cs" />
     <Compile Include="WebBrowserWrapper\WebBrowserWrapperScript.cs" />
     <Compile Include="WordPrint\EnumDefine.cs" />

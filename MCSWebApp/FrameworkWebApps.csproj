@@ -31,6 +31,7 @@
     <ProjectItem Include="Diagnostics\Diagnostics.csproj" />
     <ProjectItem Include="PermissionCenterServices\PermissionCenterServices.csproj" />
     <ProjectItem Include="PermissionCenter\PermissionCenter.csproj" />
+    <ProjectItem Include="MCS.Dynamics.Web\MCS.Dynamics.Web.csproj" />
     <ProjectItem Include="AUCenter\AUCenter.csproj" />
     <ProjectItem Include="AUCenterServices\AUCenterServices.csproj" />
     <ProjectItem Include="WfPlatformServices\WfPlatformServices.csproj" />

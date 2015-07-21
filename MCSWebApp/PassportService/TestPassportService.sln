@@ -1,6 +1,7 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassportService", "PassportService.csproj", "{9FFB3F09-2C46-4E88-96CE-F8EBDD970C1C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C8E5AF14-62FB-44EE-9CCB-CFC263259863} = {C8E5AF14-62FB-44EE-9CCB-CFC263259863}
@@ -31,7 +32,29 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Library.OGUPermission", "..\..\Framework\MCS.Library.OGUPermission\MCS.Library.OGUPermission.csproj", "{6EA98729-9A07-4D1F-B389-07C6B9D43B1D}"
 EndProject
 Global
-	
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 7
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://code.cfldcn.com:8080/tfs/base
+		SccProjectUniqueName0 = PassportService.csproj
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\..\\Framework\\MCS.Library.Passport\\MCS.Library.Passport.csproj
+		SccProjectName1 = ../../Framework/MCS.Library.Passport
+		SccLocalPath1 = ..\\..\\Framework\\MCS.Library.Passport
+		SccProjectUniqueName2 = ..\\..\\Framework\\MCS.Library\\MCS.Library.csproj
+		SccProjectName2 = ../../Framework/MCS.Library
+		SccLocalPath2 = ..\\..\\Framework\\MCS.Library
+		SccProjectUniqueName3 = ..\\..\\Framework\\MCS.Web.Library\\MCS.Web.Library.csproj
+		SccProjectName3 = ../../Framework/MCS.Web.Library
+		SccLocalPath3 = ..\\..\\Framework\\MCS.Web.Library
+		SccProjectUniqueName4 = ..\\..\\Framework\\MCS.Web.WebControls\\MCS.Web.WebControls.csproj
+		SccProjectName4 = ../../Framework/MCS.Web.WebControls
+		SccLocalPath4 = ..\\..\\Framework\\MCS.Web.WebControls
+		SccProjectUniqueName5 = ..\\..\\Framework\\MCS.Library.OGUPermission\\MCS.Library.OGUPermission.csproj
+		SccProjectName5 = ../../Framework/MCS.Library.OGUPermission
+		SccLocalPath5 = ..\\..\\Framework\\MCS.Library.OGUPermission
+		SccLocalPath6 = .
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		DELUXEWORKSTEST|Any CPU = DELUXEWORKSTEST|Any CPU

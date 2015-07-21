@@ -5,7 +5,7 @@
     [VersionEndTime]   DATETIME       CONSTRAINT [DF_SchemaObjectRelations_VersionEndTime] DEFAULT ('99990909 00:00:00') NULL,
     [Status]           INT            CONSTRAINT [DF_SchemaObjectRelations_Status] DEFAULT ((1)) NULL,
 	[IsDefault]	       INT            CONSTRAINT [DF_SchemaObjectRelations_Default] DEFAULT ((1)) NULL,
-    [InnerSort]        INT            CONSTRAINT [DF_SchemaRelationObjects_InnerSort] DEFAULT ((0)) NULL,
+    [InnerSort]        BIGINT            CONSTRAINT [DF_SchemaRelationObjects_InnerSort] DEFAULT ((0)) NULL,
 	[FullPath]         NVARCHAR(414)  NULL,
 	[GlobalSort]       NVARCHAR(414)  NULL,
     [Data]             XML            NULL,

@@ -160,7 +160,7 @@ namespace MCS.Library.SOA.DataObjects.Security
 			return SchemaRelationObjectAdapter.Instance.GetChildrenCount(this.ID, null, DateTime.MinValue);
 		}
 
-		int ISCRelationContainer.GetCurrentMaxInnerSort()
+		long ISCRelationContainer.GetCurrentMaxInnerSort()
 		{
 			return SchemaRelationObjectAdapter.Instance.GetMaxInnerSort(this.ID, null, DateTime.MinValue);
 		}

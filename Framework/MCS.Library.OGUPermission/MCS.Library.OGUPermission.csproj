@@ -13,9 +13,11 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MCS.Library.snk</AssemblyOriginatorKeyFile>
-    <FileUpgradeFlags></FileUpgradeFlags>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation></UpgradeBackupLocation>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -50,7 +52,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRules></CodeAnalysisRules>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -144,8 +147,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="ServiceBroker\AppAdminServiceBroker.cs"></Compile>
-    <Compile Include="ServiceBroker\OguServiceBroker.cs"></Compile>
+    <Compile Include="ServiceBroker\AppAdminServiceBroker.cs">
+    </Compile>
+    <Compile Include="ServiceBroker\OguServiceBroker.cs">
+    </Compile>
     <Compile Include="ServiceBroker\ServiceBrokerContext.cs" />
     <Compile Include="ServiceBroker\ServiceBrokerContextBase.cs" />
     <Compile Include="ServiceBroker\ServiceBrokerExtension.cs" />
@@ -189,7 +194,8 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <Target Name="BeforeBuild"></Target>
+  <Target Name="BeforeBuild">
+  </Target>
   <Target Name="AfterBuild">
     <!--<Copy SourceFiles="@(BinFiles)" DestinationFolder="..\..\Bin" SkipUnchangedFiles="True" />-->
   </Target>

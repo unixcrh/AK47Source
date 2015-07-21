@@ -70,7 +70,7 @@ namespace MCS.Library.SOA.DataObjects.Security
         /// <summary>
         /// 获取或设置内部排序号
         /// </summary>
-        public int InnerSort
+        public long InnerSort
         {
             get;
             set;

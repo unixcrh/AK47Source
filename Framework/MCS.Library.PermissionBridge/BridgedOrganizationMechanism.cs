@@ -61,7 +61,7 @@ namespace MCS.Library.PermissionBridge
 			SCObjectAndRelationCollection relations =
 				PC.Adapters.SCSnapshotAdapter.Instance.QueryObjectAndRelationByParentIDs(typeof(T).ToSchemaTypes(), new string[] { parentID }, false, includeSideline, Util.GetContextIncludeDeleted(), DateTime.MinValue);
 
-			relations.Sort((x, y) => x.InnerSort - y.InnerSort);
+			relations.Sort((x, y) => Math.Sign(x.InnerSort - y.InnerSort));
 
 			List<T> tempResult = relations.ConvertToOguObjects<T>();
 
@@ -73,7 +73,7 @@ namespace MCS.Library.PermissionBridge
 				SCObjectAndRelationCollection subRelations =
 				PC.Adapters.SCSnapshotAdapter.Instance.QueryObjectAndRelationByParentIDs(typeof(IOrganization).ToSchemaTypes(), new string[] { parentID }, false, includeSideline, Util.GetContextIncludeDeleted(), DateTime.MinValue);
 
-				subRelations.Sort((x, y) => x.InnerSort - y.InnerSort);
+				subRelations.Sort((x, y) => Math.Sign(x.InnerSort - y.InnerSort));
 
 				List<IOrganization> tempSubResult = subRelations.ConvertToOguObjects<IOrganization>();
 

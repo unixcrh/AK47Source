@@ -173,14 +173,11 @@
     <Build Include="SC\Tables\ADSynchronizeLog_Properties.sql" />
     <Build Include="SC\Tables\IncomeSynchronizeLog_Properties.sql" />
     <Build Include="SC\Tables\ADReverseSynchronizeLog_Properties.sql" />
+    <Build Include="SC\Procedures\ClearNoSchemaData.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PermissionsCenterDB.publish.xml" />
-    <None Include="PermissionsCenterDB_Dev.publish.xml" />
-    <None Include="PermissionsCenterDB_DevTest.publish.xml" />
-    <None Include="PermissionsCenterDB-test.publish.xml" />
-    <None Include="PermissionsCenterDB_DevTestForAD.publish.xml" />
-    <None Include="PermissionsCenterDB_Local.publish.xml" />
+    <None Include="PermissionsCenterDB.local.UnitTest.publish.xml" />
+    <None Include="PermissionsCenterDB.local.publish.xml" />
     <None Include="SqlPackageDemo.txt" />
     <Build Include="SC\Tables\PermissionCenter_AD_IDMapping_Properties.sql" />
     <None Include="SC\Tables\SchemaApplicationSnapshot_Properties.sql" />
@@ -188,6 +185,8 @@
     <Build Include="SC\Tables\SchemaObject_Properties.sql" />
     <Build Include="SC\Tables\SchemaOrganizationSnapshot_Properties.sql" />
     <Build Include="SC\Tables\SchemaRoleSnapshot_Properties.sql" />
+    <None Include="PermissionsCenterDB.CFLD.130.publish.xml" />
+    <None Include="PermissionsCenterDB.CFLD.130.UnitTest.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="PermissionsCenterDB.refactorlog" />

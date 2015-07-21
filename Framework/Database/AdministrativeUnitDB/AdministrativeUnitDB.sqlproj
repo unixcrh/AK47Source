@@ -163,6 +163,7 @@
     <Build Include="Schema Objects\Schemas\SC\Programmability\Stored Procedures\SC.ExecuteJobList.sql" />
     <None Include="AdministrativeUnitDBDev.local.test.publish.xml" />
     <None Include="AdministrativeUnitDBDev.local.publish.xml" />
+    <None Include="AdministrativeUnitDB_Dev.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="Scripts\Pre-Deployment\Script.PreDeployment.sql" />

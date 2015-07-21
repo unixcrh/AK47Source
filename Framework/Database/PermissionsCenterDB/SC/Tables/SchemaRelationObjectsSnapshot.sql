@@ -6,7 +6,7 @@
     [VersionEndTime] DATETIME NULL DEFAULT ('99990909 00:00:00'), 
     [Status] INT NULL DEFAULT 1, 
 	[IsDefault] INT NULL DEFAULT 1,
-    [InnerSort] INT NULL DEFAULT 0, 
+    [InnerSort] BIGINT NULL DEFAULT 0, 
 	[FullPath]  NVARCHAR(414)  NULL,
 	[GlobalSort] NVARCHAR(414)  NULL,
     [SchemaType] NVARCHAR(64) NULL, 

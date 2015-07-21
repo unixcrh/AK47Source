@@ -1,6 +1,7 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCSOAPortal", "MCSOAPortal.csproj", "{C9D50D54-9E5C-4053-A340-EC5CFBB77C07}"
 	ProjectSection(ProjectDependencies) = postProject
 		{42C6D301-8CCB-4CBD-BC20-250D98A4C369} = {42C6D301-8CCB-4CBD-BC20-250D98A4C369}
@@ -17,7 +18,23 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Library.Data", "..\..\Framework\MCS.Library.Data\MCS.Library.Data.csproj", "{4313DE1E-738F-477D-B7FD-B237E9116670}"
 EndProject
 Global
-	
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://code.cfldcn.com:8080/tfs/base
+		SccProjectUniqueName0 = MCSOAPortal.csproj
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\..\\Framework\\MCS.Library.SOA.Web.WebControls\\MCS.Library.SOA.Web.WebControls.csproj
+		SccProjectName1 = ../../Framework/MCS.Library.SOA.Web.WebControls
+		SccLocalPath1 = ..\\..\\Framework\\MCS.Library.SOA.Web.WebControls
+		SccProjectUniqueName2 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects\\MCS.Library.SOA.DataObjects.csproj
+		SccProjectName2 = ../../Framework/MCS.Library.SOA.DataObjects
+		SccLocalPath2 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects
+		SccProjectUniqueName3 = ..\\..\\Framework\\MCS.Library.Data\\MCS.Library.Data.csproj
+		SccProjectName3 = ../../Framework/MCS.Library.Data
+		SccLocalPath3 = ..\\..\\Framework\\MCS.Library.Data
+		SccLocalPath4 = .
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		DELUXEWORKSTEST|Any CPU = DELUXEWORKSTEST|Any CPU

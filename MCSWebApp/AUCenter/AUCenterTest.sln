@@ -1,6 +1,7 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AUCenter", "AUCenter.csproj", "{94BB7E55-57DA-4247-87A9-80EC882C06F5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{42C6D301-8CCB-4CBD-BC20-250D98A4C369} = {42C6D301-8CCB-4CBD-BC20-250D98A4C369}
@@ -45,7 +46,47 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AUCenterServices", "..\AUCenterServices\AUCenterServices.csproj", "{BD551ED5-2C88-4570-8108-3959ACC298EF}"
 EndProject
 Global
-	
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 13
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://code.cfldcn.com:8080/tfs/base
+		SccProjectUniqueName0 = AUCenter.csproj
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Security.AUObjects\\MCS.Library.SOA.DataObjects.Security.AUObjects.csproj
+		SccProjectName1 = ../../Framework/MCS.Library.SOA.DataObjects.Security.AUObjects
+		SccLocalPath1 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Security.AUObjects
+		SccProjectUniqueName2 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Security\\MCS.Library.SOA.DataObjects.Security.csproj
+		SccProjectName2 = ../../Framework/MCS.Library.SOA.DataObjects.Security
+		SccLocalPath2 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Security
+		SccProjectUniqueName3 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Schemas\\MCS.Library.SOA.DataObjects.Schemas.csproj
+		SccProjectName3 = ../../Framework/MCS.Library.SOA.DataObjects.Schemas
+		SccLocalPath3 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Schemas
+		SccProjectUniqueName4 = ..\\..\\Framework\\MCS.Web.WebControls\\MCS.Web.WebControls.csproj
+		SccProjectName4 = ../../Framework/MCS.Web.WebControls
+		SccLocalPath4 = ..\\..\\Framework\\MCS.Web.WebControls
+		SccProjectUniqueName5 = ..\\..\\Framework\\MCS.Library.SOA.Web.WebControls\\MCS.Library.SOA.Web.WebControls.csproj
+		SccProjectName5 = ../../Framework/MCS.Library.SOA.Web.WebControls
+		SccLocalPath5 = ..\\..\\Framework\\MCS.Library.SOA.Web.WebControls
+		SccProjectUniqueName6 = ..\\..\\Framework\\MCS.Web.Library\\MCS.Web.Library.csproj
+		SccProjectName6 = ../../Framework/MCS.Web.Library
+		SccLocalPath6 = ..\\..\\Framework\\MCS.Web.Library
+		SccProjectUniqueName7 = ..\\PermissionCenterServices\\PermissionCenterServices.csproj
+		SccProjectName7 = ../PermissionCenterServices
+		SccLocalPath7 = ..\\PermissionCenterServices
+		SccProjectUniqueName8 = ..\\PermissionCenter\\PermissionCenter.csproj
+		SccProjectName8 = ../PermissionCenter
+		SccLocalPath8 = ..\\PermissionCenter
+		SccProjectUniqueName9 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Security.Client\\MCS.Library.SOA.DataObjects.Security.Client.csproj
+		SccProjectName9 = ../../Framework/MCS.Library.SOA.DataObjects.Security.Client
+		SccLocalPath9 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Security.Client
+		SccProjectUniqueName10 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects\\MCS.Library.SOA.DataObjects.csproj
+		SccProjectName10 = ../../Framework/MCS.Library.SOA.DataObjects
+		SccLocalPath10 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects
+		SccProjectUniqueName11 = ..\\AUCenterServices\\AUCenterServices.csproj
+		SccProjectName11 = ../AUCenterServices
+		SccLocalPath11 = ..\\AUCenterServices
+		SccLocalPath12 = .
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		DELUXEWORKSTEST|Any CPU = DELUXEWORKSTEST|Any CPU

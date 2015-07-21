@@ -19,8 +19,8 @@ BEGIN
 			ELSE R.FullPath + '\' + T.Name
 		END,
 		CASE ISNULL(R.GlobalSort, '')
-			WHEN '' THEN SC.FormatInteger(T.InnerSort, 6)
-			ELSE R.GlobalSort + SC.FormatInteger(T.InnerSort, 6)
+			WHEN '' THEN SC.FormatInteger(T.InnerSort, 10)
+			ELSE R.GlobalSort + SC.FormatInteger(T.InnerSort, 10)
 		END
 	FROM @currentObjs T LEFT JOIN SC.SchemaObjectAndParentView R ON R.ID = T.ParentID
 	WHERE (R.VersionStartTime <= @time AND R.VersionEndTime > @time AND R.R_VersionStartTime <= @time AND R.R_VersionEndTime > @time AND R.Status = 1 AND R.R_Status = 1) OR R.ID IS NULL

@@ -126,7 +126,7 @@ namespace MCS.Library.SOA.DataObjects.Security
 		/// 获取或设置一个<see cref="int"/>值，表示内部排序号
 		/// </summary>
 		[ORFieldMapping("InnerSort")]
-		public int InnerSort
+		public long InnerSort
 		{
 			get
 			{
@@ -361,9 +361,9 @@ namespace MCS.Library.SOA.DataObjects.Security
 	[Serializable]
 	public abstract class SCParentsOrChildrenRelationObjectCollectionBase : SchemaObjectEditableKeyedCollectionBase<SCRelationObject, SCParentsOrChildrenRelationObjectCollectionBase>
 	{
-		public int GetMaxInnerSort()
+		public long GetMaxInnerSort()
 		{
-			int result = 0;
+            long result = 0;
 
 			foreach (SCRelationObject relation in this)
 			{

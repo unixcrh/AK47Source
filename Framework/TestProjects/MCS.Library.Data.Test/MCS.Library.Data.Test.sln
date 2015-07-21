@@ -27,16 +27,16 @@ Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://shsvr9141tfs.ciicsh.local:8080/tfs/rhso
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ..\\..\\MCS.Library.Data\\MCS.Library.Data.csproj
-		SccProjectName1 = ../../MCS.Library.Data
-		SccLocalPath1 = ..\\..\\MCS.Library.Data
-		SccProjectUniqueName2 = MCS.Library.Data.Test.csproj
+		SccTeamFoundationServer = http://code.cfldcn.com:8080/tfs/base
+		SccProjectUniqueName0 = ..\\..\\MCS.Library.Data\\MCS.Library.Data.csproj
+		SccProjectName0 = ../../MCS.Library.Data
+		SccLocalPath0 = ..\\..\\MCS.Library.Data
+		SccProjectUniqueName1 = ..\\..\\MCS.Library\\MCS.Library.csproj
+		SccProjectName1 = ../../MCS.Library
+		SccLocalPath1 = ..\\..\\MCS.Library
 		SccLocalPath2 = .
-		SccProjectUniqueName3 = ..\\..\\MCS.Library\\MCS.Library.csproj
-		SccProjectName3 = ../../MCS.Library
-		SccLocalPath3 = ..\\..\\MCS.Library
+		SccProjectUniqueName3 = MCS.Library.Data.Test.csproj
+		SccLocalPath3 = .
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

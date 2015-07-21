@@ -70,7 +70,7 @@ namespace MCS.Library.SOA.DataObjects.Security.Debugger
 			}
 		}
 
-		public int InnerSort
+		public long InnerSort
 		{
 			get
 			{
