@@ -77,16 +77,16 @@ namespace WfFormTemplate.Forms
 
         protected void moveToControl_ProcessChanged(IWfProcess process)
         {
-            if (this.ViewData.Data.Amount >= 5000)
-            {
-                process.ApplicationRuntimeParameters["TempApprover"] =
-                    (IUser)OguUser.CreateWrapperObject(OguMechanismFactory.GetMechanism().GetObjects<IUser>(SearchOUIDType.LogOnName, "quym").First());
-            }
-            else
-            {
-                process.ApplicationRuntimeParameters["TempApprover"] =
-                    (IUser)OguUser.CreateWrapperObject(OguMechanismFactory.GetMechanism().GetObjects<IUser>(SearchOUIDType.LogOnName, "fanhy").First());
-            }
+            //if (this.ViewData.Data.Amount >= 5000)
+            //{
+            //    process.ApplicationRuntimeParameters["TempApprover"] =
+            //        (IUser)OguUser.CreateWrapperObject(OguMechanismFactory.GetMechanism().GetObjects<IUser>(SearchOUIDType.LogOnName, "quym").First());
+            //}
+            //else
+            //{
+            //    process.ApplicationRuntimeParameters["TempApprover"] =
+            //        (IUser)OguUser.CreateWrapperObject(OguMechanismFactory.GetMechanism().GetObjects<IUser>(SearchOUIDType.LogOnName, "fanhy").First());
+            //}
         }
     }
 }

@@ -62,11 +62,11 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
         #endregion
 
         [TestCategory("DEDynamicEntityFieldSnapShotAdapter"), TestMethod]
-        public void TestGetByRefferanceCodeName()
+        public void GetByRefferanceCodeNameTest()
         {
             // /集团公司/管道板块/运输
             string categoryID = "48BE753C-630D-42F4-A02D-D2B50818F817";
-            var entity = creatEntity(categoryID);
+            var entity = CreatEntity(categoryID);
             var childEntity = creatChildEntity(categoryID);
             //子表入库
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(childEntity);
@@ -78,16 +78,15 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
 
-            List<DynamicEntityField> fields = DEDynamicEntityFieldSnapShotAdapter.Instance.LoadByRefferanceCodeName(childEntity.CodeName);
-
-            Assert.IsTrue(fields.Count == 1);
+            Assert.AreEqual(1, DEDynamicEntityFieldSnapShotAdapter.Instance.LoadByRefferanceCodeName(childEntity.CodeName).Count);
         }
+
         #region 辅助方法
         /// <summary>
         /// 创建实体字段
         /// </summary>
         /// <returns></returns>
-        private DynamicEntityField creatEntityField(int sortNo, string flag = "new")
+        private static DynamicEntityField CreatEntityField(int sortNo, string flag = "new")
         {
             var field = new DynamicEntityField()
             {
@@ -100,6 +99,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
                 Creator = (IUser)OguBase.CreateWrapperObject(new OguUser("22c3b351-a713-49f2-8f06-6b888a280fff")),//wangli5
                 SortNo = sortNo
             };
+
             return field;
         }
 
@@ -107,7 +107,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
         /// 创建实体
         /// </summary>
         /// <returns></returns>
-        private DynamicEntity creatEntity(string categoryID)
+        private static DynamicEntity CreatEntity(string categoryID)
         {
             string entityId = Guid.NewGuid().ToString();
 
@@ -125,9 +125,10 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             for (var i = 0; i < 2; i++)
             {
-                var field = creatEntityField(i);
+                var field = CreatEntityField(i);
                 entity.Fields.Add(field);
             }
+
             return entity;
         }
 
@@ -153,7 +154,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             for (var i = 0; i < 2; i++)
             {
-                var field = creatEntityField(i);
+                var field = CreatEntityField(i);
                 entity.Fields.Add(field);
             }
             return entity;

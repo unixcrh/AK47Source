@@ -254,7 +254,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
             {
                 if (this._CurrentMembers == null && this.ID.IsNotEmpty())
                 {
-                    this._CurrentMembers = DESchemaObjectAdapter.Instance.Load(CurrentMembersRelations.ToMemberIDsBuilder());
+                    this._CurrentMembers = DESchemaObjectAdapter.Instance.Load(CurrentMembersRelations.ToMemberIDsBuilder(),true);
                 }
 
                 return _CurrentMembers;
@@ -336,7 +336,10 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
         #endregion
 
         #region 根据当前对象生成一个新实体
-
+        /// <summary>
+        /// 从新给当前实体及其子实体的主键（ID\VersionTime）赋值，从而创建一个新的实体。
+        /// </summary>
+        /// <param name="categoryID">类别ID</param>
         public void BuildNewEntity(string categoryID)
         {
             foreach (var field in this.Fields)

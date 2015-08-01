@@ -21,7 +21,7 @@ namespace MCS.Web.WebControls
 		private static readonly object ControlKey = new object();
 
 		public CommandInput()
-			: base(HtmlTextWriterTag.Input)
+			: base(HtmlTextWriterTag.Div)
 		{
 		}
 
@@ -88,7 +88,7 @@ namespace MCS.Web.WebControls
 			}
 			else
 			{
-				this.Attributes.Add("type", "hidden");
+				this.Style.Add("display", "none");
 				base.Render(writer);
 			}
 		}

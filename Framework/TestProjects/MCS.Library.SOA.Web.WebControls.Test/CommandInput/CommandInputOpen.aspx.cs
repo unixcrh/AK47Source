@@ -16,7 +16,7 @@ namespace MCS.SOA.Web.WebControls.Test.CommandInput
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            WebUtility.RequiredScript(typeof(DeluxeScript));
         }
 
         protected void Button1_Click(object sender, EventArgs e)

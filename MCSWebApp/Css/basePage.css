@@ -411,6 +411,17 @@ for dialog pages
     border: 0;
 }
 /*
+	全局 列表换页行内容样式。和pager一样，只不过为了避免重名
+*/
+.dataList .alternatePager
+{
+    background-color: #FFF;
+    text-align: right;
+    vertical-align: middle;
+    border: 0;
+}
+
+/*
 	全局 列表checkbox内容样式
 */
 .dataList .checkbox

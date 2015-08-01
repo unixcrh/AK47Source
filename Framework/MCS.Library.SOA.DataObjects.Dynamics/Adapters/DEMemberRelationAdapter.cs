@@ -128,7 +128,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             builder.AppendItem("ContainerID", containerID);
 
             if (memberSchemaType.IsNotEmpty())
-                builder.AppendItem("SchemaType", memberSchemaType);
+                builder.AppendItem("MemberSchemaType", memberSchemaType);
 
             return Load<DEObjectMemberRelationCollection>(builder, timePoint);
         }

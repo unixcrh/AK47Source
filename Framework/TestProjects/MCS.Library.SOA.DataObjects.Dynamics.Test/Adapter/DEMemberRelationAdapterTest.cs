@@ -53,70 +53,73 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
         #endregion
 
         [TestCategory("DEMemberRelationAdapter"), TestMethod]
+        [Description("根据成员的ID查找关系")]
         public void LoadByMemberIDTest()
         {
-            var newEntity = createEntity();
+            var newEntity = CreateEntity();
 
             var fieldDesc = "New Field Description";
 
             newEntity.Fields[0].Description = fieldDesc;
 
-            var memberID = newEntity.Fields[0].ID;
+            var fieldID = newEntity.Fields[0].ID;
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(newEntity);
 
-            var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID) as DynamicEntity;
+            var relation = DEMemberRelationAdapter.Instance.LoadByMemberID(fieldID).FirstOrDefault();
 
-            var relation = DEMemberRelationAdapter.Instance.LoadByMemberID(memberID).FirstOrDefault();
-
-            Assert.IsTrue(((DynamicEntityField)relation.Member).Description.Equals(fieldDesc));
+            Assert.AreEqual(newEntity.ID, relation.ContainerID);
+            Assert.AreEqual(fieldID, relation.ID);
+            Assert.AreEqual(fieldDesc, ((DynamicEntityField)relation.Member).Description);
         }
 
         [TestCategory("DEMemberRelationAdapter"), TestMethod]
+        [Description("根据成员的ID和SchemaType查找关系")]
         public void LoadByMemberIDAndContainerSchemaTypeTest()
         {
-            var newEntity = createEntity();
+            var newEntity = CreateEntity();
 
             var fieldDesc = "New Field Description";
 
             newEntity.Fields[0].Description = fieldDesc;
 
-            var memberID = newEntity.Fields[0].ID;
+            var fieldID = newEntity.Fields[0].ID;
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(newEntity);
 
-            var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID) as DynamicEntity;
+            var relation = DEMemberRelationAdapter.Instance.LoadByMemberID(fieldID, newEntity.SchemaType).FirstOrDefault();
 
-            var relation = DEMemberRelationAdapter.Instance.LoadByMemberID(memberID, "DynamicEntity").FirstOrDefault();
-
-            Assert.IsTrue(((DynamicEntityField)relation.Member).Description.Equals(fieldDesc));
+            Assert.AreEqual(newEntity.ID, relation.ContainerID);
+            Assert.AreEqual(fieldID, relation.ID);
+            Assert.AreEqual(fieldDesc, ((DynamicEntityField)relation.Member).Description);
         }
 
         [TestCategory("DEMemberRelationAdapter"), TestMethod]
+        [Description("根据成员的ID和时间查找关系")]
         public void LoadByMemberIDAndTimeTest()
         {
-            var newEntity = createEntity();
+            var newEntity = CreateEntity();
 
             var fieldDesc = "New Field Description";
 
             newEntity.Fields[0].Description = fieldDesc;
 
-            var memberID = newEntity.Fields[0].ID;
+            var fieldID = newEntity.Fields[0].ID;
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(newEntity);
 
-            var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID) as DynamicEntity;
+            var relation = DEMemberRelationAdapter.Instance.LoadByMemberID(fieldID, DateTime.MinValue).FirstOrDefault();
 
-            var relation = DEMemberRelationAdapter.Instance.LoadByMemberID(memberID, DateTime.MinValue).FirstOrDefault();
-
-            Assert.IsTrue(((DynamicEntityField)relation.Member).Description.Equals(fieldDesc));
+            Assert.AreEqual(newEntity.ID, relation.ContainerID);
+            Assert.AreEqual(fieldID, relation.ID);
+            Assert.AreEqual(fieldDesc, ((DynamicEntityField)relation.Member).Description);
         }
 
         [TestCategory("DEMemberRelationAdapter"), TestMethod]
+        [Description("根据容器的ID查找关系")]
         public void LoadByContainerIDTest()
         {
-
-            var newEntity = createEntity();
+            var newEntity = CreateEntity();
 
             var description = "New Description";
 
@@ -126,22 +129,17 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(newEntity);
 
-            var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID) as DynamicEntity;
+            var relation = DEMemberRelationAdapter.Instance.LoadByContainerID(containerID).FirstOrDefault();
 
-            var relations = DEMemberRelationAdapter.Instance.LoadByContainerID(containerID);
-
-            var relation = relations.FirstOrDefault();
-
-            Assert.IsTrue(((DynamicEntity)relation.Container).Description.Equals(description));
-
+            Assert.AreEqual(newEntity.ID, relation.ContainerID);
+            Assert.AreEqual(description, ((DynamicEntity)relation.Container).Description);
         }
 
-
         [TestCategory("DEMemberRelationAdapter"), TestMethod]
+        [Description("根据容器的ID和子成员的SchemaType查找关系")]
         public void LoadByContainerIDAndMemberSchemaTypeTest()
         {
-
-            var newEntity = createEntity();
+            var newEntity = CreateEntity();
 
             var description = "New Description";
 
@@ -151,21 +149,17 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(newEntity);
 
-            var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID) as DynamicEntity;
+            var relation = DEMemberRelationAdapter.Instance.LoadByContainerID(containerID, "DynamicEntityField").FirstOrDefault();
 
-            var relations = DEMemberRelationAdapter.Instance.LoadByContainerID(containerID, "DynamicEntityField");
-
-            var relation = relations.FirstOrDefault();
-
-            Assert.IsTrue(((DynamicEntity)relation.Container).Description.Equals(description));
-
+            Assert.AreEqual(newEntity.ID, relation.ContainerID);
+            Assert.AreEqual(description, ((DynamicEntity)relation.Container).Description);
         }
 
         [TestCategory("DEMemberRelationAdapter"), TestMethod]
+        [Description("根据容器的ID和时间查找关系")]
         public void LoadByContainerIDAndTimeTest()
         {
-
-            var newEntity = createEntity();
+            var newEntity = CreateEntity();
 
             var description = "New Description";
 
@@ -174,22 +168,20 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
             var containerID = newEntity.ID;
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(newEntity);
-
-            var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID) as DynamicEntity;
 
             var relations = DEMemberRelationAdapter.Instance.LoadByContainerID(containerID, DateTime.MinValue);
 
             var relation = relations.FirstOrDefault();
 
-            Assert.IsTrue(((DynamicEntity)relation.Container).Description.Equals(description));
-
+            Assert.AreEqual(newEntity.ID, relation.ContainerID);
+            Assert.AreEqual(description, ((DynamicEntity)relation.Container).Description);
         }
 
         [TestCategory("DEMemberRelationAdapter"), TestMethod]
+        [Description("根据容器的ID和成员的ID来加载关系")]
         public void LoadByID()
         {
-
-            var newEntity = createEntity();
+            var newEntity = CreateEntity();
 
             var description = "New Description";
 
@@ -199,25 +191,26 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             newEntity.Fields[0].Description = fieldDescription;
 
-            var memberId = newEntity.Fields[0].ID;
+            var fieldID = newEntity.Fields[0].ID;
 
             var containerID = newEntity.ID;
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(newEntity);
 
-            var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID) as DynamicEntity;
+            var relation = DEMemberRelationAdapter.Instance.Load(containerID, fieldID);
 
-            var relation = DEMemberRelationAdapter.Instance.Load(containerID, memberId);
+            Assert.AreEqual(newEntity.ID, relation.ContainerID);
+            Assert.AreEqual(fieldID, relation.ID);
 
-            Assert.IsTrue(relation.Container.Properties["Description"].StringValue.Equals(description) && relation.Member.Properties["Description"].StringValue.Equals(fieldDescription));
-
+            Assert.AreEqual(description, ((DynamicEntity)relation.Container).Description);
+            Assert.AreEqual(fieldDescription, relation.Member.Properties.GetValue("Description", string.Empty));
         }
 
         [TestCategory("DEMemberRelationAdapter"), TestMethod]
+        [Description("根据容器的ID、成员的ID和时间来加载关系")]
         public void LoadByIDAndTime()
         {
-
-            var newEntity = createEntity();
+            var newEntity = CreateEntity();
 
             var description = "New Description";
 
@@ -227,21 +220,20 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             newEntity.Fields[0].Description = fieldDescription;
 
-            var memberId = newEntity.Fields[0].ID;
+            var fieldID = newEntity.Fields[0].ID;
 
             var containerID = newEntity.ID;
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(newEntity);
 
-            var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID) as DynamicEntity;
+            var relation = DEMemberRelationAdapter.Instance.Load(containerID, fieldID, DateTime.MinValue);
 
-            var relation = DEMemberRelationAdapter.Instance.Load(containerID, memberId, DateTime.MinValue);
+            Assert.AreEqual(newEntity.ID, relation.ContainerID);
+            Assert.AreEqual(fieldID, relation.ID);
 
-            Assert.IsTrue(relation.Container.Properties["Description"].StringValue.Equals(description) && relation.Member.Properties["Description"].StringValue.Equals(fieldDescription));
-
+            Assert.AreEqual(description, ((DynamicEntity)relation.Container).Description);
+            Assert.AreEqual(fieldDescription, relation.Member.Properties.GetValue("Description", string.Empty));
         }
-
-
 
         #region 辅助方法
 
@@ -249,7 +241,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
         /// 创建实体字段
         /// </summary>
         /// <returns></returns>
-        private DynamicEntityField createEntityField(string flag = "new")
+        private static DynamicEntityField CreateEntityField(string flag = "new")
         {
             var field = new DynamicEntityField()
             {
@@ -270,7 +262,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
         /// 创建实体
         /// </summary>
         /// <returns></returns>
-        private DynamicEntity createEntity()
+        private static DynamicEntity CreateEntity()
         {
             string entityId = Guid.NewGuid().ToString();
 
@@ -289,7 +281,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             for (var i = 0; i < 2; i++)
             {
-                var field = createEntityField();
+                var field = CreateEntityField();
                 entity.Fields.Add(field);
             }
             return entity;

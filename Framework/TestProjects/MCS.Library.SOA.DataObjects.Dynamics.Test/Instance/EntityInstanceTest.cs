@@ -5,6 +5,7 @@ using MCS.Library.SOA.DataObjects.Dynamics.Instance;
 using MCS.Library.SOA.DataObjects.Dynamics.Instance.Adapters;
 using MCS.Library.SOA.DataObjects.Dynamics.Objects;
 using MCS.Library.SOA.DataObjects.Dynamics.Test.Mock;
+using MCS.Library.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,9 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Instance
             Assert.AreEqual(200, totalAmount);
         }
 
+        /// <summary>
+        /// 实体映射暂不需要此测试没用
+        /// </summary>
         [Description("实体实例映射"), TestMethod]
         public void EntityInstanceMapping()
         {
@@ -91,9 +95,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Instance
 
             var emptyInstance = emptyEntity.CreateInstance();
 
-            bool flag = (Convert.ToDecimal(emptyInstance.Fields["总金额"].GetRealValue())) == 99;
-
-            Assert.IsTrue(flag == true, "实体实例默认值测试失败");
+            Assert.AreEqual(99, Convert.ToDecimal(emptyInstance.Fields["总金额"].GetRealValue()), "实体实例默认值测试失败");
         }
 
         [Description("实体实例获取强类型值测试"), TestMethod]
@@ -108,6 +110,17 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Instance
                         Convert.ToString(instance.Fields["String"].GetRealValue()) == "haoyk";
 
             Assert.IsTrue(flag, "实体实例获取强类型值失败");
+        }
+
+        [TestMethod]
+        [Description("实例的验证器测试")]
+        public void InstanceValidatorTest()
+        {
+            DEEntityInstanceBase instance = MockData.CreateInstaceWithAllTypeData() as DEEntityInstance;
+
+            ValidationResults result = instance.Validate();
+
+            Assert.IsTrue(result.ResultCount == 0);
         }
     }
 }

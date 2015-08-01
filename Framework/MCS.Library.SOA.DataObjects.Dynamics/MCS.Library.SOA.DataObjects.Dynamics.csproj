@@ -98,6 +98,7 @@
     <Compile Include="Adapters\DESchemaObjectAdapter.cs" />
     <Compile Include="Adapters\DESchemaObjectAdapterBase.cs" />
     <Compile Include="Adapters\DEMemberRelationAdapter.cs" />
+    <Compile Include="Adapters\DESchemaObjectByIDCache.cs" />
     <Compile Include="Adapters\DESchemaObjectOperationContext.cs" />
     <Compile Include="Adapters\DESnapshotBasicAdapter.cs" />
     <Compile Include="Adapters\TypeEntityBAdapterBase.cs" />

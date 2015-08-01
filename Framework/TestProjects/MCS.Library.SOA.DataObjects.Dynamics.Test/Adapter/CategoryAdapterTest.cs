@@ -54,19 +54,21 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
         #endregion
 
         [TestCategory("CategoryAdapter"), TestMethod]
-        public void TestGetRoot()
+        [Description("获取类别的根测试")]
+        public void GetRootTest()
         {
             DECategory root = CategoryAdapter.Instance.GetRoot();
 
-            Assert.IsTrue(root != null, "获取根类别失败！");
+            Assert.IsNotNull(root, "获取根类别失败！");
         }
 
         [TestCategory("CategoryAdapter"), TestMethod]
-        public void TestGetCategoryByParent()
+        [Description("根据父类别的Code获取子类别")]
+        public void GetCategoryByParentTest()
         {
             CategoryCollection root = CategoryAdapter.Instance.GetByParentCode(CategoryAdapter.Instance.GetRoot().Code);
 
-            Assert.IsTrue(root.Count != 0, "根据父类别获取类别信息失败！");
+            Assert.IsTrue(root.Count > 0, "根据父类别获取类别信息失败！");
         }
     }
 }

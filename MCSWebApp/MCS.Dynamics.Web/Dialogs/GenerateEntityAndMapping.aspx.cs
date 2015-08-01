@@ -14,8 +14,8 @@ using MCS.Library.SOA.DataObjects.Dynamics.Objects;
 using MCS.Web.Library;
 using MCS.Web.WebControls;
 using MCS.Library.SOA.DataObjects.Dynamics.Configuration;
-using UEP.DataObjects.UserPool.Adapters;
-using UEP.DataObjects.UserPool.DataObjects;
+//using UEP.DataObjects.UserPool.Adapters;
+//using UEP.DataObjects.UserPool.DataObjects;
 using MCS.Library.Caching;
 
 namespace MCS.Dynamics.Web.Dialogs
@@ -175,27 +175,27 @@ namespace MCS.Dynamics.Web.Dialogs
             //SAPLoginParams Params = SAPLoginParams.GetConfig();
             //SAPClient sapInstance =
             //    SAPClientAdapter.Instance.LoadByID(ConfigurationManager.AppSettings["SAPInstanceId"].Trim());
-            SAPClient sapInstance = SAPClientAdapter.Instance.LoadByID(this.hidSAPInstanceId.Value.Trim());
+            //SAPClient sapInstance = SAPClientAdapter.Instance.LoadByID(this.hidSAPInstanceId.Value.Trim());
 
-            var param = new Saplocalhost.SAPPara()
-            {
-                ApplicationServer = sapInstance.ApplicationServer,
-                Client = sapInstance.Client,
-                Language = sapInstance.Language,
-                Password = sapInstance.Password,
-                SystemNumber = int.Parse(sapInstance.SystemNumber),
-                User = sapInstance.User,
-                MessageServerHost = sapInstance.MessageServerHost,
-                MessageServerService = sapInstance.MessageServerService,
-                LogonGroup = sapInstance.LogonGroup,
-                AppServerService = sapInstance.AppServerService,
-                SystemID = sapInstance.SystemID
-            };
+            //var param = new Saplocalhost.SAPPara()
+            //{
+            //    ApplicationServer = sapInstance.ApplicationServer,
+            //    Client = sapInstance.Client,
+            //    Language = sapInstance.Language,
+            //    Password = sapInstance.Password,
+            //    SystemNumber = int.Parse(sapInstance.SystemNumber),
+            //    User = sapInstance.User,
+            //    MessageServerHost = sapInstance.MessageServerHost,
+            //    MessageServerService = sapInstance.MessageServerService,
+            //    LogonGroup = sapInstance.LogonGroup,
+            //    AppServerService = sapInstance.AppServerService,
+            //    SystemID = sapInstance.SystemID
+            //};
 
-            DataTable table = srv.SAP_RFCParams_Get(txt_TCode.Text.Trim(), param);
+            //DataTable table = srv.SAP_RFCParams_Get(txt_TCode.Text.Trim(), param);
 
-            RecordResultCollection collection = ConvertTableToRecordResult(table);
-            BindData(collection);
+            //RecordResultCollection collection = ConvertTableToRecordResult(table);
+            //BindData(collection);
         }
 
         //保存实体及映射

@@ -86,7 +86,10 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Instance.Validator
                         var resultI = Convert.ToInt32(value);
                         break;
                     case "bool":
-                        var resultB = Convert.ToInt32(value);
+                        var resultB = Convert.ToBoolean(value);
+                        break;
+                    case "decimal":
+                        var resultde = Convert.ToDecimal(value);
                         break;
                 }
             }

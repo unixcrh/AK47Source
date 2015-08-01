@@ -13,7 +13,6 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
     {
         public SettingTest()
         {
-            //
         }
 
         private TestContext testContextInstance;
@@ -39,21 +38,25 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
         #endregion
 
         [TestCategory("SettingTest"), TestMethod]
+        [Description("测试读取objectSchemaSettings配置节")]
         public void ObjectSchemaSettingsTestMethod()
         {
             var setting = ObjectSchemaSettings.GetConfig();
-            Assert.IsTrue(setting.Schemas.Count != 0, "ObjectSchemaSettings配置节出错！");
+
+            Assert.IsTrue(setting.Schemas.Count > 0, "ObjectSchemaSettings配置节出错！");
         }
 
         [TestCategory("Setting"), TestMethod]
+        [Description("测试读取LoggingSettings配置节")]
         public void LoggingSectionTest()
         {
             var config = LoggingSection.GetConfig();
 
-            Assert.IsTrue(config.Loggers != null);
+            Assert.IsNotNull(config.Loggers);
         }
 
         [TestCategory("Setting"), TestMethod]
+        [Description("从配置文件中获取连接串的配置信息")]
         public void GetConnectionStringTest()
         {
             var config = DbConnectionManager.GetConnectionString("DynamicsEntity");
@@ -62,29 +65,24 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
         }
 
         [TestCategory("Setting"), TestMethod]
+        [Description("验证读取DEObjectSnapshotAction和DEObjectUpdateStatusAction配置节")]
         public void SchemaObjectUpdateActionSettingsTest()
         {
             var deObjectSnapshotAction = SchemaObjectUpdateActionSettings.GetConfig().GetActions("DEObjectSnapshotAction");
 
             var deObjectUpdateStatusAction = SchemaObjectUpdateActionSettings.GetConfig().GetActions("DEObjectUpdateStatusAction");
 
-            Assert.IsTrue(deObjectSnapshotAction != null && deObjectUpdateStatusAction != null);
+            Assert.IsNotNull(deObjectSnapshotAction);
+            Assert.IsNotNull(deObjectUpdateStatusAction);
         }
 
         [TestCategory("Setting"), TestMethod]
-        public void ObjectSchemaSettingsTest()
-        {
-            var schemas = ObjectSchemaSettings.GetConfig().Schemas;
-
-            Assert.IsTrue(schemas != null && schemas.Count != 0);
-        }
-
-        [TestCategory("Setting"), TestMethod]
+        [Description("验证读取schemaPropertyGroupSettings配置节")]
         public void SchemaPropertyGroupSettingsTest()
         {
             var groupSettings = SchemaPropertyGroupSettings.GetConfig();
 
-            Assert.IsTrue(groupSettings != null && groupSettings.Groups != null && groupSettings.Groups.Count > 0);
+            Assert.IsTrue(groupSettings.Groups.Count > 0);
         }
     }
 }

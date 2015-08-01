@@ -250,6 +250,7 @@
     <Compile Include="Core\PartitionedDictionary.cs" />
     <Compile Include="Core\ProcessProgress.cs" />
     <Compile Include="Core\UnknownSerializationType.cs" />
+    <Compile Include="Core\ValidatorParameterConfigurationElement.cs" />
     <Compile Include="Core\ValidatorSettings.cs" />
     <Compile Include="Core\ApplicationInformationException.cs" />
     <Compile Include="Core\DataTypeConverterBase.cs" />
@@ -267,6 +268,7 @@
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\MonitorData.cs" />
     <Compile Include="Core\NonXElementSerializedFieldsAttribute.cs" />
+    <Compile Include="Core\ValidatorTypeConfigurationElement.cs" />
     <Compile Include="Core\XmlSerializableHashtable.cs" />
     <Compile Include="Data\ConnectionMappingElement.cs" />
     <Compile Include="Data\DataObjects\ColumnDataType.cs" />

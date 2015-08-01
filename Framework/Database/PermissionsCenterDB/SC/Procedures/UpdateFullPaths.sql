@@ -15,8 +15,8 @@ BEGIN
 		T.ParentID,
 		T.InnerSort,
 		CASE ISNULL(R.FullPath, '')
-			WHEN '' THEN ISNULL(R.Name, T.Name)
-			ELSE R.FullPath + '\' + T.Name
+			WHEN '' THEN ISNULL(R.Name, ISNULL(T.Name, ''))
+			ELSE R.FullPath + '\' + ISNULL(T.Name, '')
 		END,
 		CASE ISNULL(R.GlobalSort, '')
 			WHEN '' THEN SC.FormatInteger(T.InnerSort, 10)
@@ -34,10 +34,10 @@ BEGIN
 		WHERE R.VersionStartTime <= @time AND R.VersionEndTime > @time AND (R.FullPath IS NULL OR R.FullPath <> T.FullPath OR R.GlobalSort IS NULL OR R.GlobalSort <> T.GlobalSort)
 
 	UPDATE @originalData
-	SET Data = REPLACE(Data, 'FullPath="' + OldFullPath + '"', 'FullPath="' + FullPath + '"')
+	SET Data = REPLACE(Data, 'FullPath="' + ISNULL(OldFullPath, '') + '"', 'FullPath="' + ISNULL(FullPath, '') + '"')
 	
 	UPDATE @originalData
-	SET Data = REPLACE(Data, 'GlobalSort="' + OldGlobalSort + '"', 'GlobalSort="' + GlobalSort + '"')
+	SET Data = REPLACE(Data, 'GlobalSort="' + ISNULL(OldGlobalSort, '') + '"', 'GlobalSort="' + ISNULL(GlobalSort, '') + '"')
 
 	UPDATE SC.SchemaRelationObjects
 	SET FullPath = T.FullPath, GlobalSort = T.GlobalSort, Data = OT.Data

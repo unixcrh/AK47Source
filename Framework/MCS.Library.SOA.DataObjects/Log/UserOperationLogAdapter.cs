@@ -15,7 +15,7 @@ namespace MCS.Library.SOA.DataObjects
     {
         public static readonly UserOperationLogAdapter Instance = new UserOperationLogAdapter();
 
-        private UserOperationLogAdapter()
+        protected UserOperationLogAdapter()
         {
         }
 

@@ -62,10 +62,11 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Instance
         #endregion
 
         [TestMethod]
+        [Description("实体实例数据校验测试")]
         public void ValidateInstanceTest()
         {
             DEEntityInstanceBase instance = MockData.CreateInstaceWithAllTypeData() as DEEntityInstance;
-            
+            //DEEntityInstanceBase仅对字段值类型和长多进行验证
             ValidationResults result = instance.Validate();
 
             Assert.IsTrue(result.ResultCount == 0);

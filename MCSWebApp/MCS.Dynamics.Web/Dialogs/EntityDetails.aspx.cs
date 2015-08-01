@@ -28,6 +28,7 @@ namespace MCS.Dynamics.Web.Dialogs
     [SceneUsage("~/App_Data/PropertyEditScene.xml", "PropertyEdit")]
     public partial class EntityDetails : System.Web.UI.Page, ITimeSceneDescriptor, INormalSceneDescriptor
     {
+        #region 字段属性
         private bool sceneDirty = true;
         private bool enabled = false;
         private PropertyEditorSceneAdapter sceneAdapter = null;
@@ -41,7 +42,9 @@ namespace MCS.Dynamics.Web.Dialogs
         {
             get { return "ReadOnly"; }
         }
-
+        /// <summary>
+        /// 是否可以编辑
+        /// </summary>
         protected bool EditEnabled
         {
             get
@@ -68,14 +71,6 @@ namespace MCS.Dynamics.Web.Dialogs
             set;
         }
 
-        protected override void OnPreInit(EventArgs e)
-        {
-            //注册序列化器
-            //JSONSerializerExecute.RegisterConverter(typeof(DynamicEntityFieldConverter));
-            // JSONSerializerExecute.RegisterConverter(typeof(SchemaObjectSimpleConverter));
-            base.OnPreInit(e);
-        }
-
         //操作类型
         private SCObjectOperationMode OperationMode
         {
@@ -87,6 +82,16 @@ namespace MCS.Dynamics.Web.Dialogs
             {
                 WebControlUtility.SetViewStateValue(this.ViewState, "OperationMode", value);
             }
+        }
+
+        #endregion
+
+        protected override void OnPreInit(EventArgs e)
+        {
+            //注册序列化器
+            //JSONSerializerExecute.RegisterConverter(typeof(DynamicEntityFieldConverter));
+            //JSONSerializerExecute.RegisterConverter(typeof(SchemaObjectSimpleConverter));
+            base.OnPreInit(e);
         }
 
         protected void Page_Load(object sender, EventArgs e)

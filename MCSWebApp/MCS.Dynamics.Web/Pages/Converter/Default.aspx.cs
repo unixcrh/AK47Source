@@ -23,6 +23,7 @@ namespace MCS.Dynamics.Web.Pages.Converter
 
             try
             {
+                //动态实体实例JSON反序列化
                 var instance = JSONSerializerExecute.Deserialize<DEEntityInstanceBase>(json);
                 if (instance != null && instance.Fields.Any())
                 {

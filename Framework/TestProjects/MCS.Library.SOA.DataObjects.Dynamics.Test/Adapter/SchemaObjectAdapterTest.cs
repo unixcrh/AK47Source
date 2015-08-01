@@ -10,7 +10,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
     [TestClass]
     public class SchemaObjectAdapterTest
     {
-        public SchemaObjectAdapterTest() 
+        public SchemaObjectAdapterTest()
         {
         }
 
@@ -24,138 +24,111 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
         #region 操作实体
         [TestCategory("SchemaObjectAdapter"), TestMethod]
-        public void TestSchemaObjectAdapterAddEntityMethod()
+        [Description("添加动态实体测试")]
+        public void SchemaObjectAdapterAddEntityMethodTest()
         {
             var newEntity = createEntity();
-
             DESchemaObjectAdapter.Instance.Update(newEntity);
-
             var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID);
-
-            Assert.IsTrue(loadEntity != null, "实体添加失败！");
+            Assert.IsNotNull(loadEntity, "添加动态实体测试失败！");
         }
 
         [TestCategory("SchemaObjectAdapter"), TestMethod]
-        public void TestSchemaObjectAdapterUpdateEntityMethod()
+        [Description("更新动态实体测试")]
+        public void SchemaObjectAdapterUpdateEntityMethodTest()
         {
             var newEntity = createEntity();
-
             DESchemaObjectAdapter.Instance.Update(newEntity);
-
             //重新设置时间点
             DBTimePointActionContext.Clear();
-
             var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID) as DynamicEntity;
-
+            Assert.IsNotNull(loadEntity, "添加动态实体测试失败！");
             loadEntity.Description = "Update Entity";
-
             DESchemaObjectAdapter.Instance.Update(loadEntity);
-
             var resultEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID) as DynamicEntity;
-
-            Assert.IsTrue(resultEntity.Description == "Update Entity", "实体更新失败！");
+            Assert.IsNotNull(resultEntity, "更新动态实体数据丢失！");
+            Assert.AreEqual(resultEntity.Description, "Update Entity", "更新动态实体失败！");
         }
 
         [TestCategory("SchemaObjectAdapter"), TestMethod]
-        public void TestSchemaObjectAdapterLoadEntityMethod()
+        [Description("加载动态实体测试")]
+        public void SchemaObjectAdapterLoadEntityMethodTest()
         {
             var newEntity = createEntity();
-
             DESchemaObjectAdapter.Instance.Update(newEntity);
-
             var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID) as DynamicEntity;
-
-            Assert.IsTrue(loadEntity != null, "实体加载失败！");
+            Assert.IsNotNull(loadEntity, "加载动态实体数据丢失！");
         }
 
 
         [TestCategory("SchemaObjectAdapter"), TestMethod]
-        public void TestSchemaObjectAdapterDeleteEntityMethod()
+        [Description("删除动态实体测试")]
+        public void SchemaObjectAdapterDeleteEntityMethodTest()
         {
             var newEntity = createEntity();
-
             DESchemaObjectAdapter.Instance.Update(newEntity);
-
             //重新设置时间点
             DBTimePointActionContext.Clear();
-
             var loadEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID);
-
             DESchemaObjectAdapter.Instance.UpdateStatus(loadEntity, DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Deleted);
-
             var resultEntity = DESchemaObjectAdapter.Instance.Load(newEntity.ID, false);
-
-            Assert.IsTrue(resultEntity.Status == DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Deleted, "实体删除失败！");
+            Assert.AreEqual(resultEntity.Status, DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Deleted, "删除动态实体失败！");
         }
         #endregion
 
         #region 操作实体属性
         [TestCategory("SchemaObjectAdapter"), TestMethod]
-        public void TestSchemaObjectAdapterAddFieldMethod()
+        [Description("动态实体属性添加测试")]
+        public void SchemaObjectAdapterAddFieldMethodTest()
         {
             var newEntityField = createEntityField();
-
             DESchemaObjectAdapter.Instance.Update(newEntityField);
-
             var loadEntityField = DESchemaObjectAdapter.Instance.Load(newEntityField.ID);
-
-            Assert.IsTrue(loadEntityField != null, "实体属性添加失败！");
+            Assert.IsNotNull(loadEntityField, "动态实体属性添加测试失败！");
         }
 
         [TestCategory("SchemaObjectAdapter"), TestMethod]
-        public void TestSchemaObjectAdapterUpdateFieldMethod()
+        [Description("动态实体属性更新测试")]
+        public void SchemaObjectAdapterUpdateFieldMethodTest()
         {
             var newEntityField = createEntityField();
-
             DESchemaObjectAdapter.Instance.Update(newEntityField);
-
             //重新设置时间点
             DBTimePointActionContext.Clear();
-
             var loadEntityField = DESchemaObjectAdapter.Instance.Load(newEntityField.ID);
-
+            Assert.IsNotNull(loadEntityField, "动态实体属性添加测试失败！");
             loadEntityField.Status = DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Unspecified;
-
             DESchemaObjectAdapter.Instance.Update(loadEntityField);
-
             var resultEntityField = DESchemaObjectAdapter.Instance.Load(loadEntityField.ID, false);
-
-            Assert.IsTrue(resultEntityField.Status == DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Unspecified, "实体属性更新失败！");
+            Assert.IsNotNull(resultEntityField, "动态实体属性更新测试失败！");
+            Assert.AreEqual(resultEntityField.Status, DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Unspecified, "动态实体属性更新测试！");
         }
 
         [TestCategory("SchemaObjectAdapter"), TestMethod]
-        public void TestSchemaObjectAdapterLoadFieldMethod()
+        [Description("动态实体属性加载测试")]
+        public void SchemaObjectAdapterLoadFieldMethodTest()
         {
             var newEntityField = createEntityField();
-
             DESchemaObjectAdapter.Instance.Update(newEntityField);
-
             var loadEntityField = DESchemaObjectAdapter.Instance.Load(newEntityField.ID) as DynamicEntityField;
-
-            Assert.IsTrue(loadEntityField != null, "实体属性加载失败！");
+            Assert.IsNotNull(loadEntityField, "动态实体属性加载测试失败！");
         }
 
 
         [TestCategory("SchemaObjectAdapter"), TestMethod]
-        public void TestSchemaObjectAdapterDeleteFieldMethod()
+        [Description("动态实体属性删除测试")]
+        public void SchemaObjectAdapterDeleteFieldMethodTest()
         {
             var newEntityField = createEntityField();
-
             DESchemaObjectAdapter.Instance.Update(newEntityField);
-
             //重新设置时间点
-            DBTimePointActionContext.Clear();//.Current.TimePoint = DateTime.MinValue;
-
+            DBTimePointActionContext.Clear();
             var loadEntityField = DESchemaObjectAdapter.Instance.Load(newEntityField.ID) as DynamicEntityField;
-
-            loadEntityField.Name = "changed Name";
-
+            Assert.IsNotNull(loadEntityField, "动态实体属性加载测试失败！");
             DESchemaObjectAdapter.Instance.UpdateStatus(loadEntityField, DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Deleted);
-
             var resultEntityField = DESchemaObjectAdapter.Instance.Load(loadEntityField.ID, false);
-
-            Assert.IsTrue(resultEntityField.Status == DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Deleted, "实体属性删除失败！");
-
+            Assert.IsNotNull(resultEntityField, "动态实体属性加更新试失败！");
+            Assert.AreEqual(resultEntityField.Status, DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Deleted, "动态实体属性删除失败！");
         }
         #endregion
 
@@ -190,11 +163,9 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
         private DynamicEntity createEntity()
         {
             string entityId = Guid.NewGuid().ToString();
-
             var entity = new DynamicEntity
             {
                 ID = entityId,
-                //CodeName = "Entity1",
                 Name = "实体1",
                 Description = "描述",
                 CreateDate = DateTime.Now,

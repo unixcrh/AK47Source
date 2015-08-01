@@ -8,9 +8,10 @@ using System.Linq;
 namespace MCS.Library.SOA.DataObjects.Dynamics.Test.RecordResult
 {
     /// <summary>
+    /// 此测试类作废。沈峥 2015/7/22
     /// RecordResultTest 的摘要说明
     /// </summary>
-    [TestClass]
+    //[TestClass]
     public class RecordResultTest
     {
         public RecordResultTest()

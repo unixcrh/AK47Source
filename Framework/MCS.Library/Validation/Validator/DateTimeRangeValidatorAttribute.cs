@@ -53,6 +53,17 @@ namespace MCS.Library.Validation
 			this.upperBound = Convert.ToDateTime(upperBound);
 		}
 
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="lowerBound">下限</param>
+        /// <param name="upperBound">上限</param>
+        public DateTimeRangeValidatorAttribute(DateTime lowerBound, DateTime upperBound)
+        {
+            this.lowerBound = lowerBound;
+            this.upperBound = upperBound;
+        }
+
 	    /// <summary>
 		/// 
 		/// </summary>

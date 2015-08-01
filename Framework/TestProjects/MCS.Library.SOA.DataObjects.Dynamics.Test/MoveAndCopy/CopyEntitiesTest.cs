@@ -41,7 +41,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
         }
 
         [TestCategory("CopyObject"), TestMethod]
-        public void CopyEntityMethod()
+        [Description("复制动态实体测试")]
+        public void CopyEntityMethodTest()
         {
             // /集团公司/管道板块/运输
             string categoryID = "48BE753C-630D-42F4-A02D-D2B50818F817";
@@ -64,7 +65,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
         }
 
         [TestCategory("CopyObject"), TestMethod]
-        public void CopyEntityWithChildMethod()
+        [Description("复制带子实体的动态实体测试")]
+        public void CopyEntityWithChildMethodTest()
         {
             // /集团公司/管道板块/运输
             string categoryID = "48BE753C-630D-42F4-A02D-D2B50818F817";
@@ -101,7 +103,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
         }
 
         [TestCategory("CopyObject"), TestMethod]
-        public void CopyEntityWithOutEntityMethod()
+        [Description("复制带外部实体的动态实体测试")]
+        public void CopyEntityWithOutEntityMethodTest()
         {
             // /集团公司/管道板块/运输
             string categoryID = "48BE753C-630D-42F4-A02D-D2B50818F817";
@@ -110,6 +113,22 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
 
             var entity = creatEntity(categoryID);
             var childEntity = creatChildEntity(categoryID);
+            //外部实体字段
+            OuterEntityField outField = new OuterEntityField()
+            {
+                Name = "OutField",
+                ID = Guid.NewGuid().ToString(),
+                Description = "外部字段"
+            };
+            //外部实体
+            OuterEntity outEntity = new OuterEntity()
+            {
+                ID = Guid.NewGuid().ToString(),
+                Name = "OEntity",
+                Description = "外部实体"
+            };
+
+
             //子表入库
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(childEntity);
             //子表CodeName
@@ -118,22 +137,11 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
             var field = entity.Fields[0];
             field.FieldType = FieldTypeEnum.Collection;
             field.ReferenceEntityCodeName = childCodeName;
-
+            field.OuterEntityFields.Add(outField);
             //主表入库
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
 
-
-            OuterEntityField outField = new OuterEntityField()
-            {
-                Name = "OutField",
-                ID = Guid.NewGuid().ToString(),
-                Description = "外部字段"
-            };
-
-            OuterEntity outEntity = new OuterEntity() { 
-              ID = Guid.NewGuid().ToString(), Name = "OEntity", Description = "外部实体"
-            };
-            //实体字段与外部字段
+            //实体字段与外部实体字段的Mapping
             EntityFieldMapping fieldMapping = new EntityFieldMapping()
             {
                 FieldID = field.ID,
@@ -148,10 +156,13 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
             };
             List<EntityFieldMapping> entityFieldMappingCollection = new List<EntityFieldMapping>();
             entityFieldMappingCollection.Add(fieldMapping);
-
+            //实体和外部实体的Mapping
             EntityMapping mapping = new EntityMapping()
-            { 
-                InnerEntity = entity, OuterEntityID = outEntity.ID, OuterEntityName = outEntity.Name, OuterEntityInType = Contract.InType.StandardInterface,
+            {
+                InnerEntity = entity,
+                OuterEntityID = outEntity.ID,
+                OuterEntityName = outEntity.Name,
+                OuterEntityInType = Contract.InType.StandardInterface,
                 EntityFieldMappingCollection = entityFieldMappingCollection
             };
 
@@ -164,21 +175,23 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
             categoriesIDs.Add(terminalCategoryID);
             DEObjectOperations.InstanceWithoutPermissions.CopyEntities(entitiesIDs, categoriesIDs);
 
-            DynamicEntity loadEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName("/集团公司/销售板块/销售订单/" + entity.Name) as DynamicEntity;
-            DynamicEntity loadChildEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName("/集团公司/销售板块/销售订单/" + childEntity.Name) as DynamicEntity;
-
-            bool mainEntityOK = loadEntity != null;
-            bool childEntityOK = loadChildEntity != null;
-            bool fieldOK = loadEntity.Fields[0].FieldType == FieldTypeEnum.Collection && loadEntity.Fields[0].ReferenceEntityCodeName == loadChildEntity.CodeName;
-            bool fieldMappingS = loadEntity.Fields[0].OuterEntityFields.Count == 1 && loadEntity.Fields[0].OuterEntityFields[0].Name == "OutField";
-            bool entitymapping = loadEntity.OuterEntities[0].Name == "OEntity";
-            Assert.IsTrue(mainEntityOK && childEntityOK && fieldOK && fieldMappingS && entitymapping);
+            DynamicEntity copyEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName("/集团公司/销售板块/销售订单/" + entity.Name) as DynamicEntity;
+            DynamicEntity copyChildEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName("/集团公司/销售板块/销售订单/" + childEntity.Name) as DynamicEntity;
+            Assert.IsNotNull(copyEntity, string.Format("实体[/集团公司/销售板块/销售订单/{0}]复制失败", entity.Name));
+            Assert.IsNotNull(copyChildEntity, string.Format("子实体[/集团公司/销售板块/销售订单/{0}]复制失败", childEntity.Name));
+            Assert.AreEqual(copyEntity.Fields[0].FieldType, FieldTypeEnum.Collection, string.Format("实体[/集团公司/销售板块/销售订单/{0}]的字段复制失败", entity.Name));
+            Assert.AreEqual(copyEntity.Fields[0].ReferenceEntityCodeName, copyChildEntity.CodeName, string.Format("实体[/集团公司/销售板块/销售订单/{0}]的字段复制失败", entity.Name));
+            Assert.AreEqual(copyEntity.OuterEntities.Count, entity.OuterEntities.Count, "实体字段外部实体复制失败");
+            Assert.AreEqual(copyEntity.OuterEntities[0].Name, entity.OuterEntities[0].Name, "实体字段外部实体复制失败");
+            Assert.AreEqual(copyEntity.Fields[0].OuterEntityFields.Count, 1, "实体字段外部实体字段复制失败");
+            Assert.AreEqual(copyEntity.Fields[0].OuterEntityFields.Count, entity.Fields[0].OuterEntityFields.Count, "实体字段外部实体字段复制失败");
+            Assert.AreEqual(copyEntity.Fields[0].OuterEntityFields[0].Name, "OutField", "实体字段外部实体字段复制失败");
         }
 
         #region 移动实体
-        //移动实体，该实体没有子表，没有外部实体对应
         [TestCategory("MoveObject"), TestMethod]
-        public void MoveOneEntityNoChild()
+        [Description("移动不带子实体且没有外部实体的动态实体测试")]
+        public void MoveOneEntityNoChildTest()
         {
             // /集团公司/管道板块/运输
             string categoryID = "48BE753C-630D-42F4-A02D-D2B50818F817";
@@ -196,23 +209,13 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
             DEObjectOperations.InstanceWithoutPermissions.MoveEntities(entitiesIDs, categoriesIDs);
 
             DynamicEntity loadEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName("/集团公司/销售板块/销售订单/" + entity.Name) as DynamicEntity;
-
-            string errorMsg = string.Empty;
-            try
-            {
-                DynamicEntity loadOldEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName("/集团公司/管道板块/运输/" + entity.Name) as DynamicEntity;
-            }
-            catch (Exception e)
-            {
-                errorMsg = e.Message;
-            }
-
-            string error = "不能找到CodeName为[/集团公司/管道板块/运输/" + entity.Name + "]的对象";
-            Assert.IsTrue(loadEntity != null && !string.IsNullOrEmpty(errorMsg) && errorMsg.Contains(error));
+            Assert.IsNotNull(loadEntity, string.Format("移动实体[{0}]失败", entity.CodeName));
+            DynamicEntity loadOldEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName("/集团公司/管道板块/运输/" + entity.Name) as DynamicEntity;
+            Assert.IsNotNull(loadOldEntity, string.Format("移动实体[/集团公司/管道板块/运输/{0}]失败", entity.Name));
         }
 
-        //移动实体，该实体有子表，没有外部实体对应
         [TestCategory("MoveObject"), TestMethod]
+        [Description("移动带子实体但没有外部实体的动态实体测试")]
         public void MoveOneEntityWithChild()
         {
             // /集团公司/管道板块/运输
@@ -239,35 +242,14 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
             DynamicEntity loadEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName("/集团公司/销售板块/销售订单/" + entity.Name) as DynamicEntity;
             DynamicEntity loadChildEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName("/集团公司/销售板块/销售订单/" + childEntity.Name) as DynamicEntity;
 
-            string errorMsg = string.Empty;
-            string childEntityMsg = string.Empty;
-            try
-            {
-                DynamicEntity loadOldEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName(entity.CodeName) as DynamicEntity;
-            }
-            catch (Exception e)
-            {
-                errorMsg = e.Message;
-            }
-            try
-            {
-                DynamicEntity loadOldChildEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName(childEntity.CodeName) as DynamicEntity;
-            }
-            catch (Exception e)
-            {
-                childEntityMsg = e.Message;
-            }
-            string error = "不能找到CodeName为[" + entity.CodeName + "]的对象";
-            string childError = "不能找到CodeName为[" + childEntity.CodeName + "]的对象";
-
-            bool entityIsOk = loadEntity != null;
-            bool childEntityIsOk = loadChildEntity != null;
-            bool refChildIsOk = loadEntity.Fields[0].FieldType == FieldTypeEnum.Collection && loadEntity.Fields[0].ReferenceEntityCodeName == loadChildEntity.CodeName;
-
-            bool oldEntityIsOk = errorMsg.Contains(error);
-            bool oldChildEntityIsOk = childEntityMsg.Contains(childError);
-            bool isSuccess = entityIsOk && childEntityIsOk && refChildIsOk && oldEntityIsOk && oldChildEntityIsOk;
-            Assert.IsTrue(isSuccess);
+            Assert.IsNotNull(loadEntity, string.Format("移动实体[{0}]失败", entity.CodeName));
+            Assert.IsNotNull(loadChildEntity, string.Format("移动实体[{0}]失败", childEntity.CodeName));
+            Assert.AreEqual(loadEntity.Fields[0].FieldType, FieldTypeEnum.Collection);
+            Assert.AreEqual(loadEntity.Fields[0].ReferenceEntityCodeName, loadChildEntity.CodeName);
+            DynamicEntity loadOldEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName(entity.CodeName) as DynamicEntity;
+            Assert.IsNotNull(loadOldEntity, "移动老实体时失败");
+            DynamicEntity loadOldChildEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName(childEntity.CodeName) as DynamicEntity;
+            Assert.IsNotNull(loadOldChildEntity, "移动老实体的子实体时失败");
         }
 
         #endregion
@@ -307,7 +289,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
             var field = new DynamicEntityField()
             {
                 ID = Guid.NewGuid().ToString(),
-                Name = "字段",
+                Name = string.Format("字段{0}", sortNo),
                 Description = "描述" + flag,
                 Length = 2,
                 DefaultValue = "默认值",

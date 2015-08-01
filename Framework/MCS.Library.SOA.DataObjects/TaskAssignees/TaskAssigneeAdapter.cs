@@ -17,7 +17,7 @@ namespace MCS.Library.SOA.DataObjects
 	{
 		public static readonly TaskAssigneeAdapter Instance = new TaskAssigneeAdapter();
 
-		private TaskAssigneeAdapter()
+        protected TaskAssigneeAdapter()
 		{
 		}
 	}

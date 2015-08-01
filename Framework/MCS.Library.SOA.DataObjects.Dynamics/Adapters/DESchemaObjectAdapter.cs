@@ -36,6 +36,28 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
         }
 
         /// <summary>
+        /// 带缓存的，根据ID载入数据。缓存的Key为租户+ID+Status
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="loadNormalStatus"></param>
+        /// <returns></returns>
+        public DESchemaObjectBase Get(string id)
+        {
+            string cacheKey = CalculateIDCacheKey(id);
+
+            return DESchemaObjectByIDCache.Instance.GetOrAddNewValue(cacheKey, (cache, key) =>
+            {
+                DESchemaObjectBase result = this.Load(id);
+
+                MixedDependency dependency = new MixedDependency(new UdpNotifierCacheDependency(), new MemoryMappedFileNotifierCacheDependency());
+
+                cache.Add(key, result, dependency);
+
+                return result;
+            });
+        }
+
+        /// <summary>
         /// 根据ID载入数据
         /// </summary>
         /// <param name="id">对象的ID</param>
@@ -44,25 +66,12 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
         public DESchemaObjectBase Load(string id, bool loadNormalStatus = true)
         {
             id.CheckStringIsNullOrEmpty<ArgumentNullException>("id");
-            object resultData;
+
             DateTime dtMin = TimePointContext.Current.UseCurrentTime ? DateTime.MinValue : TimePointContext.Current.SimulatedTime;
 
-            loadNormalStatus = TimePointContext.Current.UseCurrentTime;
+            DESchemaObjectBase result = this.Load(id, dtMin, loadNormalStatus);
 
-            DESchemaObjectBase result = null;
-            string key = id + loadNormalStatus.ToString();
-
-            if (ObjectCacheQueue.Instance.TryGetValue(key, out resultData))
-            {
-                result = resultData as DESchemaObjectBase;
-            }
-            else
-            {
-                result = Load(id, dtMin, loadNormalStatus);
-                (loadNormalStatus && result.Status != SchemaObjectStatus.Normal).TrueThrow(String.Format("ID为[{0}]的对象状态无效", id));
-                ObjectCacheQueue.Instance.Add(key, result,
-                    new AbsoluteTimeDependency(DateTime.Now.SimulateTime().AddMinutes(2)));   //添加缓存  设置缓存为2分钟
-            }
+            (loadNormalStatus && result.Status != SchemaObjectStatus.Normal).TrueThrow(String.Format("ID为[{0}]的对象状态无效", id));
 
             return result;
         }
@@ -71,18 +80,23 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
         /// 更新数据，更新之后清除缓存
         /// </summary>
         /// <param name="data">需要更新的数据</param>
-        /// <param name="loadNormalStatus">对象状态为Normal</param>
-        public void Update(DESchemaObjectBase data, bool loadNormalStatus = true)
+        public new void Update(DESchemaObjectBase data)
         {
             base.Update(data);
-            loadNormalStatus = TimePointContext.Current.UseCurrentTime;
-            string key = data.ID + loadNormalStatus.ToString();
 
-            object obj = new object();
-            if (ObjectCacheQueue.Instance.TryGetValue(key, out obj))
-            {
-                ObjectCacheQueue.Instance.Remove(key);
-            }
+            UpdateDESchemaObjectByIDCache(data.ID);
+        }
+
+        /// <summary>
+        /// 更新数据的状态，更新之后清除缓存
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="status"></param>
+        public new void UpdateStatus(DESchemaObjectBase data, SchemaObjectStatus status)
+        {
+            base.UpdateStatus(data, status);
+
+            UpdateDESchemaObjectByIDCache(data.ID);
         }
 
         /// <summary>
@@ -308,6 +322,23 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             DbHelper.RunSql("EXEC DE.InitData", this.GetConnectionName());
         }
 
+        private static string CalculateIDCacheKey(string id)
+        {
+            string result = id;
+
+            if (TenantContext.Current.Enabled)
+                result = string.Format("{0}-{1}", TenantContext.Current.TenantCode, id);
+
+            return result;
+        }
+
+        private static void UpdateDESchemaObjectByIDCache(string id)
+        {
+            CacheNotifyData notifyData = new CacheNotifyData(typeof(DESchemaObjectByIDCache), CalculateIDCacheKey(id), CacheNotifyType.Invalid);
+
+            UdpCacheNotifier.Instance.SendNotifyAsync(notifyData);
+            MmfCacheNotifier.Instance.SendNotify(notifyData);
+        }
 
         ///// <summary>
         ///// 根据指定的CodeName和Schema类型载入对象

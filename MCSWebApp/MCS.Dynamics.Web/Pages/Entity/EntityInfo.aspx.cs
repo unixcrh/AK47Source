@@ -23,18 +23,26 @@ namespace MCS.Dynamics.Web.Pages.Entity
     [SceneUsage("~/App_Data/PropertyEditScene.xml", "PropertyEdit")]
     public partial class EntityInfo : System.Web.UI.Page, ITimeSceneDescriptor, INormalSceneDescriptor
     {
+       
+        #region 字段属性
         public static readonly string ThisPageSearchResourceKey = "6EADF811-9825-4410-A648-552BB5ETGD9C";
-        #region
+        /// <summary>
+        /// 普通场景名称
+        /// </summary>
         string ITimeSceneDescriptor.NormalSceneName
         {
             get { return this.EditEnabled ? "Normal" : "ReadOnly"; }
         }
-
+        /// <summary>
+        /// 只读场景名称
+        /// </summary>
         string ITimeSceneDescriptor.ReadOnlySceneName
         {
             get { return "ReadOnly"; }
         }
-
+        /// <summary>
+        /// 是否可以编辑
+        /// </summary>
         protected bool EditEnabled
         {
             get
@@ -43,6 +51,17 @@ namespace MCS.Dynamics.Web.Pages.Entity
                 return enabled;
             }
         }
+        /// <summary>
+        /// 当前页面检索条件
+        /// </summary>
+        private PageAdvancedSearchCondition CurrentAdvancedSearchCondition
+        {
+            get { return this.ViewState["AdvSearchCondition"] as PageAdvancedSearchCondition; }
+
+            set { this.ViewState["AdvSearchCondition"] = value; }
+        }
+
+        #endregion
 
         public void AfterNormalSceneApplied()
         {
@@ -50,7 +69,6 @@ namespace MCS.Dynamics.Web.Pages.Entity
             //this.okButton.Visible = this.Data != null && this.Data.Status == SchemaObjectStatus.Normal;
         }
 
-        #endregion
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!TimePointContext.Current.UseCurrentTime)
@@ -76,9 +94,8 @@ namespace MCS.Dynamics.Web.Pages.Entity
 
             }
             this.searchBinding.Data = this.CurrentAdvancedSearchCondition;
-
-
         }
+
         [Serializable]
         internal class PageAdvancedSearchCondition
         {
@@ -87,14 +104,11 @@ namespace MCS.Dynamics.Web.Pages.Entity
             [ConditionMapping("Description")]
             public string Description { get; set; }
         }
-
-        private PageAdvancedSearchCondition CurrentAdvancedSearchCondition
-        {
-            get { return this.ViewState["AdvSearchCondition"] as PageAdvancedSearchCondition; }
-
-            set { this.ViewState["AdvSearchCondition"] = value; }
-        }
-
+        /// <summary>
+        /// 搜索按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void SearchButtonClick(object sender, MCS.Web.WebControls.SearchEventArgs e)
         {
 
@@ -123,7 +137,11 @@ namespace MCS.Dynamics.Web.Pages.Entity
         {
             this.ProcessDescInfoDeluxeGrid.DataBind();
         }
-
+        /// <summary>
+        /// 删除实体定义
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btn_delEntity_Click(object sender, EventArgs e)
         {
 
@@ -136,8 +154,6 @@ namespace MCS.Dynamics.Web.Pages.Entity
             foreach (string str in entityArray)
             {
                 DynamicEntity entity = (DynamicEntity)DESchemaObjectAdapter.Instance.Load(str);
-                //entity.Fields[0].OuterEntityFields[0].Name
-                //entity.DynamicEntityMappingCollection[0].DestinationName;
                 DEObjectOperations.InstanceWithoutPermissions.DeleteEntity(entity);
             }
 
@@ -178,7 +194,11 @@ namespace MCS.Dynamics.Web.Pages.Entity
         {
         }
 
-        //导出
+        /// <summary>
+        /// 导出XML
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btn_Export_Click(object sender, EventArgs e)
         {
             var req = Request;
@@ -216,7 +236,11 @@ namespace MCS.Dynamics.Web.Pages.Entity
                 throw new HttpException("请求的方式错误");
             }
         }
-
+        /// <summary>
+        /// 进度条
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="result"></param>
         protected void uploadProgress_DoUploadProgress(HttpPostedFile file, UploadProgressResult result)
         {
             ExceptionHelper.FalseThrow(Path.GetExtension(file.FileName).ToLower() == ".xml",
@@ -247,10 +271,13 @@ namespace MCS.Dynamics.Web.Pages.Entity
         {
             uploadProgress.Tag = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
         }
-
+        /// <summary>
+        /// 移动实体
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btn_moveEntity_Click(object sender, EventArgs e)
         {
-
             InnerRefreshList();
         }
     }

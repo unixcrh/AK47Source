@@ -12,9 +12,10 @@ using System.Linq;
 namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mapping
 {
     /// <summary>
+    /// 我们不需要Mapping的工程
     /// MappingTest 的摘要说明
     /// </summary>
-    [TestClass]
+    //[TestClass]
     public class MappingTest
     {
         public MappingTest()

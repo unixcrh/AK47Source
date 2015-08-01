@@ -151,9 +151,17 @@ namespace MCS.Library.Core
             if (dealed == false)
             {
                 if (targetType != typeof(object) && targetType.IsAssignableFrom(srcType))
+                {
                     result = srcValue;
+                }
+                else if (targetType == typeof(DateTime))
+                {
+                    result =Convert.ToDateTime(srcValue);
+                }
                 else
+                {
                     result = Convert.ChangeType(srcValue, targetType);
+                } 
             }
 
             return result;

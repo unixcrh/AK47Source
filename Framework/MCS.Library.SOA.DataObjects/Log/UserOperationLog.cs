@@ -410,6 +410,25 @@ namespace MCS.Library.SOA.DataObjects
 
             return log;
         }
+
+        /// <summary>
+        /// 从环境信息中构造日志信息
+        /// </summary>
+        /// <returns></returns>
+        public static UserOperationLog FromEnvironment()
+        {
+            UserOperationLog log = new UserOperationLog();
+
+            if (DeluxePrincipal.IsAuthenticated)
+            {
+                log.Operator = DeluxeIdentity.CurrentUser;
+                log.RealUser = DeluxeIdentity.CurrentRealUser;
+
+                log.TopDepartment = DeluxeIdentity.CurrentUser.TopOU;
+            }
+
+            return log;
+        }
         #endregion
 
         #region 私有方法

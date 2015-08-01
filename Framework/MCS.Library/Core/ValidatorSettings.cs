@@ -30,11 +30,11 @@ namespace MCS.Library.Core
 		/// Validator集合
 		/// </summary>
 		[ConfigurationProperty("validators", IsRequired = false)]
-		public TypeConfigurationCollection Validators
+        public ValidatorTypeConfigurationElementCollection Validators
 		{
 			get
 			{
-				return (TypeConfigurationCollection)this["validators"];
+                return (ValidatorTypeConfigurationElementCollection)this["validators"];
 			}
 		}
 	}

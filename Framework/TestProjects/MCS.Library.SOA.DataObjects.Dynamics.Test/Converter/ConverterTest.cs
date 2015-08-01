@@ -8,6 +8,7 @@ using MCS.Library.SOA.DataObjects.Dynamics.Test.Mock;
 using MCS.Web.Library.Script;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Converter
@@ -63,141 +64,103 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Converter
         #region 单实体不带字表序列化和反序列化
 
         [TestCategory("EntitySerialize"), TestMethod]
+        [Description("JSON序列化DynamicEntity测试")]
         public void EntitySerialize()
         {
-            var flag = true;
-
             DynamicEntity sourceEntity = MockData.CreateEntityWithReferenceEntity();
             string json = JSONSerializerExecute.Serialize(sourceEntity);
 
             sourceEntity.Fields.ForEach(f =>
             {
-                if (!json.Contains(f.Name))
-                {
-                    flag = false;
-                }
+                Assert.IsTrue(json.Contains(f.Name), string.Format("不能再序列化的JSON中找到属性名{0}", f.Name));
             });
-
-
-            Assert.IsTrue(flag, "序列化实体出错");
         }
 
         [TestCategory("EntitySerialize"), TestMethod]
+        [Description("JSON序列化DynamicEntityCollection测试")]
         public void EntityCollectionSerialize()
         {
-            var flag = true;
+            DynamicEntityCollection sourceEntity = MockData.CreateRelationDynamicEntityCollection();
+            string json = JSONSerializerExecute.Serialize(sourceEntity);
 
-            try
+            sourceEntity.ForEach(e => e.Fields.ForEach(f =>
             {
-                DynamicEntityCollection sourceEntity = MockData.CreateRelationDynamicEntityCollection();
-                string json = JSONSerializerExecute.Serialize(sourceEntity);
-
-                sourceEntity.ForEach(e => e.Fields.ForEach(f =>
-                {
-                    if (!json.Contains(f.Name))
-                    {
-                        flag = false;
-                    }
-                }));
-            }
-            catch (Exception)
-            {
-                flag = false;
-            }
-
-            Assert.IsTrue(flag, "序列化实体集合出错");
+                Assert.IsTrue(json.Contains(f.Name), string.Format("不能再序列化的JSON中找到属性名{0}", f.Name));
+            }));
         }
 
         [TestCategory("EntitySerialize"), TestMethod]
-        public void EntityDeSerialize()
+        [Description("JSON反序列化DynamicEntity测试")]
+        public void EntityDeserializeTest()
         {
-            var flag = true;
+            DynamicEntity sourceEntity = MockData.CreateEntityWithReferenceEntity();
 
-            try
+            string json = JSONSerializerExecute.Serialize(sourceEntity);
+
+            DynamicEntity targetEntity = JSONSerializerExecute.Deserialize<DynamicEntity>(json);
+
+            Assert.IsNotNull(targetEntity);
+            Assert.IsNotNull(targetEntity.Fields);
+
+            Assert.AreEqual(sourceEntity.Fields.Count, targetEntity.Fields.Count);
+
+            for (int i = 0; i < sourceEntity.Fields.Count; i++)
             {
-                DynamicEntity sourceEntity = MockData.CreateEntityWithReferenceEntity();
-                string json = JSONSerializerExecute.Serialize(sourceEntity);
-
-                DynamicEntity targetEntity = JSONSerializerExecute.Deserialize<DynamicEntity>(json);
-
-                if (targetEntity == null || targetEntity.Fields == null ||
-                    sourceEntity.Fields.Count != targetEntity.Fields.Count)
-                {
-                    flag = false;
-                }
-                else
-                {
-                    for (var i = 0; i < sourceEntity.Fields.Count; i++)
-                    {
-                        if (sourceEntity.Fields[i].Name != targetEntity.Fields[i].Name)
-                        {
-                            flag = false;
-                        }
-                    }
-                }
+                Assert.AreEqual(sourceEntity.Fields[i].Name, targetEntity.Fields[i].Name);
             }
-            catch (Exception)
-            {
-                flag = false;
-            }
-
-            Assert.IsTrue(flag, "反序列化实体出错");
         }
         #endregion
 
-        #region 单实体带字标的序列化和反序列化
+        #region 单实体带引用性字段的序列化和反序列化
         [TestCategory("EntitySerialize"), TestMethod]
-        public void EntityAndChildSerialize()
+        [Description("JSON序列化DynamicEntity，里面包含若干引用型字段的测试")]
+        public void EntityAndChildSerializeTest()
         {
             DynamicEntity entity = MockData.CreateEntityAndChildEntity();
             string json = JSONSerializerExecute.Serialize(entity);
-            bool result = true;
-            var entitys = entity.Fields.Where(p => p.FieldType == FieldTypeEnum.Collection);
-            entitys.ForEach(p =>
-            {
-                if (!json.Contains(p.CodeName))
-                {
-                    result = false;
-                }
 
-            });
-            if (!json.Contains(entity.CodeName))
+            var fields = entity.Fields.Where(p => p.FieldType == FieldTypeEnum.Collection);
+
+            fields.ForEach(f =>
             {
-                result = false;
-            }
-            Assert.IsTrue(result, "序列化失败");
+                Assert.IsTrue(json.Contains(f.CodeName), string.Format("不能再序列化的JSON中找到属性名{0}", f.CodeName));
+            });
+
+            Assert.IsTrue(json.Contains(entity.CodeName), string.Format("不能再序列化的JSON中找到属性名{0}", entity.CodeName));
         }
 
         [TestCategory("EntitySerialize"), TestMethod]
-        public void EntityAndChildDeSerialize()
+        [Description("JSON反序列化DynamicEntity，里面包含若干引用型字段的测试")]
+        public void EntityAndChildDeSerializeTest()
         {
             DynamicEntity entity = MockData.CreateEntityAndChildEntity();
+
             string json = JSONSerializerExecute.Serialize(entity);
             DynamicEntity deDynamicEntity = JSONSerializerExecute.Deserialize<DynamicEntity>(json);
-            bool result = true;
-            string resultMessage = string.Empty;
-            result = deDynamicEntity.CodeName.Equals(entity.CodeName);
-            deDynamicEntity.Fields.Where(p => p.FieldType == FieldTypeEnum.Collection).ForEach(p =>
+
+            Assert.AreEqual(entity.CodeName, deDynamicEntity.CodeName);
+            Assert.AreEqual(entity.Fields.Count, deDynamicEntity.Fields.Count);
+
+            IEnumerable<DynamicEntityField> sourceFields = entity.Fields.Where(p => p.FieldType == FieldTypeEnum.Collection);
+
+            sourceFields.ForEach(sf =>
             {
-                if (!entity.Fields.Where(s => s.FieldType == FieldTypeEnum.Collection && s.ReferenceEntity.CodeName == p.ReferenceEntity.CodeName).Any())
-                {
-                    resultMessage += p.Entity.CodeName;
-                    result = false;
-                }
+                DynamicEntityField def = deDynamicEntity.Fields[sf.ID];
 
+                Assert.AreEqual(FieldTypeEnum.Collection, def.FieldType);
+                Assert.AreEqual(sf.CodeName, def.CodeName);
             });
-            Assert.IsTrue(result, "名字不一样 序列化失败了" + resultMessage);
-
         }
 
         #endregion
 
-        //序列化实体实例
+        /// <summary>
+        /// 序列化实体实例
+        /// </summary>
         [TestCategory("InstanceSerialize"), TestMethod]
-        public void InstanceSerialize()
+        [Description("不带子成员实例的DyanmicEntity实例序列化测试")]
+        public void InstanceSerializeTest()
         {
-            var flag = true;
-
             DynamicEntity entity = MockData.CreateEntityAndChildEntity();
 
             DEEntityInstanceBase instance = entity.CreateInstance();
@@ -209,25 +172,17 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Converter
                 if (f.Definition.FieldType == FieldTypeEnum.Collection)
                 {
                     foreach (var item in f.Definition.ReferenceEntity.Fields)
-                    {
-                        if (!json.Contains(item.Name))
-                        {
-                            flag = false;
-                        }
-                    }
+                        Assert.IsTrue(json.Contains(item.Name));
                 }
-                if (!json.Contains(f.Definition.Name))
-                {
-                    flag = false;
-                }
+                else
+                    Assert.IsTrue(json.Contains(f.Definition.Name));
             });
-
-            Assert.IsTrue(flag, "序列化实体实例出错");
         }
 
         //序列化实体实例，带数据
         [TestCategory("InstanceSerialize"), TestMethod]
-        public void InstanceSerializeWithData()
+        [Description("主表加子表实例的序列化测试，子表是包含实例化数据的")]
+        public void InstanceSerializeWithDataTest()
         {
             bool flag = true;
 
@@ -235,21 +190,22 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Converter
 
             string json = JSONSerializerExecute.Serialize(instance);
 
+            Console.WriteLine(json);
+
             instance.Fields.ForEach(f =>
             {
                 if (f.Definition.FieldType == FieldTypeEnum.Collection)
                 {
                     foreach (var item in f.Definition.ReferenceEntity.Fields)
                     {
-                        if (!json.Contains(item.Name) || !json.Contains(item.Name + "Value"))
-                        {
-                            flag = false;
-                        }
+                        Assert.IsTrue(json.Contains(item.Name));
+                        Assert.IsTrue(json.Contains(item.Name + "Value"));
                     }
                 }
-                else if (!json.Contains(f.Definition.Name) || !json.Contains(f.Definition.Name + "Value"))
+                else
                 {
-                    flag = false;
+                    Assert.IsTrue(json.Contains(f.Definition.Name));
+                    Assert.IsTrue(json.Contains(f.Definition.Name + "Value"));
                 }
             });
 
@@ -258,80 +214,66 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Converter
 
         //反序列化实体实例
         [TestCategory("InstanceSerialize"), TestMethod]
+        [Description("不带子成员实例的DyanmicEntity实例反序列化测试")]
         public void InstanceDeserialize()
         {
-            var flag = true;
-
             DynamicEntity entity = MockData.CreateEntityAndChildEntity();
 
-            DEEntityInstanceBase instance = entity.CreateInstance();
+            DEEntityInstanceBase sourceInstance = entity.CreateInstance();
 
             //序列化之后的数据
-            string json = JSONSerializerExecute.Serialize(instance);
+            string json = JSONSerializerExecute.Serialize(sourceInstance);
 
             //反序列化
-            DEEntityInstanceBase resultInstance = JSONSerializerExecute.Deserialize<DEEntityInstanceBase>(json);
+            DEEntityInstanceBase deserializedInstance = JSONSerializerExecute.Deserialize<DEEntityInstanceBase>(json);
 
-            foreach (var field in instance.Fields)
+            foreach (var sourceField in sourceInstance.Fields)
             {
-                if (!resultInstance.Fields.Where(p => p.Definition.Name == field.Definition.Name).Any())
-                {
-                    flag = false;
-                }
+                EntityFieldValue deserializedFieldValue = deserializedInstance.Fields.Where(p => p.Definition.Name == sourceField.Definition.Name).FirstOrDefault();
+
+                Assert.IsNotNull(deserializedFieldValue);
+
+                if (sourceField.Definition.FieldType == FieldTypeEnum.Collection)
+                    Assert.AreEqual(sourceField.Definition.ReferenceEntityCodeName, deserializedFieldValue.Definition.ReferenceEntityCodeName);
                 else
-                {
-                    if (field.Definition.FieldType == FieldTypeEnum.Collection)
-                    {
-                        EntityFieldValue entityFieldValue = resultInstance.Fields.Where(p => p.Definition.Name == field.Definition.Name).FirstOrDefault();
-                        if (entityFieldValue.Definition.ReferenceEntityCodeName != field.Definition.ReferenceEntityCodeName)
-                        {
-                            flag = false;
-                        }
-                    }
-                }
+                    Assert.AreEqual(sourceField.StringValue, deserializedFieldValue.StringValue);
             }
-            Assert.IsTrue(flag, "反序列化实体实例出错");
         }
 
         //反序列化实体实例，带数据
         [TestCategory("InstanceSerialize"), TestMethod]
+        [Description("主表加子表实例的反序列化测试，子表是包含实例化数据的")]
         public void InstanceDeserializeWithData()
         {
-            bool flag = true;
+            DEEntityInstanceBase sourceInstance = MockData.CreateEntityInstance();
 
-            DEEntityInstanceBase instance = MockData.CreateEntityInstance();
+            string json = JSONSerializerExecute.Serialize(sourceInstance);
 
-            string json = JSONSerializerExecute.Serialize(instance);
+            DEEntityInstanceBase deserializedInstance = JSONSerializerExecute.Deserialize<DEEntityInstanceBase>(json);
 
-            DEEntityInstanceBase resultInstance = JSONSerializerExecute.Deserialize<DEEntityInstanceBase>(json);
-
-            foreach (var field in resultInstance.Fields)
+            foreach (var sourceField in sourceInstance.Fields)
             {
-                if (field.Definition.FieldType == FieldTypeEnum.Collection)
-                {
-                    DEEntityInstanceBaseCollection children = field.GetRealValue() as DEEntityInstanceBaseCollection;
-                    foreach (var child in children)
-                    {
-                        foreach (var childField in child.Fields)
-                        {
-                            if (!childField.StringValue.Contains(childField.Definition.Name + "Value"))
-                            {
-                                flag = false;
-                            }
-                        }
-                    }
+                EntityFieldValue deserializedField = deserializedInstance.Fields.Where(p => p.Definition.Name == sourceField.Definition.Name).FirstOrDefault();
 
+                Assert.IsNotNull(deserializedField);
+
+                if (sourceField.Definition.FieldType == FieldTypeEnum.Collection)
+                {
+                    DEEntityInstanceBaseCollection sourceChildren = sourceField.GetRealValue() as DEEntityInstanceBaseCollection;
+                    DEEntityInstanceBaseCollection deserializedChildren = deserializedField.GetRealValue() as DEEntityInstanceBaseCollection;
+
+                    foreach (var sourceChild in sourceChildren)
+                    {
+                        var deserializedChild = deserializedChildren[sourceChild.ID];
+
+                        Assert.IsNotNull(deserializedChild);
+                    }
                 }
                 else
                 {
-                    if (field.StringValue != field.Definition.Name + "Value")
-                    {
-                        flag = false;
-                    }
+                    Assert.AreEqual(sourceField.StringValue, deserializedField.StringValue);
                 }
             }
-
-            Assert.IsTrue(flag, "序列化实体实例出错");
         }
     }
 }

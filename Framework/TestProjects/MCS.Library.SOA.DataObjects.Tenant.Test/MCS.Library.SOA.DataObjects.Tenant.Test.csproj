@@ -91,6 +91,7 @@
     <Compile Include="DataObjects\CounterTest.cs" />
     <Compile Include="DataObjects\LockTest.cs" />
     <Compile Include="DataObjects\MaterialTest.cs" />
+    <Compile Include="DataObjects\PropertyAndValidators.cs" />
     <Compile Include="DataObjects\TaskAssigneeTest.cs" />
     <Compile Include="DataObjects\UploadFileHistoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -36,7 +36,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Converters
             dictionary.AddNonDefaultValue("CodeName", data.CodeName);
             dictionary.AddNonDefaultValue("Tag", data.Tag);
             //dictionary.AddNonDefaultValue("CreateDate", data.CreateDate.Ticks.ToString());
-            dictionary.AddNonDefaultValue("CreateDate", data.CreateDate.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            //dictionary.AddNonDefaultValue("CreateDate", data.CreateDate.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            dictionary.AddNonDefaultValue("CreateDate", data.CreateDate);
             dictionary.AddNonDefaultValue("Fields", data.Fields);
 
             return dictionary;

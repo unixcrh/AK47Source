@@ -174,6 +174,15 @@
     <Build Include="SC\Tables\IncomeSynchronizeLog_Properties.sql" />
     <Build Include="SC\Tables\ADReverseSynchronizeLog_Properties.sql" />
     <Build Include="SC\Procedures\ClearNoSchemaData.sql" />
+    <Build Include="SC\Procedures\MasterDataCallbackPro.sql" />
+    <Build Include="SC\Procedures\SynchronizeOrganizationsData.sql" />
+    <Build Include="SC\Procedures\SynchronizeUserData.sql" />
+    <Build Include="SC\Procedures\SynchronizeOrgTreeData.sql" />
+    <Build Include="SC\Procedures\SynchronizeOrgUserData.sql" />
+    <Build Include="SC\Functions\GetUserXml.sql" />
+    <Build Include="SC\Functions\GetOrgUserXml.sql" />
+    <Build Include="SC\Functions\GetOrgTreeXml.sql" />
+    <Build Include="SC\Functions\GetOrganizationXml.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PermissionsCenterDB.local.UnitTest.publish.xml" />

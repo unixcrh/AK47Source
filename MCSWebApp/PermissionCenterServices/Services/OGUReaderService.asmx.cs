@@ -116,6 +116,22 @@ namespace PermissionCenter.Services
         }
 
         /// <summary>
+        /// 获取整个体系的根组织
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod(Description = "获取整个体系的根组织。从根组织开始可以查询所有的下游组织")]
+        public DataSet GetRootDSE()
+        {
+            SCObjectAndRelationCollection root = new SCObjectAndRelationCollection() { SCObjectAndRelation.GetRoot() };
+
+            DataSet ds = new DataSet();
+
+            ds.Tables.Add(QueryHelper.GetOguTableBuilder(new string[] { "Organizations" }).Convert(root));
+
+            return ds;
+        }
+
+        /// <summary>
         /// 获取指定对象的详细属性数据
         /// </summary>
         /// <param name="strObjType">要求查询对象的类型(可以为空，涉及多类查询)</param>
@@ -281,27 +297,6 @@ strAttrs:查询中要求获取数据对象的属性类型
             SCCacheHelper.InvalidateAllCache();
         }
         #endregion Web Methods
-
-        //internal static void InternalRemoveAllCache()
-        //{
-        //    string[] cacheQueueType = {
-        //                                "MCS.Library.OGUPermission.OguObjectIDCache, MCS.Library.OGUPermission", 
-        //                                "MCS.Library.OGUPermission.OguObjectFullPathCache, MCS.Library.OGUPermission", 
-        //                                "MCS.Library.OGUPermission.OguObjectLogOnNameCache, MCS.Library.OGUPermission",
-        //                                "PermissionCenter.Caching.ServiceMethodCache, PermissionCenterServices"
-        //                              };
-
-        //    CacheNotifyData[] data = new CacheNotifyData[cacheQueueType.Length];
-
-        //    for (int i = 0; i < cacheQueueType.Length; i++)
-        //    {
-        //        data[i] = new CacheNotifyData();
-        //        data[i].CacheQueueTypeDesp = cacheQueueType[i];
-        //        data[i].NotifyType = CacheNotifyType.Clear;
-        //    }
-
-        //    UdpCacheNotifier.Instance.SendNotify(data);
-        //}
 
         internal static QueryByIDsAdapterBase<DataTable> GetSearchAdapter(SearchOUIDType idType, string[] schemaTypes, string[] ids, bool includeDeleted)
         {

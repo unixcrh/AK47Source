@@ -15,10 +15,10 @@ Global
 		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://code.cfldcn.com:8080/tfs/base
-		SccProjectUniqueName0 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Dynamics\\MCS.Library.SOA.DataObjects.Dynamics.csproj
-		SccProjectName0 = ../../Framework/MCS.Library.SOA.DataObjects.Dynamics
-		SccLocalPath0 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Dynamics
-		SccLocalPath1 = .
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Dynamics\\MCS.Library.SOA.DataObjects.Dynamics.csproj
+		SccProjectName1 = ../../Framework/MCS.Library.SOA.DataObjects.Dynamics
+		SccLocalPath1 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects.Dynamics
 		SccProjectUniqueName2 = MCS.Dynamics.Web.csproj
 		SccLocalPath2 = .
 	EndGlobalSection

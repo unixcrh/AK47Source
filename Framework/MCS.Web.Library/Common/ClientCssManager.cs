@@ -9,7 +9,7 @@ namespace MCS.Web.Library
     /// <summary>
     /// 在页面中注册Css文件帮助函数
     /// </summary>
-	/// <remarks>在页面中注册Css文件帮助函数</remarks>
+    /// <remarks>在页面中注册Css文件帮助函数</remarks>
     public static class ClientCssManager
     {
         private const string _C_CSS_CONTROL_ID = "__StyleSheetControlID";
@@ -41,11 +41,11 @@ namespace MCS.Web.Library
         }
 
         /// <summary>
-		/// 在Head之间注册Css文件
+        /// 在Head之间注册Css文件
         /// </summary>
         /// <param name="page">当前页面</param>
         /// <param name="cssUrl">css文件url路径</param>
-		/// <remarks>在Head之间注册Css</remarks>
+        /// <remarks>在Head之间注册Css</remarks>
         public static void RegisterHeaderCss(Page page, string cssUrl)
         {
             StyleSheetControl ctr = GetStyleSheetControl(page);
@@ -65,11 +65,11 @@ namespace MCS.Web.Library
         }
 
         /// <summary>
-		/// 在body开始后注册Css文件
+        /// 在body开始后注册Css文件
         /// </summary>
-		/// <param name="page">当前页面</param>
-		/// <param name="cssUrl">css文件url路径</param>
-		/// <remarks>在body开始后注册Css</remarks>
+        /// <param name="page">当前页面</param>
+        /// <param name="cssUrl">css文件url路径</param>
+        /// <remarks>在body开始后注册Css</remarks>
         public static void RegisterBodyStartCss(Page page, string cssUrl)
         {
             StyleSheetControl ctr = GetStyleSheetControl(page);
@@ -77,11 +77,11 @@ namespace MCS.Web.Library
         }
 
         /// <summary>
-		/// 在body结束前注册Css文件
+        /// 在body结束前注册Css文件
         /// </summary>
-		/// <param name="page">当前页面</param>
-		/// <param name="cssUrl">css文件url路径</param>
-		/// <remarks>在body结束前注册Css</remarks>
+        /// <param name="page">当前页面</param>
+        /// <param name="cssUrl">css文件url路径</param>
+        /// <remarks>在body结束前注册Css</remarks>
         public static void RegisterBodyEndCss(Page page, string cssUrl)
         {
             StyleSheetControl ctr = GetStyleSheetControl(page);
@@ -213,7 +213,12 @@ namespace MCS.Web.Library
         /// <param name="script"></param>
         public static void RegisterOnLoadScriptBlock(Page page, string script)
         {
-            string loadScript = string.Format("window.attachEvent('onload', function(){{{0}}});", script);
+            string eventScript = string.Format("function(){{{0}}}", script);
+
+            string loadScript = "if (window.attachEvent) {window.attachEvent('onload', {0})} else {window.addEventListener('onload', {0})};";
+
+            loadScript = loadScript.Replace("{0}", eventScript);
+
             page.ClientScript.RegisterClientScriptBlock(page.GetType(), Guid.NewGuid().ToString(), loadScript, true);
         }
 

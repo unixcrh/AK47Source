@@ -3,9 +3,11 @@ using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
 using MCS.Library.SOA.DataObjects.Dynamics.Enums;
 using MCS.Library.SOA.DataObjects.Dynamics.Executors;
 using MCS.Library.SOA.DataObjects.Dynamics.Objects;
+using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using System.Threading;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 {
@@ -61,7 +63,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
         [TestCategory("DESchemaObjectAdapter"), TestMethod]
         public void LoadByIDTest()
         {
-            var entity = createEntity();
+            var entity = CreateEntity();
 
             var description = "New Description";
 
@@ -71,13 +73,31 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             var loadedEntity = DESchemaObjectAdapter.Instance.Load(entity.ID) as DynamicEntity;
 
-            Assert.IsTrue(loadedEntity.Description.Equals(description));
+            Assert.AreEqual(description, loadedEntity.Description);
+        }
+
+        [TestCategory("DESchemaObjectAdapter"), TestMethod]
+        [Description("通过缓存获取数据测试")]
+        public void GetByIDTest()
+        {
+            var entity = CreateEntity();
+
+            var description = "New Description";
+
+            entity.Description = description;
+
+            DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
+
+            var loadedEntity = DESchemaObjectAdapter.Instance.Get(entity.ID) as DynamicEntity;
+            var loadedEntity2 = DESchemaObjectAdapter.Instance.Get(entity.ID) as DynamicEntity;
+
+            Assert.AreEqual(loadedEntity, loadedEntity2);
         }
 
         [TestCategory("DESchemaObjectAdapter"), TestMethod]
         public void LoadByIDAndTimeTest()
         {
-            var entity = createEntity();
+            var entity = CreateEntity();
 
             var description = "New Description";
 
@@ -87,15 +107,14 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             var loadedEntity = DESchemaObjectAdapter.Instance.Load(entity.ID, DateTime.MinValue) as DynamicEntity;
 
-            Assert.IsTrue(loadedEntity.Description.Equals(description));
+            Assert.AreEqual(description, loadedEntity.Description);
         }
 
         [TestCategory("DESchemaObjectAdapter"), TestMethod]
+        [Description("根据ID和Schema加载数据测试")]
         public void LoadBySchemaTypeTest()
         {
-          //  DESchemaObjectAdapter.Instance.ClearAllData();
-
-            var entity = createEntity();
+            var entity = CreateEntity();
 
             var description = "New Description";
 
@@ -107,14 +126,14 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             var loadObjects = DESchemaObjectAdapter.Instance.LoadBySchemaType(schemaTypes, DateTime.MinValue);
 
-            Assert.IsTrue(loadObjects.Count() == 3);
-
+            Assert.AreEqual(3, loadObjects.Count());
         }
 
         [TestCategory("DESchemaObjectAdapter"), TestMethod]
+        [Description("更新实体测试")]
         public void UpdateTest()
         {
-            var entity = createEntity();
+            var entity = CreateEntity();
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
 
@@ -128,14 +147,38 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             var result = DESchemaObjectAdapter.Instance.Load(entity.ID, DateTime.MinValue) as DynamicEntity;
 
-            Assert.IsTrue(result.Description.Equals(description));
-
+            Assert.AreEqual(description, result.Description);
         }
 
         [TestCategory("DESchemaObjectAdapter"), TestMethod]
+        [Description("更新实体，并且更新Cache的测试")]
+        public void UpdateWithCacheTest()
+        {
+            var entity = CreateEntity();
+
+            DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
+
+            var dataInCache1 = DESchemaObjectAdapter.Instance.Get(entity.ID) as DynamicEntity;
+            var loadedEntity = DESchemaObjectAdapter.Instance.Load(entity.ID) as DynamicEntity;
+
+            var description = "Update Description";
+
+            loadedEntity.Description = description;
+
+            DESchemaObjectAdapter.Instance.Update(loadedEntity);
+
+            Thread.Sleep(1000);
+
+            var dataInCache2 = DESchemaObjectAdapter.Instance.Get(entity.ID) as DynamicEntity;
+
+            Assert.AreEqual(description, dataInCache2.Description);
+        }
+
+        [TestCategory("DESchemaObjectAdapter"), TestMethod]
+        [Description("更新实体状态测试")]
         public void UpdateStatusTest()
         {
-            var entity = createEntity();
+            var entity = CreateEntity();
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
 
@@ -145,8 +188,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             var result = DESchemaObjectAdapter.Instance.Load(entity.ID, false) as DynamicEntity;
 
-            Assert.IsTrue(result.Status == DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Deleted);
-
+            Assert.AreEqual(SchemaObjectStatus.Deleted, result.Status);
         }
 
         #region 辅助方法
@@ -155,7 +197,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
         /// 创建实体字段
         /// </summary>
         /// <returns></returns>
-        private DynamicEntityField createEntityField(string flag = "new")
+        private static DynamicEntityField CreateEntityField(string flag = "new")
         {
             var field = new DynamicEntityField()
             {
@@ -176,7 +218,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
         /// 创建实体
         /// </summary>
         /// <returns></returns>
-        private DynamicEntity createEntity()
+        private static DynamicEntity CreateEntity()
         {
             string entityId = Guid.NewGuid().ToString();
 
@@ -195,7 +237,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 
             for (var i = 0; i < 2; i++)
             {
-                var field = createEntityField();
+                var field = CreateEntityField();
                 entity.Fields.Add(field);
             }
             return entity;

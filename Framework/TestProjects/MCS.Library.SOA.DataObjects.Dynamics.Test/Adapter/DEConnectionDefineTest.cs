@@ -1,5 +1,6 @@
 ﻿using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MCS.Library.Core;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
 {
@@ -52,13 +53,11 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Adapter
         }
         #endregion
 
-        //DEConnectionDefine
         [TestCategory("DEConnectionDefine"), TestMethod]
+        [Description("测试连接串映射是不是为空")]
         public void DBConnectionNameTest()
         {
-            var dbConnectionName = DEConnectionDefine.DBConnectionName;
-
-            Assert.IsTrue(!string.IsNullOrEmpty(dbConnectionName));
+            Assert.IsTrue(DEConnectionDefine.DBConnectionName.IsNotEmpty());
         }
     }
 }

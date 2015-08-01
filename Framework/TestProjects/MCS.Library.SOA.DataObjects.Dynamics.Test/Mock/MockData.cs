@@ -3,6 +3,7 @@ using MCS.Library.SOA.DataObjects.Dynamics.Executors;
 using MCS.Library.SOA.DataObjects.Dynamics.Instance;
 using MCS.Library.SOA.DataObjects.Dynamics.Instance.Adapters;
 using MCS.Library.SOA.DataObjects.Dynamics.Objects;
+using MCS.Library.SOA.DataObjects.Dynamics.Test.Common;
 using System;
 using System.Linq;
 
@@ -23,6 +24,10 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mock
             return result;
         }
 
+        /// <summary>
+        /// 创建一个主表加子表的实体定义
+        /// </summary>
+        /// <returns></returns>
         public static DynamicEntity CreateEntityWithReferenceEntity()
         {
             CreateDemoItem();
@@ -30,11 +35,19 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mock
             return CreateDemoHeader();
         }
 
+        /// <summary>
+        /// 创建一个主表的实例化数据
+        /// </summary>
+        /// <returns></returns>
         public static DynamicEntity CreateEntityAndChildEntity()
         {
-            return CreateDemoHaderEntity();
+            return CreateDemoHeaderEntity();
         }
 
+        /// <summary>
+        /// 创建一个主表加子表的实体定义的实例化数据
+        /// </summary>
+        /// <returns></returns>
         public static DEEntityInstanceBase CreateEntityInstance()
         {
             //创建Mock实体定义
@@ -132,23 +145,24 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mock
 
         public static DynamicEntity CreatEntityWithAllTypeData()
         {
-            DynamicEntity entiy = new DynamicEntity();
-            entiy.ID = Guid.NewGuid().ToString();
-            entiy.Name = "测试实体";
-            entiy.Description = "测试实体";
-            entiy.CategoryID = "48BE753C-630D-42F4-A02D-D2B50818F817";//集团公司/管道板块/运输
-            entiy.BuidCodeName();
+            DynamicEntity entity = new DynamicEntity();
 
-            entiy.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "Bool", FieldType = FieldTypeEnum.Bool, Length = 1, DefaultValue = "true" });
+            entity.ID = Guid.NewGuid().ToString();
+            entity.Name = "测试实体";
+            entity.Description = "测试实体";
+            entity.CategoryID = Define.TestCategoryID;   //集团公司/管道板块/运输
+            entity.BuidCodeName();
+
+            entity.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "Bool", FieldType = FieldTypeEnum.Bool, Length = 1, DefaultValue = "true" });
             //entiy.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "Collection", FieldType = FieldTypeEnum.Collection, Length = 1 });
-            entiy.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "DateTime", FieldType = FieldTypeEnum.DateTime, Length = 10, DefaultValue = "2014-3-3" });
-            entiy.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "Decimal", FieldType = FieldTypeEnum.Decimal, Length = 10, DefaultValue = "99" });
-            entiy.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "Int", FieldType = FieldTypeEnum.Int, Length = 10, DefaultValue = "99" });
-            entiy.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "String", FieldType = FieldTypeEnum.String, Length = 10, DefaultValue = "haoyk" });
+            entity.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "DateTime", FieldType = FieldTypeEnum.DateTime, Length = 10, DefaultValue = "2014-3-3" });
+            entity.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "Decimal", FieldType = FieldTypeEnum.Decimal, Length = 10, DefaultValue = "99" });
+            entity.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "Int", FieldType = FieldTypeEnum.Int, Length = 10, DefaultValue = "99" });
+            entity.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "String", FieldType = FieldTypeEnum.String, Length = 10, DefaultValue = "haoyk" });
 
-            DEObjectOperations.InstanceWithoutPermissions.AddEntity(entiy);
+            DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
 
-            return entiy;
+            return entity;
         }
 
         #region
@@ -161,7 +175,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mock
             saleOrderHeaderDefine.ID = Guid.NewGuid().ToString();
             saleOrderHeaderDefine.Name = "销售单";
             saleOrderHeaderDefine.Description = "销售单";
-            saleOrderHeaderDefine.CategoryID = "48BE753C-630D-42F4-A02D-D2B50818F817";//集团公司/管道板块/运输
+            saleOrderHeaderDefine.CategoryID = Define.TestCategoryID;   //集团公司/管道板块/运输
 
             //SaleOrderHeader.SortNo = 0;
             saleOrderHeaderDefine.BuidCodeName();
@@ -208,14 +222,17 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mock
             return saleOrderHeaderDefine;
         }
 
-        //创建主表测试数据
-        private static DynamicEntity CreateDemoHaderEntity()
+        /// <summary>
+        /// 创建主表测试数据，无子表
+        /// </summary>
+        /// <returns></returns>
+        private static DynamicEntity CreateDemoHeaderEntity()
         {
             DynamicEntity SaleOrderItem = new DynamicEntity();
             SaleOrderItem.ID = Guid.NewGuid().ToString();
             SaleOrderItem.Name = "销售单明细";
             SaleOrderItem.Description = "销售单明细";
-            SaleOrderItem.CategoryID = "48BE753C-630D-42F4-A02D-D2B50818F817"; //集团公司/管道板块/运输
+            SaleOrderItem.CategoryID = Define.TestCategoryID;   //集团公司/管道板块/运输
             SaleOrderItem.BuidCodeName();
             SaleOrderItem.SortNo = 1;
             SaleOrderItem.CreateDate = DateTime.Now;
@@ -230,7 +247,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mock
                 FieldType = FieldTypeEnum.String,
                 Length = 255,
                 SortNo = 0,
-                CreateDate = SaleOrderItem.CreateDate 
+                CreateDate = SaleOrderItem.CreateDate
             });
             SaleOrderItem.Fields.Add(new DynamicEntityField()
             {
@@ -270,6 +287,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mock
             });
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(SaleOrderItem);
+
             return SaleOrderItem;
         }
 
@@ -280,7 +298,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mock
             SaleOrderItem.ID = Guid.NewGuid().ToString();
             SaleOrderItem.Name = "销售单明细字表" + strlenth;
             SaleOrderItem.Description = "销售单明细字表" + strlenth;
-            SaleOrderItem.CategoryID = "48BE753C-630D-42F4-A02D-D2B50818F817"; //集团公司/管道板块/运输
+            SaleOrderItem.CategoryID = Define.TestCategoryID;   //集团公司/管道板块/运输
             SaleOrderItem.BuidCodeName();
             SaleOrderItem.SortNo = 1;
             SaleOrderItem.CreateDate = DateTime.Now;
@@ -324,10 +342,10 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mock
             saleOrderItemDefine.ID = Guid.NewGuid().ToString();
             saleOrderItemDefine.Name = "销售单明细";
             saleOrderItemDefine.Description = "销售单明细";
-            saleOrderItemDefine.CategoryID = "48BE753C-630D-42F4-A02D-D2B50818F817";//集团公司/管道板块/运输
+            saleOrderItemDefine.CategoryID = Define.TestCategoryID;   //集团公司/管道板块/运输
             saleOrderItemDefine.BuidCodeName();
             //SaleOrderItem.SortNo = 1;
-            SaleOrderItem.CreateDate = DateTime.Now;
+            saleOrderItemDefine.CreateDate = DateTime.Now;
 
             saleOrderItemDefine.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "物料名称", FieldType = FieldTypeEnum.String, Length = 255, SortNo = 0, DefaultValue = "测试默认值" });
             saleOrderItemDefine.Fields.Add(new DynamicEntityField() { ID = Guid.NewGuid().ToString(), Name = "物料数量", FieldType = FieldTypeEnum.Int, Length = 4, SortNo = 1 });

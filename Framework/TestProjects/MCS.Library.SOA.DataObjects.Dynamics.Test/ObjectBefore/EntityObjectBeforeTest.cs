@@ -53,7 +53,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.InstanceBefore
         /// 查询已删除和修改过的实体定义
         /// </summary>
         [Description("根据ID查询实体"), TestMethod]
-        public void TestLoadIn()
+        public void LoadInTest()
         {
             bool flag = true;
             string msg = string.Empty;

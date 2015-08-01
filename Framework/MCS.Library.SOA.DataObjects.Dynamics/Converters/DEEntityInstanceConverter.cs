@@ -36,9 +36,9 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Converters
 
             dictionary.AddNonDefaultValue("EntityCode", data.EntityCode);
             dictionary.AddNonDefaultValue("EntityCodeName", data.EntityDefine.CodeName);
+            dictionary.AddNonDefaultValue("EntityInstanceCode", data.ID);
             if (!data._notSerialize)
             {
-                dictionary.AddNonDefaultValue("EntityInstanceCode", data.ID);
                 dictionary.AddNonDefaultValue("EntityDefine", data.EntityDefine);
             }
 

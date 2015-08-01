@@ -1,25 +1,15 @@
-#region
-// -------------------------------------------------
-// Assembly	：	DeluxeWorks.Library.Data
-// FileName	：	ORMapping.cs
-// Remark	：	提供一些对象和数据字段进行转换的静态方法
-// -------------------------------------------------
-// VERSION  	AUTHOR		DATE			CONTENT
-// 1.0		    龚文芳	    20070430		创建
-// -------------------------------------------------
-#endregion
+using MCS.Library.Caching;
+using MCS.Library.Core;
+using MCS.Library.Data.Builder;
+using MCS.Library.Data.DataObjects;
+using MCS.Library.Data.Properties;
+using MCS.Library.Security;
 using System;
-using System.Text;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Reflection;
-using System.Collections.Generic;
-using MCS.Library.Core;
-using MCS.Library.Data.Builder;
-using MCS.Library.Data.Properties;
-using MCS.Library.Data.DataObjects;
-using MCS.Library.Caching;
-using MCS.Library.Security;
+using System.Text;
 
 namespace MCS.Library.Data.Mapping
 {

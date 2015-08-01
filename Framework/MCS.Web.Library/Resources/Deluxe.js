@@ -88,9 +88,15 @@ $HGRootNS._WindowCommand.prototype =
 
     _executeCommand: function (win, strCommand) {
         try {
-            var cmdInput = win.document.getElementById(this._commandInputID);
-            if (cmdInput)
+            var cmdInput = win.document.getElementById(this._commandInputID + "_data");
+            if (cmdInput) {
                 cmdInput.value = strCommand;
+
+                var commandButton = win.document.getElementById(this._commandInputID + "_button");
+
+                if (commandButton)
+                    commandButton.click();
+            }
             else {
                 switch (strCommand.toLowerCase()) {
                     case "close":

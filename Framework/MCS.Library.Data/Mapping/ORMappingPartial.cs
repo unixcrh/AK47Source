@@ -364,6 +364,68 @@ namespace MCS.Library.Data.Mapping
         }
 
         /// <summary>
+        /// 读取字段的主键的键值对
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="graph"></param>
+        /// <param name="ignoreProperties"></param>
+        /// <returns></returns>
+        public static Dictionary<string, object> GetPrimaryKeyValuePairs<T>(T graph, params string[] ignoreProperties)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            ExceptionHelper.FalseThrow<ArgumentNullException>(graph != null, "graph");
+
+            ORMappingItemCollection mapping = InnerGetMappingInfoByObject(graph);
+
+            using (ORMappingContext context = ORMappingContext.GetContext())
+            {
+                foreach (ORMappingItem item in mapping)
+                {
+                    if (Array.Exists<string>(ignoreProperties, target => (string.Compare(target, item.PropertyName, true) == 0)
+                                                ) == false)
+                    {
+                        if (item.PrimaryKey)
+                            result[item.PropertyName] = GetValueFromObject(item, graph);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 读取字段的主键的键值对
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="graph"></param>
+        /// <param name="mapping"></param>
+        /// <param name="ignoreProperties"></param>
+        /// <returns></returns>
+        public static Dictionary<string, object> GetPrimaryKeyValuePairs<T>(T graph, ORMappingItemCollection mapping, params string[] ignoreProperties)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+
+            ExceptionHelper.FalseThrow<ArgumentNullException>(graph != null, "graph");
+            ExceptionHelper.FalseThrow<ArgumentNullException>(mapping != null, "mapping");
+
+            using (ORMappingContext context = ORMappingContext.GetContext())
+            {
+                foreach (ORMappingItem item in mapping)
+                {
+                    if (Array.Exists<string>(ignoreProperties, target => (string.Compare(target, item.PropertyName, true) == 0)
+                                                ) == false)
+                    {
+                        if (item.PrimaryKey)
+                            result[item.PropertyName] = GetValueFromObject(item, graph);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 从Tenant上下文中获取TenantCode并且添加到Builder中
         /// </summary>
         /// <typeparam name="T"></typeparam>

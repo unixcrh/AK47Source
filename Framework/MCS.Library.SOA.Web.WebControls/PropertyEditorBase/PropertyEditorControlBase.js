@@ -373,9 +373,9 @@ $HGRootNS.PropertyEditorControlBase.prototype = {
             categoryCell.innerText = categoryDisplayName;
     },
 
-    _renderPropertyRows: function (propties, table, colcount) {
+    _renderPropertyRows: function (properties, table, colcount) {
 
-        var props = this._sortPropertiesByName(propties);
+        var props = this._sortPropertiesByName(properties);
 
         var proplength = props.length;
 
@@ -556,7 +556,7 @@ $HGRootNS.PropertyEditorControlBase.prototype = {
                     break;
                 } else if (property.isRequired && property.value === '') {
                     isValidate = false;
-//                    break;
+                    //                    break;
                 }
 
                 if (property.hasOwnProperty("clientVdtData")) {
@@ -1251,30 +1251,34 @@ $HGRootNS.BooleanPropertyEditor.prototype =
 				}, this.get_container());
 
         if (propValue)
-            htmlDomElement.innerText = propValue.toString(); ;
+            htmlDomElement.innerText = propValue.toString();;
 
         return htmlDomElement;
     },
 
     checkIsChangeStyle: function () {
         var item = this.get_property();
-        var isChange;
+        var hasChanged;
 
         if ((item.defaultValue == null || item.defaultValue == undefined || item.defaultValue == "") && (item.value == null || item.value == undefined || item.value == "")) {
-            isChange = false;
+            hasChanged = false;
         }
         else {
             if (Object.prototype.toString.apply(item.defaultValue) === "[object String]") {
                 item.defaultValue = Boolean.parse(item.defaultValue);
             }
+
             if (Object.prototype.toString.apply(item.value) === "[object String]") {
-                item.value = Boolean.parse(item.value);
+                if (item.value == "")
+                    item.value = item.defaultValue;
+                else
+                    item.value = Boolean.parse(item.value);
             }
 
-            isChange = (item.value == item.defaultValue) ? false : true;
+            hasChanged = !(item.value == item.defaultValue);
         }
 
-        return isChange;
+        return hasChanged;
     },
 
     show: function () {

@@ -41,64 +41,61 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
         /// 导入实体及映射关系
         /// </summary>
         /// <param name="element"></param>
+        /// <param name="categoryID"></param>
+        /// <param name="msg"></param>
         public void Import(XElement element, string categoryID, out string msg)
         {
             element.NullCheck("导入XML对象不能为Null");
             categoryID.CheckStringIsNullOrEmpty<ArgumentNullException>("导入分类编码");
 
-            StringBuilder str = new StringBuilder();
-            if (!CategoryAdapter.Instance.Exists(categoryID))
-            {
-                str.AppendLine("导入分类不存在");
-            }
-            else
-            {
-                //已导入的实体CodeName(因为存在关系导入)
-                List<string> importCodeNames = new List<string>();
+            StringBuilder strB = new StringBuilder();
 
-                element.XPathSelectElements("Entity").ForEach(xentity =>
+            try
+            {
+                CategoryAdapter.Instance.Exists(categoryID).FalseThrow("导入的分类{0}不存在", categoryID);
+
+                //已导入的实体CodeName(因为存在关系导入)
+                HashSet<string> importedCodeNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+                //遍历每一个Entity
+                element.XPathSelectElements("Entity").ForEach(xEntity =>
                 {
-                    string entityName = xentity.AttributeValue("Name");
-                    string entityCodeName = xentity.AttributeValue("CodeName");
+                    string entityName = xEntity.AttributeValue("Name");
+                    string entityCodeName = xEntity.AttributeValue("CodeName");
 
                     //判断是否已经导入过，一般情况是当有实体引用时关联导入过了
-                    if (entityCodeName.IsNotEmpty() && !importCodeNames.Contains(entityCodeName))
+                    if (entityCodeName.IsNotEmpty() && importedCodeNames.Contains(entityCodeName) == false)
                     {
                         try
                         {
-                            #region
-
                             using (TransactionScope scope = TransactionScopeFactory.Create())
                             {
-                                this.ImportSingeEntity(xentity, categoryID, element, importCodeNames);
+                                this.ImportSingleEntity(xEntity, categoryID, element, importedCodeNames);
 
-                                str.AppendLine(string.Format("{0}导入成功!", entityName));
+                                strB.AppendLine(string.Format("{0}导入成功!", entityName));
                                 scope.Complete();
                             }
-
-                            #endregion
                         }
                         catch (Exception ex)
                         {
-                            str.AppendLine(string.Format("{0}导入失败![{1}]", entityName, ex.Message));
+                            strB.AppendLine(string.Format("{0}导入失败！[{1}]", entityName, ex.Message));
                         }
-                    }
-                    else
-                    {
-                        //导被关联导入
-                        //str.AppendLine(string.Format("{0}导入成功!", entityName));
                     }
                 });
             }
+            catch (System.Exception ex)
+            {
+                strB.AppendLine(string.Format("导入失败！[{0}]", ex.Message));
+            }
 
-            msg = str.ToString();
+            msg = strB.ToString();
         }
 
         //递归导入实体
-        private string ImportSingeEntity(XElement xentity, string categoryID, XElement elementAll, List<string> importList)
+        private string ImportSingleEntity(XElement xEntity, string categoryID, XElement elementAll, HashSet<string> importedCodeNames)
         {
             DynamicEntity entity = new DynamicEntity();
-            entity.FromXElement(xentity);
+            entity.FromXElement(xEntity);
 
             //实体及实体字段入库
             #region
@@ -110,11 +107,11 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
                 field =>
                 {
                     //所有引用类型需要在同一事务中入库
-                    XElement referenceXElement = this.filterXElement(field.ReferenceEntityCodeName, elementAll);
+                    XElement referenceXElement = FilterXElement(field.ReferenceEntityCodeName, elementAll);
                     referenceXElement.NullCheck<ArgumentNullException>(string.Format("在XML找不到{0}的实体引用!", field.ReferenceEntityCodeName));
 
                     //递归调用
-                    string newCodeName = this.ImportSingeEntity(referenceXElement, categoryID, elementAll, importList);
+                    string newCodeName = this.ImportSingleEntity(referenceXElement, categoryID, elementAll, importedCodeNames);
                     if (newCodeName.IsNotEmpty())
                         field.ReferenceEntityCodeName = newCodeName;
                 });
@@ -122,7 +119,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
 
             //先记录原CodeName再更新CodeName，这点很重要
             string oldCodeName = entity.CodeName;
-            if (importList.Contains(entity.CodeName))
+
+            if (importedCodeNames.Contains(entity.CodeName))
                 return string.Empty;
 
             //importList.Add(entity.CodeName);
@@ -135,6 +133,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
 
             //字段ID编码，更新前后的结果集
             List<KeyValuePair<string, string>> idMapping = new List<KeyValuePair<string, string>>();
+
             entity.Fields.ForEach(f =>
             {
                 KeyValuePair<string, string> mapping = new KeyValuePair<string, string>(Guid.NewGuid().ToString(), f.ID);
@@ -145,16 +144,15 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
                 f.CreateDate = DateTime.Now.SimulateTime();
             });
 
-
             DEObjectOperations.InstanceWithoutPermissions.DoOperation(SCObjectOperationMode.Add, entity, null);
             //如果成功才把当前实体放入已导入列表中
-            importList.Add(oldCodeName);
+            importedCodeNames.Add(oldCodeName);
             #endregion
 
             //外部实体及映射关系入库
             #region
             //当前实体
-            xentity.XPathSelectElements("OuterEntities/OuterEntity").ForEach(oe =>
+            xEntity.XPathSelectElements("OuterEntities/OuterEntity").ForEach(oe =>
             {
                 OuterEntity outerEntity = new OuterEntity();
                 outerEntity.FromXElement(oe);
@@ -189,14 +187,15 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             return entity.CodeName;
         }
 
-        private XElement filterXElement(string codeName, XElement elementAll)
+        private static XElement FilterXElement(string codeName, XElement elementAll)
         {
             XElement result = null;
-            elementAll.XPathSelectElements("Entity").ForEach(xentity =>
+
+            elementAll.XPathSelectElements("Entity").ForEach(xEntity =>
             {
-                if (xentity.AttributeValue("CodeName") == codeName)
+                if (xEntity.AttributeValue("CodeName") == codeName)
                 {
-                    result = xentity;
+                    result = xEntity;
                 }
             });
 

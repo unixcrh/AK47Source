@@ -109,6 +109,7 @@
     <Compile Include="Adapter\DESchemaObjectAdapterTest.cs" />
     <Compile Include="Adapter\SchemaObjectAdapterTest.cs" />
     <Compile Include="Adapter\DEDynamicEntityFieldSnapShotAdapterTest.cs" />
+    <Compile Include="Common\Define.cs" />
     <Compile Include="Converter\ConverterTest.cs" />
     <Compile Include="Instance\EntityInstanceValidate.cs" />
     <Compile Include="MoveAndCopy\CopyEntitiesTest.cs" />
@@ -126,6 +127,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Objects\importTestFile.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

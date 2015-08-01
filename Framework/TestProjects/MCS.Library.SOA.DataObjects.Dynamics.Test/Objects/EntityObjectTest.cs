@@ -1,13 +1,17 @@
-﻿using MCS.Library.OGUPermission;
+﻿using MCS.Library.Core;
+using MCS.Library.OGUPermission;
 using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
 using MCS.Library.SOA.DataObjects.Dynamics.Enums;
 using MCS.Library.SOA.DataObjects.Dynamics.Executors;
 using MCS.Library.SOA.DataObjects.Dynamics.Objects;
+using MCS.Library.SOA.DataObjects.Dynamics.Test.Common;
 using MCS.Library.SOA.DataObjects.Dynamics.Test.Mock;
+using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Objects
@@ -63,159 +67,146 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Objects
 
         #region 操作实体
         [TestCategory("EntityObject"), TestMethod]
-        public void AddEntityMethod()
+        [Description("增加一个实体定义，然后加载测试")]
+        public void AddEntityTest()
         {
-            var entity = creatEntity();
-            List<string> fieldIDs = new List<string>();
-            entity.Fields.ForEach(p => fieldIDs.Add(p.ID));
+            var entity = CreatEntity();
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
 
-            var dbResult = DESchemaObjectAdapter.Instance.Load(entity.ID) as DynamicEntity;
-            //field
-            bool fieldSuccess = fieldIDs.Count == dbResult.Fields.Count;
-            foreach (var field in dbResult.Fields)
-            {
-                if (!fieldIDs.Contains(field.ID))
-                {
-                    fieldSuccess = false;
-                }
-            }
-            //relation
-            bool relationSuccess = dbResult.AllMembersRelations.Count == fieldIDs.Count;
-            foreach (var relation in dbResult.AllMembersRelations)
-            {
-                if (relation.ContainerID != dbResult.ID)
-                {
-                    relationSuccess = false;
-                }
-                if (!fieldIDs.Contains(relation.ID))
-                {
-                    relationSuccess = false;
-                }
-            }
+            var entityLoaded = DESchemaObjectAdapter.Instance.Load(entity.ID) as DynamicEntity;
 
-            Assert.IsTrue(dbResult.ID.Equals(entity.ID) && fieldSuccess && relationSuccess);
+            Assert.AreEqual(entity.ID, entityLoaded.ID);
+
+            Assert.AreEqual(entity.Fields.Count, entityLoaded.Fields.Count);
+
+            AssertFields(entity.Fields, entityLoaded.Fields);
+
+            Assert.AreEqual(entity.AllMembersRelations.Count, entityLoaded.AllMembersRelations.Count);
+
+            foreach (var relation in entity.AllMembersRelations)
+            {
+                var relationLoaded = entityLoaded.AllMembersRelations[relation.ID];
+
+                Assert.IsNotNull(relationLoaded);
+                Assert.AreEqual(entityLoaded.ID, relationLoaded.ContainerID);
+            }
         }
 
         [TestCategory("EntityObject"), TestMethod]
-        public void UpdateEntityMethod()
+        [Description("修改一个新增加的数据实体测试，包括实体的属性变更以及字段变更")]
+        public void UpdateEntityTest()
         {
-            var deleteFieldID = "";
-            var newFieldID = "";
-            string updatedDesc = "Test Update";
-
-            var entity = creatEntity();
+            var entity = CreatEntity();
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
 
-            var entityUpdate = DESchemaObjectAdapter.Instance.Load(entity.ID) as DynamicEntity;
+            var entityInserted = DESchemaObjectAdapter.Instance.Load(entity.ID) as DynamicEntity;
 
-            entityUpdate.Description = updatedDesc;
+            //修改描述属性
+            entityInserted.Description = "Test Update";
 
-            if (entityUpdate.Fields.Count() > 0)
-            {
-                deleteFieldID = entityUpdate.Fields[0].ID;
-                entityUpdate.Fields.RemoveAt(0);
-            }
-            var updateField = creatEntityField("update");
+            //删除一个字段
+            if (entityInserted.Fields.Count() > 0)
+                entityInserted.Fields[0].Status = SchemaObjectStatus.Deleted;
+                //entityInserted.Fields.RemoveAt(0);
 
-            newFieldID = updateField.ID;
+            //增加一个字段
+            var newField = CreatEntityField("update");
 
-            entityUpdate.Fields.Add(updateField);
+            entityInserted.Fields.Add(newField);
 
-
-            DEObjectOperations.InstanceWithoutPermissions.UpdateEntity(entityUpdate);
+            DEObjectOperations.InstanceWithoutPermissions.UpdateEntity(entityInserted);
 
             var entityUpdated = DESchemaObjectAdapter.Instance.Load(entity.ID) as DynamicEntity;
 
-            Assert.IsTrue(entityUpdated.Description.Equals(updatedDesc) && (entityUpdated.Fields.ToIDArray().Contains(newFieldID) && !entityUpdated.Fields.ToIDArray().Contains(deleteFieldID)), "Update Error!");
+            Assert.AreEqual(entityInserted.Description, entityUpdated.Description);
+            AssertFields(entityInserted.Fields, entityUpdated.Fields);
         }
 
         [TestCategory("EntityObject"), TestMethod]
-        public void DeleteEntityMethod()
+        [Description("删除一个数据实体测试")]
+        public void DeleteEntityTest()
         {
-            var entityAdd = creatEntity();
-
-            DEObjectOperations.InstanceWithoutPermissions.AddEntity(entityAdd);
-
-            string entityId = entityAdd.ID;
-
-            var entity = DESchemaObjectAdapter.Instance.Load(entityId) as DynamicEntity;
-
-            DEObjectOperations.InstanceWithoutPermissions.DeleteEntity(entity);
-
-            var dbResult = DESchemaObjectAdapter.Instance.Load(entityId, false);
-
-
-            Assert.IsTrue(dbResult.Status == DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Deleted, "Delete Error!");
-        }
-
-        [TestCategory("EntityObject"), TestMethod]
-        public void DeleteEntityFromCollectionMethod()
-        {
-            DynamicEntityCollection entities = new DynamicEntityCollection();
-
-            var entity = creatEntity();
+            var entity = CreatEntity();
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
 
-            var dbResult = DESchemaObjectAdapter.Instance.Load(entity.ID);
+            DEObjectOperations.InstanceWithoutPermissions.DeleteEntity(entity);
 
-            Assert.IsTrue(dbResult.ID.Equals(entity.ID));
+            var entityDeleted = DESchemaObjectAdapter.Instance.Load(entity.ID, false);
+
+            Assert.AreEqual(SchemaObjectStatus.Deleted, entityDeleted.Status);
         }
+
+        ///// <summary>
+        ///// 沈峥注释，文不对题
+        ///// </summary>
+        //[TestCategory("EntityObject"), TestMethod]
+        //public void DeleteEntityFromCollectionMethod()
+        //{
+        //    DynamicEntityCollection entities = new DynamicEntityCollection();
+
+        //    var entity = CreatEntity();
+
+        //    DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
+
+        //    var dbResult = DESchemaObjectAdapter.Instance.Load(entity.ID);
+
+        //    Assert.IsTrue(dbResult.ID.Equals(entity.ID));
+        //}
 
         #endregion
 
         #region 操作实体字段
 
         [TestCategory("EntityObject"), TestMethod]
-        public void AddEntityFieldMethod()
+        [Description("增加字段的测试")]
+        public void AddEntityFieldTest()
         {
-            var field = creatEntityField();
+            var field = CreatEntityField();
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntityField(field);
 
-            var dbResult = DESchemaObjectAdapter.Instance.Load(field.ID);
+            var fieldLoaded = DESchemaObjectAdapter.Instance.Load(field.ID);
 
-            Assert.IsTrue(dbResult.ID.Equals(field.ID));
+            Assert.IsTrue(fieldLoaded.ID.Equals(field.ID));
         }
 
         [TestCategory("EntityObject"), TestMethod]
-        public void UpdateEntityFieldMethod()
+        [Description("修改字段的测试")]
+        public void UpdateEntityFieldTest()
         {
-            var field = creatEntityField();
+            var field = CreatEntityField();
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntityField(field);
 
-            var dbResult = DESchemaObjectAdapter.Instance.Load(field.ID) as DynamicEntityField;
+            var fieldInserted = DESchemaObjectAdapter.Instance.Load(field.ID) as DynamicEntityField;
 
             var defaultValue = "default update";
-            dbResult.DefaultValue = defaultValue;
+            fieldInserted.DefaultValue = defaultValue;
 
-            DEObjectOperations.InstanceWithoutPermissions.UpdateEntityField(dbResult);
+            DEObjectOperations.InstanceWithoutPermissions.UpdateEntityField(fieldInserted);
 
-            var result = DESchemaObjectAdapter.Instance.Load(dbResult.ID) as DynamicEntityField;
+            var fieldUpdated = DESchemaObjectAdapter.Instance.Load(fieldInserted.ID) as DynamicEntityField;
 
-            Assert.IsTrue(result.DefaultValue.Equals(defaultValue));
+            Assert.AreEqual(fieldInserted.DefaultValue, fieldUpdated.DefaultValue);
         }
 
         [TestCategory("EntityObject"), TestMethod]
-        public void DeleteEntityFieldMethod()
+        [Description("删除字段的测试")]
+        public void DeleteEntityFieldTest()
         {
-            var field = creatEntityField();
+            var field = CreatEntityField();
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntityField(field);
 
-            var dbResult = DESchemaObjectAdapter.Instance.Load(field.ID) as DynamicEntityField;
+            DEObjectOperations.InstanceWithoutPermissions.DeleteEntityField(field);
 
-            DEObjectOperations.InstanceWithoutPermissions.DeleteEntityField(dbResult);
+            var fieldDeleted = DESchemaObjectAdapter.Instance.Load(field.ID, false) as DynamicEntityField;
 
-            var result = DESchemaObjectAdapter.Instance.Load(dbResult.ID, false) as DynamicEntityField;
-
-            Assert.IsTrue(result.Status == DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Deleted);
+            Assert.AreEqual(SchemaObjectStatus.Deleted, fieldDeleted.Status);
         }
-
         #endregion
 
         #region 操作实体集合
@@ -234,13 +225,14 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Objects
         }
 
         [TestCategory("EntityObject"), TestMethod]
-        public void EntityCollectionFromXElement()
+        [Description("导入实体测试")]
+        public void ImportEntityTest()
         {
-            XElement element = getXElement();
+            XElement element = ResourceHelper.LoadXElementFromResource(Assembly.GetExecutingAssembly(), "MCS.Library.SOA.DataObjects.Dynamics.Test.Objects.importTestFile.xml");
 
             string msg = string.Empty;
-            string CategoryID = "48BE753C-630D-42F4-A02D-D2B50818F817";//集团公司/管道板块/运输
-            DEDynamicEntityImportAdapter.Instance.Import(element, CategoryID, out msg);
+
+            DEDynamicEntityImportAdapter.Instance.Import(element, Define.TestCategoryID, out msg);
 
             Assert.IsTrue(!msg.Contains("失败"));
         }
@@ -253,7 +245,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Objects
         /// 创建实体字段
         /// </summary>
         /// <returns></returns>
-        private DynamicEntityField creatEntityField(string flag = "new")
+        private static DynamicEntityField CreatEntityField(string flag = "new")
         {
             var field = new DynamicEntityField()
             {
@@ -274,7 +266,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Objects
         /// 创建实体
         /// </summary>
         /// <returns></returns>
-        private DynamicEntity creatEntity()
+        private static DynamicEntity CreatEntity()
         {
             string entityId = Guid.NewGuid().ToString();
 
@@ -293,52 +285,24 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Objects
 
             for (var i = 0; i < 2; i++)
             {
-                var field = creatEntityField();
+                var field = CreatEntityField();
                 entity.Fields.Add(field);
             }
+
             return entity;
         }
 
-        private XElement getXElement()
+        private static void AssertFields(DynamicEntityFieldCollection expected, DynamicEntityFieldCollection actual)
         {
-            string str = @"<DynamicEntities>
-                              <Entity SchemaType='DynamicEntity' ID='6512c32d-b3a8-4891-bac2-e69bfb8839a3' CodeName='/集团公司/管道板块/运输/销售单明细' Name='销售单明细' Description='销售单明细' SortNo='1' CategoryID='48BE753C-630D-42F4-A02D-D2B50818F817'>
-                                <Fields>
-                                  <Field SchemaType='DynamicEntityField' ID='d9c58562-bb77-495d-9849-c6659c1494b2' CodeName='物料名称' Name='物料名称' Description='' SortNo='0' Length='255' FieldType='String' ReferenceEntityCodeName='' DefaultValue='' />
-                                  <Field SchemaType='DynamicEntityField' ID='8c59763b-7be4-4334-898b-1b6b7950e381' CodeName='物料数量' Name='物料数量' Description='' SortNo='1' Length='4' FieldType='Int' ReferenceEntityCodeName='' DefaultValue='' />
-                                  <Field SchemaType='DynamicEntityField' ID='466af2af-ed8c-4de6-a01f-cdd313ffcd76' CodeName='单价' Name='单价' Description='' SortNo='2' Length='18' FieldType='Decimal' ReferenceEntityCodeName='' DefaultValue='' />
-                                </Fields>
-                                <OuterEntities>
-                                  <OuterEntity SchemaType='OuterEntity' ID='6ec461e5-e0f2-4ccd-aa4d-2e3cf3e9ea68' CodeName='' Name='Tcode_test_Item' Description='' SortNo='' CustomType='StandardInterface'>
-                                    <OuterFields>
-                                      <OuterField SchemaType='OuterEntityField' ID='13a4a795-b96b-43dc-9177-c94b6713b131' CodeName='' Name='物料名称_Mapping' Description='' SortNo='' MappingFieldID='d9c58562-bb77-495d-9849-c6659c1494b2' />
-                                      <OuterField SchemaType='OuterEntityField' ID='be1528d2-74dc-4632-8f68-8a87a9687212' CodeName='' Name='单价_Mapping' Description='' SortNo='' MappingFieldID='466af2af-ed8c-4de6-a01f-cdd313ffcd76' />
-                                      <OuterField SchemaType='OuterEntityField' ID='f0603a84-7103-4542-aa5d-2aad2f8dad28' CodeName='' Name='物料数量_Mapping' Description='' SortNo='' MappingFieldID='8c59763b-7be4-4334-898b-1b6b7950e381' />
-                                    </OuterFields>
-                                  </OuterEntity>
-                                </OuterEntities>
-                              </Entity>
-                              <Entity SchemaType='DynamicEntity' ID='04eaf2d0-0455-41ba-bccb-ba2fee11125b' CodeName='/集团公司/管道板块/运输/销售单' Name='销售单' Description='销售单' SortNo='0' CategoryID='48BE753C-630D-42F4-A02D-D2B50818F817'>
-                                <Fields>
-                                  <Field SchemaType='DynamicEntityField' ID='b76bf66d-3388-4e33-a7dc-af6b6fb16966' CodeName='总金额' Name='总金额' Description='' SortNo='0' Length='18' FieldType='Decimal' ReferenceEntityCodeName='' DefaultValue='' />
-                                  <Field SchemaType='DynamicEntityField' ID='c91ae5ca-fc42-485d-85a8-c2f9dec71550' CodeName='销售明细' Name='销售明细' Description='' SortNo='1' Length='999' FieldType='Collection' ReferenceEntityCodeName='/集团公司/管道板块/运输/销售单明细' DefaultValue='' />
-                                </Fields>
-                                <OuterEntities>
-                                  <OuterEntity SchemaType='OuterEntity' ID='def2f3f9-ac31-4da4-a935-cde68337e6c4' CodeName='' Name='Tcode_test' Description='' SortNo='' CustomType='StandardInterface'>
-                                    <OuterFields>
-                                      <OuterField SchemaType='OuterEntityField' ID='20db4fee-7f5f-4ba1-a52d-44c2d2f3b4b5' CodeName='' Name='总金额_Mapping' Description='' SortNo='' MappingFieldID='b76bf66d-3388-4e33-a7dc-af6b6fb16966' />
-                                      <OuterField SchemaType='OuterEntityField' ID='d98147f3-adce-4f1e-b0de-bb137cf6f47e' CodeName='' Name='Tcode_test_Item' Description='' SortNo='' MappingFieldID='c91ae5ca-fc42-485d-85a8-c2f9dec71550' />
-                                    </OuterFields>
-                                  </OuterEntity>
-                                </OuterEntities>
-                              </Entity>
-                            </DynamicEntities>";
+            int expectedCount = expected.Count(p => p.Status == SchemaObjectStatus.Normal);
+            int actualCount = actual.Count(p => p.Status == SchemaObjectStatus.Normal);
+            Assert.AreEqual(expectedCount, actualCount);
 
-            XElement element = XElement.Parse(str);
-
-            return element;
+            foreach (DynamicEntityField field in actual )
+            {
+                Assert.IsTrue(expected.ContainsKey(field.ID));
+            }
         }
-
         #endregion
     }
 }
