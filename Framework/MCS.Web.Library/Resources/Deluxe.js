@@ -20,7 +20,7 @@ $HGRootNS._WindowFeatureFunction.prototype =
         if (window.attachEvent)
             window.attachEvent("onload", function () { $HGRootNS.WindowFeatureFunction.adjustWindow(windowFeature); });
         else
-            window.addEventListener("onload", function () { $HGRootNS.WindowFeatureFunction.adjustWindow(windowFeature); });
+            window.addEventListener("load", function () { $HGRootNS.WindowFeatureFunction.adjustWindow(windowFeature); });
     },
 
     _adjustOpenWindow: function (windowFeature) {
@@ -73,9 +73,29 @@ $HGRootNS._WindowCommand = function () {
 
 $HGRootNS._WindowCommand.prototype =
 {
-    openerExecuteCommand: function (strCommand) {
-        if (typeof (top.opener) === "object")
-            this._executeCommand(top.opener, strCommand);
+    openerExecuteCommand: function (strCommand, winName) {
+        var win = null;
+
+        if (typeof (winName) === "undefined")
+            win = top.opener;
+        else {
+            if (typeof (winName) === "string") {
+                switch (winName.toLowerCase()) {
+                    case "opener":
+                        win = top.opener;
+                        break;
+                    case "parent":
+                        win = top.parent;
+                        break;
+                    case "top":
+                        win = top;
+                        break;
+                }
+            }
+        }
+
+        if (win != null)
+            this._executeCommand(win, strCommand);
     },
 
     executeCommand: function (strCommand) {

@@ -9,14 +9,33 @@ namespace MCS.Library.Validation
     internal class RegexValidator : Validator, IClientValidatable
     {
         private string pattern;
+        /// <summary>
+        /// 正则表达式
+        /// </summary>
+        public string Pattern
+        {
+            get { return pattern; }
+            set { pattern = value; }
+        }
         private RegexOptions options;
-     
-      
+        /// <summary>
+        /// RegexOptions
+        /// </summary>
+        public RegexOptions Options
+        {
+            get { return options; }
+            set { options = value; }
+        }
+        /// <summary>
+        /// 无参数构造函数
+        /// </summary>
+        public RegexValidator()
+        { }
         public RegexValidator(string pattern)
             : this(pattern, RegexOptions.None)
         { }
 
-     
+
         public RegexValidator(string pattern, RegexOptions options)
             : this(pattern, options, string.Empty)
         { }
@@ -25,12 +44,12 @@ namespace MCS.Library.Validation
             : this(pattern, RegexOptions.None, messageTemplate)
         { }
 
-      
+
         public RegexValidator(string pattern, RegexOptions options, string messageTemplate)
-           : this(pattern, options, messageTemplate, string.Empty)
+            : this(pattern, options, messageTemplate, string.Empty)
         { }
 
-       
+
         public RegexValidator(string pattern, RegexOptions options, string messageTemplate, string tag)
             : base(messageTemplate, tag)
         {

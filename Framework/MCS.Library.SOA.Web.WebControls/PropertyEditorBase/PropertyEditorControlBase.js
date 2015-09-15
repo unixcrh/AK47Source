@@ -1599,32 +1599,56 @@ $HGRootNS.EnumPropertyEditor.prototype =
         }
     },
 
-    _getDownlistSource: function () {
-
+    _getDownlistSource: function ()
+    {
         var editorParam = this.get_currentEditorParams();
 
         var e = new Sys.EventArgs();
         e.property = this.get_property();
-        if (editorParam != null) {
-            if (typeof (editorParam) === "object") {
-                if (editorParam.hasOwnProperty("enumTypeName")) {
+        if (editorParam != null)
+        {
+            if (typeof (editorParam) === "object")
+            {
+                if (editorParam.hasOwnProperty("enumTypeName"))
+                {
                     e.enumDesc = this._delegations._owner._findPredefinedEnumDescription(editorParam.enumTypeName);
-                } else if (editorParam.hasOwnProperty("dropDownDataSourceID")) {
+                }
+                else if (editorParam.hasOwnProperty("dropDownDataSourceID"))
+                {
                     e.enumDesc = this._delegations._owner._findPredefinedEnumDescription(editorParam.dropDownDataSourceID);
                 }
-            } else {
-                e.enumDesc = this._delegations._owner._findPredefinedEnumDescription(editorParam);
+            }
+            else
+            {
+                //add by wangleiping,2015-08-29:如果editorparam是以“|”分割的字符串，认为是自定义的下拉列表项，并生产下拉列表选项
+                if (editorParam.indexOf("|") > 0)
+                {
+                    var arr = editorParam.split("|");
+                    var arrEnumDesc=[];
+                    for(var i=0;i<arr.length;i++)
+                    {
+                        arrEnumDesc.push({ text: arr[i], value: arr[i] });
+                    }
+                    e.enumDesc = arrEnumDesc;
+                }
+                else
+                {
+                    e.enumDesc = this._delegations._owner._findPredefinedEnumDescription(editorParam);
+                }
+                
             }
         }
 
-        if (this._delegations["bindEditorDropdownList"]) {
+        if (this._delegations["bindEditorDropdownList"])
+        {
             this._delegations["bindEditorDropdownList"](this.get_property(), e);
         }
 
         return e.enumDesc ? e.enumDesc : null;
     },
 
-    _dropDownListSelectChange: function (sender) {
+    _dropDownListSelectChange: function (sender)
+    {
         this.get_property().value = sender.target.value;
 
         var isChange = (sender.target.value == this.get_property().defaultValue) ? false : true;
@@ -1633,8 +1657,8 @@ $HGRootNS.EnumPropertyEditor.prototype =
 
         var editorParam = this.get_currentEditorParams();
         if (editorParam != null) {
-            if (typeof (editorParam) === "object") {
-
+            if (typeof (editorParam) === "object")
+            {
                 if (editorParam.hasOwnProperty("childKeys")) {
                     if (editorParam.childKeys != null) {
                         var childs = editorParam.childKeys.split(",");
@@ -2489,3 +2513,102 @@ $HGRootNS.ClientGridPropertyEditor.prototype =
 };
 
 $HGRootNS.ClientGridPropertyEditor.registerClass($HGRootNSName + ".ClientGridPropertyEditor", $HGRootNS.StandardPropertyEditor);
+
+
+$HGRootNS.ValidatorsPropertyEditor = function (prop, container, delegations)
+{
+
+    $HGRootNS.ValidatorsPropertyEditor.initializeBase(this, [prop, container, delegations]);
+    $addHandlers(this._editElement, this._editElement$delegate);
+};
+
+$HGRootNS.ValidatorsPropertyEditor.prototype =
+{
+    get_ClonedControlID: function ()
+    {
+        var para = this.get_currentEditorParams();
+        var cloneControlID = "ValidatorsPropertyEditor_ValidatorSelectorControl";
+        if (para)
+        {
+            if (para.cloneControlID)
+            {
+                cloneControlID = para.cloneControlID;
+            }
+        }
+        return cloneControlID;
+    },
+
+    _getFormatValue: function (value)
+    {
+        var propertyFormatValue = value;
+        if ((typeof (value) == "string" || value.constructor == String) && value != "")
+        {
+            propertyFormatValue = Sys.Serialization.JavaScriptSerializer.deserialize(value);
+        }
+
+        return propertyFormatValue;
+    },
+
+    _createReadOnlyElement: function ()
+    {
+        var validatorEditor = $find(this.get_ClonedControlID());
+        this.get_container().appendChild(validatorEditor.get_element());
+
+        var curValue = this.get_property().value;
+        if (curValue)
+        {
+            var objValue = Sys.Serialization.JavaScriptSerializer.deserialize(curValue);
+            validatorEditor.set_dataSource(objValue);
+        }
+        validatorEditor.set_enabled(false);
+        return validatorEditor.get_element();
+    },
+
+    _createEditElement: function ()
+    {
+        var validatorEditor = $find(this.get_ClonedControlID());
+        this.get_container().appendChild(validatorEditor.get_element());
+        var curValue = this.get_property().value;
+        if (curValue)
+        {
+            //var objValue = Sys.Serialization.JavaScriptSerializer.deserialize(curValue);
+            validatorEditor.set_dataSource(curValue);
+        }
+
+        validatorEditor.add_dataChanged(Function.createDelegate(this, this._dataValueChange));
+
+        return validatorEditor.get_element();
+    },
+
+    _dataValueChange: function (sender, e)
+    {
+        var jonsValue = sender.get_value();
+        if (jonsValue.length > 0)
+        {
+            this.commitValue(jonsValue);
+        }
+        else
+        {
+            this.commitValue("");
+        }
+    },
+
+    _changeFormatStyle: function ()
+    {
+
+    },
+
+    show: function ()
+    {
+
+    },
+
+    commitValue: function (value)
+    {
+       
+        this.get_property().value = value;
+    }
+};
+
+$HGRootNS.ValidatorsPropertyEditor.registerClass($HGRootNSName + ".ValidatorsPropertyEditor", $HGRootNS.StandardPropertyEditor);
+

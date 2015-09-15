@@ -66,6 +66,30 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Instance.ValueDefine
             }
         }
 
+        private int _SortOrder = -1;
+        /// <summary>
+        /// 排序码
+        /// </summary>
+        public int SortOrder
+        {
+            get
+            {
+                if (this._SortOrder < 0 && this.Definition != null)
+                {
+                    this._SortOrder = this.Definition.SortNo;
+                }
+                else
+                {
+                    this._SortOrder = 0;
+                }
+                return this._SortOrder;
+            }
+            set
+            {
+                this._SortOrder = value;
+            }
+        }
+
         /// <summary>
         /// 得到强类型的值
         /// </summary>
@@ -145,15 +169,15 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Instance.ValueDefine
             return newValue;
         }
 
-        ///// <summary>
-        ///// 将Property的Value，赋值到当前的Value中。仅仅赋值StringValue，不包括定义部分
-        ///// </summary>
-        ///// <param name="pv"></param>
-        //public void FromPropertyVaue(FieldValue pv)
-        //{
-        //    if (pv != null)
-        //        this._StringValue = pv.StringValue;
-        //}
+        /// <summary>
+        /// 将Property的Value，赋值到当前的Value中。仅仅赋值StringValue，不包括定义部分
+        /// </summary>
+        /// <param name="pv"></param>
+        public void FromPropertyVaue(PropertyValue pv)
+        {
+            if (pv != null)
+                this._StringValue = pv.StringValue;
+        }
 
         //public void SaveImageProperty()
         //{

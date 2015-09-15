@@ -1,28 +1,31 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="BannerIframe.ascx.cs"
     Inherits="MCS.Dynamics.Web.inc.WebControls.BannerIframe" %>
 <%@ Register TagPrefix="mcsp" Namespace="MCS.Library.Web.Controls" Assembly="MCS.Library.Passport" %>
-<div style="height: 45px; width: 100%; min-width: 500px; background: #438EB9;">
-    <img id="Img1" runat="server" src="~/Images/sitelogo.png" style="height: 45px;" />
+<div style="height:50px; width:100%; min-width: 500px; background: #fff;">
+    <img id="Img1" runat="server" src="~/Themes/default/images/logo.png" style="height:50px;" />
 </div>
-<%--<h1 class="pc-frame-logo">
-    <asp:HyperLink ID="bannerBtnHome" runat="server" NavigateUrl="/MCSWebApp/PermissionCenter/default.aspx"><img runat="server" src="~/Images/logo.png"/></asp:HyperLink>
-</h1>--%>
 <div style="background: #F2F2F2; height: 38px; color: #5f5f5d;">
-    <span style="margin-left: 60px;">
-        <asp:HyperLink ID="HyperLink9" runat="server" NavigateUrl="/MCSWebApp/PermissionCenter/default.aspx"
-            CssClass="logoNav_menu">
-       首&nbsp;页
+    <span style="margin-left:50px;">
+        <asp:HyperLink ID="HyperLink9" runat="server" NavigateUrl="/MCSWebApp/PermissionCenter/default.aspx" CssClass="logoNav_menu">
+        首&nbsp;页
         </asp:HyperLink>
     </span>
     <ul class="pc-frame-top-nav" id="frameTopNav">
         <li class="menu-click">
-            <asp:HyperLink ID="HyperLink1" CssClass="clickUrl" runat="server" NavigateUrl="~/Default.aspx?frameUrl=Entity">实体操作</asp:HyperLink></li>
-        <li class="menu-click" style="display: none;">
-            <asp:HyperLink ID="bannerBtnLogs" CssClass="clickUrl" runat="server" NavigateUrl="~/Pages/Logs/LogList.aspx">操作日志</asp:HyperLink></li>
+            <asp:HyperLink ID="HyperLink1" CssClass="clickUrl" runat="server" NavigateUrl="~/Default.aspx?frameUrl=Entity">实体操作</asp:HyperLink>
+        </li>
+        <li class="menu-click" style=" position:absolute;">
+            <asp:HyperLink ID="HyperLink10" CssClass="clickUrl" runat="server" NavigateUrl="~/Pages/editNode/EditDetails.aspx">节点维护</asp:HyperLink>
+        </li>
+        <%--<li class="menu-click" style="display: none;">
+            <asp:HyperLink ID="bannerBtnLogs" CssClass="clickUrl" runat="server" NavigateUrl="~/Pages/Logs/LogList.aspx">操作日志</asp:HyperLink>
+        </li>
         <li class="menu-click">
-            <asp:HyperLink ID="HyperLink2" CssClass="clickUrl" runat="server" NavigateUrl="~/Default.aspx?frameUrl=ETLEntity">ETL实体</asp:HyperLink></li>
+            <asp:HyperLink ID="HyperLink2" CssClass="clickUrl" runat="server" NavigateUrl="~/Default.aspx?frameUrl=ETLEntity">ETL实体</asp:HyperLink>
+        </li>
         <li class="menu-click">
-            <asp:HyperLink ID="HyperLink3" CssClass="clickUrl" runat="server" NavigateUrl="/MCSWebApp/WorkflowDesigner/PlanScheduleDialog/ScheduleList.aspx?showEditBtn=false">计划列表</asp:HyperLink></li>
+            <asp:HyperLink ID="HyperLink3" CssClass="clickUrl" runat="server" NavigateUrl="/MCSWebApp/WorkflowDesigner/PlanScheduleDialog/ScheduleList.aspx?showEditBtn=false">计划列表</asp:HyperLink>
+        </li>
         <li class="pc-dimension-menu menu-click" id="dimension_menu"><span style="display: inline-block;">
             <asp:HyperLink ID="HyperLink4" runat="server" CssClass="pc-menu-arrow clickUrl" NavigateUrl="~/Pages/Job/ETLEntityJobList.aspx">任务列表<i></i></asp:HyperLink>
         </span>
@@ -50,11 +53,12 @@
             </div>
         </li>
         <li class="menu-click">
-            <asp:HyperLink ID="HyperLink6" CssClass="clickUrl" runat="server" NavigateUrl="/MCSWebApp/WorkflowDesigner/PlanScheduleDialog/TaskMonitor.aspx">任务监控</asp:HyperLink></li>
+            <asp:HyperLink ID="HyperLink6" CssClass="clickUrl" runat="server" NavigateUrl="/MCSWebApp/WorkflowDesigner/PlanScheduleDialog/TaskMonitor.aspx">任务监控</asp:HyperLink>
+        </li>
         <li class="menu-click">
-            <asp:HyperLink ID="HyperLink5" CssClass="clickUrl" runat="server" NavigateUrl="~/Pages/ErrorLog/ErrorLogList.aspx">容错列表</asp:HyperLink></li>
-        <li class="menu-click" style=" position:absolute;">
-            <asp:HyperLink ID="HyperLink10" CssClass="clickUrl" runat="server" NavigateUrl="~/Pages/editNode/EditDetails.aspx">节点维护</asp:HyperLink></li>
+            <asp:HyperLink ID="HyperLink5" CssClass="clickUrl" runat="server" NavigateUrl="~/Pages/ErrorLog/ErrorLogList.aspx">容错列表</asp:HyperLink>
+        </li>
+        --%>
     </ul>
     <ul class="pc-user-menu">
         <li class="pc-timetrap" id="timetrap">
@@ -97,12 +101,6 @@
                 <ul class="pc-p">
                     <li class="pc-lp" style="display: none; ss">
                         <div class="pc-photo-pan" style="margin-left: -15px">
-                            <%--<soa:UserPresence runat="server" ID="userPresence" ShowUserIcon="true" StatusImage="LongBar">
-						</soa:UserPresence>--%>
-                            <%--<a href="#">
-							<asp:Image runat="server" ID="imgLogonImage" Height="32" Width="32" AlternateText="修改头像"
-								ToolTip="修改头像" />
-						</a>--%>
                         </div>
                     </li>
                     <li class="pc-rp">
@@ -133,12 +131,11 @@
     </ul>
     <div>
         <script type="text/javascript">
-            $pc.ui.hoverBehavior("dimension_menu");
+            //$pc.ui.hoverBehavior("dimension_menu");
             $pc.ui.hoverBehavior("timetrap");
             $pc.ui.hoverBehavior("userprofile");
-            //		$pc.ui.autoSticky($pc.get('frameTopNav').parentNode);
-            //		$pc.ui.configSpinner("dimension_menu_coms", "dimension_menu");
-            $("#frameTopNav a").click(function () {
+            $("#frameTopNav a").click(function ()
+            {
                 $(this).parents("li.menu-click").find("a.clickUrl").addClass("focus");
                 $(this).parents("li.menu-click").siblings("li").find("a.clickUrl").removeClass("focus");
                 $("#iframe_content").attr("src", $(this).attr("href"));

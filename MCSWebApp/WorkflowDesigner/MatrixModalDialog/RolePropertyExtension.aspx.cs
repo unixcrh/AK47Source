@@ -322,20 +322,22 @@ namespace MCS.Applications.AppAdmin.Dialogs
 
         private void RenderByMatrix()
         {
-            if (this.RoleID.IsNotEmpty() && this.Definition != null && this.Definition.Count > 0)
+            //if (this.RoleID.IsNotEmpty() && this.Definition != null && this.Definition.Count > 0)
+            bool dimensionDefined = this.Definition != null && this.Definition.Count > 0;
+
+            if (this.RoleID.IsNotEmpty())
             {
                 noMartrixInfoContainer.Style[HtmlTextWriterStyle.Display] = "none";
                 martrixInfoContainer.Style[HtmlTextWriterStyle.Display] = "block";
 
-                exportBtn.Disabled = false;
-                btnDeleteMatrix.Disabled = false;
-                importBtn.Disabled = false;
                 lnkCheckMatrixFile.Visible = true;
 
                 materialCtrlContainer.Style["display"] = "block";
                 matrixID.Value = RoleID;
 
-                matrixInfo.InnerText = string.Format("当前角色矩阵维度为 [{0}] 点击这里 ", definition.Count);
+                exportBtn.Disabled = false;
+                btnDeleteMatrix.Disabled = false;
+                importBtn.Disabled = false;
             }
             else
             {
@@ -343,14 +345,18 @@ namespace MCS.Applications.AppAdmin.Dialogs
                 noMartrixInfoContainer.Style[HtmlTextWriterStyle.Display] = "block";
                 martrixInfoContainer.Style[HtmlTextWriterStyle.Display] = "none";
 
-                exportBtn.Disabled = true;
-                btnDeleteMatrix.Disabled = true;
-                importBtn.Disabled = true;
                 lnkCheckMatrixFile.Visible = false;
 
                 materialCtrlContainer.Style["display"] = "none";
                 matrixID.Value = string.Empty;
+
+                exportBtn.Disabled = true;
+                btnDeleteMatrix.Disabled = true;
+                importBtn.Disabled = true;
             }
+
+            if (definition != null)
+                matrixInfo.InnerText = string.Format("当前角色矩阵维度为 [{0}] 点击这里 ", definition.Count);
         }
 
         protected void bindMatrixBtn_Click(object sender, EventArgs e)
@@ -569,42 +575,53 @@ namespace MCS.Applications.AppAdmin.Dialogs
 
                 role.Rows.Clear();
 
-                int rowIndex = 0;
-                foreach (DataRow row in dt.Rows)
+                if (this.Definition == null || this.Definition.Count == 0)
+                    role.PropertyDefinitions.FromDataColumns(dt.Columns);
+
+                role.Rows.FromDataTable(dt.Rows, role.PropertyDefinitions, (dr, sr) =>
                 {
-                    SOARolePropertyRow mRow = new SOARolePropertyRow(role) { RowNumber = rowIndex };
-
-                    foreach (var dimension in this.Definition)
-                    {
-                        SOARolePropertyValue mCell = new SOARolePropertyValue(dimension);
-                        mCell.Value = row[dimension.Name].ToString();
-
-                        switch (dimension.Name)
-                        {
-                            case "Operator":
-                                mRow.Operator = row[dimension.Name].ToString();
-                                break;
-                            case "OperatorType":
-                                SOARoleOperatorType opType = SOARoleOperatorType.User;
-                                Enum.TryParse(row[dimension.Name].ToString(), out opType);
-                                mRow.OperatorType = opType;
-                                break;
-                            default:
-                                break;
-                        }
-                        mRow.Values.Add(mCell);
-                    }
-
                     if (notifier != null)
-                    {
                         notifier();
-                    }
 
-                    rowIndex++;
-                    role.Rows.Add(mRow);
-                }
+                    return true;
+                });
+                //int rowIndex = 0;
+                //foreach (DataRow row in dt.Rows)
+                //{
+                //    SOARolePropertyRow mRow = new SOARolePropertyRow(role) { RowNumber = rowIndex };
+
+                //    foreach (var dimension in this.Definition)
+                //    {
+                //        SOARolePropertyValue mCell = new SOARolePropertyValue(dimension);
+                //        mCell.Value = row[dimension.Name].ToString();
+
+                //        switch (dimension.Name)
+                //        {
+                //            case "Operator":
+                //                mRow.Operator = row[dimension.Name].ToString();
+                //                break;
+                //            case "OperatorType":
+                //                SOARoleOperatorType opType = SOARoleOperatorType.User;
+                //                Enum.TryParse(row[dimension.Name].ToString(), out opType);
+                //                mRow.OperatorType = opType;
+                //                break;
+                //            default:
+                //                break;
+                //        }
+                //        mRow.Values.Add(mCell);
+                //    }
+
+                //    if (notifier != null)
+                //    {
+                //        notifier();
+                //    }
+
+                //    rowIndex++;
+                //    role.Rows.Add(mRow);
+                //}
 
                 //插入记录
+                SOARolePropertyDefinitionAdapter.Instance.Update(role, role.PropertyDefinitions);
                 SOARolePropertiesAdapter.Instance.Update(role);
             }
             finally

@@ -95,6 +95,52 @@ namespace MCS.Library.SOA.DataObjects
         }
 
         /// <summary>
+        /// 角色直接包含的操作人的ID
+        /// </summary>
+        /// <param name="roleIDs"></param>
+        /// <returns></returns>
+        public List<string> RoleContainsOperatorIDsDirectly(params string[] roleIDs)
+        {
+            roleIDs.NullCheck("roleIDs");
+
+            List<string> result = new List<string>();
+
+            InSqlClauseBuilder inBuilder = new InSqlClauseBuilder("ROLE_ID");
+
+            inBuilder.AppendItem(roleIDs);
+
+            if (inBuilder.IsEmpty == false)
+            {
+                WhereSqlClauseBuilder tenantBuilder = new WhereSqlClauseBuilder();
+
+                tenantBuilder.AppendTenantCode();
+
+                string tenantCriteria = string.Empty;
+
+                if (tenantBuilder.IsEmpty == false)
+                    tenantCriteria = " AND " + tenantBuilder.ToSqlString(TSqlBuilder.Instance);
+
+                string sql = string.Format("SELECT OPERATOR_ID FROM WF.ROLE_PROPERTIES_USER_CONTAINERS WHERE {0}{1}",
+                    inBuilder.ToSqlString(TSqlBuilder.Instance), tenantCriteria);
+
+                using (DbContext context = DbContext.GetContext(GetConnectionName()))
+                {
+                    Database db = DatabaseFactory.Create(context);
+
+                    DbCommand cmd = db.GetSqlStringCommand(sql);
+
+                    using (var dr = db.ExecuteReader(cmd))
+                    {
+                        while (dr.Read())
+                            result.Add(dr.GetString(0));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 用户或角色直接所属的角色矩阵ID
         /// </summary>
         /// <param name="operatorIDs">用户或角色所属的角色矩阵ID集合</param>

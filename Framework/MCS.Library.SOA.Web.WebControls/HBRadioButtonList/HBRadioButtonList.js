@@ -6,7 +6,7 @@
             if (input.attachEvent)
                 input.attachEvent("onclick", getHBRadioButtonListItemClickFunction(id, valueChangedFunName));
             else
-                input.addEventListener("onclick", getHBRadioButtonListItemClickFunction(id, valueChangedFunName));
+                input.addEventListener("click", getHBRadioButtonListItemClickFunction(id, valueChangedFunName));
         }
     }
 }

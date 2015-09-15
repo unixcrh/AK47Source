@@ -41,6 +41,8 @@ namespace MCS.Web.WebControls
         public PropertyEditorControlBase()
             : base(true, HtmlTextWriterTag.Div)
         {
+            PropertyEditorHelper.AttachToPage(WebUtility.GetCurrentPage());
+
             JSONSerializerExecute.RegisterConverter(typeof(PropertyValueConverter));
             JSONSerializerExecute.RegisterConverter(typeof(EnumItemPropertyDescriptionConverter));
             JSONSerializerExecute.RegisterConverter(typeof(PropertyValidatorParameterDescriptorConverter));
@@ -227,6 +229,7 @@ namespace MCS.Web.WebControls
         }
 
         #region "override Method"
+
         protected override void OnInit(EventArgs e)
         {
             this.Page.LoadComplete += new EventHandler(Page_LoadComplete);
@@ -241,47 +244,9 @@ namespace MCS.Web.WebControls
             {
                 if (prop.Definition.EditorKey.IsNotEmpty())
                 {
+                    PropertyEditorHelper.AllEditors.ContainsKey(prop.Definition.EditorKey).FalseThrow("不能找到预定义好的属性编辑器{0}", prop.Definition.EditorKey);
                     PropertyEditorBase propEditor = PropertyEditorHelper.AllEditors[prop.Definition.EditorKey];
                     propEditor.SetControlsPropertyDefineFromEditorParams(prop.Definition);
-                   
-                    //if (prop.Definition.EditorParams.IsNotEmpty() && Regex.IsMatch(prop.Definition.EditorParams, @"\{[^{}]*}") == true)
-                    //{
-                    //    EditorParamsDefine paraDefine = JSONSerializerExecute.Deserialize<EditorParamsDefine>(prop.Definition.EditorParams);
-
-                    //    //try
-                    //    //{
-                    //    //    paraDefine = JSONSerializerExecute.Deserialize<EditorParamsDefine>(prop.Definition.EditorParams);
-                    //    //}
-                    //    //catch (Exception)
-                    //    //{
-                    //    //    flag = false;
-                    //    //}
-
-                    //    if (paraDefine.ServerControlProperties.Count > 0)
-                    //    {
-
-                    //        if (paraDefine.CloneControlID.IsNullOrEmpty())
-                    //            paraDefine.CloneControlID = propEditor.DefaultCloneControlName();
-
-                    //        if (propEditor.IsCloneControlEditor)
-                    //        {
-                    //            if (propEditor.ControlsPropertyDefine.ContainsKey(paraDefine.CloneControlID))
-                    //            {
-                    //                propEditor.ControlsPropertyDefine[paraDefine.CloneControlID].ControlPropertyDefineList = paraDefine.ServerControlProperties;
-                    //            }
-                    //            else
-                    //            {
-                    //                propEditor.ControlsPropertyDefine.Add(new ControlPropertyDefineWrapper() { ControlID = paraDefine.CloneControlID, ControlPropertyDefineList = paraDefine.ServerControlProperties });
-                    //            }
-
-                    //            //Control cloneControl = propEditor.CreateDefalutControl();
-                    //            //if (cloneControl == null) return;
-                    //            //cloneControl.ID = paraDefine.CloneControlID;
-                    //            //propEditor.AddCloneControl(cloneControl);
-                    //            //propEditor.InitCloneControlProperties(paraDefine.CloneControlID, paraDefine.ServerControlProperties);
-                    //        }
-                    //    }
-                    //}
                 }
             }
         }
@@ -402,55 +367,6 @@ namespace MCS.Web.WebControls
 
             return result;
         }
-
-        /*
-        /// <summary>
-        /// 数据客户端验证初始化
-        /// </summary>
-        protected Dictionary<string, ClientVdtData> GetPropertiesValidator()
-        {
-            Dictionary<string, ClientVdtData> _validatorAttributes = new Dictionary<string, ClientVdtData>();
-
-            foreach (PropertyValue prop in this.Properties)
-            {
-                ClientVdtData cdtData = new ClientVdtData();
-                cdtData.IsValidateOnSubmit = true;
-                cdtData.ValidateProp = "value";
-                cdtData.ClientIsHtmlElement = true;
-
-                switch (prop.Definition.DataType)
-                {
-                    case PropertyDataType.Integer:
-                        cdtData.IsOnlyNum = true;
-                        break;
-                    case PropertyDataType.Decimal:
-                        cdtData.IsFloat = true;
-                        break;
-                }
-
-                foreach (PropertyValidatorDescriptor propValidator in prop.Definition.Validators)
-                {
-                    Validator vali = propValidator.GetValidator();
-                    if (vali is IClientValidatable)
-                    {
-                        ClientVdtAttribute cvArt = new ClientVdtAttribute(propValidator);
-                        cdtData.CvtList.Add(cvArt);
-
-                        if (string.IsNullOrEmpty(cvArt.ClientValidateMethodName) == false)
-                        {
-                            Page.ClientScript.RegisterStartupScript(this.GetType(), cvArt.ClientValidateMethodName, ((IClientValidatable)vali).GetClientValidateScript(), true);
-                            //todo:这里验证描述信息需要与冯总协商调整。
-                            cvArt.AdditionalData = ((IClientValidatable)vali).GetClientValidateAdditionalData(vali.Tag);
-                        }
-
-                        _validatorAttributes.Add(prop.Definition.Name, cdtData);
-                    }
-                }
-            }
-
-            return _validatorAttributes;
-        } */
-
         #endregion
     }
 }

@@ -291,11 +291,6 @@ namespace MCS.Library.SOA.DataObjects.Security.Adapters
 
                 ConnectiveSqlClauseCollection connectiveBuilder = new ConnectiveSqlClauseCollection(wBuilder, inBuilder);
 
-                //if (parentIDs.Contains(SCOrganization.RootOrganizationID))
-                //    result = QueryObjectAndRelationByRoot(schemaTypes, recursively, includingNonDefault, includingDeleted, timePoint);
-                //else
-                //    result = new SCObjectAndRelationCollection();
-
                 IEnumerable<SCObjectAndRelation> tempResult = QueryObjectAndRelationByParentIDBuilder(connectiveBuilder, recursively, includingNonDefault, includingDeleted, timePoint);
 
                 result.CopyFrom(tempResult);

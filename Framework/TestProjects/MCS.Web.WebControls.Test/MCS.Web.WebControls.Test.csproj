@@ -192,6 +192,8 @@
     <Content Include="PopupMenu\dayCalendar.gif" />
     <Content Include="PopupMenu\PopupMenu.css" />
     <Content Include="PopupMenu\PopupMenuTest.aspx" />
+    <Content Include="PopupWindow\IFrameTest.aspx" />
+    <Content Include="PopupWindow\innerPage.html" />
     <Content Include="SampleControl\ClientCallBack.aspx" />
     <Content Include="SampleControl\DataBoundControl.aspx" />
     <Content Include="SampleControl\Default.aspx" />
@@ -594,6 +596,13 @@
     </Compile>
     <Compile Include="PopupMenu\PopupMenuTest.aspx.designer.cs">
       <DependentUpon>PopupMenuTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PopupWindow\IFrameTest.aspx.cs">
+      <DependentUpon>IFrameTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PopupWindow\IFrameTest.aspx.designer.cs">
+      <DependentUpon>IFrameTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleControl\ClientCallBack.aspx.cs">

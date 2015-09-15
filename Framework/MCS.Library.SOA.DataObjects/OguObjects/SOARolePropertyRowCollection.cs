@@ -396,7 +396,8 @@ namespace MCS.Library.SOA.DataObjects
         /// </summary>
         /// <param name="rows"></param>
         /// <param name="definitions"></param>
-        internal void FromDataTable(DataRowCollection rows, IEnumerable<SOARolePropertyDefinition> definitions)
+        /// <param name="func"></param>
+        public void FromDataTable(DataRowCollection rows, IEnumerable<SOARolePropertyDefinition> definitions, Func<DataRow, SOARolePropertyRow, bool> func = null)
         {
             rows.NullCheck("rows");
             definitions.NullCheck("definitions");
@@ -411,27 +412,36 @@ namespace MCS.Library.SOA.DataObjects
 
                 foreach (SOARolePropertyDefinition definition in definitions)
                 {
-                    SOARolePropertyValue mCell = new SOARolePropertyValue(definition);
-                    mCell.Value = row[definition.Name].ToString();
-
-                    switch (definition.Name)
+                    if (row.Table.Columns.Contains(definition.Name))
                     {
-                        case SOARolePropertyDefinition.OperatorColumn:
-                            mRow.Operator = row[definition.Name].ToString();
-                            break;
-                        case SOARolePropertyDefinition.OperatorTypeColumn:
-                            SOARoleOperatorType opType = SOARoleOperatorType.User;
-                            Enum.TryParse(row[definition.Name].ToString(), out opType);
-                            mRow.OperatorType = opType;
-                            break;
-                        default:
-                            break;
-                    }
+                        SOARolePropertyValue mCell = new SOARolePropertyValue(definition);
+                        mCell.Value = row[definition.Name].ToString();
 
-                    mRow.Values.Add(mCell);
+                        switch (definition.Name)
+                        {
+                            case SOARolePropertyDefinition.OperatorColumn:
+                                mRow.Operator = row[definition.Name].ToString();
+                                break;
+                            case SOARolePropertyDefinition.OperatorTypeColumn:
+                                SOARoleOperatorType opType = SOARoleOperatorType.User;
+                                Enum.TryParse(row[definition.Name].ToString(), out opType);
+                                mRow.OperatorType = opType;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        mRow.Values.Add(mCell);
+                    }
                 }
 
-                this.Add(mRow);
+                bool canAdd = true;
+
+                if (func != null)
+                    canAdd = func(row, mRow);
+
+                if (canAdd)
+                    this.Add(mRow);
             }
         }
 

@@ -10,6 +10,11 @@ namespace MCS.Library.Validation
 	/// </summary>
 	public class EnumDefaultValueValidator : Validator, IClientValidatable
 	{
+        /// <summary>
+        /// 无参数构造函数
+        /// </summary>
+        public EnumDefaultValueValidator()
+        { }
 		/// <summary>
 		/// 
 		/// </summary>

@@ -32,6 +32,11 @@ namespace MCS.Web.WebControls
             return new MaterialControl() { ID = this.DefaultCloneControlName() };
         }
 
+        //protected internal override void OnPagePreInit(Page page)
+        //{
+        //    CreateControls(page);
+        //}
+
         protected internal override void OnPageInit(Page page)
         {
             //Callback时，提前创建模版控件，拦截请求
@@ -42,7 +47,7 @@ namespace MCS.Web.WebControls
         protected internal override void OnPagePreRender(Page page)
         {
             //除了CallBack，创建模版控件在LoadViewState之后，避免ViewState混乱
-            if (!page.IsCallback)
+            if (page.IsCallback == false)
                 CreateControls(page);
         }
     }

@@ -73,7 +73,7 @@
 									<div id="d" class="pc-action-tray" runat="server" visible='<%# this.gridMain.ExportingDeluxeGrid == false %>'>
 										<asp:LinkButton ID="lnkTimeTrip" runat="server" Text="时间穿梭" CssClass="pc-item-cmd"
 											CommandName="Shuttle" CommandArgument='<%#Eval("StartTime") %>' data-time='<%# ((DateTime)Eval("StartTime")).ToBinary() %>'
-											OnClientClick="return shuttle(this);"></asp:LinkButton><asp:HyperLink ID="HyperLink1"
+											OnClientClick="return Sys.UI.DomElement.returnValue(shuttle(this));"></asp:LinkButton><asp:HyperLink ID="HyperLink1"
 												runat="server" CssClass="pc-item-cmd" NavigateUrl='<%#Eval("SynchronizeID","~/lists/ADLogDetail.aspx?syncID={0}") %>'
 												onclick="return $pc.modalPopup(this);" Text="详细信息" ToolTip="详细信息" />
 									</div>

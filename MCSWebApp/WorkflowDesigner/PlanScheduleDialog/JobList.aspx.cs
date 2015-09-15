@@ -138,6 +138,8 @@ namespace WorkflowDesigner.PlanScheduleDialog
 		{
 			WhereSqlClauseBuilder wherebuilder = ConditionMapping.GetWhereSqlClauseBuilder(this.QueryCondition);
 
+            wherebuilder.AppendTenantCode();
+
 			this.whereCondition.Value = wherebuilder.ToSqlString(TSqlBuilder.Instance);
 		}
 

@@ -7,7 +7,6 @@
 
 function onSaveClick() {
     var reValue = $HGRootNS.PropertyEditorControlBase.ValidateProperties();
-
     if (!reValue.isValid)	//返回是否通过
         return false; //不通过则阻止提交
 
@@ -19,7 +18,6 @@ function onSaveClick() {
     var allProperties = $find("propertyForm").get_properties();
 
     $get("properties").value = Sys.Serialization.JavaScriptSerializer.serialize(allProperties);
-
     var result = [];
     for (var i = 0; i < allProperties.length; i++) {
         result.push({ name: allProperties[i].name, value: allProperties[i].value });
@@ -41,6 +39,5 @@ function onSaveClick() {
     }
 
     window.returnValue = result;
-
     window.close();
 }

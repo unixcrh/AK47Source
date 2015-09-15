@@ -58,8 +58,6 @@
     <script src="../../scripts/pc.js" type="text/javascript"></script>
     <script src="../../scripts/EntityCommon.js" type="text/javascript"></script>
     <script type="text/javascript">
-
-
         var urllocation = "../../dialogs/OuterEntityMapping.aspx";
         $(document).ready(function () {
             Request.IntalData();
@@ -84,9 +82,6 @@
         AutoBinding="True" ValidateUnbindProperties="false" AllowClientCollectData="true"
         ShowCheckBoxes="True">
         <ItemBindings>
-            <%--<soa:DataBindingItem ControlID="grid" ControlPropertyName="InitialData" DataPropertyName="Fields"
-                Direction="Both">
-            </soa:DataBindingItem>--%>
             <soa:DataBindingItem ControlID="lbName" DataPropertyName="Name" />
             <soa:DataBindingItem ControlID="lbDesc" DataPropertyName="Description" />
         </ItemBindings>
@@ -108,8 +103,6 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <%--                                    <soa:PropertyForm runat="server" ID="propertyForm" Width="100%" Height="100%" AutoSaveClientState="False" />
-                                    --%>
                                     <table class="tb_form_grid" cellpadding="0" cellspacing="0">
                                         <tbody>
                                             <tr>

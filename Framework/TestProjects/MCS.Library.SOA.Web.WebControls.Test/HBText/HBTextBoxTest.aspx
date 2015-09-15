@@ -11,7 +11,7 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        <HB:HBTextBox runat="server" Text="yyyyyy" ID="tbx1" ReadOnly="true" ></HB:HBTextBox>
+        <HB:HBTextBox runat="server" ID="tbx1" TextBoxCssClass="EditorCss" CssClass="CssClass"></HB:HBTextBox>
     </div>
     <br />
     <div runat="server" id="div_msg" style="padding-top: 20px">

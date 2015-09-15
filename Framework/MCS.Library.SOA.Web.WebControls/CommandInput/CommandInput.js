@@ -114,28 +114,6 @@ $HBRootNS.CommandInput.prototype =
                 window.top.close();
                 break;
         }
-
-        //if (e.rawEvent.propertyName == "value") {
-        //    var value = this.get_element().value;
-
-        //    var stopCommand = this._raiseCommandInputEvent(value);
-
-        //    if (stopCommand)
-        //        return;
-
-        //    switch (value) {
-        //        case "refresh":
-        //            if (this._isPostBack)
-        //                $get(this._formID).submit();
-        //            else
-        //                window.location.reload();
-        //            break;
-
-        //        case "close":
-        //            window.top.close();
-        //            break;
-        //    }
-        //}
     }
 }
 

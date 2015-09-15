@@ -69,25 +69,28 @@ namespace MCS.Library.OGUPermission
 			{
 				string roleIDs = BuildRoleObjectIDs(roles);
 				string deptFullPath = BuildOguObjectFullPath(depts);
+                bool includeMatrixUsers = ServiceBrokerContext.Current.Context.GetValue("includeMatrixUsers", true);
 
 				DataTable table = null;
 
 				if (recursively)
-					table = AppAdminServiceBroker.Instance.GetRolesUsers(
+					table = AppAdminServiceBroker.Instance.GetRolesUsers2(
 									 deptFullPath,
 									 roles[0].Application.CodeName,
 									 roleIDs,
 									 DelegationMaskType.All,
 									 SidelineMaskType.All,
-									 Common.DefaultAttrs).Tables[0];
+									 Common.DefaultAttrs,
+                                     includeMatrixUsers).Tables[0];
 				else
-					table = AppAdminServiceBroker.Instance.GetChildrenInRoles(
+					table = AppAdminServiceBroker.Instance.GetChildrenInRoles2(
 									deptFullPath,
 									roles[0].Application.CodeName,
 									roleIDs,
 									false,
 									true,
-									true).Tables[0];
+									true,
+                                    includeMatrixUsers).Tables[0];
 
 				result = new OguObjectCollection<IOguObject>(Common.BuildObjectsFromTable<IOguObject>(table));
 			}
@@ -122,12 +125,15 @@ namespace MCS.Library.OGUPermission
 				valueType = UserValueType.AllPath;
 			}
 
-			DataTable table = AppAdminServiceBroker.Instance.GetUserRoles(
+            bool includeMatrixUsers = ServiceBrokerContext.Current.Context.GetValue("includeMatrixUsers", true);
+
+			DataTable table = AppAdminServiceBroker.Instance.GetUserRoles2(
 										userID,
                                         application.CodeName,
 										valueType,
 										RightMaskType.App,
-										DelegationMaskType.All).Tables[0];
+										DelegationMaskType.All,
+                                        includeMatrixUsers).Tables[0];
 
 			RoleCollection roles = new RoleCollection(BuildObjectsFromTable<IRole>(table));
 
@@ -166,12 +172,15 @@ namespace MCS.Library.OGUPermission
 			application.NullCheck("application");
 			user.NullCheck("user");
 
-			DataTable table = AppAdminServiceBroker.Instance.GetUserPermissions(
+            bool includeMatrixUsers = ServiceBrokerContext.Current.Context.GetValue("includeMatrixUsers", true);
+
+			DataTable table = AppAdminServiceBroker.Instance.GetUserPermissions2(
 										user.ID,
 										application.CodeName,
 										UserValueType.Guid,
 										RightMaskType.App,
-										DelegationMaskType.All).Tables[0];
+										DelegationMaskType.All,
+                                        includeMatrixUsers).Tables[0];
 
 			PermissionCollection permissions = new PermissionCollection(BuildObjectsFromTable<IPermission>(table));
 

@@ -350,6 +350,7 @@
                 }
             }
             grid = false;
+            event.returnValue = false;
             return false;
         }
 
@@ -361,7 +362,7 @@
                     alert("请确保所有选定的群组都是可以删除的");
                 }
             }
-
+            event.returnValue = false;
             return false;
         }
 

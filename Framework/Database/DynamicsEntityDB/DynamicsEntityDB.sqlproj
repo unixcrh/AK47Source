@@ -176,6 +176,7 @@
     <None Include="DynamicsEntityDB.local.UnitTest.publish.xml" />
     <None Include="DynamicsEntityDB.CFLD.130.publish.xml" />
     <None Include="DynamicsEntityDB.CFLD.130.UnitTest.publish.xml" />
+    <None Include="DynamicsEntityDB.CFLD.139.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="Scripts\Pre-Deployment\Script.PreDeployment.sql" />

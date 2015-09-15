@@ -26,6 +26,11 @@
                     //执行默认的处理
                     break;
 
+                case "refresh2":
+                    alert("刷新2");
+                    e.stopCommand = true;
+                    break;
+
                 case "command001":
                     //没有默认的处理
                     alert("command001");
@@ -44,6 +49,7 @@
         </div>
         <input type="button" value="打开窗口" onclick="window.open('CommandInputOpen.aspx')" />
         <input type="button" value="执行刷新命令" onclick="$HGRootNS.WindowCommand.set_commandInputID('__commandInput'); $HGRootNS.WindowCommand.executeCommand('refresh');" />
+        <iframe src="InnerPage.aspx"></iframe>
     </form>
 </body>
 </html>

@@ -5,6 +5,7 @@ using System.Text;
 using MCS.Library.SOA.DataObjects.Dynamics.Actions;
 using MCS.Library.SOA.DataObjects.Dynamics.Schemas;
 using MCS.Library.Core;
+using MCS.Library.SOA.DataObjects.Dynamics.Instance;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Executors
 {

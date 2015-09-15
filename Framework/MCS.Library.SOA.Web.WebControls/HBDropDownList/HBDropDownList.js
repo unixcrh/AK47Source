@@ -1,38 +1,36 @@
 ﻿function onHBDropDownListChange() {
 	var elem = event.srcElement;
 
-	if (event.propertyName == 'value') {
-	    window.setTimeout(function () {
-	        var selectedItem = findHBDropDownListOption(elem);
-	        if (selectedItem != null) {
-	            var selectedText = selectedItem.text;
-	            var selectedValue = selectedItem.value;
+	window.setTimeout(function () {
+	    var selectedItem = findHBDropDownListOption(elem);
+	    if (selectedItem != null) {
+	        var selectedText = selectedItem.text;
+	        var selectedValue = selectedItem.value;
 
-	            var label = document.getElementById(elem.relativeLabel);
+	        var label = document.getElementById(elem.relativeLabel);
 
-	            if (label) {
-	                label.innerText = selectedText;
-	            }
-
-	            var selectedTextHidden = document.getElementById(elem.relativeHidden);
-	            var selectedValueHidden = document.getElementById(elem.relativeValueHidden);
-
-	            if (selectedTextHidden) {
-	                selectedTextHidden.value = selectedText;
-	            }
-	            if (selectedValueHidden) {
-	                selectedValueHidden.value = selectedValue;
-	            }
+	        if (label) {
+	            label.innerText = selectedText;
 	        }
-	    }, 0);
-	}
+            
+	        var selectedTextHidden = document.getElementById(elem.getAttribute("relativeHidden"));
+	        var selectedValueHidden = document.getElementById(elem.getAttribute("relativeValueHidden"));
+
+	        if (selectedTextHidden) {
+	            selectedTextHidden.value = selectedText;
+	        }
+	        if (selectedValueHidden) {
+	            selectedValueHidden.value = selectedValue;
+	        }
+	    }
+	}, 0);
 }
 
 function attachHBDropDownListEvents(elem) {
     if (elem.attachEvent)
-        elem.attachEvent("onpropertychange", onHBDropDownListChange);
+        elem.attachEvent("onchange", onHBDropDownListChange);
     else
-        elem.addEventListener("onpropertychange", onHBDropDownListChange, false);
+        elem.addEventListener("change", onHBDropDownListChange, false);
 }
 
 function findHBDropDownListOption(select) {

@@ -202,7 +202,7 @@ namespace MCS.Library.SOA.DataObjects.Security.Test.Snapshot
 
 			SCObjectAndRelationCollection result = SCSnapshotAdapter.Instance.QueryObjectAndRelationByParentIDs(new string[0], new string[] { parent32.ID }, false, true, false, DateTime.MinValue);
 
-			result.Sort((x, y) => x.InnerSort - y.InnerSort);
+			result.Sort((x, y) => (int)(x.InnerSort - y.InnerSort));
 
 			result.FillDetails();
 

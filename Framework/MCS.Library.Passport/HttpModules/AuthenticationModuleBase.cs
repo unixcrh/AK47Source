@@ -13,6 +13,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Web;
 using System.Web.Configuration;
+using System.Web.UI;
 
 namespace MCS.Library.Passport
 {
@@ -27,8 +28,8 @@ namespace MCS.Library.Passport
         /// </summary>
         public virtual void Dispose()
         {
-
         }
+
         /// <summary>
         /// ³õÊ¼»¯º¯Êý
         /// </summary>
@@ -44,6 +45,17 @@ namespace MCS.Library.Passport
         private static void context_PreRequestHandlerExecute(object sender, EventArgs e)
         {
             ProcessTimePoint();
+
+            Page page = HttpContext.Current.GetCurrentPage();
+            
+            if (page != null)
+                page.Init += CheckPermissionsOnPageInit;
+        }
+
+        private static void CheckPermissionsOnPageInit(object sender, EventArgs e)
+        {
+            if (HttpContext.Current.User is DeluxePrincipal)
+                HttpContext.Current.CurrentHandler.GetType().CheckUserInRolesOrPermissions(DeluxeIdentity.CurrentUser);
         }
 
         private static void context_AuthorizeRequest(object sender, EventArgs e)

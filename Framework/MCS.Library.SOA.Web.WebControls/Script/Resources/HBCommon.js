@@ -39,8 +39,8 @@ $HBRootNS.HBCommon.registSubmitValidator = function (func, index) {
 		window.attachEvent("onbeforeunload", $HBRootNS.HBCommon.pageBeforeUnload);
 	}
 	else {
-		window.removeEventListener("onbeforeunload", $HBRootNS.HBCommon.pageBeforeUnload, false);
-		window.addEventListener("onbeforeunload", $HBRootNS.HBCommon.pageBeforeUnload, false);
+		window.removeEventListener("beforeunload", $HBRootNS.HBCommon.pageBeforeUnload, false);
+		window.addEventListener("beforeunload", $HBRootNS.HBCommon.pageBeforeUnload, false);
 	}
 }
 

@@ -131,7 +131,7 @@ namespace MCS.Library.SOA.DataObjects
 
         public int Delete(string[] ids)
         {
-            InSqlClauseBuilder builder = new InSqlClauseBuilder();
+            InSqlClauseBuilder builder = new InSqlClauseBuilder("JOB_ID");
 
             builder.AppendItem(ids);
 
@@ -141,7 +141,7 @@ namespace MCS.Library.SOA.DataObjects
             {
                 string sql = string.Format("{0} {1}",
                     DELETE_JOB_START_WORKFLOW_SQL_CLAUSE,
-                    builder.AppendTenantCodeSqlClause(typeof(StartWorkflowJob)).ToSqlString(TSqlBuilder.Instance));
+                    builder.ToSqlString(TSqlBuilder.Instance));
 
                 using (TransactionScope tran = TransactionScopeFactory.Create())
                 {

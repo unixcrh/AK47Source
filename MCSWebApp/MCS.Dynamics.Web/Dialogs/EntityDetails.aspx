@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EntityDetails.aspx.cs"
-    Inherits="MCS.Dynamics.Web.Dialogs.EntityDetails" %>
+    Inherits="MCS.Dynamics.Web.Dialogs.EntityDetails" EnableViewState="false"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -28,8 +28,7 @@
     <soa:DataBindingControl runat="server" ID="bindingControl" IsValidateOnSubmit="true"
         AutoBinding="True" ValidateUnbindProperties="false" AllowClientCollectData="true">
         <ItemBindings>
-            <soa:DataBindingItem ControlID="grid" ControlPropertyName="InitialData" DataPropertyName="Fields"
-                Direction="Both">
+            <soa:DataBindingItem ControlID="grid" ControlPropertyName="InitialData" DataPropertyName="Fields" Direction="Both">
             </soa:DataBindingItem>
         </ItemBindings>
     </soa:DataBindingControl>
@@ -98,12 +97,10 @@
                     <td style="height: 40px; vertical-align: middle; text-align: center">
                         <input type="button" runat="server" id="okButton" class="formButton" value="保存(S)"
                             accesskey="S" onclick="return ($pc.getEnabled(this) && onSaveClick());" />
-                        <input type="button" class="formButton" value="关闭(C)" accesskey="C" onclick="top.close();" />
+                        <input type="button" id="btnClose" class="formButton" value="关闭(C)" accesskey="C" onclick="top.close();" />
                         <div style="display: none;">
-                            <soa:SubmitButton runat="server" Text="保存..." PopupCaption="正在操作..." ID="btn_save"
-                                OnClick="btn_Save_Click" />
-                            <soa:HBDropDownList ID="ddl_FieldType" runat="server">
-                            </soa:HBDropDownList>
+                            <soa:SubmitButton runat="server" Text="保存..." PopupCaption="正在操作..." ID="btn_save" OnClick="btn_Save_Click" />
+                            <soa:HBDropDownList ID="ddl_FieldType" runat="server"></soa:HBDropDownList>
                         </div>
                     </td>
                 </tr>
@@ -112,6 +109,9 @@
     </div>
     <input type="hidden" id="properties" runat="server" />
     <input type="hidden" id="currentSchemaType" runat="server" />
+    <asp:HiddenField ID="HFEntityID" runat="server" ClientIDMode="Static"/>
+    <asp:HiddenField ID="HFEntityName" runat="server" ClientIDMode="Static"/>
+    <asp:HiddenField ID="HFOperationType" runat="server" ClientIDMode="Static"/>
     </form>
 </body>
 </html>

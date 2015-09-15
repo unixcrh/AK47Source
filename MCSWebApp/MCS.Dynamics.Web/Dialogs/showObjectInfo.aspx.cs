@@ -122,14 +122,6 @@ namespace MCS.Dynamics.Web.Dialogs
             this.currentSchemaType.Value = this.Data.SchemaType;
         }
 
-        //[ControllerMethod]
-        //protected void LoadObject(string id, long reserved, string time)
-        //{
-        //    TimePointContext.Current.UseCurrentTime = false;
-        //    TimePointContext.Current.SimulatedTime = DateTime.Parse(time).ToLocalTime();
-        //    this.LoadObject(id);
-        //}
-
         protected override void OnPreInit(EventArgs e)
         {
             base.OnPreInit(e);
@@ -163,33 +155,7 @@ namespace MCS.Dynamics.Web.Dialogs
 
         protected void Save_Click(object sender, EventArgs e)
         {
-            //this.ClientScript.RegisterClientScriptBlock(this.GetType(), "ResetSubmitButton", "top.SubmitButton.resetAllStates();", true);
 
-            //try
-            //{
-            //    Util.EnsureOperationSafe();
-            //    DESchemaObjectBase parent = null;
-
-            //    if (this.currentParentID.Value.IsNotEmpty())
-            //        parent = DESchemaObjectAdapter.Instance.Load(this.currentParentID.Value);
-
-            //    DEObjectOperations.InstanceWithPermissions.DoOperation(this.OperationMode, this.Data, parent);
-
-            //    //SchemaObjectPhotoKey photoCacheKey = new SchemaObjectPhotoKey() { ObjectID = this.Data.ID, PropertyName = "PhotoKey", TimePoint = DateTime.MinValue };
-
-            //    //CacheNotifyData notifyData = new CacheNotifyData(typeof(SchemaObjectPhotoCache), photoCacheKey, CacheNotifyType.Invalid);
-
-            //    //UdpCacheNotifier.Instance.SendNotify(notifyData);
-            //    //MmfCacheNotifier.Instance.SendNotify(notifyData);
-
-            //    WebUtility.ResponseCloseWindowScriptBlock();
-
-            //    //ScriptManager.RegisterClientScriptBlock(this.panelContainer, this.GetType(), "master", "top.window.close();", true);
-            //}
-            //catch (System.Exception ex)
-            //{
-            //    WebUtility.ShowClientError(ex.GetRealException());
-            //}
         }
         #endregion
 
@@ -197,11 +163,6 @@ namespace MCS.Dynamics.Web.Dialogs
 
         private void CreateNewObjectBySchemaType(string schemaType)
         {
-            //this.Data = SchemaExtensions.CreateObject(schemaType);
-
-            //// this.CurrentSchemaType = category;
-            //this.currentSchemaType.Value = schemaType;
-            //this.Data.ID = UuidHelper.NewUuidString();
 
             this.Data = SchemaExtensions.CreateObject(schemaType);
 
@@ -262,9 +223,7 @@ namespace MCS.Dynamics.Web.Dialogs
             PropertyEditorHelper.RegisterEditor(new ImageUploaderPropertyEditor());
             PropertyEditorHelper.RegisterEditor(new PObjectNameEditor());
             PropertyEditorHelper.RegisterEditor(new ReferenceEntityCodeNameEditor());
-
-            //PropertyEditorHelper.RegisterEditor(new EntityFieldPropertyEditorSceneAdapter());
-
+            PropertyEditorHelper.RegisterEditor(new ValidatorsPropertyEditor());
         }
         #endregion
 

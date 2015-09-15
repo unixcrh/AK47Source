@@ -166,7 +166,7 @@ namespace MCS.Library.SOA.DataObjects
 			if (settings.IsNotEmpty())
 			{
 				XElementFormatter formatter = new XElementFormatter();
-
+                  
 				formatter.OutputShortType = false;
 
 				XElement root = XElement.Parse(settings);

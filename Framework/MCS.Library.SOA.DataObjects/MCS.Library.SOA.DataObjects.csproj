@@ -163,6 +163,8 @@
     <Compile Include="Configuration\ResourceUriSettings.cs" />
     <Compile Include="Configuration\UserRecentDataConfiguration.cs" />
     <Compile Include="Configuration\PropertyEditorParamsSettings.cs" />
+    <Compile Include="Extended\ExtendedProperties.cs" />
+    <Compile Include="Extended\ExtendedPropertiesAdapter.cs" />
     <Compile Include="Generic\GenericFormDataAdapter.cs" />
     <Compile Include="InvalidAssignees\InvalidAssignee.cs" />
     <Compile Include="InvalidAssignees\InvalidAssigneeAdapter.cs" />

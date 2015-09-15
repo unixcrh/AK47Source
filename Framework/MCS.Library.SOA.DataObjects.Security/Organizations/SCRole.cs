@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data.Mapping;
+using MCS.Library.OGUPermission;
+using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
+using MCS.Library.SOA.DataObjects.Security.Adapters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
-using MCS.Library.Core;
-using MCS.Library.Data.Mapping;
-using MCS.Library.SOA.DataObjects.Security.Adapters;
-using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
 
 namespace MCS.Library.SOA.DataObjects.Security
 {
@@ -246,12 +247,13 @@ namespace MCS.Library.SOA.DataObjects.Security
 		/// <returns></returns>
 		public SchemaObjectCollection GetCurrentUsers()
 		{
-			SchemaObjectCollection result = this.CurrentMembers.ToUsers(true);
+            return this.CurrentMembers.ToUsers(true);
+            //SchemaObjectCollection result = this.CurrentMembers.ToUsers(true);
 
-			if (this.Properties.GetValue("includeMatrixUsers", false))
-				EnumMatrixUsers(result);
+            //if (this.Properties.GetValue("includeMatrixUsers", false))
+            //    EnumMatrixUsers(result);
 
-			return result;
+            //return result;
 		}
 
 		#endregion

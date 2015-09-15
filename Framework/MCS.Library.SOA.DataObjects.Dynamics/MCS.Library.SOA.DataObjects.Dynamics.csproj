@@ -64,10 +64,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Bin\MCS.Library.SOA.DataObjects.dll</HintPath>
     </Reference>
-    <Reference Include="MCS.Library.SOA.DataObjects.Schemas, Version=1.0.0.0, Culture=neutral, PublicKeyToken=62ea08f894871798, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Bin\MCS.Library.SOA.DataObjects.Schemas.dll</HintPath>
-    </Reference>
     <Reference Include="MCS.Web.Library.Script.Json">
       <HintPath>..\..\Bin\MCS.Web.Library.Script.Json.dll</HintPath>
     </Reference>
@@ -95,12 +91,16 @@
     <Compile Include="Adapters\DEConnectionDefine.cs" />
     <Compile Include="Adapters\DEAclAdapter.cs" />
     <Compile Include="Adapters\DEDynamicEntityFieldSnapShotAdapter.cs" />
+    <Compile Include="Adapters\DEInstenceSnapshotAdapterBase.cs" />
+    <Compile Include="Adapters\DEInstenceSnapshotAdapter.cs" />
     <Compile Include="Adapters\DESchemaObjectAdapter.cs" />
     <Compile Include="Adapters\DESchemaObjectAdapterBase.cs" />
     <Compile Include="Adapters\DEMemberRelationAdapter.cs" />
     <Compile Include="Adapters\DESchemaObjectByIDCache.cs" />
+    <Compile Include="Adapters\DEInstenceOperationContext.cs" />
     <Compile Include="Adapters\DESchemaObjectOperationContext.cs" />
     <Compile Include="Adapters\DESnapshotBasicAdapter.cs" />
+    <Compile Include="Adapters\DEInstanceSnapshotSqlBuilder.cs" />
     <Compile Include="Adapters\TypeEntityBAdapterBase.cs" />
     <Compile Include="Adapters\DEDynamicEntityImportAdapter.cs" />
     <Compile Include="Adapters\DEDynamicEntityAdapter.cs" />
@@ -120,9 +120,12 @@
     <Compile Include="Debugger\KeyValuePairs.cs" />
     <Compile Include="Debugger\ListKeyAndValue.cs" />
     <Compile Include="Debugger\ListRelations.cs" />
+    <Compile Include="Enums\DynamicEntityFieldTypeEnum.cs" />
     <Compile Include="Enums\FieldTypeEnum.cs" />
     <Compile Include="Enums\ParamDirectionEnum.cs" />
     <Compile Include="Executors\DEExecutorBase.cs" />
+    <Compile Include="Executors\DEInstenceExecutor.cs" />
+    <Compile Include="Executors\DEInstenceExecutorBase.cs" />
     <Compile Include="Executors\DEObjectExecutor.cs" />
     <Compile Include="Executors\DEStatusCheckException.cs" />
     <Compile Include="Executors\DEExecutorContextInfo.cs" />
@@ -173,6 +176,7 @@
     <Compile Include="Adapters\QueryCondtionEntityBase.cs" />
     <Compile Include="Objects\EntityMapping.cs" />
     <Compile Include="Objects\RecordResult.cs" />
+    <Compile Include="Objects\ValidatorDefine.cs" />
     <Compile Include="Objects\VersionedEntityBase.cs" />
     <Compile Include="Objects\OuterEntity.cs" />
     <Compile Include="Objects\OuterEntityField.cs" />
@@ -216,6 +220,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MCS.Library.SOA.DataObjects.Schemas\MCS.Library.SOA.DataObjects.Schemas.csproj">
+      <Project>{fd70412a-fd7f-4b8e-918a-ea56dc541ab8}</Project>
+      <Name>MCS.Library.SOA.DataObjects.Schemas</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

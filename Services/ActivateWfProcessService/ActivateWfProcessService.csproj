@@ -4,7 +4,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>../../../CIIC.HSR.TSP.Files/TSPLib.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>MCS.Library.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -102,6 +102,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="MCS.Library.snk" />
     <None Include="Properties\DataSources\MCS.Library.SOA.DataObjects.StartWorkflowJob.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

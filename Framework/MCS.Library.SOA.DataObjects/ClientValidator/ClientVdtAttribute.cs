@@ -303,6 +303,15 @@ namespace MCS.Library.SOA.DataObjects
 			set { this.cvtrList = value; }
 		}
 
+        /// <summary>
+        /// 需要验证的数据对象的属性名称
+        /// </summary>
+        public string DataPropertyName
+        {
+            get;
+            set;
+        }
+
 		/// <summary>
 		/// 控件ID（客户端）
 		/// </summary>

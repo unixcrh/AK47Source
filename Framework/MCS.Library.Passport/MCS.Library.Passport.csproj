@@ -166,6 +166,7 @@
     <Compile Include="Interfaces\Operations.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Mechanism\AccessPermissionChecker.cs" />
     <Compile Include="Mechanism\AccessTicketCheckException.cs" />
     <Compile Include="Mechanism\AccessTicketManager.cs" />
     <Compile Include="Mechanism\ADSIUserUpdaterBase.cs" />

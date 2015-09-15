@@ -346,6 +346,9 @@
     <Compile Include="Passport\ITicketToken.cs" />
     <Compile Include="Passport\ITicketTokenContainer.cs" />
     <Compile Include="Passport\IUserImpersonatingInfoLoader.cs" />
+    <Compile Include="Passport\ApplicationAndPermissionObjects.cs" />
+    <Compile Include="Passport\PermissionDescriptionParser.cs" />
+    <Compile Include="Passport\PermissionObjectDescriptionAttribute.cs" />
     <Compile Include="Passport\PrincipaContextAccessor.cs" />
     <Compile Include="Passport\SignInInfoAndTicket.cs" />
     <Compile Include="Logging\Configuration\LoggerConfigurationElement.cs" />
@@ -529,7 +532,7 @@
     <Compile Include="Validation\ValidatorAttribute.cs" />
     <Compile Include="Validation\ValidatorCache.cs" />
     <Compile Include="Validation\Validator\AndCompositeValidator.cs" />
-    <Compile Include="Validation\Validator\DatetimeEmptyValidator.cs" />
+    <Compile Include="Validation\Validator\DateTimeEmptyValidator.cs" />
     <Compile Include="Validation\Validator\DateTimeEmptyValidatorAttribute.cs" />
     <Compile Include="Validation\Validator\DateTimeRangeValidator.cs" />
     <Compile Include="Validation\Validator\DateTimeRangeValidatorAttribute.cs" />

@@ -97,7 +97,7 @@
 			<div class="pc-listmenu-container">
 				<ul class="pc-listmenu" id="listMenu">
 					<li class="pc-dropdownmenu"><span style="display: block; display: inline-block">
-						<asp:LinkButton runat="server" ID="lnkNew" CssClass="button pc-list-cmd" OnClientClick="return ($pc.getEnabled(this) && $pc.popups.newMember(this));"
+						<asp:LinkButton runat="server" ID="lnkNew" CssClass="button pc-list-cmd" OnClientClick="return Sys.UI.DomElement.returnValue(($pc.getEnabled(this) && $pc.popups.newMember(this)));"
 							OnClick="RefreshList">新建人员<i class="pc-arrow"></i></asp:LinkButton></span>
 						<div style="position: relative; z-index: 9;">
 							<div style="position: absolute">
@@ -108,7 +108,7 @@
 									<ItemTemplate>
 										<li>
 											<asp:LinkButton ID="lb1" runat="server" CssClass="shortcut" data-schema='<%#PermissionCenter.Util.HtmlAttributeEncode(Eval("Name").ToString()) %>'
-												OnClick="RefreshList" OnClientClick="return ($pc.getEnabled(this) && $pc.popups.newMember(this));"><%# Server.HtmlEncode(Eval("Description").ToString())%></asp:LinkButton>
+												OnClick="RefreshList" OnClientClick="return Sys.UI.DomElement.returnValue(($pc.getEnabled(this) && $pc.popups.newMember(this)));"><%# Server.HtmlEncode(Eval("Description").ToString())%></asp:LinkButton>
 										</li>
 									</ItemTemplate>
 									<FooterTemplate>
@@ -122,29 +122,29 @@
 					</li>
 					<li>
 						<asp:LinkButton runat="server" ID="lnkProperties" CssClass="button pc-list-cmd pc-hide"
-							OnClientClick="return ($pc.getEnabled(this) && !!showBatchEditor());" OnClick="RefreshList">属性</asp:LinkButton>
+							OnClientClick="return Sys.UI.DomElement.returnValue($pc.getEnabled(this) && !!showBatchEditor());" OnClick="RefreshList">属性</asp:LinkButton>
 					</li>
 					<li>
 						<asp:LinkButton runat="server" CssClass="list-cmd" ID="btnMoveToGroup" Text="添加到群组"
-							OnClientClick="return ($pc.getEnabled(this) && $pc.popups.batch.membersToGroups($find('gridViewUsers')||$find('gridView2'),'actionData'));"
+							OnClientClick="return Sys.UI.DomElement.returnValue($pc.getEnabled(this) && $pc.popups.batch.membersToGroups($find('gridViewUsers')||$find('gridView2'),'actionData'));"
 							OnClick="BatchAddToGroup"></asp:LinkButton>
 					</li>
 					<li>
 						<asp:LinkButton runat="server" CssClass="list-cmd" ID="btnMoveToOrg" Text="添加到组织"
-							OnClientClick="return ($pc.getEnabled(this) && $pc.popups.batch.membersToOrgs($find('gridViewUsers')||$find('gridView2'),'actionData'));"
+							OnClientClick="return Sys.UI.DomElement.returnValue($pc.getEnabled(this) && $pc.popups.batch.membersToOrgs($find('gridViewUsers')||$find('gridView2'),'actionData'));"
 							OnClick="BatchAddToOrg"></asp:LinkButton>
 					</li>
 					<li>
 						<asp:LinkButton runat="server" CssClass="list-cmd" ID="btnDeleteSelected" Text="删除所选人员"
-							OnClientClick="return ($pc.getEnabled(this) && $pc.popups.batchDelete($find('gridViewUsers')||$find('gridView2'),'Users'));"
+							OnClientClick="return Sys.UI.DomElement.returnValue($pc.getEnabled(this) && $pc.popups.batchDelete($find('gridViewUsers')||$find('gridView2'),'Users'));"
 							OnClick="BatchDelete"></asp:LinkButton>
 					</li>
 					<li>
-						<asp:LinkButton runat="server" CssClass="list-cmd" ID="btnImport" Text="导入" OnClientClick="return ($pc.getEnabled(this) && invokeImport() && false);"
+						<asp:LinkButton runat="server" CssClass="list-cmd" ID="btnImport" Text="导入" OnClientClick="return Sys.UI.DomElement.returnValue($pc.getEnabled(this) && invokeImport() && false);"
 							OnClick="RefreshList"></asp:LinkButton>
 					</li>
 					<li>
-						<asp:LinkButton runat="server" CssClass="list-cmd" ID="btnExport" Text="导出" OnClientClick="return ($pc.getEnabled(this) && invokeExport() && false);"></asp:LinkButton>
+						<asp:LinkButton runat="server" CssClass="list-cmd" ID="btnExport" Text="导出" OnClientClick="return Sys.UI.DomElement.returnValue($pc.getEnabled(this) && invokeExport() && false);"></asp:LinkButton>
 					</li>
 					<li class="pc-dropdownmenu" style="float: right"><span style="display: block; display: inline-block">
 						<asp:HyperLink ID="lnkDisplay" runat="server" CssClass="pc-toggler-dd list-cmd shortcut"
@@ -200,9 +200,9 @@
 										<div>
 											<div class="pc-action-tray" runat="server" id="d" visible='<%# this.gridViewUsers.ExportingDeluxeGrid == false %>'>
 												<asp:LinkButton ID="lnkEdit" runat="server" CssClass="pc-item-cmd" data-id='<%#PermissionCenter.Util.HtmlAttributeEncode((string)Eval("ID"))%>'
-													OnClientClick="return $pc.popups.editProperty(this);" OnClick="RefreshList">基本属性</asp:LinkButton>
+													OnClientClick="return Sys.UI.DomElement.returnValue($pc.popups.editProperty(this));" OnClick="RefreshList">基本属性</asp:LinkButton>
 												<asp:HyperLink ID="lnkItemOrg" runat="server" NavigateUrl='<%#Eval("ID","~/lists/MemberOrgView.aspx?id={0}") %>'
-													onclick="return $pc.modalPopup(this);" CssClass="pc-item-cmd" Target="_blank">组织</asp:HyperLink>
+													onclick="return Sys.UI.DomElement.returnValue($pc.modalPopup(this));" CssClass="pc-item-cmd" Target="_blank">组织</asp:HyperLink>
 												<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#Eval("ID","~/lists/MemberGrpView.aspx?id={0}") %>'
 													onclick="return $pc.modalPopup(this);" CssClass="pc-item-cmd" Target="_blank">群组</asp:HyperLink>
 												<asp:HyperLink ID="lnkItemRoles" runat="server" NavigateUrl='<%#Eval("ID","~/lists/MemberRoleView.aspx?id={0}") %>'

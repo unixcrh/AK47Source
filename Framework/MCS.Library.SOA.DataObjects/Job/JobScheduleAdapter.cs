@@ -46,7 +46,11 @@ namespace MCS.Library.SOA.DataObjects
             job.Schedules.CopyFrom(allSchedules.FindAll(s => s.JobID == job.JobID));
         }
 
-
+        /// <summary>
+        /// 按照JobID查找对应Schedule关系数据。不使用TenantCode筛选
+        /// </summary>
+        /// <param name="jobIDs"></param>
+        /// <returns></returns>
         public JobScheduleWithJobIDCollection LoadByJobID(params string[] jobIDs)
         {
             jobIDs.NullCheck("jobIDs");
@@ -59,11 +63,15 @@ namespace MCS.Library.SOA.DataObjects
 
             if (inBuilder.Count > 0)
             {
-                ConnectiveSqlClauseCollection builder = new ConnectiveSqlClauseCollection(inBuilder,
-                    new WhereSqlClauseBuilder().AppendTenantCode(typeof(JobSchedule)));
+                //ConnectiveSqlClauseCollection builder = new ConnectiveSqlClauseCollection(inBuilder,
+                //    new WhereSqlClauseBuilder().AppendTenantCode("D.TENANT_CODE"),
+                //    new WhereSqlClauseBuilder().AppendTenantCode("S.TENANT_CODE"));
+
+                //string sql = string.Format(QUERY_SCHEDULE_DEF_BY_JOB_ID_SQL_CLAUSE,
+                //    builder.ToSqlString(TSqlBuilder.Instance));
 
                 string sql = string.Format(QUERY_SCHEDULE_DEF_BY_JOB_ID_SQL_CLAUSE,
-                    builder.ToSqlString(TSqlBuilder.Instance));
+                    inBuilder.ToSqlString(TSqlBuilder.Instance));
 
                 result = QueryData<JobScheduleWithJobID, JobScheduleWithJobIDCollection>(
                     ORMapping.GetMappingInfo<JobScheduleWithJobID>(), sql);

@@ -32,6 +32,33 @@ namespace MCS.Dynamics.Web.Dialogs
         private bool sceneDirty = true;
         private bool enabled = false;
         private PropertyEditorSceneAdapter sceneAdapter = null;
+        /// <summary>
+        /// 操作类型：1-本地系统，2-外部系统调用该页面。外部系统调用时点击保存按钮时不关闭页面
+        /// </summary>
+        private string OperationType
+        {
+            get
+            {
+                return this.HFOperationType.Value;
+            }
+        }
+        /// <summary>
+        /// 实体类型。外部系统调用时传递的实体类型枚举值
+        /// </summary>
+        private string CategoryID
+        {
+            get
+            {
+                if (Request.QueryString["CategoryID"] == null)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return Request.QueryString["CategoryID"].ToString();
+                }
+            }
+        }
 
         string ITimeSceneDescriptor.NormalSceneName
         {
@@ -120,15 +147,17 @@ namespace MCS.Dynamics.Web.Dialogs
             this.PropertyEditorRegister();
 
             WebUtility.RequiredScript(typeof(ClientGrid));
-            this.bindingControl.Data = InitEntity(Request.QueryString["ID"], Request.QueryString["CategoryID"]);
+            this.bindingControl.Data = InitEntity(Request.QueryString["ID"],this.CategoryID);
 
             if (!IsPostBack)
             {
+                if (Request.QueryString["OperationType"] != null)
+                {
+                    this.HFOperationType.Value = Request.QueryString["OperationType"].ToString();
+                }
                 //绑定字段类型
                 this.ddl_FieldType.BindData(EnumItemDescriptionAttribute.GetDescriptionList(typeof(FieldTypeEnum)), "Name", "Description");
             }
-
-
         }
 
         //初始化实体
@@ -140,7 +169,8 @@ namespace MCS.Dynamics.Web.Dialogs
             {
 
                 result = (DynamicEntity)DESchemaObjectAdapter.Instance.Load(entityId);
-
+                this.HFEntityID.Value = result.ID;
+                this.HFEntityName.Value = result.Name;
 
                 OperationMode = SCObjectOperationMode.Update;
             }
@@ -153,6 +183,27 @@ namespace MCS.Dynamics.Web.Dialogs
                 OperationMode = SCObjectOperationMode.Add;
                 result.Fields = new DynamicEntityFieldCollection();
 
+                //根据不同的类别加载动态实体的默认字段
+                DECategory category = CategoryAdapter.Instance.GetByID(categoryId);
+                if (category != null)
+                {
+                    string defaultProperties = string.Empty;
+                    switch (category.FullPath)
+                    {
+                        case "/集团公司/招商平台/行动":
+                            defaultProperties = "ActionDefaultProperties";
+                            break;
+                        case "/集团公司/招商平台/阶段":
+                            defaultProperties = "PhaseDefaultProperties";
+                            break;
+                    }
+                    if (defaultProperties.IsNotEmpty())
+                    {
+                        PropertyDefineCollection propeties = new PropertyDefineCollection();
+                        propeties.LoadPropertiesFromConfiguration(defaultProperties);
+                        result.Fields.CopyFromPropertyDefineCollection(propeties);
+                    }
+                }
             }
 
             return result;
@@ -161,7 +212,6 @@ namespace MCS.Dynamics.Web.Dialogs
         //保存
         protected void btn_Save_Click(object sender, EventArgs e)
         {
-
             StringBuilder error = new StringBuilder();
 
             if (!Util.CheckOperationSafe())
@@ -177,8 +227,6 @@ namespace MCS.Dynamics.Web.Dialogs
 
             //检查重复项
             entity.Fields.GroupBy(p => p.Name).ForEach(p => { if (p.Count() > 1)error.Append(p.Key + "有重复项!\r\n"); });
-            //entity.SortNo = 0;
-            //entity.Fields.ForEach(p => p.SortNo = 0);
 
             bool needCheckExist = false;
             #region
@@ -207,7 +255,18 @@ namespace MCS.Dynamics.Web.Dialogs
             //入库
             DEObjectOperations.InstanceWithPermissions.DoOperation(this.OperationMode, entity, null);
             entity.ClearCacheData();
-            HttpContext.Current.Response.Write("<script>window.returnValue=true;window.close()</script>");
+            this.HFEntityID.Value = entity.ID;
+            this.HFEntityName.Value = entity.Name;
+            if (this.OperationType.Equals("1"))
+            {
+                HttpContext.Current.Response.Write("<script>window.returnValue=true;window.close()</script>");
+                WebUtility.RefreshParentWindow("close", RefreshParentWindowName.Parent);
+            }
+            else
+            {
+                WebUtility.RefreshParentWindow("close", RefreshParentWindowName.Parent);
+                Page.ClientScript.RegisterStartupScript(this.Page.GetType(), "", string.Format("top.setEntityInfo('{0}','{1}');", entity.ID, entity.Name), true);
+            }
         }
 
         private void InitPropertyForm(DESchemaObjectBase data, bool readOnly)

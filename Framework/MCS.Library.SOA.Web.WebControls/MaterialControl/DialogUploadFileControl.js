@@ -102,6 +102,9 @@ $HBRootNS.DialogUploadFileControl.prototype =
         $HBRootNS.DialogUploadFileControl.callBaseMethod(this, 'initialize');
 
         var dialogArg = window.dialogArguments;
+        
+        if (!dialogArg)
+            dialogArg = window.opener.dialogArguments;
 
         this._container = dialogArg.container;
         this._materials = Sys.Serialization.JavaScriptSerializer.deserialize(dialogArg.materials);
@@ -255,14 +258,6 @@ $HBRootNS.DialogUploadFileControl.prototype =
     },
 
     _createActXObject: function (tableCell) {
-
-        //        var actXSelectFile = "<object id='actXSelectFile' codebase='" + this._hBWebHelperControlUrl
-        //			+ "' height='0' width='0' classid='CLSID:C86C48A2-0DAD-41B6-BB85-AAB912FEE3AB' viewastext='viewastext'></object>";
-        //        actXSelectFile += "<object id='componentHelperActiveX' codebase='" + this._hBWebHelperControlUrl
-        //			+ "' height='0' width='0' classid='CLSID:918CFB81-4755-4167-BFC7-879E9DD52C9E' viewastext='viewastext'></object>";
-
-        //        tableCell.innerHTML = actXSelectFile;
-
         this._componentHelperActiveX = $HGDomElement.get_currentDocument().getElementById('componentHelperActiveX');
         this._actXSelectFile = $HGDomElement.get_currentDocument().getElementById('dialogHelperActiveX');
         this._actXSelectFile.Filter = this._fileExts;
@@ -1159,14 +1154,6 @@ $HBRootNS.DialogUploadFileControl.prototype =
         newMaterial.lastUploadTag = newFile.lastUploadTag;
         newMaterial.fileIconPath = (newFile.fileIconPath == "" ? this._container.get_defaultFileIconPath() : newFile.fileIconPath);
         newMaterial.showFileUrl = "Temp\\" + materialFileName;
-
-        //newMaterial.
-
-        //        if ($HBRootNS.officeDocument.checkIsOfficeDocument(newMaterial.originalName)) {
-        //            var newFilePath = tempFilePath.replace($HBRootNS.material.newMaterialID, id);
-        //            this._setMaterialInfomation(newFilePath, newMaterial);
-        //        }
-
 
         Array.add(this._materials, newMaterial);
         Array.add(this._deltaMaterials.insertedMaterials, newMaterial);

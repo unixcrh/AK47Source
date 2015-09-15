@@ -18,7 +18,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             SOARolePropertyDefinition pv = new SOARolePropertyDefinition();
 
             //ColumnDefinitionBase
-            pv.Caption = DictionaryHelper.GetValue(dictionary, "caption", string.Empty);
+            pv.Caption = DictionaryHelper.GetValue(dictionary, "caption", (string)null);
             pv.Name = DictionaryHelper.GetValue(dictionary, "name", string.Empty);
             pv.DataType = DictionaryHelper.GetValue(dictionary, "dataType", ColumnDataType.String);
             pv.DefaultValue = DictionaryHelper.GetValue(dictionary, "defaultValue", (string)null);

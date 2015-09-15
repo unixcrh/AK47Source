@@ -161,121 +161,86 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Executors
 
         }
 
+        #region 注释掉添加实体映射方法，不需要外部实体。by 王雷平 2015-8-13
+        public void AddEntityMapping(EntityMapping entityMapping)
+        { }
+        
         ///// <summary>
-        ///// 添加实体映射(貌似这个该删除掉)
+        ///// 添加实体映射(新)
         ///// </summary>
-        ///// <param name="entity"></param>
-        //public void AddEntityMapping(DynamicEntity entity)
+        //public void AddEntityMapping(EntityMapping entityMapping)
         //{
         //    DEObjectExecutor executor = null;
 
         //    if (this._NeedCheckPermissions)
         //        CheckPermissions(DEOperationType.AddEntityMapping, null, "AddEntityMapping", string.Empty);
+
+        //    OuterEntity outerEntity = new OuterEntity();
+        //    OuterEntityFieldCollection outerEntityFields = new OuterEntityFieldCollection();
+
         //    using (TransactionScope scope = TransactionScopeFactory.Create())
         //    {
-        //        //实体与外部实体映射入库
-        //        executor = new DEMemberCollectionRelativeExecutor(DEOperationType.AddEntityMapping, entity, entity.OuterEntities.ToSchemaObjects(), DEStandardObjectSchemaType.DynamicEntityMapping) { SaveContainerData = false, NeedValidation = this.NeedValidationAndStatusCheck };
-        //        ExecuteWithActions(DEOperationType.AddEntityMapping, () => SCActionContext.Current.DoActions(() => executor.Execute()));
-
-        //        //实体字段与外部实体属性映射入库
-        //        entity.Fields.ForEach(f =>
+        //        #region [实体与外部实体映射][外部实体]入库
+        //        if (entityMapping.InnerEntity.OuterEntities.Any(p => p.ID.Equals(entityMapping.OuterEntityID)))
         //        {
-        //            executor = new DEMemberCollectionRelativeExecutor(DEOperationType.AddEntityFieldMapping, f, f.OuterEntityFields.ToSchemaObjects(), DEStandardObjectSchemaType.DynamicEntityFieldMapping) { SaveContainerData = false, NeedValidation = this.NeedValidationAndStatusCheck };
+        //            var outentity = entityMapping.InnerEntity.OuterEntities.FirstOrDefault(p => p.ID.Equals(entityMapping.OuterEntityID));
+        //            outentity.Name = entityMapping.OuterEntityName;
+        //            outentity.CustomType = entityMapping.OuterEntityInType;
+        //            outerEntity = outentity;
+        //        }
+        //        else
+        //        {
+        //            outerEntity = new OuterEntity() { ID = entityMapping.OuterEntityID, Name = entityMapping.OuterEntityName, CustomType = entityMapping.OuterEntityInType };
+        //            entityMapping.InnerEntity.OuterEntities.Add(outerEntity);
+        //        }
+
+        //        executor = new DEMemberCollectionRelativeExecutor
+        //        (
+        //            DEOperationType.AddEntityMapping,
+        //            entityMapping.InnerEntity,
+        //            entityMapping.InnerEntity.OuterEntities.ToSchemaObjects(),
+        //            DEStandardObjectSchemaType.DynamicEntityMapping
+        //        ) { SaveContainerData = false, NeedValidation = this.NeedValidationAndStatusCheck };
+
+        //        ExecuteWithActions(DEOperationType.AddEntityMapping, () => SCActionContext.Current.DoActions(() => executor.Execute()));
+        //        #endregion
+
+        //        #region 实体字段与外部实体字段映射入库
+        //        entityMapping.EntityFieldMappingCollection.Where(field => field.OuterFieldName.IsNotEmpty()).ForEach(field =>
+        //        {
+        //            DynamicEntityField container = DESchemaObjectAdapter.Instance.Load(field.FieldID) as DynamicEntityField;
+
+        //            var outerFiled = container.OuterEntityFields.FirstOrDefault(of => of.OuterEntity.ID.Equals(entityMapping.OuterEntityID));//&& of.ID.Equals(field.OuterFieldID)
+        //            if (outerFiled != null)
+        //            {
+        //                outerFiled.Name = field.OuterFieldName;
+        //                outerEntityFields.Add(outerFiled);
+        //            }
+        //            else
+        //            {
+        //                OuterEntityField new_outerField = new OuterEntityField() { ID = string.IsNullOrEmpty(field.OuterFieldID) ? Guid.NewGuid().ToString() : field.OuterFieldID, Name = field.OuterFieldName };
+        //                container.OuterEntityFields.Add(new_outerField);
+
+        //                outerEntityFields.Add(new_outerField);
+        //            }
+
+        //            executor = new DEMemberCollectionRelativeExecutor(DEOperationType.AddEntityFieldMapping, container, container.OuterEntityFields.ToSchemaObjects(), DEStandardObjectSchemaType.DynamicEntityFieldMapping) { SaveContainerData = false, NeedValidation = this.NeedValidationAndStatusCheck };
+
         //            ExecuteWithActions(DEOperationType.AddEntityFieldMapping, () => SCActionContext.Current.DoActions(() => executor.Execute()));
         //        });
+        //        #endregion
 
-        //        entity.OuterEntities.ForEach(oe =>
-        //        {
-        //            DESchemaObjectCollection members = new DESchemaObjectCollection();
-        //            entity.Fields.ForEach(f =>
-        //            {
-        //                members.Add(f.OuterEntityFields.FirstOrDefault());
-        //            });
+        //        #region 外部实体与外部实体属性关系入库
+        //        executor = new DEMemberCollectionRelativeExecutor(DEOperationType.AddOuterEntityFieldMapping, outerEntity, outerEntityFields.ToSchemaObjects(), DEStandardObjectSchemaType.OuterEntityFieldMapping) { SaveContainerData = false, SaveMemberData = false, NeedValidation = this.NeedValidationAndStatusCheck };
 
-        //            //外部实体与外部实体属性关系入库
-        //            executor = new DEMemberCollectionRelativeExecutor(DEOperationType.AddOuterEntityFieldMapping, oe, members, DEStandardObjectSchemaType.OuterEntityFieldMapping) { SaveContainerData = false, NeedValidation = this.NeedValidationAndStatusCheck };
-        //            ExecuteWithActions(DEOperationType.AddOuterEntityFieldMapping, () => SCActionContext.Current.DoActions(() => executor.Execute()));
-        //        });
+        //        ExecuteWithActions(DEOperationType.AddOuterEntityFieldMapping, () => SCActionContext.Current.DoActions(() => executor.Execute()));
+        //        #endregion
         //        scope.Complete();
+
         //    }
         //}
 
-        /// <summary>
-        /// 添加实体映射(新)
-        /// </summary>
-        public void AddEntityMapping(EntityMapping entityMapping)
-        {
-            DEObjectExecutor executor = null;
-
-            if (this._NeedCheckPermissions)
-                CheckPermissions(DEOperationType.AddEntityMapping, null, "AddEntityMapping", string.Empty);
-
-            OuterEntity outerEntity = new OuterEntity();
-            OuterEntityFieldCollection outerEntityFields = new OuterEntityFieldCollection();
-
-            using (TransactionScope scope = TransactionScopeFactory.Create())
-            {
-                #region [实体与外部实体映射][外部实体]入库
-                if (entityMapping.InnerEntity.OuterEntities.Any(p => p.ID.Equals(entityMapping.OuterEntityID)))
-                {
-                    var outentity = entityMapping.InnerEntity.OuterEntities.FirstOrDefault(p => p.ID.Equals(entityMapping.OuterEntityID));
-                    outentity.Name = entityMapping.OuterEntityName;
-                    outentity.CustomType = entityMapping.OuterEntityInType;
-                    outerEntity = outentity;
-                }
-                else
-                {
-                    outerEntity = new OuterEntity() { ID = entityMapping.OuterEntityID, Name = entityMapping.OuterEntityName, CustomType = entityMapping.OuterEntityInType };
-                    entityMapping.InnerEntity.OuterEntities.Add(outerEntity);
-                }
-
-                executor = new DEMemberCollectionRelativeExecutor
-                (
-                    DEOperationType.AddEntityMapping,
-                    entityMapping.InnerEntity,
-                    entityMapping.InnerEntity.OuterEntities.ToSchemaObjects(),
-                    DEStandardObjectSchemaType.DynamicEntityMapping
-                ) { SaveContainerData = false, NeedValidation = this.NeedValidationAndStatusCheck };
-
-                ExecuteWithActions(DEOperationType.AddEntityMapping, () => SCActionContext.Current.DoActions(() => executor.Execute()));
-                #endregion
-
-                #region 实体字段与外部实体字段映射入库
-                entityMapping.EntityFieldMappingCollection.Where(field => field.OuterFieldName.IsNotEmpty()).ForEach(field =>
-                {
-                    DynamicEntityField container = DESchemaObjectAdapter.Instance.Load(field.FieldID) as DynamicEntityField;
-
-                    var outerFiled = container.OuterEntityFields.FirstOrDefault(of => of.OuterEntity.ID.Equals(entityMapping.OuterEntityID));//&& of.ID.Equals(field.OuterFieldID)
-                    if (outerFiled != null)
-                    {
-                        outerFiled.Name = field.OuterFieldName;
-                        outerEntityFields.Add(outerFiled);
-                    }
-                    else
-                    {
-                        OuterEntityField new_outerField = new OuterEntityField() { ID = string.IsNullOrEmpty(field.OuterFieldID) ? Guid.NewGuid().ToString() : field.OuterFieldID, Name = field.OuterFieldName };
-                        container.OuterEntityFields.Add(new_outerField);
-
-                        outerEntityFields.Add(new_outerField);
-                    }
-
-                    executor = new DEMemberCollectionRelativeExecutor(DEOperationType.AddEntityFieldMapping, container, container.OuterEntityFields.ToSchemaObjects(), DEStandardObjectSchemaType.DynamicEntityFieldMapping) { SaveContainerData = false, NeedValidation = this.NeedValidationAndStatusCheck };
-
-                    ExecuteWithActions(DEOperationType.AddEntityFieldMapping, () => SCActionContext.Current.DoActions(() => executor.Execute()));
-                });
-                #endregion
-
-                #region 外部实体与外部实体属性关系入库
-                executor = new DEMemberCollectionRelativeExecutor(DEOperationType.AddOuterEntityFieldMapping, outerEntity, outerEntityFields.ToSchemaObjects(), DEStandardObjectSchemaType.OuterEntityFieldMapping) { SaveContainerData = false, SaveMemberData = false, NeedValidation = this.NeedValidationAndStatusCheck };
-
-                ExecuteWithActions(DEOperationType.AddOuterEntityFieldMapping, () => SCActionContext.Current.DoActions(() => executor.Execute()));
-                #endregion
-                scope.Complete();
-
-            }
-
-
-        }
+        #endregion
 
         /// <summary>
         /// 删除实体
@@ -296,8 +261,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Executors
 
             using (TransactionScope scope = TransactionScopeFactory.Create())
             {
-                //删除映射关系
-                DeleteEntityMapping(entity, entity.OuterEntities);
+                //删除映射关系 注释掉。2015-8-13 王雷平
+                //DeleteEntityMapping(entity, entity.OuterEntities);
 
                 DEObjectExecutor executor = null;
 
@@ -352,9 +317,6 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Executors
 
             //删除外部实体
             DESchemaObjectAdapter.Instance.UpdateStatus(oEntity, SchemaObjectStatus.Deleted);
-
-
-
         }
 
         /// <summary>
@@ -659,7 +621,6 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Executors
                 throw new Exception(error);
             }
         }
-
         /// <summary>
         /// 复制一个实体
         /// </summary>
@@ -676,21 +637,6 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Executors
             //要复制的实体
             DynamicEntity entity = DESchemaObjectAdapter.Instance.Load(entityID) as DynamicEntity;
             List<FieldIDMapping> listMappingField = new List<FieldIDMapping>();
-            //记录外部实体
-            List<OuterEntity> outers = new List<OuterEntity>();
-            List<OuterEntity> oldOuters = new List<OuterEntity>();
-            //记录字段与外部字段的mapping
-            foreach (var item in entity.OuterEntities)
-            {
-                outers.Add(item);
-            }
-
-            //记录字段与外部字段的mapping
-            foreach (var item in oldEntity.OuterEntities)
-            {
-                oldOuters.Add(item);
-            }
-
             //复制指标实体
             foreach (var item in entity.Fields)
             {
@@ -702,129 +648,6 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Executors
             }
             //从新NEW当前实体及其子表的ID和VersionTime，从而创建一个新的实体
             entity.BuildNewEntity(category);
-            
-            #endregion
-
-            #region 复制外部实体和Mapping
-            foreach (OuterEntity outerEntity in outers)
-            {
-                //构建新的外部实体
-                outerEntity.BuildNewEntity();
-                //构建新的实体映射关系
-                EntityMapping entityMapping = new EntityMapping()
-                {
-                    InnerEntity = entity,
-                    OuterEntityID = outerEntity.ID,
-                    OuterEntityName = outerEntity.Name,
-                    OuterEntityInType = outerEntity.CustomType,
-                    EntityFieldMappingCollection = new List<EntityFieldMapping>()
-                };
-                //循环新实体中每个字段，如果有外部实体字段则创建实体和字段映射关系
-                foreach (DynamicEntityField newField in entity.Fields)
-                {
-                    if (string.IsNullOrEmpty(newField.ReferenceEntityCodeName) || 
-                        newField.OuterEntityFields == null || 
-                        newField.OuterEntityFields.Count==0)
-                    {
-                        continue;
-                    }
-
-                    OuterEntityField newOutField = newField.OuterEntityFields[0];
-                    newOutField.ID = Guid.NewGuid().ToString();
-                    //构建新的字段映射关系
-                    EntityFieldMapping fieldMapping = new EntityFieldMapping()
-                    {
-                        FieldID = newField.ID,
-                        FieldDefaultValue = newField.DefaultValue,
-                        FieldDesc = newField.Description,
-                        FieldLength = newField.Length,
-                        FieldName = newField.Name,
-                        FieldTypeName = newField.FieldType.ToString(),
-                        OuterFieldID = newOutField.ID,
-                        OuterFieldName = newOutField.Name,
-                        SortNo = newField.SortNo
-                    };
-
-                    entityMapping.EntityFieldMappingCollection.Add(fieldMapping);
-                }
-                this.AddEntityMapping(entityMapping);
-
-            }
-            #endregion
-
-            #region 复制外部实体
-            /*
-            foreach (OuterEntity outerEntity in outers)
-            {
-                //旧的外部实体
-                OuterEntity oldOuterEntity = oldOuters.Where(p => p.Name == outerEntity.Name).FirstOrDefault();
-                if (oldOuterEntity != null && oldOuterEntity.Fields != null)
-                {
-                    //构建新的外部实体
-                    outerEntity.BuildNewEntity();
-                    //字段之间的mapping入库
-                    foreach (var oldField in oldEntity.Fields)
-                    {
-                        foreach (var item in oldOuterEntity.Fields)
-                        {
-                            var mappingField = oldField.OuterEntityFields.Where(p => p.ID == item.ID).FirstOrDefault();
-                            if (mappingField != null)
-                            {
-
-                                var newField = entity.Fields.Where(p => p.ID == oldField.ID).FirstOrDefault();
-                                var newOuterField = outerEntity.Fields.Where(p => p.Name == mappingField.Name).FirstOrDefault();
-                                FieldIDMapping mapping = new FieldIDMapping();
-                                mapping.OldFieldID = oldField.ID;
-                                mapping.NewFieldID = newField.ID;
-                                mapping.OldOuterFieldID = mappingField.ID;
-                                mapping.NewOuterFieldID = newOuterField.ID;
-                                listMappingField.Add(mapping);
-                            }
-                        }
-                    }
-                }
-
-                #region 构建Mapping
-                List<EntityFieldMapping> entityFieldMappingCollection = new List<EntityFieldMapping>();
-                foreach (var item in entity.Fields)
-                {
-                    var idMapping = listMappingField.Where(p => p.NewFieldID == item.ID).FirstOrDefault();
-                    var oField = outerEntity.Fields.Where(p => p.ID == idMapping.NewOuterFieldID).FirstOrDefault();
-                    if (oField == null)
-                    {
-                        continue;
-                    }
-                    string outerFieldName = oField.Name;
-                    EntityFieldMapping fieldMapping = new EntityFieldMapping()
-                    {
-                        FieldID = idMapping.NewFieldID,
-                        FieldDefaultValue = item.DefaultValue,
-                        FieldDesc = item.Description,
-                        FieldLength = item.Length,
-                        FieldName = item.Name,
-                        FieldTypeName = item.FieldType.ToString(),
-                        OuterFieldID = idMapping.NewOuterFieldID,
-                        OuterFieldName = outerFieldName,
-                        SortNo = item.SortNo
-                    };
-
-                    entityFieldMappingCollection.Add(fieldMapping);
-                }
-
-                EntityMapping entityMapping = new EntityMapping()
-                {
-                    InnerEntity = entity,
-                    OuterEntityID = outerEntity.ID,
-                    OuterEntityName = outerEntity.Name,
-                    OuterEntityInType = outerEntity.CustomType,
-                    EntityFieldMappingCollection = entityFieldMappingCollection
-                };
-
-                this.AddEntityMapping(entityMapping);
-                #endregion
-            }
-             */
-
             #endregion
 
             //新实体入库
@@ -833,6 +656,182 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Executors
             return codeName;
         }
 
+        #region 注释掉原有的CopyChildEntity方法，不需要复制外部实体及其关系。By 王雷平 2013-8-13
+        ///// <summary>
+        ///// 复制一个实体
+        ///// </summary>
+        ///// <param name="entityID">实体ID</param>
+        ///// <param name="category">类别ID</param>
+        ///// <returns></returns>
+        //private string CopyChildEntity(string entityID, string category)
+        //{
+        //    string codeName = string.Empty;
+
+        //    #region 实体创建新实体及其子实体，。
+        //    //待复制的实体
+        //    DynamicEntity oldEntity = DESchemaObjectAdapter.Instance.Load(entityID) as DynamicEntity;
+        //    //要复制的实体
+        //    DynamicEntity entity = DESchemaObjectAdapter.Instance.Load(entityID) as DynamicEntity;
+        //    List<FieldIDMapping> listMappingField = new List<FieldIDMapping>();
+        //    //记录外部实体
+        //    List<OuterEntity> outers = new List<OuterEntity>();
+        //    List<OuterEntity> oldOuters = new List<OuterEntity>();
+        //    //记录字段与外部字段的mapping
+        //    foreach (var item in entity.OuterEntities)
+        //    {
+        //        outers.Add(item);
+        //    }
+
+        //    //记录字段与外部字段的mapping
+        //    foreach (var item in oldEntity.OuterEntities)
+        //    {
+        //        oldOuters.Add(item);
+        //    }
+
+        //    //复制指标实体
+        //    foreach (var item in entity.Fields)
+        //    {
+        //        if (item.FieldType == FieldTypeEnum.Collection)
+        //        {
+        //            DynamicEntity childEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName(item.ReferenceEntityCodeName) as DynamicEntity;
+        //            item.ReferenceEntityCodeName = CopyChildEntity(childEntity.ID, category);
+        //        }
+        //    }
+        //    //从新NEW当前实体及其子表的ID和VersionTime，从而创建一个新的实体
+        //    entity.BuildNewEntity(category);
+            
+        //    #endregion
+
+        //    #region 复制外部实体和Mapping
+        //    foreach (OuterEntity outerEntity in outers)
+        //    {
+        //        //构建新的外部实体
+        //        outerEntity.BuildNewEntity();
+        //        //构建新的实体映射关系
+        //        EntityMapping entityMapping = new EntityMapping()
+        //        {
+        //            InnerEntity = entity,
+        //            OuterEntityID = outerEntity.ID,
+        //            OuterEntityName = outerEntity.Name,
+        //            OuterEntityInType = outerEntity.CustomType,
+        //            EntityFieldMappingCollection = new List<EntityFieldMapping>()
+        //        };
+        //        //循环新实体中每个字段，如果有外部实体字段则创建实体和字段映射关系
+        //        foreach (DynamicEntityField newField in entity.Fields)
+        //        {
+        //            if (string.IsNullOrEmpty(newField.ReferenceEntityCodeName) || 
+        //                newField.OuterEntityFields == null || 
+        //                newField.OuterEntityFields.Count==0)
+        //            {
+        //                continue;
+        //            }
+
+        //            OuterEntityField newOutField = newField.OuterEntityFields[0];
+        //            newOutField.ID = Guid.NewGuid().ToString();
+        //            //构建新的字段映射关系
+        //            EntityFieldMapping fieldMapping = new EntityFieldMapping()
+        //            {
+        //                FieldID = newField.ID,
+        //                FieldDefaultValue = newField.DefaultValue,
+        //                FieldDesc = newField.Description,
+        //                FieldLength = newField.Length,
+        //                FieldName = newField.Name,
+        //                FieldTypeName = newField.FieldType.ToString(),
+        //                //OuterFieldID = newOutField.ID,
+        //                //OuterFieldName = newOutField.Name,
+        //                SortNo = newField.SortNo
+        //            };
+
+        //            entityMapping.EntityFieldMappingCollection.Add(fieldMapping);
+        //        }
+        //        this.AddEntityMapping(entityMapping);
+
+        //    }
+        //    #endregion
+
+        //    #region 复制外部实体
+        //    /*
+        //    foreach (OuterEntity outerEntity in outers)
+        //    {
+        //        //旧的外部实体
+        //        OuterEntity oldOuterEntity = oldOuters.Where(p => p.Name == outerEntity.Name).FirstOrDefault();
+        //        if (oldOuterEntity != null && oldOuterEntity.Fields != null)
+        //        {
+        //            //构建新的外部实体
+        //            outerEntity.BuildNewEntity();
+        //            //字段之间的mapping入库
+        //            foreach (var oldField in oldEntity.Fields)
+        //            {
+        //                foreach (var item in oldOuterEntity.Fields)
+        //                {
+        //                    var mappingField = oldField.OuterEntityFields.Where(p => p.ID == item.ID).FirstOrDefault();
+        //                    if (mappingField != null)
+        //                    {
+
+        //                        var newField = entity.Fields.Where(p => p.ID == oldField.ID).FirstOrDefault();
+        //                        var newOuterField = outerEntity.Fields.Where(p => p.Name == mappingField.Name).FirstOrDefault();
+        //                        FieldIDMapping mapping = new FieldIDMapping();
+        //                        mapping.OldFieldID = oldField.ID;
+        //                        mapping.NewFieldID = newField.ID;
+        //                        mapping.OldOuterFieldID = mappingField.ID;
+        //                        mapping.NewOuterFieldID = newOuterField.ID;
+        //                        listMappingField.Add(mapping);
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //        #region 构建Mapping
+        //        List<EntityFieldMapping> entityFieldMappingCollection = new List<EntityFieldMapping>();
+        //        foreach (var item in entity.Fields)
+        //        {
+        //            var idMapping = listMappingField.Where(p => p.NewFieldID == item.ID).FirstOrDefault();
+        //            var oField = outerEntity.Fields.Where(p => p.ID == idMapping.NewOuterFieldID).FirstOrDefault();
+        //            if (oField == null)
+        //            {
+        //                continue;
+        //            }
+        //            string outerFieldName = oField.Name;
+        //            EntityFieldMapping fieldMapping = new EntityFieldMapping()
+        //            {
+        //                FieldID = idMapping.NewFieldID,
+        //                FieldDefaultValue = item.DefaultValue,
+        //                FieldDesc = item.Description,
+        //                FieldLength = item.Length,
+        //                FieldName = item.Name,
+        //                FieldTypeName = item.FieldType.ToString(),
+        //                OuterFieldID = idMapping.NewOuterFieldID,
+        //                OuterFieldName = outerFieldName,
+        //                SortNo = item.SortNo
+        //            };
+
+        //            entityFieldMappingCollection.Add(fieldMapping);
+        //        }
+
+        //        EntityMapping entityMapping = new EntityMapping()
+        //        {
+        //            InnerEntity = entity,
+        //            OuterEntityID = outerEntity.ID,
+        //            OuterEntityName = outerEntity.Name,
+        //            OuterEntityInType = outerEntity.CustomType,
+        //            EntityFieldMappingCollection = entityFieldMappingCollection
+        //        };
+
+        //        this.AddEntityMapping(entityMapping);
+        //        #endregion
+        //    }
+        //     */
+
+        //    #endregion
+
+        //    //新实体入库
+        //    this.AddEntity(entity);
+        //    codeName = entity.CodeName;
+        //    return codeName;
+        //}
+
+        #endregion
+        
         /// <summary>
         /// 复制多个实体到多个类别下
         /// </summary>
@@ -991,8 +990,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Executors
                 FieldTypeName = p.FieldType.ToString(),
                 FieldLength = p.Length,
                 FieldDefaultValue = p.DefaultValue,
-                OuterFieldID = Guid.NewGuid().ToString(),
-                OuterFieldName = p.Name
+                //OuterFieldID = Guid.NewGuid().ToString(),
+                //OuterFieldName = p.Name
             }));
 
             return mapping;

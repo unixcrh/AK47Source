@@ -49,6 +49,40 @@ namespace MCS.Web.WebControls
             }
         }
 
+        /// <summary>
+        /// 文本框的样式，对于TextBox，这个样式优先于CssClass
+        /// </summary>
+        [CssClassProperty]
+        [DefaultValue("")]
+        public virtual string DropDownListCssClass
+        {
+            get
+            {
+                return WebControlUtility.GetViewStateValue(ViewState, "DropDownListCssClass", string.Empty);
+            }
+            set
+            {
+                WebControlUtility.SetViewStateValue(ViewState, "DropDownListCssClass", value);
+            }
+        }
+
+        /// <summary>
+        /// Label的样式，对于Label，这个样式优先于CssClass
+        /// </summary>
+        [CssClassProperty]
+        [DefaultValue("")]
+        public virtual string LabelBoxCssClass
+        {
+            get
+            {
+                return WebControlUtility.GetViewStateValue(ViewState, "LabelBoxCssClass", string.Empty);
+            }
+            set
+            {
+                WebControlUtility.SetViewStateValue(ViewState, "LabelBoxCssClass", value);
+            }
+        }
+
         [DefaultValue(false)]
         public bool KeepControlWhenReadOnly
         {
@@ -169,7 +203,7 @@ namespace MCS.Web.WebControls
             {
                 string lableID = string.Empty;
 
-                if (KeepControlWhenReadOnly && ReadOnly)
+                if (this.KeepControlWhenReadOnly && this.ReadOnly)
                 {
                     lableID = this.ClientID + "_Label";
 
@@ -181,6 +215,9 @@ namespace MCS.Web.WebControls
                     writer.AddAttribute("relativeLabel", lableID);
                     writer.AddStyleAttribute(HtmlTextWriterStyle.Display, "none");
                 }
+
+                if (this.DropDownListCssClass.IsNotEmpty())
+                    this.CssClass = this.DropDownListCssClass;
 
                 writer.AddAttribute("relativeHidden", this.selectedTextHidden.ID);
                 writer.AddAttribute("relativeValueHidden", this.selectedValueHidden.ID);
@@ -201,8 +238,8 @@ namespace MCS.Web.WebControls
             }
             else
             {
-                this.selectedTextHidden.Value = "";
-                this.selectedValueHidden.Value = "";
+                this.selectedTextHidden.Value = string.Empty;
+                this.selectedValueHidden.Value = string.Empty;
             }
 
             this.ViewState["SelectedText"] = this.selectedTextHidden.Value;
@@ -246,7 +283,11 @@ namespace MCS.Web.WebControls
             lb.ToolTip = this.ToolTip;
             lb.Visible = this.Visible;
             lb.Width = this.Width;
-            lb.CssClass = this.CssClass;
+
+            if (this.LabelBoxCssClass.IsNotEmpty())
+                lb.CssClass = this.LabelBoxCssClass;
+            else
+                lb.CssClass = this.CssClass;
 
             lb.RenderControl(writer);
         }

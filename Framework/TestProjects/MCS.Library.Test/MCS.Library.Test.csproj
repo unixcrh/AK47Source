@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreTest\ArgumentParserTest.cs" />
+    <Compile Include="CoreTest\PermissionDescriptionTest.cs" />
     <Compile Include="CoreTest\UriTest.cs" />
     <Compile Include="DataObjects\ObjectCompareTest.cs" />
     <Compile Include="DataObjects\Order.cs" />

@@ -130,7 +130,7 @@ namespace MCS.Library.SOA.DataObjects.Security
 		{
 			get
 			{
-				return this.Properties.GetValue("InnerSort", 0);
+				return this.Properties.GetValue("InnerSort", 0L);
 			}
 			set
 			{

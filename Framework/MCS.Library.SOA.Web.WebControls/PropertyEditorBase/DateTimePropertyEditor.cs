@@ -9,20 +9,19 @@ namespace MCS.Web.WebControls
 {
     public class DateTimePropertyEditor : PropertyEditorBase
     {
-        //private DeluxeDateTime _DeluxeDateTimeControl = new DeluxeDateTime() { ID = "DateTimePropertyEditor_DeluxeDateTime" };
-
         protected internal override void OnPagePreRender(Page page)
         {
             if (page.Form != null)
             {
-                HtmlGenericControl div = new HtmlGenericControl();
+                HtmlGenericControl div = new HtmlGenericControl() { EnableViewState = false };
 
                 div.Style["display"] = "none";
 
-                DeluxeDateTime deluxeDateTimeControl = new DeluxeDateTime() { ID = "DateTimePropertyEditor_DeluxeDateTime" };
+                DeluxeDateTime deluxeDateTimeControl = new DeluxeDateTime() { ID = "DateTimePropertyEditor_DeluxeDateTime", EnableViewState = false };
 
                 div.Controls.Add(deluxeDateTimeControl);
-                page.Form.Controls.AddAt(0, div);
+
+                PropertyEditorHelper.EnsureContainer(page).Controls.Add(div);
             }
         }
     }

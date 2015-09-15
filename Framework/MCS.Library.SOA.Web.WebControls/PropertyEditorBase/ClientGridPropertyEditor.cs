@@ -117,6 +117,11 @@ namespace MCS.Web.WebControls
             }
         }
 
+        //protected internal override void OnPagePreInit(Page page)
+        //{
+        //    CreateControls(page);
+        //}
+
         protected internal override void OnPageInit(Page page)
         {
             //Callback时，提前创建模版控件，拦截请求

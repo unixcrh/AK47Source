@@ -291,17 +291,25 @@ namespace MCS.Library.Office.OpenXml.Excel
                     p.Address.EndColumn == headCellAdress.ColumnIndex &&
                     p.Address.StartColumn == p.Address.EndColumn);
 
+                object objValue = sheet.Cells[begionCell.RowIndex, i].Value;
+                DataColumn column = null;
+
                 if (namedRange == null)
                 {
-                    object objValue = sheet.Cells[begionCell.RowIndex, i].Value;
-
                     if (objValue != null)
-                        dt.Columns.Add(new DataColumn(objValue.ToString()));
+                        column = new DataColumn(objValue.ToString());
+
                 }
                 else
                 {
-                    dt.Columns.Add(new DataColumn(namedRange.Name));
+                    column = new DataColumn(namedRange.Name);
+
+                    if (objValue != null)
+                        column.Caption = objValue.ToString();
                 }
+
+                if (column != null)
+                    dt.Columns.Add(column);
             }
 
             for (int j = begionCell.RowIndex + 1; j <= endCell.RowIndex; j++)

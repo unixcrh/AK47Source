@@ -6,8 +6,27 @@ namespace MCS.Library.Validation
 {
 	internal class IntegerRangeValidator : Validator, IClientValidatable
 	{
-		private int lowerBound;
-		private int upperBound;
+        private int lowerBound;
+        /// <summary>
+        /// 下限
+        /// </summary>
+        public int LowerBound
+        {
+            get { return lowerBound; }
+            set { lowerBound = value; }
+        }
+        private int upperBound;
+        /// <summary>
+        /// 上限
+        /// </summary>
+        public int UpperBound
+        {
+            get { return upperBound; }
+            set { upperBound = value; }
+        }
+
+        public IntegerRangeValidator()
+        { }
 
 		public IntegerRangeValidator(int lowerBound, int upperBound)
 			: base(string.Empty, string.Empty)

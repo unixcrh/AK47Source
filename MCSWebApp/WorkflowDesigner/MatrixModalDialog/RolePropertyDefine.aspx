@@ -80,19 +80,19 @@
                                     <Columns>
                                         <SOA:ClientGridColumn SelectColumn="true" ShowSelectAll="true" ItemStyle="{width:'50px',TEXT-ALIGN: 'center' }"
                                             HeaderStyle="{width:'50px'}" />
-                                        <SOA:ClientGridColumn DataField="Name" HeaderText="名称" DataType="String" HeaderStyle="{width:'160px'}"
+                                        <SOA:ClientGridColumn DataField="name" HeaderText="名称" DataType="String" HeaderStyle="{width:'160px'}"
                                             ItemStyle="{width:'160px'}">
                                             <EditTemplate EditMode="TextBox" />
                                         </SOA:ClientGridColumn>
-                                        <SOA:ClientGridColumn DataField="DataType" HeaderText="数据类型" HeaderStyle="{width:'160px'}"
+                                        <SOA:ClientGridColumn DataField="dataType" HeaderText="数据类型" HeaderStyle="{width:'160px'}"
                                             ItemStyle="{width:'160px'}">
                                             <EditTemplate EditMode="DropdownList" TemplateControlID="dataTypeDropDownList" />
                                         </SOA:ClientGridColumn>
-                                        <SOA:ClientGridColumn DataField="SortOrder" HeaderText="排序依据" DataType="Integer"
+                                        <SOA:ClientGridColumn DataField="sortOrder" HeaderText="排序依据" DataType="Integer"
                                             HeaderStyle="{width:'160px'}" ItemStyle="{width:'160px'}">
                                             <EditTemplate EditMode="TextBox" />
                                         </SOA:ClientGridColumn>
-                                        <SOA:ClientGridColumn DataField="Description" HeaderText="描述" HeaderStyle="{width:'160px'}"
+                                        <SOA:ClientGridColumn DataField="description" HeaderText="描述" HeaderStyle="{width:'160px'}"
                                             ItemStyle="{width:'160px'}">
                                             <EditTemplate EditMode="TextBox" />
                                         </SOA:ClientGridColumn>
@@ -190,28 +190,28 @@
             var keys = new Array();
             for (var i = 0; i < dataSource.length; i++) {
 
-                if (dataSource[i].Name == "") {
-                    dataSource[i].Name = dataSource[i].Description;
+                if (dataSource[i].name == "") {
+                    dataSource[i].name = dataSource[i].description;
                 }
 
-                if (ContainKey(keys, dataSource[i].Name)) {
-                    dataSource[i].Name = dataSource[i].Name + dataSource[i].SortOrder;
+                if (ContainKey(keys, dataSource[i].name)) {
+                    dataSource[i].name = dataSource[i].name + dataSource[i].sortOrder;
                 }
 
-                keys.push(dataSource[i].Name);
+                keys.push(dataSource[i].name);
             }
         }
 
         function CheckData() {
             var dataSource=$find("detailGrid").get_dataSource();
             for (var i = 0; i < dataSource.length; i++) {
-                if (dataSource[i].Name == "") {
+                if (dataSource[i].name == "") {
                     alert("名称不能为空！");
                     return false;
                 }
                 else {
                     var regex = new RegExp("^(\\d+).*");
-                    if (regex.test(dataSource[i].Name)) {
+                    if (regex.test(dataSource[i].name)) {
                         alert("名称首字母不能为数字！");
                         return false;
                     }

@@ -51,9 +51,9 @@ namespace MCS.Web.WebControls
 		/// <remarks></remarks>
 		protected override void OnInit(EventArgs e)
 		{
-			Controls.Add(this.calendar);
-			Controls.Add(this.maskededit);
-			Controls.Add(datetimeValue);
+            Controls.Add(this.calendar);
+            Controls.Add(this.maskededit);
+            Controls.Add(datetimeValue);
 
 			base.OnInit(e);
 		}

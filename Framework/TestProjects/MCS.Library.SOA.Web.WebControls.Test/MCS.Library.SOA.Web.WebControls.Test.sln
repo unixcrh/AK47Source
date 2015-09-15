@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Library.SOA.Web.WebControls.Test", "MCS.Library.SOA.Web.WebControls.Test.csproj", "{DBFB78CC-540D-49E7-9936-628D63E49450}"
 	ProjectSection(ProjectDependencies) = postProject
 		{42C6D301-8CCB-4CBD-BC20-250D98A4C369} = {42C6D301-8CCB-4CBD-BC20-250D98A4C369}
+		{C8E5AF14-62FB-44EE-9CCB-CFC263259863} = {C8E5AF14-62FB-44EE-9CCB-CFC263259863}
+		{4313DE1E-738F-477D-B7FD-B237E9116670} = {4313DE1E-738F-477D-B7FD-B237E9116670}
+		{7905642F-4630-4D16-AF40-CB1FB70D516F} = {7905642F-4630-4D16-AF40-CB1FB70D516F}
+		{4077B0B7-062A-4F6D-8A45-A180A2ED3215} = {4077B0B7-062A-4F6D-8A45-A180A2ED3215}
+		{78CD90D6-129A-401C-8396-E7AD8996219E} = {78CD90D6-129A-401C-8396-E7AD8996219E}
+		{13C52DE4-BAFD-41E7-8D12-1C27221BACDD} = {13C52DE4-BAFD-41E7-8D12-1C27221BACDD}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Library.SOA.Web.WebControls", "..\..\MCS.Library.SOA.Web.WebControls\MCS.Library.SOA.Web.WebControls.csproj", "{42C6D301-8CCB-4CBD-BC20-250D98A4C369}"
@@ -66,39 +72,39 @@ Global
 		SccNumberOfProjects = 10
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://code.cfldcn.com:8080/tfs/base
-		SccProjectUniqueName0 = ..\\..\\MCS.Web.Library\\MCS.Web.Library.csproj
-		SccProjectTopLevelParentUniqueName0 = MCS.Library.SOA.Web.WebControls.Test.sln
-		SccProjectName0 = ../../MCS.Web.Library
-		SccLocalPath0 = ..\\..\\MCS.Web.Library
-		SccProjectUniqueName1 = ..\\..\\MCS.Web.WebControls\\MCS.Web.WebControls.csproj
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\..\\MCS.Web.Library\\MCS.Web.Library.csproj
 		SccProjectTopLevelParentUniqueName1 = MCS.Library.SOA.Web.WebControls.Test.sln
-		SccProjectName1 = ../../MCS.Web.WebControls
-		SccLocalPath1 = ..\\..\\MCS.Web.WebControls
-		SccProjectUniqueName2 = ..\\..\\MCS.Library\\MCS.Library.csproj
+		SccProjectName1 = ../../MCS.Web.Library
+		SccLocalPath1 = ..\\..\\MCS.Web.Library
+		SccProjectUniqueName2 = ..\\..\\MCS.Web.WebControls\\MCS.Web.WebControls.csproj
 		SccProjectTopLevelParentUniqueName2 = MCS.Library.SOA.Web.WebControls.Test.sln
-		SccProjectName2 = ../../MCS.Library
-		SccLocalPath2 = ..\\..\\MCS.Library
-		SccProjectUniqueName3 = ..\\..\\MCS.Library.Data\\MCS.Library.Data.csproj
+		SccProjectName2 = ../../MCS.Web.WebControls
+		SccLocalPath2 = ..\\..\\MCS.Web.WebControls
+		SccProjectUniqueName3 = ..\\..\\MCS.Library\\MCS.Library.csproj
 		SccProjectTopLevelParentUniqueName3 = MCS.Library.SOA.Web.WebControls.Test.sln
-		SccProjectName3 = ../../MCS.Library.Data
-		SccLocalPath3 = ..\\..\\MCS.Library.Data
-		SccProjectUniqueName4 = ..\\..\\MCS.Library.SOA.DataObjects\\MCS.Library.SOA.DataObjects.csproj
+		SccProjectName3 = ../../MCS.Library
+		SccLocalPath3 = ..\\..\\MCS.Library
+		SccProjectUniqueName4 = ..\\..\\MCS.Library.Data\\MCS.Library.Data.csproj
 		SccProjectTopLevelParentUniqueName4 = MCS.Library.SOA.Web.WebControls.Test.sln
-		SccProjectName4 = ../../MCS.Library.SOA.DataObjects
-		SccLocalPath4 = ..\\..\\MCS.Library.SOA.DataObjects
-		SccProjectUniqueName5 = ..\\..\\MCS.Library.SOA.Web.WebControls\\MCS.Library.SOA.Web.WebControls.csproj
+		SccProjectName4 = ../../MCS.Library.Data
+		SccLocalPath4 = ..\\..\\MCS.Library.Data
+		SccProjectUniqueName5 = ..\\..\\MCS.Library.SOA.DataObjects\\MCS.Library.SOA.DataObjects.csproj
 		SccProjectTopLevelParentUniqueName5 = MCS.Library.SOA.Web.WebControls.Test.sln
-		SccProjectName5 = ../../MCS.Library.SOA.Web.WebControls
-		SccLocalPath5 = ..\\..\\MCS.Library.SOA.Web.WebControls
-		SccProjectUniqueName6 = ..\\..\\MCS.Library.OGUPermission\\MCS.Library.OGUPermission.csproj
+		SccProjectName5 = ../../MCS.Library.SOA.DataObjects
+		SccLocalPath5 = ..\\..\\MCS.Library.SOA.DataObjects
+		SccProjectUniqueName6 = ..\\..\\MCS.Library.SOA.Web.WebControls\\MCS.Library.SOA.Web.WebControls.csproj
 		SccProjectTopLevelParentUniqueName6 = MCS.Library.SOA.Web.WebControls.Test.sln
-		SccProjectName6 = ../../MCS.Library.OGUPermission
-		SccLocalPath6 = ..\\..\\MCS.Library.OGUPermission
-		SccProjectUniqueName7 = ..\\..\\MCS.Web.Library.Script.Json\\MCS.Web.Library.Script.Json.csproj
+		SccProjectName6 = ../../MCS.Library.SOA.Web.WebControls
+		SccLocalPath6 = ..\\..\\MCS.Library.SOA.Web.WebControls
+		SccProjectUniqueName7 = ..\\..\\MCS.Library.OGUPermission\\MCS.Library.OGUPermission.csproj
 		SccProjectTopLevelParentUniqueName7 = MCS.Library.SOA.Web.WebControls.Test.sln
-		SccProjectName7 = ../../MCS.Web.Library.Script.Json
-		SccLocalPath7 = ..\\..\\MCS.Web.Library.Script.Json
-		SccLocalPath8 = .
+		SccProjectName7 = ../../MCS.Library.OGUPermission
+		SccLocalPath7 = ..\\..\\MCS.Library.OGUPermission
+		SccProjectUniqueName8 = ..\\..\\MCS.Web.Library.Script.Json\\MCS.Web.Library.Script.Json.csproj
+		SccProjectTopLevelParentUniqueName8 = MCS.Library.SOA.Web.WebControls.Test.sln
+		SccProjectName8 = ../../MCS.Web.Library.Script.Json
+		SccLocalPath8 = ..\\..\\MCS.Web.Library.Script.Json
 		SccProjectUniqueName9 = MCS.Library.SOA.Web.WebControls.Test.csproj
 		SccLocalPath9 = .
 	EndGlobalSection

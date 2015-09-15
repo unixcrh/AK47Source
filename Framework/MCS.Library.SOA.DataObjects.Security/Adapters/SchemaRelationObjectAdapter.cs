@@ -352,7 +352,7 @@ namespace MCS.Library.SOA.DataObjects.Security.Adapters
 			return result;
 		}
 
-		public int GetMaxInnerSort(string id, string[] childSchemaTypes, DateTime timePoint)
+		public long GetMaxInnerSort(string id, string[] childSchemaTypes, DateTime timePoint)
 		{
 			IConnectiveSqlClause timeBuilder = VersionStrategyQuerySqlBuilder.Instance.TimePointToBuilder(timePoint);
 
@@ -362,22 +362,18 @@ namespace MCS.Library.SOA.DataObjects.Security.Adapters
 			InSqlClauseBuilder inSql = null;
 
 			if (childSchemaTypes != null && childSchemaTypes.Length > 0)
-			{
-				inSql = new InSqlClauseBuilder("ChildSchemaType").AppendItem(childSchemaTypes);
-			}
+                inSql = new InSqlClauseBuilder("ChildSchemaType").AppendItem(childSchemaTypes);
 
 			ConnectiveSqlClauseCollection connectiveBuilder = new ConnectiveSqlClauseCollection(where, timeBuilder);
 
 			if (inSql != null)
 				connectiveBuilder.Add(inSql);
 
-
 			string sql = "SELECT ISNULL(MAX(InnerSort), 0) AS C FROM " + GetMappingInfo().TableName + " WHERE " + connectiveBuilder.ToSqlString(TSqlBuilder.Instance);
 
-			int result = (int)DbHelper.RunSqlReturnScalar(sql, this.GetConnectionName());
+            long result = (long)DbHelper.RunSqlReturnScalar(sql, this.GetConnectionName());
 
 			return result;
 		}
-
 	}
 }

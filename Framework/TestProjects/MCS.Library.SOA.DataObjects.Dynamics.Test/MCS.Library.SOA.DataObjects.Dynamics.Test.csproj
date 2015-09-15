@@ -62,10 +62,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Bin\MCS.Library.SOA.DataObjects.Dynamics.dll</HintPath>
     </Reference>
-    <Reference Include="MCS.Library.SOA.DataObjects.Schemas, Version=1.0.0.0, Culture=neutral, PublicKeyToken=62ea08f894871798, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Bin\MCS.Library.SOA.DataObjects.Schemas.dll</HintPath>
-    </Reference>
     <Reference Include="MCS.Library.SOA.DataObjects.Schemas.Client">
       <HintPath>..\..\..\Bin\MCS.Library.SOA.DataObjects.Schemas.Client.dll</HintPath>
     </Reference>
@@ -118,6 +114,7 @@
     <Compile Include="Mapping\MappingTest.cs" />
     <Compile Include="Mock\MockData.cs" />
     <Compile Include="Objects\EntityObjectTest.cs" />
+    <Compile Include="Objects\ValidatorDefineTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecordResult\RecordResultTest.cs" />
     <Compile Include="SchemaDefine\SchemaDefineTest.cs" />
@@ -130,6 +127,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Objects\importTestFile.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MCS.Library.SOA.DataObjects.Schemas\MCS.Library.SOA.DataObjects.Schemas.csproj">
+      <Project>{fd70412a-fd7f-4b8e-918a-ea56dc541ab8}</Project>
+      <Name>MCS.Library.SOA.DataObjects.Schemas</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

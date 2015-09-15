@@ -145,11 +145,11 @@ namespace MCS.Web.Library.MVC
 				if (settings.Enabled)
 				{
 					PageStatePersister persister = settings.Persister;
-
 					this.PageStatePersister.Load();
+                    persister.ControlState = PageStatePersister.ControlState;
+                    persister.ViewState = PageStatePersister.ViewState;
 					persister.Load();
-
-					result = new Pair(persister.ControlState, persister.ViewState);
+                    result = new Pair(persister.ControlState, persister.ViewState);
 				}
 				else
 					result = base.LoadPageStateFromPersistenceMedium();

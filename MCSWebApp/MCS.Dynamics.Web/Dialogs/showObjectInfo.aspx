@@ -22,16 +22,7 @@
         </asp:ScriptManager>
     </div>
     <pc:SceneControl runat="server" />
-    <%--<div class="pcdlg-sky">
-        <h2 class="pc-caption">
-            <span class="pc-timepointmark">
-                <mcs:TimePointDisplayControl ID="TimePointDisplayControl1" runat="server" />
-            </span>
-        </h2>
-    </div>--%>
-    <%-- class="pcdlg-content"--%>
     <div>
-        <%--<pc:BannerNotice runat="server" ID="notice" />--%>
         <soa:PropertyForm runat="server" ID="propertyForm" Width="100%" Height="100%" AutoSaveClientState="False" />
     </div>
     <div class="pcdlg-floor">
@@ -54,17 +45,4 @@
     </form>
 </body>
 </html>
-<script type="text/javascript">
-    Sys.Application.add_load(function () {
-        //var propertyForm = $find("propertyForm");
 
-        //if (propertyForm && window.dialogArguments && window.dialogArguments.Data) {
-        //    var data = window.dialogArguments.Data;
-
-        //    var properties = propertyForm.get_properties();
-        //    properties[4].value = 55;
-        //    propertyForm.dataBind();
-        //};
-    });
-
-</script>

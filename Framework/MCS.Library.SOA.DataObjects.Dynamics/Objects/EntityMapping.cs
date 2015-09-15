@@ -31,17 +31,20 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
                     _EntityFieldMappingCollection = new List<EntityFieldMapping>();
                     InnerEntity.Fields.OrderBy(p => p.SortNo).ForEach(p =>
                     {
-                        string _outerFieldName = string.Empty;
-                        string _outerFieldID = string.Empty;
-                        if (!string.IsNullOrEmpty(OuterEntityID))
-                        {
-                            OuterEntityField outerField = p.OuterEntityFields.Where(f => f.OuterEntity.ID.Equals(OuterEntityID)).FirstOrDefault();
-                            if (outerField != null)
-                            {
-                                _outerFieldName = outerField.Name;
-                                _outerFieldID = outerField.ID;
-                            }
-                        }
+                        #region 注释掉OuterEntity的Mapping逻辑。王雷平 2015-8-13
+                        
+                        #endregion
+                        //string _outerFieldName = string.Empty;
+                        //string _outerFieldID = string.Empty;
+                        //if (!string.IsNullOrEmpty(OuterEntityID))
+                        //{
+                        //    OuterEntityField outerField = p.OuterEntityFields.Where(f => f.OuterEntity.ID.Equals(OuterEntityID)).FirstOrDefault();
+                        //    if (outerField != null)
+                        //    {
+                        //        _outerFieldName = outerField.Name;
+                        //        _outerFieldID = outerField.ID;
+                        //    }
+                        //}
 
                         _EntityFieldMappingCollection.Add(new EntityFieldMapping()
                         {
@@ -51,8 +54,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
                             FieldName = p.Name,
                             FieldLength = p.Length,
                             FieldDefaultValue = p.DefaultValue,
-                            OuterFieldName = _outerFieldName,
-                            OuterFieldID = _outerFieldID,
+                            //OuterFieldName = _outerFieldName,
+                            //OuterFieldID = _outerFieldID,
                             SortNo = p.SortNo
                         });
                     });
@@ -84,12 +87,12 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
         /// <summary>
         /// 外部字段编码
         /// </summary>
-        public string OuterFieldID { get; set; }
+        //public string OuterFieldID { get; set; }
 
         /// <summary>
         /// 外部字段名称
         /// </summary>
-        public string OuterFieldName { get; set; }
+        //public string OuterFieldName { get; set; }
 
         public void BuildFromField(DynamicEntityField field)
         {

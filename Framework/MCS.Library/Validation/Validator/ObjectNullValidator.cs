@@ -4,33 +4,38 @@ using System.Text;
 
 namespace MCS.Library.Validation
 {
-	/// <summary>
-	/// 
-	/// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public class ObjectNullValidator : Validator, IClientValidatable
-	{
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="messageTemplate"></param>
-		/// <param name="tag"></param>
-		public ObjectNullValidator(string messageTemplate, string tag)
-			: base(messageTemplate, tag)
-		{
-		}
- 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="objectToValidate"></param>
-		/// <param name="currentObject"></param>
-		/// <param name="key"></param>
-		/// <param name="validateResults"></param>
-		protected internal override void DoValidate(object objectToValidate, object currentObject, string key, ValidationResults validateResults)
-		{
-			if (objectToValidate == null)
-				RecordValidationResult(validateResults, this.MessageTemplate, currentObject, key);
-		}
+    {
+        /// <summary>
+        /// 无参数构造函数
+        /// </summary>
+        public ObjectNullValidator()
+        { }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="messageTemplate"></param>
+        /// <param name="tag"></param>
+        public ObjectNullValidator(string messageTemplate, string tag)
+            : base(messageTemplate, tag)
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objectToValidate"></param>
+        /// <param name="currentObject"></param>
+        /// <param name="key"></param>
+        /// <param name="validateResults"></param>
+        protected internal override void DoValidate(object objectToValidate, object currentObject, string key, ValidationResults validateResults)
+        {
+            if (objectToValidate == null)
+                RecordValidationResult(validateResults, this.MessageTemplate, currentObject, key);
+        }
 
         /// <summary>
         /// 客户端校验函数名称

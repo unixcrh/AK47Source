@@ -1,15 +1,30 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Library.SOA.DataObjects.Tenant.Test", "MCS.Library.SOA.DataObjects.Tenant.Test.csproj", "{F26E5794-327F-4D03-925C-70C0F4F0855E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4313DE1E-738F-477D-B7FD-B237E9116670} = {4313DE1E-738F-477D-B7FD-B237E9116670}
+		{6EA98729-9A07-4D1F-B389-07C6B9D43B1D} = {6EA98729-9A07-4D1F-B389-07C6B9D43B1D}
+		{7905642F-4630-4D16-AF40-CB1FB70D516F} = {7905642F-4630-4D16-AF40-CB1FB70D516F}
+		{2B974479-EB50-46D1-A812-58BB45447D65} = {2B974479-EB50-46D1-A812-58BB45447D65}
+		{4077B0B7-062A-4F6D-8A45-A180A2ED3215} = {4077B0B7-062A-4F6D-8A45-A180A2ED3215}
+		{78CD90D6-129A-401C-8396-E7AD8996219E} = {78CD90D6-129A-401C-8396-E7AD8996219E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Library", "..\..\MCS.Library\MCS.Library.csproj", "{4077B0B7-062A-4F6D-8A45-A180A2ED3215}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Library.Data", "..\..\MCS.Library.Data\MCS.Library.Data.csproj", "{4313DE1E-738F-477D-B7FD-B237E9116670}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Library.SOA.DataObjects", "..\..\MCS.Library.SOA.DataObjects\MCS.Library.SOA.DataObjects.csproj", "{7905642F-4630-4D16-AF40-CB1FB70D516F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4313DE1E-738F-477D-B7FD-B237E9116670} = {4313DE1E-738F-477D-B7FD-B237E9116670}
+		{6EA98729-9A07-4D1F-B389-07C6B9D43B1D} = {6EA98729-9A07-4D1F-B389-07C6B9D43B1D}
+		{2B974479-EB50-46D1-A812-58BB45447D65} = {2B974479-EB50-46D1-A812-58BB45447D65}
+		{4077B0B7-062A-4F6D-8A45-A180A2ED3215} = {4077B0B7-062A-4F6D-8A45-A180A2ED3215}
+		{78CD90D6-129A-401C-8396-E7AD8996219E} = {78CD90D6-129A-401C-8396-E7AD8996219E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Web.Library.Script.Json", "..\..\MCS.Web.Library.Script.Json\MCS.Web.Library.Script.Json.csproj", "{78CD90D6-129A-401C-8396-E7AD8996219E}"
 EndProject
@@ -24,34 +39,45 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basic", "Basic", "{903363D1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WF", "WF", "{EF242899-279E-4251-8E40-ACCE0DB2AF03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Library.Passport", "..\..\MCS.Library.Passport\MCS.Library.Passport.csproj", "{2B974479-EB50-46D1-A812-58BB45447D65}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4313DE1E-738F-477D-B7FD-B237E9116670} = {4313DE1E-738F-477D-B7FD-B237E9116670}
+		{6EA98729-9A07-4D1F-B389-07C6B9D43B1D} = {6EA98729-9A07-4D1F-B389-07C6B9D43B1D}
+		{4077B0B7-062A-4F6D-8A45-A180A2ED3215} = {4077B0B7-062A-4F6D-8A45-A180A2ED3215}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
+		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://code.cfldcn.com:8080/tfs/base
-		SccProjectUniqueName0 = ..\\..\\MCS.Library\\MCS.Library.csproj
-		SccProjectTopLevelParentUniqueName0 = MCS.Library.SOA.DataObjects.Tenant.Test.sln
-		SccProjectName0 = ../../MCS.Library
-		SccLocalPath0 = ..\\..\\MCS.Library
-		SccProjectUniqueName1 = ..\\..\\MCS.Library.Data\\MCS.Library.Data.csproj
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ..\\..\\MCS.Library\\MCS.Library.csproj
 		SccProjectTopLevelParentUniqueName1 = MCS.Library.SOA.DataObjects.Tenant.Test.sln
-		SccProjectName1 = ../../MCS.Library.Data
-		SccLocalPath1 = ..\\..\\MCS.Library.Data
-		SccProjectUniqueName2 = ..\\..\\MCS.Library.SOA.DataObjects\\MCS.Library.SOA.DataObjects.csproj
+		SccProjectName1 = ../../MCS.Library
+		SccLocalPath1 = ..\\..\\MCS.Library
+		SccProjectUniqueName2 = ..\\..\\MCS.Library.Data\\MCS.Library.Data.csproj
 		SccProjectTopLevelParentUniqueName2 = MCS.Library.SOA.DataObjects.Tenant.Test.sln
-		SccProjectName2 = ../../MCS.Library.SOA.DataObjects
-		SccLocalPath2 = ..\\..\\MCS.Library.SOA.DataObjects
-		SccProjectUniqueName3 = ..\\..\\MCS.Web.Library.Script.Json\\MCS.Web.Library.Script.Json.csproj
+		SccProjectName2 = ../../MCS.Library.Data
+		SccLocalPath2 = ..\\..\\MCS.Library.Data
+		SccProjectUniqueName3 = ..\\..\\MCS.Library.SOA.DataObjects\\MCS.Library.SOA.DataObjects.csproj
 		SccProjectTopLevelParentUniqueName3 = MCS.Library.SOA.DataObjects.Tenant.Test.sln
-		SccProjectName3 = ../../MCS.Web.Library.Script.Json
-		SccLocalPath3 = ..\\..\\MCS.Web.Library.Script.Json
-		SccProjectUniqueName4 = ..\\..\\MCS.Library.OGUPermission\\MCS.Library.OGUPermission.csproj
+		SccProjectName3 = ../../MCS.Library.SOA.DataObjects
+		SccLocalPath3 = ..\\..\\MCS.Library.SOA.DataObjects
+		SccProjectUniqueName4 = ..\\..\\MCS.Web.Library.Script.Json\\MCS.Web.Library.Script.Json.csproj
 		SccProjectTopLevelParentUniqueName4 = MCS.Library.SOA.DataObjects.Tenant.Test.sln
-		SccProjectName4 = ../../MCS.Library.OGUPermission
-		SccLocalPath4 = ..\\..\\MCS.Library.OGUPermission
-		SccLocalPath5 = .
+		SccProjectName4 = ../../MCS.Web.Library.Script.Json
+		SccLocalPath4 = ..\\..\\MCS.Web.Library.Script.Json
+		SccProjectUniqueName5 = ..\\..\\MCS.Library.OGUPermission\\MCS.Library.OGUPermission.csproj
+		SccProjectTopLevelParentUniqueName5 = MCS.Library.SOA.DataObjects.Tenant.Test.sln
+		SccProjectName5 = ../../MCS.Library.OGUPermission
+		SccLocalPath5 = ..\\..\\MCS.Library.OGUPermission
 		SccProjectUniqueName6 = MCS.Library.SOA.DataObjects.Tenant.Test.csproj
 		SccLocalPath6 = .
+		SccProjectUniqueName7 = ..\\..\\MCS.Library.Passport\\MCS.Library.Passport.csproj
+		SccProjectTopLevelParentUniqueName7 = MCS.Library.SOA.DataObjects.Tenant.Test.sln
+		SccProjectName7 = ../../MCS.Library.Passport
+		SccLocalPath7 = ..\\..\\MCS.Library.Passport
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +169,18 @@ Global
 		{6EA98729-9A07-4D1F-B389-07C6B9D43B1D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6EA98729-9A07-4D1F-B389-07C6B9D43B1D}.Release|x64.ActiveCfg = Release|Any CPU
 		{6EA98729-9A07-4D1F-B389-07C6B9D43B1D}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.DELUXEWORKSTEST|Any CPU.ActiveCfg = DELUXEWORKSTEST|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.DELUXEWORKSTEST|Any CPU.Build.0 = DELUXEWORKSTEST|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.DELUXEWORKSTEST|x64.ActiveCfg = DELUXEWORKSTEST|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.DELUXEWORKSTEST|x86.ActiveCfg = DELUXEWORKSTEST|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.Release|x64.ActiveCfg = Release|Any CPU
+		{2B974479-EB50-46D1-A812-58BB45447D65}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,5 +191,6 @@ Global
 		{7905642F-4630-4D16-AF40-CB1FB70D516F} = {EF242899-279E-4251-8E40-ACCE0DB2AF03}
 		{78CD90D6-129A-401C-8396-E7AD8996219E} = {903363D1-D4CB-486E-A780-EECA4362F0AF}
 		{6EA98729-9A07-4D1F-B389-07C6B9D43B1D} = {903363D1-D4CB-486E-A780-EECA4362F0AF}
+		{2B974479-EB50-46D1-A812-58BB45447D65} = {903363D1-D4CB-486E-A780-EECA4362F0AF}
 	EndGlobalSection
 EndGlobal

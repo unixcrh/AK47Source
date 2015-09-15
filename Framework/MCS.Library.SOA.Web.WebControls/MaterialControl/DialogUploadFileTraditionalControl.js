@@ -95,6 +95,11 @@ $HBRootNS.DialogUploadFileTraditionalControl.prototype =
 
 		var dialogArg = window.dialogArguments;
 
+		var dialogArg = window.dialogArguments;
+
+		if (!dialogArg)
+		    dialogArg = window.opener.dialogArguments;
+
 		this._container = dialogArg.container;
 		this._materials = Sys.Serialization.JavaScriptSerializer.deserialize(dialogArg.materials);
 		this._deltaMaterials = Sys.Serialization.JavaScriptSerializer.deserialize(dialogArg.deltaMaterials);
@@ -272,7 +277,10 @@ $HBRootNS.DialogUploadFileTraditionalControl.prototype =
 		tableRow = this._buildTableRow(this._tableMain);
 		tableCell = this._buildTableCell(tableRow, 1);
 
-		this._hidFrame = window.document.createElement("<iframe name='hidden_frame' id='hidden_frame'/>");
+	    //this._hidFrame = window.document.createElement("<iframe name='hidden_frame' id='hidden_frame'/>");
+		this._hidFrame = window.document.createElement("iframe");
+		this._hidFrame.id = 'hidden_frame';
+		this._hidFrame.name = 'hidden_frame';
 		this._hidFrame.style.display = "none";
 		document.body.appendChild(this._hidFrame);
 

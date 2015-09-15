@@ -71,7 +71,7 @@
     <AutoUpdateStatistics>True</AutoUpdateStatistics>
     <TornPageDetection>False</TornPageDetection>
     <DatabaseAccess>MULTI_USER</DatabaseAccess>
-    <Recovery>FULL</Recovery>
+    <Recovery>SIMPLE</Recovery>
     <EnableFullTextSearch>True</EnableFullTextSearch>
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>
     <CreateProjectFromDatabaseCompleted>True</CreateProjectFromDatabaseCompleted>
@@ -267,6 +267,7 @@
     <None Include="MCSWorkflowDB.CFLD.130.publish.xml" />
     <None Include="MCSWorkflowDB.CFLD.130_Simulation.publish.xml" />
     <None Include="MCSWorkflowDB.CFLD.130_Archive.publish.xml" />
+    <None Include="MCSWorkflowDB.CFLD.139.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment.sql" />

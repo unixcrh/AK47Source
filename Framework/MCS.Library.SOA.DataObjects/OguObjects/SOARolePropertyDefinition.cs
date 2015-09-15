@@ -134,6 +134,19 @@ namespace MCS.Library.SOA.DataObjects
             set;
         }
 
+        [NoMapping]
+        public override string Caption
+        {
+            get
+            {
+                return base.Caption;
+            }
+            set
+            {
+                base.Caption = value;
+            }
+        }
+
         [ORFieldMapping("NAME", PrimaryKey = true)]
         public override string Name
         {
@@ -235,7 +248,7 @@ namespace MCS.Library.SOA.DataObjects
             int columnIndex = 0;
 
             foreach (DataColumn column in columns)
-                this.Add(new SOARolePropertyDefinition() { Name = column.ColumnName, SortOrder = columnIndex++ });
+                this.Add(new SOARolePropertyDefinition() { Name = column.ColumnName, Description = column.Caption, SortOrder = columnIndex++ });
         }
 
         /// <summary>

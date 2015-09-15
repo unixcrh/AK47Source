@@ -28,12 +28,12 @@ namespace MCS.Dynamics.Web.inc.WebControls
             this.menuitems = new HyperLink[]
             {
                 this.HyperLink1,
-                this.bannerBtnLogs,
-                this.HyperLink2,
-                this.HyperLink3,
-                this.HyperLink4,
-                this.HyperLink6,
-                this.HyperLink5
+                //this.bannerBtnLogs,
+                //this.HyperLink2,
+                //this.HyperLink3,
+                //this.HyperLink4,
+                //this.HyperLink6,
+                //this.HyperLink5
             };
 
             base.OnInit(e);

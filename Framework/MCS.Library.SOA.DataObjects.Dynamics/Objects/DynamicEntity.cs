@@ -40,6 +40,21 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
         }
 
         /// <summary>
+        /// 快照表名称
+        /// </summary>
+        [NoMapping]
+        public string SnapshotTable
+        {
+            get
+            {
+                return this.Properties.GetValue("SnapshotTable", string.Empty);
+            }
+            set
+            {
+                this.Properties.SetValue("SnapshotTable", value);
+            }
+        }
+        /// <summary>
         /// 分类编码
         /// </summary>
         [NoMapping]
@@ -84,127 +99,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
             }
         }
 
-        private OuterEntityCollection _outerEntities = null;
-
-        public OuterEntityCollection OuterEntities
-        {
-            get
-            {
-                if (this._outerEntities == null && this.CurrentMembers != null)
-                {
-                    var oEntities = new DESchemaObjectCollection();
-
-                    oEntities.CopyFrom(this.CurrentMembers.Where(p => p.SchemaType.Trim() == DEStandardObjectSchemaType.OuterEntity.ToString()));
-
-                    this._outerEntities = OuterEntityCollection.FromSchemaObjects(oEntities);
-                }
-
-                return this._outerEntities;
-            }
-            set
-            {
-                _outerEntities = value;
-            }
-        }
-
-        /// <summary>
-        /// 按规则生成CodeName
-        /// </summary>
-        public void BuidCodeName()
-        {
-            if (this.CategoryID.IsNotEmpty() && this.Name.IsNotEmpty())
-            {
-                var codeName = DESchemaObjectAdapter.Instance.BuildCodeName(this.CategoryID, this.Name);
-                this.Properties.SetValue("CodeName", codeName);
-            }
-        }
-
-        private List<EntityFieldMappingDisplayItem> _ListDisplayItem;
-
-        public List<EntityFieldMappingDisplayItem> DynamicEntityMappingCollection
-        {
-            get
-            {
-                if (_ListDisplayItem == null)
-                {
-                    _ListDisplayItem = new List<EntityFieldMappingDisplayItem>();
-                    this.Fields.ForEach(p =>
-                    {
-                        _ListDisplayItem.Add(new EntityFieldMappingDisplayItem()
-                        {
-                            FieldID = p.ID,
-                            FieldDesc = p.Description,
-                            FieldTypeName = p.FieldType.ToString(),
-                            FieldName = p.Name,
-                            FieldLength = p.Length,
-                            FieldDefaultValue = p.DefaultValue,
-                            DestinationName = p.OuterEntityFields.Any() ? p.OuterEntityFields.FirstOrDefault().Name : string.Empty
-                        });
-                    });
-                }
-
-                return this._ListDisplayItem;
-            }
-            set
-            {
-                _ListDisplayItem = value;
-            }
-        }
-
-        /// <summary>
-        /// 转换为目标结构
-        /// </summary>
-        /// <param name="outerEntityName">目标结构名称</param>
-        /// <returns></returns>
-        public OuterEntity ToOuterEntity(string outerEntityName)
-        {
-            outerEntityName.CheckStringIsNullOrEmpty<ArgumentNullException>("outerEntityName");
-
-            OuterEntity outerEntity = this.OuterEntities.FirstOrDefault(p => p.Name.Equals(outerEntityName));
-            outerEntity.NullCheck(string.Format("找不到目标结构[{0}]", outerEntityName));
-
-            this.Fields.ForEach(f =>
-            {
-                f.GetOuterEntityFieldByOuterEntityID(outerEntity.ID);
-            });
-
-            return null;
-        }
-
-        /// <summary>
-        /// 清除自身已缓存的数据
-        /// </summary>
-        public void ClearCacheData()
-        {
-            string keyEn = this.ID + (TimePointContext.Current.UseCurrentTime).ToString();
-            string keyEt1 = this.CodeName + (TimePointContext.Current.UseCurrentTime).ToString();
-            ObjectCacheQueue.Instance.Remove(keyEn);
-            ObjectCacheQueue.Instance.Remove(keyEt1);
-        }
-
-        #region
-
-        /// <summary>
-        /// 创建该实体定义的实例(提醒一下各位Coder：实体实例不能New出来只能调用此方法获得)
-        /// </summary>
-        /// <returns></returns>
-        public DEEntityInstanceBase CreateInstance()
-        {
-            DynamicEntity entity = DEDynamicEntityAdapter.Instance.LoadWithCache(this.ID) as DynamicEntity;
-            DEEntityInstanceBase result = new DEEntityInstance(entity.ID);
-
-            result.ID = Guid.NewGuid().ToString();
-            result.Name = this.Name + "实体实例";
-            result.Description = this.Description;
-
-            //this.Properties.ForEach(p => result.Fields.TrySetValue(p.Definition.Name, p.Definition.DefaultValue.IsNotEmpty() ? p.Definition.DefaultValue : string.Empty));
-
-            return result;
-        }
-
-        #endregion
-
-        #region
+        #region MembersRelations
 
         [NonSerialized]
         private DEObjectMemberRelationCollection _AllMembersRelations = null;
@@ -254,7 +149,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
             {
                 if (this._CurrentMembers == null && this.ID.IsNotEmpty())
                 {
-                    this._CurrentMembers = DESchemaObjectAdapter.Instance.Load(CurrentMembersRelations.ToMemberIDsBuilder(),true);
+                    this._CurrentMembers = DESchemaObjectAdapter.Instance.Load(CurrentMembersRelations.ToMemberIDsBuilder(), true);
                 }
 
                 return _CurrentMembers;
@@ -268,7 +163,151 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
 
         #endregion
 
-        #region
+        /// <summary>
+        /// 转换为属性值集合
+        /// </summary>
+        /// <returns></returns>
+        public PropertyValueCollection ToDynamicProperties()
+        {
+            PropertyValueCollection properties = new PropertyValueCollection();
+
+            foreach (DynamicEntityField field in this.Fields)
+                properties.Add(field.ToDynamicPropertyValue());
+
+            return properties;
+        }
+
+        /// <summary>
+        /// 按规则生成CodeName
+        /// </summary>
+        public void BuidCodeName()
+        {
+            if (this.CategoryID.IsNotEmpty() && this.Name.IsNotEmpty())
+            {
+                var codeName = DESchemaObjectAdapter.Instance.BuildCodeName(this.CategoryID, this.Name);
+                this.Properties.SetValue("CodeName", codeName);
+            }
+        }
+
+        private List<EntityFieldMappingDisplayItem> _ListDisplayItem;
+
+        public List<EntityFieldMappingDisplayItem> DynamicEntityMappingCollection
+        {
+            get
+            {
+                if (_ListDisplayItem == null)
+                {
+                    _ListDisplayItem = new List<EntityFieldMappingDisplayItem>();
+                    this.Fields.ForEach(p =>
+                    {
+                        _ListDisplayItem.Add(new EntityFieldMappingDisplayItem()
+                        {
+                            FieldID = p.ID,
+                            FieldDesc = p.Description,
+                            FieldTypeName = p.FieldType.ToString(),
+                            FieldName = p.Name,
+                            FieldLength = p.Length,
+                            FieldDefaultValue = p.DefaultValue,
+                            DestinationName=string.Empty
+                            //DestinationName = p.OuterEntityFields.Any() ? p.OuterEntityFields.FirstOrDefault().Name : string.Empty
+                        });
+                    });
+                }
+
+                return this._ListDisplayItem;
+            }
+            set
+            {
+                _ListDisplayItem = value;
+            }
+        }
+
+        #region 注释掉OuterEntity。By 王雷平 2013-8-13
+
+        //private OuterEntityCollection _outerEntities = null;
+
+        //public OuterEntityCollection OuterEntities
+        //{
+        //    get
+        //    {
+        //        if (this._outerEntities == null && this.CurrentMembers != null)
+        //        {
+        //            var oEntities = new DESchemaObjectCollection();
+
+        //            oEntities.CopyFrom(this.CurrentMembers.Where(p => p.SchemaType.Trim() == DEStandardObjectSchemaType.OuterEntity.ToString()));
+
+        //            this._outerEntities = OuterEntityCollection.FromSchemaObjects(oEntities);
+        //        }
+
+        //        return this._outerEntities;
+        //    }
+        //    set
+        //    {
+        //        _outerEntities = value;
+        //    }
+        //}
+
+        ///// <summary>
+        ///// 转换为目标结构
+        ///// </summary>
+        ///// <param name="outerEntityName">目标结构名称</param>
+        ///// <returns></returns>
+        //public OuterEntity ToOuterEntity(string outerEntityName)
+        //{
+        //    outerEntityName.CheckStringIsNullOrEmpty<ArgumentNullException>("outerEntityName");
+
+        //    OuterEntity outerEntity = this.OuterEntities.FirstOrDefault(p => p.Name.Equals(outerEntityName));
+        //    outerEntity.NullCheck(string.Format("找不到目标结构[{0}]", outerEntityName));
+
+        //    this.Fields.ForEach(f =>
+        //    {
+        //        f.GetOuterEntityFieldByOuterEntityID(outerEntity.ID);
+        //    });
+
+        //    return null;
+        //}
+        #endregion
+
+        /// <summary>
+        /// 清除自身已缓存的数据
+        /// </summary>
+        public void ClearCacheData()
+        {
+            string keyEn = this.ID + (TimePointContext.Current.UseCurrentTime).ToString();
+            string keyEt1 = this.CodeName + (TimePointContext.Current.UseCurrentTime).ToString();
+            ObjectCacheQueue.Instance.Remove(keyEn);
+            ObjectCacheQueue.Instance.Remove(keyEt1);
+        }
+
+        /// <summary>
+        /// 创建该实体定义的实例(提醒一下各位Coder：实体实例不能New出来只能调用此方法获得)
+        /// </summary>
+        /// <returns></returns>
+        public DEEntityInstanceBase CreateInstance()
+        {
+            DynamicEntity entity = DEDynamicEntityAdapter.Instance.LoadWithCache(this.ID) as DynamicEntity;
+            DEEntityInstanceBase result = new DEEntityInstance(entity.ID);
+
+            result.ID = UuidHelper.NewUuidString();
+            result.Name = this.Name + "实体实例";
+            result.Description = this.Description;
+            return result;
+        }
+        /// <summary>
+        /// 创建该实体定义的实例(提醒一下各位Coder：实体实例不能New出来只能调用此方法获得)
+        /// </summary>
+        /// <param name="instenceID">流程示例ID</param>
+        /// <returns>流程示例</returns>
+        public DEEntityInstanceBase CreateInstance(string instenceID)
+        {
+            DynamicEntity entity = DEDynamicEntityAdapter.Instance.LoadWithCache(this.ID) as DynamicEntity;
+            DEEntityInstanceBase result = new DEEntityInstance(entity.ID);
+            result.ID = instenceID.IsNotEmpty() ? instenceID : UuidHelper.NewUuidString();
+            result.Name = this.Name + "实体实例";
+            result.Description = this.Description;
+            return result;
+        }
+        #region 动态实体的XML序列化
 
         /// <summary>
         /// 动态实体的XML序列化，包括所有子对象（字段、外部实体）
@@ -297,17 +336,13 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
             #endregion
 
             #region 外部实体
-
-            if (this.OuterEntities.Any())
-            {
-                XElement outerEntities = new XElement("OuterEntities");
-                this.OuterEntities.ForEach(oe => outerEntities.Add(oe.ToXElement()));
-                entity.Add(outerEntities);
-            }
-
+            //if (this.OuterEntities.Any())
+            //{
+            //    XElement outerEntities = new XElement("OuterEntities");
+            //    this.OuterEntities.ForEach(oe => outerEntities.Add(oe.ToXElement()));
+            //    entity.Add(outerEntities);
+            //}
             #endregion
-
-
 
             return entity;
         }
@@ -344,13 +379,13 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
         {
             foreach (var field in this.Fields)
             {
-                field.ID = Guid.NewGuid().ToString();
+                field.ID = UuidHelper.NewUuidString();
                 field.CreateDate = DateTime.Now.SimulateTime();
                 field.VersionStartTime = DateTime.MinValue;
                 field.VersionEndTime = DateTime.MinValue;
             }
 
-            this.ID = Guid.NewGuid().ToString();
+            this.ID = UuidHelper.NewUuidString();
             this.CategoryID = categoryID;
             //this.BuidCodeName();
             this.CreateDate = DateTime.Now.SimulateTime();

@@ -35,10 +35,10 @@ namespace MCS.Web.Library
 
 			if (string.IsNullOrEmpty(data) == false)
 			{
-				Pair statePair = (Pair)StateFormatter.Deserialize(data);
-
-				ControlState = statePair.Second;
-				ViewState = statePair.First;
+				//Pair statePair = (Pair)StateFormatter.Deserialize(data);
+               // ControlState = this.Page.PageStatePersister.ControlState;
+				//ControlState = statePair.Second;
+				//ViewState = statePair.First;
 
 				long id;
 

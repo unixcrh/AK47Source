@@ -156,6 +156,11 @@ Sys.UI.DomElement.getVisible = function (e) {
         ("hidden" != $HGDomElement.getCurrentStyle(e, "visibility")));
 }
 
+Sys.UI.DomElement.returnValue = function (rValue) {
+    event.returnValue = rValue;
+
+    return rValue;
+}
 
 //////////////////////////////////////
 // Sys.UI.Control.overlaps

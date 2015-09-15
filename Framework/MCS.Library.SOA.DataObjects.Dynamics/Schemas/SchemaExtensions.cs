@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MCS.Library.Core;
+﻿using MCS.Library.Core;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.Mapping;
 using MCS.Library.OGUPermission;
 using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
+using MCS.Library.SOA.DataObjects.Dynamics.Configuration;
+using MCS.Library.SOA.DataObjects.Dynamics.Enums;
 using MCS.Library.SOA.DataObjects.Dynamics.Instance;
 using MCS.Library.SOA.DataObjects.Dynamics.Objects;
+using MCS.Library.SOA.DataObjects.Dynamics.Organizations;
+using MCS.Library.SOA.DataObjects.Dynamics.Schemas;
 using MCS.Library.SOA.DataObjects.Schemas.Configuration;
 using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
-using MCS.Library.SOA.DataObjects.Dynamics.Configuration;
-using MCS.Library.SOA.DataObjects.Dynamics.Schemas;
-using MCS.Library.SOA.DataObjects.Dynamics.Organizations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics
 {
@@ -50,6 +51,35 @@ namespace MCS.Library.SOA.DataObjects.Dynamics
             DEEntityInstanceBase result = entity.CreateInstance();
 
             return result;
+        }
+
+        public static PropertyDataType ToPropertyDataType(this FieldTypeEnum fieldType)
+        {
+            PropertyDataType pdt = PropertyDataType.String;
+
+            switch (fieldType)
+            {
+                case FieldTypeEnum.Bool:
+                    pdt = PropertyDataType.Boolean;
+                    break;
+                case FieldTypeEnum.DateTime:
+                    pdt = PropertyDataType.DateTime;
+                    break;
+                case FieldTypeEnum.Decimal:
+                    pdt = PropertyDataType.Decimal;
+                    break;
+                case FieldTypeEnum.Int:
+                    pdt = PropertyDataType.Integer;
+                    break;
+                case FieldTypeEnum.String:
+                    pdt = PropertyDataType.String;
+                    break;
+                case FieldTypeEnum.Collection:
+                    pdt = PropertyDataType.DataObject;
+                    break;
+            }
+
+            return pdt;
         }
     }
 }

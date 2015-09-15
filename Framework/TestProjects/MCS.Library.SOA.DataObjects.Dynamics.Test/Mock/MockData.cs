@@ -205,16 +205,16 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mock
             mapping.OuterEntityName = "Tcode_test";
             mapping.EntityFieldMappingCollection.ToArray();
 
-            saleOrderHeaderDefine.Fields.ToArray().Where(p => p.FieldType != FieldTypeEnum.Collection).ToList().ForEach(f =>
-            {
-                var outerField = mapping.EntityFieldMappingCollection.FirstOrDefault(p => p.FieldName.Equals(f.Name));
-                outerField.OuterFieldID = Guid.NewGuid().ToString();
-                outerField.OuterFieldName = f.Name + "_Mapping";
-            });
+            //saleOrderHeaderDefine.Fields.ToArray().Where(p => p.FieldType != FieldTypeEnum.Collection).ToList().ForEach(f =>
+            //{
+            //    var outerField = mapping.EntityFieldMappingCollection.FirstOrDefault(p => p.FieldName.Equals(f.Name));
+            //    outerField.OuterFieldID = Guid.NewGuid().ToString();
+            //    outerField.OuterFieldName = f.Name + "_Mapping";
+            //});
 
-            var collfield = mapping.EntityFieldMappingCollection.FirstOrDefault(p => p.FieldTypeName == FieldTypeEnum.Collection.ToString());
-            collfield.OuterFieldID = Guid.NewGuid().ToString();
-            collfield.OuterFieldName = "Tcode_test_Item";
+            //var collfield = mapping.EntityFieldMappingCollection.FirstOrDefault(p => p.FieldTypeName == FieldTypeEnum.Collection.ToString());
+            //collfield.OuterFieldID = Guid.NewGuid().ToString();
+            //collfield.OuterFieldName = "Tcode_test_Item";
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntityMapping(mapping);
             #endregion
@@ -361,13 +361,13 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mock
             mapping.OuterEntityName = "Tcode_test_Item";
             mapping.EntityFieldMappingCollection.ToArray();
 
-            saleOrderItemDefine.Fields.ForEach(f =>
-            {
-                var outerField = mapping.EntityFieldMappingCollection.FirstOrDefault(p => p.FieldName.Equals(f.Name));
+            //saleOrderItemDefine.Fields.ForEach(f =>
+            //{
+            //    var outerField = mapping.EntityFieldMappingCollection.FirstOrDefault(p => p.FieldName.Equals(f.Name));
 
-                outerField.OuterFieldID = Guid.NewGuid().ToString();
-                outerField.OuterFieldName = f.Name + "_Mapping";
-            });
+            //    outerField.OuterFieldID = Guid.NewGuid().ToString();
+            //    outerField.OuterFieldName = f.Name + "_Mapping";
+            //});
 
             DEObjectOperations.InstanceWithoutPermissions.AddEntityMapping(mapping);
             #endregion

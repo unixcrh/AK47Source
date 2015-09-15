@@ -32,16 +32,21 @@ namespace MCS.Web.WebControls
             return new ImageUploader() { ID = this.DefaultCloneControlName() };
         }
 
+        //protected internal override void OnPagePreInit(Page page)
+        //{
+        //    CreateControls(page);
+        //}
+
         protected internal override void OnPageInit(Page page)
         {
-            //if (page.IsCallback)
-            //    CreateControls(page);
+            if (page.IsCallback)
+                CreateControls(page);
         }
 
         protected internal override void OnPagePreRender(Page page)
         {
-            //if (!page.IsCallback)
-            CreateControls(page);
+            if (!page.IsCallback)
+                CreateControls(page);
         }
     }
 }

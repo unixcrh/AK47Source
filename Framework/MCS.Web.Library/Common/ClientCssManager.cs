@@ -215,7 +215,7 @@ namespace MCS.Web.Library
         {
             string eventScript = string.Format("function(){{{0}}}", script);
 
-            string loadScript = "if (window.attachEvent) {window.attachEvent('onload', {0})} else {window.addEventListener('onload', {0})};";
+            string loadScript = "if (window.attachEvent) {window.attachEvent('onload', {0})} else {window.addEventListener('load', {0})};";
 
             loadScript = loadScript.Replace("{0}", eventScript);
 

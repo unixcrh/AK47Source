@@ -25,7 +25,7 @@ namespace MCS.Web.Library
 			{
 				HttpRequest request = HttpContext.Current.Request;
 
-				if (request.Browser.IsBrowser("IE"))
+				if (request.Browser.IsBrowser("IE") || request.Browser.IsBrowser("internetexplorer"))
 					result = HttpUtility.UrlEncode(fileName);
 			}
 			else

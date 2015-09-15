@@ -4,9 +4,9 @@ using System.Text;
 
 namespace MCS.Web.Library
 {
-	/// <summary>
-	/// 定义页面或控件输出ContentType的关键字
-	/// </summary>
+    /// <summary>
+    /// 定义页面或控件输出ContentType的关键字
+    /// </summary>
     public enum ResponseContentTypeKey
     {
         #region Define Content
@@ -36,142 +36,142 @@ namespace MCS.Web.Library
         GIF,
 
         /// <summary>
-		/// GD文件
+        /// GD文件
         /// </summary>
         GD,
 
         /// <summary>
-		/// GW，GW2文件
+        /// GW，GW2文件
         /// </summary>
         GW,
 
         /// <summary>
-		/// SPD文件
+        /// SPD文件
         /// </summary>
         SPD,
 
         /// <summary>
-		/// SEP文件
+        /// SEP文件
         /// </summary>
         SEP,
 
         /// <summary>
-		/// RM文件
+        /// RM文件
         /// </summary>
         RM,
 
         /// <summary>
-		/// RMVB文件
+        /// RMVB文件
         /// </summary>
         RMVB,
 
         /// <summary>
-		/// RA文件
+        /// RA文件
         /// </summary>
         RA,
 
         /// <summary>
-		/// SEDS92文件
+        /// SEDS92文件
         /// </summary>
         SEDS92,
 
         /// <summary>
-		/// JPEG文件
+        /// JPEG文件
         /// </summary>
         JPEG,
 
         /// <summary>
-		/// MP3文件
+        /// MP3文件
         /// </summary>
         MP3,
 
         /// <summary>
-		/// MPEG文件
+        /// MPEG文件
         /// </summary>
         MPEG,
 
         /// <summary>
-		/// MHTML文件
+        /// MHTML文件
         /// </summary>
         MHTML,
 
         /// <summary>
-		/// PDF文件
+        /// PDF文件
         /// </summary>
         PDF,
 
         /// <summary>
-		/// PNG文件
+        /// PNG文件
         /// </summary>
         PNG,
 
         /// <summary>
-		/// PPT文件
+        /// PPT文件
         /// </summary>
         PPT,
 
         /// <summary>
-		/// PostScript文件
+        /// PostScript文件
         /// </summary>
         PostScript,
 
         /// <summary>
-		/// Text文件
+        /// Text文件
         /// </summary>
         Text,
 
         /// <summary>
-		/// ///文件
+        /// ///文件
         /// </summary>
         Tiff,
 
         /// <summary>
-		/// Visio文件
+        /// Visio文件
         /// </summary>
         Visio,
 
         /// <summary>
-		/// WMD文件
+        /// WMD文件
         /// </summary>
         WMD,
 
         /// <summary>
-		/// WMP文件
+        /// WMP文件
         /// </summary>
         WMP,
 
         /// <summary>
-		/// WMA文件
+        /// WMA文件
         /// </summary>
         WMA,
 
         /// <summary>
-		/// WMZ文件
+        /// WMZ文件
         /// </summary>
         WMZ,
 
         /// <summary>
-		/// WMV文件
+        /// WMV文件
         /// </summary>
         WMV,
 
         /// <summary>
-		/// AVI文件
+        /// AVI文件
         /// </summary>
         AVI,
 
         /// <summary>
-		/// ICO文件
+        /// ICO文件
         /// </summary>
         ICO,
 
         /// <summary>
-		/// XML文件
+        /// XML文件
         /// </summary>
         XML,
 
         /// <summary>
-		/// BIN文件
+        /// BIN文件
         /// </summary>
         BIN
         #endregion
@@ -205,4 +205,24 @@ namespace MCS.Web.Library
         #endregion
     }
 
+    /// <summary>
+    /// 刷新窗口的名称
+    /// </summary>
+    public enum RefreshParentWindowName
+    {
+        /// <summary>
+        /// 弹出窗口的父窗口
+        /// </summary>
+        Opener,
+
+        /// <summary>
+        /// 父窗口，一般是Frame的主窗口
+        /// </summary>
+        Parent,
+
+        /// <summary>
+        /// 顶层窗口
+        /// </summary>
+        Top
+    }
 }

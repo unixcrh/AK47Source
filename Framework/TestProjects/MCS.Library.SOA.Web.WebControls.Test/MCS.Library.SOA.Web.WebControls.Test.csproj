@@ -52,8 +52,17 @@
     <Reference Include="MCS.Library.Data, Version=1.3.0.0, Culture=neutral, PublicKeyToken=62ea08f894871798, processorArchitecture=MSIL">
       <HintPath>..\..\..\Bin\MCS.Library.Data.dll</HintPath>
     </Reference>
-    <Reference Include="MCS.Library.Office">
+    <Reference Include="MCS.Library.Office, Version=1.0.0.0, Culture=neutral, PublicKeyToken=62ea08f894871798, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Bin\MCS.Library.Office.dll</HintPath>
+    </Reference>
+    <Reference Include="MCS.Library.Office.OpenXml.Excel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=62ea08f894871798, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\MCS.Library.Office.OpenXml.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="MCS.Library.OGUPermission, Version=1.3.0.0, Culture=neutral, PublicKeyToken=62ea08f894871798, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\MCS.Library.OGUPermission.dll</HintPath>
     </Reference>
     <Reference Include="MCS.Library.SOA.DataObjects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=62ea08f894871798, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -107,6 +116,7 @@
     <Content Include="ClientGrid\TestWithMaterialControl.aspx" />
     <Content Include="ClientGrid\TestWithOuUserInputEditor.aspx" />
     <Content Include="ClientGrid\TestWithTemplate.aspx" />
+    <Content Include="CommandInput\InnerPage.aspx" />
     <Content Include="CustomerServiceExecutiveLink\Test.aspx" />
     <Content Include="CustomerServiceExecutiveLink\Test2.aspx" />
     <Content Include="DataBindingControl\clientDataBindingTest.aspx" />
@@ -165,6 +175,7 @@
     <Content Include="ImageUpload\ImageUploadTest.aspx" />
     <Content Include="ImageUpload\ImageView.aspx" />
     <Content Include="JSON\WhereSqlClauseBuilderSerialization.aspx" />
+    <Content Include="MaterialControl\DialogUploadFileControlTest.aspx" />
     <Content Include="MaterialControl\MaterialControlDataChangedTest.aspx" />
     <Content Include="MaterialControl\CloneWithDialogUploadFileControl.aspx" />
     <Content Include="MaterialControl\CloneWithDialogUploadFileTraditionalControl.aspx" />
@@ -892,6 +903,13 @@
     <Compile Include="ClientGrid\TestWithTemplate.aspx.designer.cs">
       <DependentUpon>TestWithTemplate.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CommandInput\InnerPage.aspx.cs">
+      <DependentUpon>InnerPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommandInput\InnerPage.aspx.designer.cs">
+      <DependentUpon>InnerPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CustomerServiceExecutiveLink\Test.aspx.cs">
       <DependentUpon>Test.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1166,6 +1184,13 @@
     </Compile>
     <Compile Include="JSON\WhereSqlClauseBuilderSerialization.aspx.designer.cs">
       <DependentUpon>WhereSqlClauseBuilderSerialization.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialControl\DialogUploadFileControlTest.aspx.cs">
+      <DependentUpon>DialogUploadFileControlTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MaterialControl\DialogUploadFileControlTest.aspx.designer.cs">
+      <DependentUpon>DialogUploadFileControlTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="MaterialControl\MaterialControlDataChangedTest.aspx.cs">
       <DependentUpon>MaterialControlDataChangedTest.aspx</DependentUpon>
@@ -1943,10 +1968,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MCS.Library.OGUPermission\MCS.Library.OGUPermission.csproj">
-      <Project>{6EA98729-9A07-4D1F-B389-07C6B9D43B1D}</Project>
-      <Name>MCS.Library.OGUPermission</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MCS.Library.SOA.DataObjects\MCS.Library.SOA.DataObjects.csproj">
       <Project>{7905642F-4630-4D16-AF40-CB1FB70D516F}</Project>
       <Name>MCS.Library.SOA.DataObjects</Name>

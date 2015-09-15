@@ -30,7 +30,7 @@ namespace MCS.Web.Library.Script
 			if (sm == null)
 			{
 				sm = ScriptManager.GetCurrent(page);
-				if (sm == null)
+                if (sm == null)
 				{
 					ExceptionHelper.TrueThrow(page.Form.Controls.IsReadOnly, DeluxeWebResource.E_NoScriptManager);
 

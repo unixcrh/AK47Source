@@ -125,130 +125,130 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Instance
         {
             outerEntityName.CheckStringIsNullOrEmpty<ArgumentNullException>("outerEntityName");
             //抬头实体的映射实体
-            OuterEntity headerOuterEntity = this.EntityDefine.OuterEntities.FirstOrDefault(p => p.Name.Equals(outerEntityName));
-            headerOuterEntity.NullCheck(string.Format("找不到名称为[{0}]的目标结构", outerEntityName));
+            //OuterEntity headerOuterEntity = this.EntityDefine.OuterEntities.FirstOrDefault(p => p.Name.Equals(outerEntityName));
+            //headerOuterEntity.NullCheck(string.Format("找不到名称为[{0}]的目标结构", outerEntityName));
 
             List<SapValue> result = new List<SapValue>();
 
             #region
-            this.Fields.ForEach(field =>
-            {
-                //普通类型
-                if (field.Definition.FieldType != FieldTypeEnum.Collection)
-                {
-                    //映射的外部字段
-                    OuterEntityField outerEntityField = field.Definition.GetOuterEntityFieldByOuterEntityID(headerOuterEntity.ID);
-                    if (outerEntityField != null)
-                    {
-                        result.Add(new SapValue()
-                        {
-                            Key = outerEntityField.Name,
-                            Value = ConvertUepFiledValueMapping.ConvertUEPFiledValue(field.Definition.FieldType.ToString(), field.StringValue)
-                        });
-                    }
-                }
-                else//集合类型
-                {
-                    #region 集合类型字段的映射关系
-                    OuterEntityField collEntityField = field.Definition.GetOuterEntityFieldByOuterEntityID(headerOuterEntity.ID);
+            //this.Fields.ForEach(field =>
+            //{
+            //    //普通类型
+            //    if (field.Definition.FieldType != FieldTypeEnum.Collection)
+            //    {
+            //        //映射的外部字段
+            //        OuterEntityField outerEntityField = field.Definition.GetOuterEntityFieldByOuterEntityID(headerOuterEntity.ID);
+            //        if (outerEntityField != null)
+            //        {
+            //            result.Add(new SapValue()
+            //            {
+            //                Key = outerEntityField.Name,
+            //                Value = ConvertUepFiledValueMapping.ConvertUEPFiledValue(field.Definition.FieldType.ToString(), field.StringValue)
+            //            });
+            //        }
+            //    }
+            //    else//集合类型
+            //    {
+            //        #region 集合类型字段的映射关系
+            //        OuterEntityField collEntityField = field.Definition.GetOuterEntityFieldByOuterEntityID(headerOuterEntity.ID);
 
-                    if (collEntityField != null)
-                    {
-                        //集合对象内容
-                        DEEntityInstanceBaseCollection colls = field.GetRealValue() as DEEntityInstanceBaseCollection;
-                        if (colls != null)
-                        {
-                            #region
-                            List<SapValue> items = new List<SapValue>();
+            //        if (collEntityField != null)
+            //        {
+            //            //集合对象内容
+            //            DEEntityInstanceBaseCollection colls = field.GetRealValue() as DEEntityInstanceBaseCollection;
+            //            if (colls != null)
+            //            {
+            //                #region
+            //                List<SapValue> items = new List<SapValue>();
 
-                            #region
+            //                #region
 
-                            //集合实体所映射的外部实体
-                            OuterEntity collEntity = field.Definition.ReferenceEntity.OuterEntities.FirstOrDefault(p => p.Name.Equals(collEntityField.Name));
-                            collEntity.NullCheck(string.Format("没有找到集合类型[{0}]的映射实体", field.Definition.Name));
+            //                //集合实体所映射的外部实体
+            //                OuterEntity collEntity = field.Definition.ReferenceEntity.OuterEntities.FirstOrDefault(p => p.Name.Equals(collEntityField.Name));
+            //                collEntity.NullCheck(string.Format("没有找到集合类型[{0}]的映射实体", field.Definition.Name));
 
-                            //遍历集合对象内容
-                            colls.ForEach(p =>
-                            {
-                                //自定义集合明细
-                                SapValue item = new SapValue();
-                                item.Key = p.ID; //以前是p.Name
-                                List<SapValue> children = new List<SapValue>();
+            //                //遍历集合对象内容
+            //                colls.ForEach(p =>
+            //                {
+            //                    //自定义集合明细
+            //                    SapValue item = new SapValue();
+            //                    item.Key = p.ID; //以前是p.Name
+            //                    List<SapValue> children = new List<SapValue>();
 
-                                #region 明细字段
-                                p.Fields.ForEach(f =>
-                                {
-                                    //引用实体字段对应字段
-                                    OuterEntityField fieldMappingField = f.Definition.GetOuterEntityFieldByOuterEntityID(collEntity.ID);
+            //                    #region 明细字段
+            //                    p.Fields.ForEach(f =>
+            //                    {
+            //                        //引用实体字段对应字段
+            //                        OuterEntityField fieldMappingField = f.Definition.GetOuterEntityFieldByOuterEntityID(collEntity.ID);
 
-                                    if (fieldMappingField != null)
-                                    {
-                                        #region add by chen qiang 2014-11-05  如果子表中在有嵌套的话
+            //                        if (fieldMappingField != null)
+            //                        {
+            //                            #region add by chen qiang 2014-11-05  如果子表中在有嵌套的话
 
 
-                                        if (f.Definition.FieldType == FieldTypeEnum.Collection)
-                                        {
-                                            //先获取实体实例
-                                            DEEntityInstanceBaseCollection fieldInstanceBaseCollection = f.GetRealValue() as DEEntityInstanceBaseCollection;
-                                            List<SapValue> childrenTableValue = new List<SapValue>();
-                                            if (fieldInstanceBaseCollection != null)
-                                            {
-                                                fieldInstanceBaseCollection.ForEach(fieldInstance =>
-                                                {
-                                                    OuterEntity outerFieldEntity =
-                                                        fieldInstance.EntityDefine.OuterEntities.FirstOrDefault();
+            //                            if (f.Definition.FieldType == FieldTypeEnum.Collection)
+            //                            {
+            //                                //先获取实体实例
+            //                                DEEntityInstanceBaseCollection fieldInstanceBaseCollection = f.GetRealValue() as DEEntityInstanceBaseCollection;
+            //                                List<SapValue> childrenTableValue = new List<SapValue>();
+            //                                if (fieldInstanceBaseCollection != null)
+            //                                {
+            //                                    fieldInstanceBaseCollection.ForEach(fieldInstance =>
+            //                                    {
+            //                                        OuterEntity outerFieldEntity =
+            //                                            fieldInstance.EntityDefine.OuterEntities.FirstOrDefault();
 
-                                                    if (outerFieldEntity != null)
-                                                    {
-                                                        childrenTableValue.Add(new SapValue()
-                                                        {
-                                                            Key = fieldMappingField.Name,
-                                                            Value = fieldInstance.ToParams(outerFieldEntity.Name)
-                                                        });
-                                                    }
-                                                });
-                                                if (childrenTableValue.Any())
-                                                {
-                                                    children.Add(new SapValue()
-                                                    {
-                                                        Key = fieldMappingField.Name,
-                                                        Value = childrenTableValue
-                                                    });
-                                                }
-                                            }
+            //                                        if (outerFieldEntity != null)
+            //                                        {
+            //                                            childrenTableValue.Add(new SapValue()
+            //                                            {
+            //                                                Key = fieldMappingField.Name,
+            //                                                Value = fieldInstance.ToParams(outerFieldEntity.Name)
+            //                                            });
+            //                                        }
+            //                                    });
+            //                                    if (childrenTableValue.Any())
+            //                                    {
+            //                                        children.Add(new SapValue()
+            //                                        {
+            //                                            Key = fieldMappingField.Name,
+            //                                            Value = childrenTableValue
+            //                                        });
+            //                                    }
+            //                                }
 
-                                        }
-                                        #endregion
-                                        else
-                                        {
-                                            children.Add(new SapValue()
-                                             {
-                                                 Key = fieldMappingField.Name,
-                                                 Value = ConvertUepFiledValueMapping.ConvertUEPFiledValue(f.Definition.FieldType.ToString(), f.StringValue),
-                                             });
-                                        }
+            //                            }
+            //                            #endregion
+            //                            else
+            //                            {
+            //                                children.Add(new SapValue()
+            //                                 {
+            //                                     Key = fieldMappingField.Name,
+            //                                     Value = ConvertUepFiledValueMapping.ConvertUEPFiledValue(f.Definition.FieldType.ToString(), f.StringValue),
+            //                                 });
+            //                            }
 
-                                    }
-                                });
-                                #endregion
+            //                        }
+            //                    });
+            //                    #endregion
 
-                                item.Value = children;
-                                items.Add(item);
-                            });
-                            #endregion
+            //                    item.Value = children;
+            //                    items.Add(item);
+            //                });
+            //                #endregion
 
-                            result.Add(new SapValue()
-                            {
-                                Key = field.Definition.Name,
-                                Value = items
-                            });
+            //                result.Add(new SapValue()
+            //                {
+            //                    Key = field.Definition.Name,
+            //                    Value = items
+            //                });
 
-                            #endregion
-                        }
-                    }
-                    #endregion
-                }
-            });
+            //                #endregion
+            //            }
+            //        }
+            //        #endregion
+            //    }
+            //});
             #endregion
 
             return result;
@@ -296,10 +296,6 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Instance
                                     if (ins != null)
                                     {
                                         SetInstanceValue(ins, child.Value as List<SapValue>);
-                                    }
-                                    else
-                                    {
-
                                     }
                                 });
                             }

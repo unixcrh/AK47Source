@@ -174,32 +174,51 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Instance.ValueDefine
         //    }
         //}
 
-        ///// <summary>
-        ///// 从PropertyValue的集合导入数据。仅仅导入StringValue，没有定义部分
-        ///// </summary>
-        ///// <param name="values"></param>
-        //public void FromPropertyValues(IEnumerable<PropertyValue> values)
-        //{
-        //    if (values != null)
-        //    {
-        //        foreach (PropertyValue pv in values)
-        //        {
-        //            EntityFieldValue spv = this[pv.Definition.Name];
+        /// <summary>
+        /// 从PropertyValue的集合导入数据。仅仅导入StringValue，没有定义部分
+        /// </summary>
+        /// <param name="values"></param>
+        public void FromPropertyValues(IEnumerable<PropertyValue> values)
+        {
+            if (values != null)
+            {
+                foreach (PropertyValue pv in values)
+                {
+                    EntityFieldValue spv = this[pv.Definition.Name];
 
-        //            if (spv != null)
-        //                spv.FromPropertyVaue(pv);
-        //        }
-        //    }
-        //}
+                    if (spv != null)
+                        spv.FromPropertyVaue(pv);
+                }
+            }
+        }
+        /// <summary>
+        /// 转换为PropertyValue集合
+        /// </summary>
+        /// <returns></returns>
+        public PropertyValueCollection ToPropertyValues()
+        {
+            PropertyValueCollection result = new PropertyValueCollection();
+            this.OrderBy(p => p.SortOrder).ForEach(spv =>
+            {
+                PropertyValue pv = spv.Definition.ToDynamicPropertyValue();
+                pv.StringValue = spv.StringValue;
+                result.Add(pv);
+            });
 
-        //public PropertyValueCollection ToPropertyValues()
-        //{
-        //    PropertyValueCollection result = new PropertyValueCollection();
+            return result;
+        }
 
-        //    this.ForEach(spv => result.Add((PropertyValue)spv));
-
-        //    return result;
-        //}
+        public void CopyFiledValueFromPropertyValues(PropertyValueCollection propertys)
+        {
+            propertys.ForEach(p =>
+            {
+                string key = p.Definition.Name;
+                if (this.ContainsKey(key))
+                {
+                    this.SetValue(key, p.GetRealValue());
+                }
+            });
+        }
 
         //public void Write()
         //{

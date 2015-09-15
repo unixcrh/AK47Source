@@ -13,7 +13,11 @@ namespace MCS.Library.Validation
         private Type targetType;
         private string targetRuleset;
         private Validator targetTypeValidator;
-
+        /// <summary>
+        /// 无参数构造函数
+        /// </summary>
+        public ObjectCollectionValidator()
+        { }
         /// <summary>
         /// ObjectCollectionValidator的构造函数
         /// </summary>

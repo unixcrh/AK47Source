@@ -58,6 +58,8 @@ namespace WfFormTemplate.Forms
 
                 state = new TemplateCommandState() { Data = data };
 
+                process.ApplicationRuntimeParameters["IndustrialParkCode"] = "04";
+
                 process.ApplicationRuntimeParameters["Amount"] = data.Amount;
                 process.ApplicationRuntimeParameters["CostCenter"] = data.CostCenter;
                 process.ApplicationRuntimeParameters["AdministrativeUnit"] = data.AdministrativeUnit;

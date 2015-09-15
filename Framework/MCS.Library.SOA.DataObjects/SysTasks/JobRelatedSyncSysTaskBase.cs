@@ -15,7 +15,15 @@ namespace MCS.Library.SOA.DataObjects
 		{
 			JobBase job = GetJobInfo(task);
 
-			job.Start();
+            job.SetCurrentJobBeginStatus();
+            try
+            {
+                job.Start();
+            }
+            finally
+            {
+                job.SetCurrentJobEndStatus();
+            }
 		}
 
 		/// <summary>

@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Script.Serialization;
-using MCS.Library.Core;
+﻿using MCS.Library.Core;
 using MCS.Library.Data.Mapping;
+using MCS.Library.Principal;
+using MCS.Library.SOA.DataObjects.Dynamics;
 using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
 using MCS.Library.SOA.DataObjects.Dynamics.Enums;
 using MCS.Library.SOA.DataObjects.Dynamics.Instance.ValueDefine;
 using MCS.Library.SOA.DataObjects.Dynamics.Organizations;
 using MCS.Library.SOA.DataObjects.Dynamics.Schemas;
 using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
+using MCS.Library.Validation;
+using MCS.Web.Library.Script;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Web.Script.Serialization;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
 {
@@ -31,6 +35,21 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
 
         }
 
+        /// <summary>
+        /// 是否在快照表中
+        /// </summary>
+        [NoMapping]
+        public bool IsInSnapshot
+        {
+            get
+            {
+                return this.Properties.GetValue("IsInSnapshot", false);
+            }
+            set
+            {
+                this.Properties.SetValue("IsInSnapshot", value);
+            }
+        }
 
         /// <summary>
         /// 长度
@@ -79,7 +98,48 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
                 this.Properties.SetValue("DefaultValue", value);
             }
         }
+        /// <summary>
+        /// 验证规则定义JSON数据
+        /// </summary>
+        [NoMapping]
+        public string ValidatorDefine
+        {
+            get
+            {
+                return this.Properties.GetValue("ValidatorDefine", string.Empty);
+            }
+            set
+            {
+                this.Properties.SetValue("ValidatorDefine", value);
+            }
+        }
 
+        /// <summary>
+        /// 验证器
+        /// </summary>
+        [ScriptIgnore]
+        [NoMapping]
+        public List<Validator> Validators
+        {
+            get
+            {
+                List<Validator> validators = new List<Validator>();
+
+                string json = this.ValidatorDefine;
+
+                if (json.IsNotEmpty())
+                {
+                    List<ValidatorDefine> list = JSONSerializerExecute.DeserializeObject(json) as List<ValidatorDefine>;
+
+                    if (list != null && list.Count > 0)
+                    {
+                        list.ForEach(vd => validators.Add(vd.ToValidator()));
+                    }
+                }
+
+                return validators;
+            }
+        }
 
         private DynamicEntity _ReferenceEntity = null;
         public DynamicEntity ReferenceEntity
@@ -127,6 +187,116 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
             }
         }
 
+        #region ToDynamicProperties
+        public string Category
+        {
+            get
+            {
+                return this.Properties.GetValue("Category", string.Empty);
+            }
+            set
+            {
+                this.Properties.SetValue("Category", value);
+            }
+        }
+
+        public bool ReadOnly
+        {
+            get
+            {
+                return this.Properties.GetValue("ReadOnly", false);
+            }
+            set
+            {
+                this.Properties.SetValue("ReadOnly", value);
+            }
+        }
+
+        public string DisplayName
+        {
+            get
+            {
+                return this.Properties.GetValue("DisplayName", string.Empty);
+            }
+            set
+            {
+                this.Properties.SetValue("DisplayName", value);
+            }
+        }
+
+        public int MaxLength
+        {
+            get
+            {
+                return this.Properties.GetValue("MaxLength", 0);
+            }
+            set
+            {
+                this.Properties.SetValue("MaxLength", value);
+            }
+        }
+
+        public bool IsRequired
+        {
+            get
+            {
+                return this.Properties.GetValue("IsRequired", false);
+            }
+            set
+            {
+                this.Properties.SetValue("IsRequired", value);
+            }
+        }
+
+        public bool ShowTitle
+        {
+            get
+            {
+                return this.Properties.GetValue("ShowTitle", false);
+            }
+            set
+            {
+                this.Properties.SetValue("ShowTitle", value);
+            }
+        }
+
+        public bool Visible
+        {
+            get
+            {
+                return this.Properties.GetValue("Visible", true);
+            }
+            set
+            {
+                this.Properties.SetValue("Visible", value);
+            }
+        }
+
+        public string EditorKey
+        {
+            get
+            {
+                return this.Properties.GetValue("EditorKey", "StandardPropertyEditor");
+            }
+            set
+            {
+                this.Properties.SetValue("EditorKey", value);
+            }
+        }
+
+
+        public string EditorParams
+        {
+            get
+            {
+                return this.Properties.GetValue("EditorParams", string.Empty);
+            }
+            set
+            {
+                this.Properties.SetValue("EditorParams", value);
+            }
+        }
+
         /// <summary>
         /// 是否结构
         /// </summary>
@@ -142,6 +312,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
                 this.Properties.SetValue("IsStruct", value);
             }
         }
+        #endregion ToDynamicProperties
 
         #region IDEMemberObject
         [NonSerialized]
@@ -184,25 +355,79 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
 
         #endregion
 
-        private OuterEntityFieldCollection _outerEntityFields = null;
-        public OuterEntityFieldCollection OuterEntityFields
+        public PropertyDefine ToDynamicPropertyDefine()
         {
-            get
-            {
-                if (this._outerEntityFields == null && this.CurrentMembers != null)
-                {
-                    var oEntities = new DESchemaObjectCollection();
+            PropertyDefine pd = new PropertyDefine();
 
-                    oEntities.CopyFrom(this.CurrentMembers.Where(p => p.SchemaType.Trim() == DEStandardObjectSchemaType.OuterEntityField.ToString()));
+            pd.Name = this.Name;
+            pd.Description = this.Description;
+            pd.DefaultValue = this.DefaultValue;
+            pd.Category = this.Category;
+            pd.DisplayName = this.DisplayName;
+            pd.SortOrder = this.SortNo;
+            pd.Visible = this.Visible;
+            pd.ShowTitle = this.ShowTitle;
+            pd.IsRequired = this.IsRequired;
+            pd.MaxLength = this.MaxLength;
+            pd.ReadOnly = this.ReadOnly;
+            pd.DataType = this.FieldType.ToPropertyDataType();
+            pd.EditorKey = this.EditorKey;
+            pd.EditorParams = this.EditorParams;
+            //add validators
+            this.Validators.ForEach(v => pd.Validators.Add(v));
+            return pd;
+        }
 
-                    this._outerEntityFields = OuterEntityFieldCollection.FromSchemaObjects(oEntities);
-                }
-                return this._outerEntityFields;
-            }
-            set
+        public void CopyFromPropertyDefine(PropertyDefine propertyDefine)
+        {
+            this.ID = UuidHelper.NewUuidString();
+            this.CreateDate = DateTime.Now;
+            this.Creator = DeluxeIdentity.CurrentUser;
+            this.Name = propertyDefine.Name;
+            this.Length = propertyDefine.MaxLength;
+            this.Description = propertyDefine.Description;
+            this.DefaultValue = propertyDefine.DefaultValue;
+            this.Category = propertyDefine.Category;
+            this.DisplayName = propertyDefine.DisplayName;
+            this.SortNo = propertyDefine.SortOrder;
+            this.Visible = propertyDefine.Visible;
+            this.ShowTitle = propertyDefine.ShowTitle;
+            this.IsRequired = propertyDefine.IsRequired;
+            this.MaxLength = propertyDefine.MaxLength;
+            this.ReadOnly = propertyDefine.ReadOnly;
+            this.EditorKey = propertyDefine.EditorKey;
+            this.EditorParams = propertyDefine.EditorParams;
+            switch (propertyDefine.DataType)
             {
-                _outerEntityFields = value;
+                case PropertyDataType.String:
+                    this.FieldType = FieldTypeEnum.String;
+                    break;
+                case PropertyDataType.Integer:
+                    this.FieldType = FieldTypeEnum.Int;
+                    break;
+                case PropertyDataType.Boolean:
+                    this.FieldType = FieldTypeEnum.Bool;
+                    break;
+                case PropertyDataType.DateTime:
+                    this.FieldType = FieldTypeEnum.DateTime;
+                    break;
+                case PropertyDataType.Decimal:
+                    this.FieldType = FieldTypeEnum.Decimal;
+                    break;
+                default:
+                    this.FieldType = FieldTypeEnum.String;
+                    break;
             }
+
+            //add validators
+            //propertyDefine.Validators.ForEach(v => {this.Validators.Add(v)});
+        }
+
+        public PropertyValue ToDynamicPropertyValue()
+        {
+            PropertyDefine pd = this.ToDynamicPropertyDefine();
+
+            return new PropertyValue(pd);
         }
 
         [NonSerialized]
@@ -220,6 +445,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
                 return this._AllMembersRelations;
             }
         }
+
         [NonSerialized]
         private DESchemaObjectCollection _CurrentMembers = null;
 
@@ -273,18 +499,6 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
             //参考MCS.Library.SOA.DataObjects.PropertyDefine
         }
 
-        /// <summary>
-        /// 获取与某外部实体对应的字段
-        /// </summary>
-        /// <param name="outerEntityID"></param>
-        /// <returns></returns>
-        public OuterEntityField GetOuterEntityFieldByOuterEntityID(string outerEntityID)
-        {
-            outerEntityID.CheckStringIsNullOrEmpty<ArgumentNullException>("outerEntityID");
-
-            return this.OuterEntityFields.FirstOrDefault(p => p.OuterEntity.ID.Equals(outerEntityID));
-        }
-
         public DynamicEntity Entity
         {
             get
@@ -299,71 +513,6 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
 
             }
         }
-
-        //  Add  by Che Qiang  2014.05.14
-        /// <summary>
-        /// 引用的ETL，作为绑定数据源使用
-        /// </summary>
-        [NoMapping]
-        public string ReferenceETLEntityCodeName
-        {
-            get
-            {
-                return this.Properties.GetValue("ReferenceETLEntityCodeName", string.Empty);
-            }
-            set
-            {
-                this.Properties.SetValue("ReferenceETLEntityCodeName", value);
-            }
-        }
-        #region 需求变更 配置实体不需要关联ETL实体字段
-
-
-        ///// <summary>
-        ///// 引用的ETL实体字段Key，作为绑定数据源使用
-        ///// </summary>
-        //[NoMapping]
-        //public string ReferenceETLEntityFieldKey
-        //{
-        //    get
-        //    {
-        //        return this.Properties.GetValue("ReferenceETLEntityFieldKey", string.Empty);
-        //    }
-        //    set
-        //    {
-        //        this.Properties.SetValue("ReferenceETLEntityFieldKey", value);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 引用的ETL实体字段Value，作为绑定数据源使用
-        ///// </summary>
-        //[NoMapping]
-        //public string ReferenceETLEntityFieldVale
-        //{
-        //    get
-        //    {
-        //        return this.Properties.GetValue("ReferenceETLEntityFieldVale", string.Empty);
-        //    }
-        //    set
-        //    {
-        //        this.Properties.SetValue("ReferenceETLEntityFieldVale", value);
-        //    }
-        //}
-        #endregion
-        /// <summary>
-        /// 查看是否是数据源字段
-        /// </summary>
-        [NoMapping]
-        public bool IsDataSource
-        {
-            get
-            {
-                return this.ReferenceETLEntityCodeName.IsNotEmpty();
-            }
-        }
-
-        //  Add End
     }
 
     /// <summary>
@@ -384,23 +533,56 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
                     Description = p.Description,
                     DefaultValue = p.DefaultValue
                 };
-
                 result.Add(new SchemaPropertyValue(pd));
             });
 
             return result;
         }
 
+
         public EntityFieldValueCollection ToFieldValueCollection()
         {
             EntityFieldValueCollection result = new EntityFieldValueCollection();
 
-            this.ForEach(p =>
+            this.OrderBy(p => p.SortNo).ForEach(p =>
             {
                 result.Add(new EntityFieldValue(p));
             });
 
             return result;
+        }
+        /// <summary>
+        /// 转换为PropertyValue集合
+        /// </summary>
+        /// <returns></returns>
+        public PropertyValueCollection ToPropertyValues()
+        {
+            PropertyValueCollection result = new PropertyValueCollection();
+            this.OrderBy(p => p.SortNo).ForEach(spv =>
+            {
+                PropertyValue pv = spv.ToDynamicPropertyValue();
+                //为PropertyForm布局是添加默认的section
+                if (string.IsNullOrEmpty(pv.Definition.Category))
+                {
+                    pv.Definition.Category = "section1";
+                }
+                result.Add(pv);
+            });
+
+            return result;
+        }
+        /// <summary>
+        /// 从属性定义集合中复制字段定义
+        /// </summary>
+        /// <param name="propertyDefineCollection"></param>
+        public void CopyFromPropertyDefineCollection(PropertyDefineCollection propertyDefineCollection)
+        {
+            propertyDefineCollection.ForEach(p => 
+            {
+                DynamicEntityField field = new DynamicEntityField();
+                field.CopyFromPropertyDefine(p);
+                this.Add(field);
+            });
         }
 
         public static DynamicEntityFieldCollection FromSchemaObjects(DESchemaObjectCollection schemaObjectCollection)

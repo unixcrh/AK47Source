@@ -9,7 +9,12 @@ namespace MCS.Library.Validation
 	/// </summary>
     public class DateTimeEmptyValidator : Validator, IClientValidatable
 	{
-
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public DateTimeEmptyValidator()
+        {
+        }
 		/// <summary>
 		/// 
 		/// </summary>

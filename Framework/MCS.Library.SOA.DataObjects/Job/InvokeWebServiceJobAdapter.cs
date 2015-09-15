@@ -24,6 +24,11 @@ namespace MCS.Library.SOA.DataObjects
             JobBaseAdapter.Instance.Delete(data);
         }
 
+        /// <summary>
+        /// 根据JobID加载单一的Job信息，与TenantCode无关
+        /// </summary>
+        /// <param name="jobID"></param>
+        /// <returns></returns>
         public InvokeWebServiceJob LoadSingleDataByJobID(string jobID)
         {
             jobID.CheckStringIsNullOrEmpty("jobID");
@@ -31,10 +36,11 @@ namespace MCS.Library.SOA.DataObjects
             InSqlClauseBuilder inBuilder = new InSqlClauseBuilder("JOB_ID");
 
             inBuilder.AppendItem(jobID);
-            ConnectiveSqlClauseCollection builder = new ConnectiveSqlClauseCollection(
-                inBuilder, new WhereSqlClauseBuilder().AppendTenantCode(typeof(InvokeWebServiceJob)));
+            //ConnectiveSqlClauseCollection builder = new ConnectiveSqlClauseCollection(
+            //    inBuilder, new WhereSqlClauseBuilder().AppendTenantCode(typeof(InvokeWebServiceJob)));
 
-            return LoadSingleData(builder);
+            //return LoadSingleData(builder);
+            return LoadSingleData(inBuilder);
         }
 
         public InvokeWebServiceJob LoadSingleData(IConnectiveSqlClause whereClause)
@@ -152,10 +158,7 @@ namespace MCS.Library.SOA.DataObjects
 
             if (inBuilder.Count > 0)
             {
-                ConnectiveSqlClauseCollection builder = new ConnectiveSqlClauseCollection(inBuilder,
-                    new WhereSqlClauseBuilder().AppendTenantCode(typeof(InvokeWebServiceJob)));
-
-                string where = builder.ToSqlString(TSqlBuilder.Instance);
+                string where = inBuilder.ToSqlString(TSqlBuilder.Instance);
 
                 StringBuilder sqlString = new StringBuilder();
 

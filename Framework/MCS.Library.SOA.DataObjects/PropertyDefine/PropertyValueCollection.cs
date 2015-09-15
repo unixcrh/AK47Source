@@ -50,19 +50,6 @@ namespace MCS.Library.SOA.DataObjects
 			}
 
 			return result;
-
-			//name.CheckStringIsNullOrEmpty("key");
-
-			//T result = defaultValue;
-
-			//PropertyValue v = this[name];
-
-			//if (v != null)
-			//{
-			//    result = (T)DataConverter.ChangeType(v.StringValue, result.GetType());
-			//}
-
-			//return result;
 		}
 
 		/// <summary>

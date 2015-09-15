@@ -45,10 +45,10 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
             {
                 return this.Properties.GetValue("CodeName", string.Empty);
             }
-            //set
-            //{
-            //    this.Properties.SetValue("CodeName", value);
-            //}
+            set
+            {
+                this.Properties.SetValue("CodeName", value);
+            }
         }
 
         /// <summary>

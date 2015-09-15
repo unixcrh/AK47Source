@@ -30,7 +30,5 @@ namespace MCS.Library.Validation
 		{
 			return new DateTimeEmptyValidator(this.MessageTemplate, this.Tag);
 		}
-
-
     }
 }

@@ -153,6 +153,7 @@
     <Content Include="Template\ResponsiveBindingTemplate.ascx" />
     <Content Include="Template\ResponsiveSignInTemplate.ascx" />
     <Content Include="AnonymousTestPage\OpenIDIdentityTest.aspx" />
+    <Content Include="TestPages\AccessCheckPageTest.aspx" />
     <Content Include="TestPages\NoRedirectTest.aspx" />
     <Content Include="TestPages\PrincipalTest.aspx" />
     <Content Include="TestPages\TestTemplate.aspx" />
@@ -232,6 +233,13 @@
     </Compile>
     <Compile Include="AnonymousTestPage\OpenIDIdentityTest.aspx.designer.cs">
       <DependentUpon>OpenIDIdentityTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestPages\AccessCheckPageTest.aspx.cs">
+      <DependentUpon>AccessCheckPageTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestPages\AccessCheckPageTest.aspx.designer.cs">
+      <DependentUpon>AccessCheckPageTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="TestPages\NoRedirectTest.aspx.cs">
       <DependentUpon>NoRedirectTest.aspx</DependentUpon>

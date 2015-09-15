@@ -11,7 +11,6 @@
     <script src="scripts/MicrosoftAjax.debug.js" type="text/javascript"></script>
     <script src="scripts/pc.js" type="text/javascript"></script>
     <script src="scripts/jquery-1.7.2.min.js" type="text/javascript"></script>
-    <link rel="Shortcut Icon" href="favicon.ico"/>
     <style type="text/css">
         .pc-frame-header a:hover {
             color: #5f5f5d;

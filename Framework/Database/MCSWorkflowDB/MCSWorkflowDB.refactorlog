@@ -210,4 +210,46 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[IX_PROCESS_DIMENSIONS_TENANT_CODE]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="0e2ced49-3f2b-4394-ad63-9c9716ff8f8f" ChangeDateTime="08/12/2015 16:42:53">
+    <Property Name="ElementName" Value="[WF].[ExtendedData].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[WF].[ExtendedData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8610a9d7-76be-431b-bff0-15f80ad1244a" ChangeDateTime="08/12/2015 16:44:01">
+    <Property Name="ElementName" Value="[WF].[ExtendedData].[ResourceID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[WF].[ExtendedData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RESOURCE_ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="88d9b022-3386-4246-9c00-93130837dabb" ChangeDateTime="08/12/2015 16:44:06">
+    <Property Name="ElementName" Value="[WF].[ExtendedData].[Category]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[WF].[ExtendedData]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TYPE" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="357227be-81cc-4744-8cb8-c950b8977f07" ChangeDateTime="08/13/2015 14:00:25">
+    <Property Name="ElementName" Value="[WF].[EXTENDED_PROPERTIES].[DATA]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[WF].[EXTENDED_PROPERTIES]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PROPERTIES" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="89b094ce-3c24-4777-afa9-9fb9f37d3fae" ChangeDateTime="08/13/2015 14:14:28">
+    <Property Name="ElementName" Value="[WF].[EXTENDED_PROPERTIES].[PROPERTIES]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[WF].[EXTENDED_PROPERTIES]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DATA" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="78cc8090-a1c3-4e42-8517-1f1ffa121b6d" ChangeDateTime="08/13/2015 16:58:23">
+    <Property Name="ElementName" Value="[WF].[EXTENDED_PROPERTIES].[IX_EXTENDED_PROPERTIES_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[WF].[EXTENDED_PROPERTIES]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_EXTENDED_PROPERTIES_RESOURCE_ID]" />
+  </Operation>
 </Operations>

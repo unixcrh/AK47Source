@@ -25,7 +25,7 @@ namespace MCS.Library.SOA.Web.WebControls.Test
         {
             var data = gridTest.InitialData;
 
-            var deltaData = MaterialControl.GetCommonDeltaMaterials();
+            //var deltaData = MaterialControl.GetCommonDeltaMaterials();
            
         }
 

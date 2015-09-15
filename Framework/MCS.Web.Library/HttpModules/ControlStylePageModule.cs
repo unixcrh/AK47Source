@@ -8,116 +8,167 @@ using MCS.Web.Library;
 
 namespace MCS.Web.Library
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public class ControlStylePageModule : BasePageModule
-	{
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="page"></param>
-		protected override void Init(System.Web.UI.Page page)
-		{
-			page.PreRenderComplete += new EventHandler(PagePreRender);
-		}
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ControlStylePageModule : BasePageModule
+    {
+        private class PageDocumentType
+        {
+            public bool IsXmlDocument
+            {
+                get;
+                set;
+            }
 
-		private void PagePreRender(object sender, EventArgs e)
-		{
-			System.Web.UI.Page page = sender as System.Web.UI.Page;
-			SetControlsStyle(page);
-			SetHeaderContent(page);
-		}
+            public bool HasDocType
+            {
+                get;
+                set;
+            }
+        }
 
-		private void SetControlsStyle(System.Web.UI.Control control)
-		{
-			if (control.Controls.Count <= 0)
-				return;
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        protected override void Init(System.Web.UI.Page page)
+        {
+            page.PreRenderComplete += new EventHandler(PagePreRender);
+        }
 
-		private void SetWebControlCss(WebControl ctrl, string cssName)
-		{
-			if (string.IsNullOrEmpty(ctrl.CssClass))
-				ctrl.CssClass = cssName;
-		}
+        private void PagePreRender(object sender, EventArgs e)
+        {
+            System.Web.UI.Page page = sender as System.Web.UI.Page;
+            SetControlsStyle(page);
+            SetHeaderContent(page);
+        }
 
-		private void SetCssAttribute(IAttributeAccessor aa, string cssName)
-		{
-			if (string.IsNullOrEmpty(aa.GetAttribute("class")))
-				aa.SetAttribute("class", cssName);
-		}
+        private void SetControlsStyle(System.Web.UI.Control control)
+        {
+            if (control.Controls.Count <= 0)
+                return;
+        }
 
-		private void SetHeaderContent(Page page)
-		{
-			if (page.Header != null)
-			{
-				//不是对话框
-				if (IsXHtmlDocument(page))
-					SetCompatibleMeta(page, "IE=7");
-				else
-					SetCompatibleMeta(page, "IE=5");
-			}
-		}
+        private void SetWebControlCss(WebControl ctrl, string cssName)
+        {
+            if (string.IsNullOrEmpty(ctrl.CssClass))
+                ctrl.CssClass = cssName;
+        }
 
-		private static void SetCompatibleMeta(Page page, string metaContent)
-		{
-			if (IsCompatibleSet(page) == false)
-			{
-				HtmlMeta metaA = new HtmlMeta();
-				metaA.HttpEquiv = "X-UA-Compatible";
-				metaA.Content = metaContent;
-				page.Header.Controls.AddAt(0, metaA);
-			}
-		}
+        private void SetCssAttribute(IAttributeAccessor aa, string cssName)
+        {
+            if (string.IsNullOrEmpty(aa.GetAttribute("class")))
+                aa.SetAttribute("class", cssName);
+        }
 
-		/// <summary>
-		/// 是否在Header中已经设置了X-UA-Compatible
-		/// </summary>
-		/// <param name="page"></param>
-		/// <returns></returns>
-		private static bool IsCompatibleSet(Page page)
-		{
-			Control compatibleMeta = page.Header.FindControl(ctrl =>
-			{
-				bool set = false;
+        private void SetHeaderContent(Page page)
+        {
+            if (page.Header != null)
+            {
+                PageDocumentType docType = GetPageContentType(page);
 
-				if (ctrl is HtmlMeta)
-				{
-					HtmlMeta meta = (HtmlMeta)ctrl;
+                if (docType.HasDocType)
+                    SetCompatibleMeta(page, "IE=7");
+                else
+                    SetCompatibleMeta(page, "IE=5");
 
-					if (string.Compare(meta.HttpEquiv, "X-UA-Compatible", true) == 0)
-						set = true;
-				}
+                ////不是对话框
+                //if (IsXHtmlDocument(page))
+                //    SetCompatibleMeta(page, "IE=7");
+                //else
+                //    SetCompatibleMeta(page, "IE=5");
+            }
+        }
 
-				return set;
-			}, true);
+        private static void SetCompatibleMeta(Page page, string metaContent)
+        {
+            if (IsCompatibleSet(page) == false)
+            {
+                HtmlMeta metaA = new HtmlMeta();
+                metaA.HttpEquiv = "X-UA-Compatible";
+                metaA.Content = metaContent;
+                page.Header.Controls.AddAt(0, metaA);
+            }
+        }
 
-			return compatibleMeta != null;
-		}
+        /// <summary>
+        /// 是否在Header中已经设置了X-UA-Compatible
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        private static bool IsCompatibleSet(Page page)
+        {
+            Control compatibleMeta = page.Header.FindControl(ctrl =>
+            {
+                bool set = false;
 
-		private static bool IsXHtmlDocument(Page page)
-		{
-			bool result = false;
+                if (ctrl is HtmlMeta)
+                {
+                    HtmlMeta meta = (HtmlMeta)ctrl;
 
-			foreach (Control control in page.Controls)
-			{
-				if (control is HtmlHead)
-					break;
+                    if (string.Compare(meta.HttpEquiv, "X-UA-Compatible", true) == 0)
+                        set = true;
+                }
 
-				if (control is LiteralControl)
-				{
-					string text = ((LiteralControl)control).Text;
+                return set;
+            }, true);
 
-					if (text.IndexOf("!DOCTYPE", StringComparison.OrdinalIgnoreCase) >= 0)
-						if (text.IndexOf("XHTML", StringComparison.OrdinalIgnoreCase) >= 0)
-						{
-							result = true;
-							break;
-						}
-				}
-			}
+            return compatibleMeta != null;
+        }
 
-			return result;
-		}
-	}
+        //private static bool IsXHtmlDocument(Page page)
+        //{
+        //    bool result = false;
+
+        //    foreach (Control control in page.Controls)
+        //    {
+        //        if (control is HtmlHead)
+        //            break;
+
+        //        if (control is LiteralControl)
+        //        {
+        //            string text = ((LiteralControl)control).Text;
+
+        //            if (text.IndexOf("!DOCTYPE", StringComparison.OrdinalIgnoreCase) >= 0)
+        //                if (text.IndexOf("XHTML", StringComparison.OrdinalIgnoreCase) >= 0)
+        //                {
+        //                    result = true;
+        //                    break;
+        //                }
+        //        }
+        //    }
+
+        //    return result;
+        //}
+
+        private static PageDocumentType GetPageContentType(Page page)
+        {
+            PageDocumentType result = new PageDocumentType();
+
+            foreach (Control control in page.Controls)
+            {
+                if (control is HtmlHead)
+                    break;
+
+                if (control is LiteralControl)
+                {
+                    string text = ((LiteralControl)control).Text;
+
+                    if (text.IndexOf("!DOCTYPE", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        result.HasDocType = true;
+
+                        if (text.IndexOf("XHTML", StringComparison.OrdinalIgnoreCase) >= 0)
+                        {
+                            result.IsXmlDocument = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+    }
 }

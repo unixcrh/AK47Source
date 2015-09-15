@@ -1,16 +1,17 @@
+using MCS.Library.Core;
+using MCS.Library.Globalization;
+using MCS.Web.Library;
+using MCS.Web.Library.Script;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Text;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using MCS.Library.Core;
-using MCS.Library.Globalization;
-using MCS.Web.Library;
-using MCS.Web.Library.Script;
 
 namespace MCS.Web.WebControls
 {
@@ -235,6 +236,22 @@ namespace MCS.Web.WebControls
 			return script;
 		}
 
+        /// <summary>
+        /// 注册重置所有父窗口按钮状态的脚本
+        /// </summary>
+        public static void RegisterResetAllParentButtonsScript()
+        {
+            WebUtility.GetCurrentPage().ClientScript.RegisterClientScriptBlock(typeof(SubmitButton), "", GetResetAllParentButtonsScript(true));
+        }
+
+        /// <summary>
+        /// 输出重置所有父窗口按钮状态的脚本
+        /// </summary>
+        public static void ResponseResetAllParentButtonsScript()
+        {
+            HttpContext.Current.Response.Write(GetResetAllParentButtonsScript(true));
+        }
+
 		#region Protected
 		protected override void OnPreRender(EventArgs e)
 		{
@@ -244,7 +261,7 @@ namespace MCS.Web.WebControls
 			if (InUpdatePanel() == false)
 			{
 				string attachEvent = string.Format("window.attachEvent(\"onload\", new Function(\"{0}\"));", GetRegisterButtonScript());
-				string addEventListener = string.Format("window.addEventListener(\"onload\", new Function(\"{0}\"), false);", GetRegisterButtonScript());
+				string addEventListener = string.Format("window.addEventListener(\"load\", new Function(\"{0}\"), false);", GetRegisterButtonScript());
 
 				Page.ClientScript.RegisterStartupScript(this.GetType(), this.UniqueID,
 					string.Format("if (window.attachEvent) {0} else {1}", attachEvent, addEventListener,

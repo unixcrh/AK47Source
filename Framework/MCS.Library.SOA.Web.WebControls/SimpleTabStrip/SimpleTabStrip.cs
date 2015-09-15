@@ -124,7 +124,7 @@ namespace MCS.Web.WebControls
             if (string.IsNullOrEmpty(this.SelectedKey) == false)
             {
                 string attachEvent = string.Format("window.attachEvent(\"onload\", new Function('if (document.all(\"{0}\").strips.getItemByKey(\"{1}\")) document.all(\"{0}\").strips.getItemByKey(\"{1}\").setSelected()'));", this.clientTabStrip.ClientID, this.SelectedKey);
-                string addEventListener = string.Format("window.addEventListener(\"onload\", new Function('if (document.all(\"{0}\").strips.getItemByKey(\"{1}\")) document.all(\"{0}\").strips.getItemByKey(\"{1}\").setSelected()'));", this.clientTabStrip.ClientID, this.SelectedKey);
+                string addEventListener = string.Format("window.addEventListener(\"load\", new Function('if (document.all(\"{0}\").strips.getItemByKey(\"{1}\")) document.all(\"{0}\").strips.getItemByKey(\"{1}\").setSelected()'));", this.clientTabStrip.ClientID, this.SelectedKey);
 
                 Page.ClientScript.RegisterStartupScript(typeof(SimpleTabStrip), this.ClientID,
                     string.Format("if (window.attachEvent) {0} else {1}", attachEvent, addEventListener),

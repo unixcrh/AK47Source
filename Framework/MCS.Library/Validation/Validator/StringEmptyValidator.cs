@@ -9,6 +9,11 @@ namespace MCS.Library.Validation
 	/// </summary>
     internal class StringEmptyValidator : Validator, IClientValidatable
 	{
+        /// <summary>
+        /// 无参数构造函数
+        /// </summary>
+        public StringEmptyValidator()
+        { }
 		/// <summary>
 		/// 
 		/// </summary>

@@ -272,7 +272,7 @@ namespace MCS.Library.OGUPermission
         }
 
         /// <summary>
-        /// 索引器。
+        /// 索引器。如果没有找到，则抛出异常
         /// </summary>
         /// <param name="codeName">索引名称。</param>
         /// <returns>指定索引对应的权限对象。</returns>
@@ -292,6 +292,20 @@ namespace MCS.Library.OGUPermission
         public bool ContainsKey(string codeName)
         {
             return innerDict.ContainsKey(codeName);
+        }
+
+        /// <summary>
+        /// 根据codeName获取对象。如果没有找到，则返回null
+        /// </summary>
+        /// <param name="codeName"></param>
+        /// <returns></returns>
+        public T Get(string codeName)
+        {
+            T app = default(T);
+
+            this.innerDict.TryGetValue(codeName, out app);
+
+            return app;
         }
 
         /// <summary>
@@ -575,7 +589,14 @@ namespace MCS.Library.OGUPermission
         {
             get
             {
-                return GetUserAppRoles(GetApplication(appCodeName))[roleCodeName];
+                IRole result = null;
+
+                IApplication app = GetApplication(appCodeName, false);
+
+                if (app != null)
+                    result = GetUserAppRoles(app).Get(roleCodeName);
+
+                return result;
             }
         }
 
@@ -680,7 +701,14 @@ namespace MCS.Library.OGUPermission
         {
             get
             {
-                return GetUserAppPermissions(GetApplication(appCodeName))[permissionCodeName];
+                IPermission result = null;
+
+                IApplication app = GetApplication(appCodeName, false);
+
+                if (app != null)
+                    result = GetUserAppPermissions(app).Get(permissionCodeName);
+
+                return result;
             }
         }
 
@@ -770,7 +798,7 @@ namespace MCS.Library.OGUPermission
             {
                 if (Array.Exists<string>(codeNames, delegate(string name)
                 {
-                    return string.Compare(role.CodeName, name) == 0;
+                    return string.Compare(role.CodeName, name, true) == 0;
                 }))
                 {
                     list.Add(role);
@@ -813,7 +841,7 @@ namespace MCS.Library.OGUPermission
             {
                 if (Array.Exists<string>(codeNames, delegate(string name)
                 {
-                    return string.Compare(permission.CodeName, name) == 0;
+                    return string.Compare(permission.CodeName, name, true) == 0;
                 }))
                 {
                     list.Add(permission);

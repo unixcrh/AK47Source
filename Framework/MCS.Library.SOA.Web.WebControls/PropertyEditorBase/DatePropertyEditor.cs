@@ -9,8 +9,6 @@ namespace MCS.Web.WebControls
 {
 	public class DatePropertyEditor : PropertyEditorBase
 	{
-        //private DeluxeCalendar _DeluxeCalendarControl = new DeluxeCalendar() { ID = "DatePropertyEditor_DeluxeCalendar", DisplayFormat = "yyyy-MM-dd" };
-
         protected internal override void OnPagePreRender(Page page)
         {
             if (page.Form != null)

@@ -22,7 +22,8 @@ namespace MCS.Library.Passport
         /// </summary>
         public const string TicketParamName = "t";
 
-        private static readonly string[] ReservedParams = { PassportManager.TicketParamName, "ru", "to", "aid", "ip", "lou", TenantExtensions.TenantCodeParamName };
+        //private static readonly string[] ReservedParams = { PassportManager.TicketParamName, "ru", "to", "aid", "ip", "lou", TenantExtensions.TenantCodeParamName };
+        private static readonly string[] ReservedParams = { PassportManager.TicketParamName, "ru", "to", "aid", "ip", "lou"};
 
         #region ¾²Ì¬·½·¨
         /// <summary>

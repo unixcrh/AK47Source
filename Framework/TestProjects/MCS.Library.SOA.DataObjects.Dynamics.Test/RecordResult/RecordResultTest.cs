@@ -64,8 +64,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.RecordResult
             string masterEntityID = DEObjectOperations.InstanceWithoutPermissions.RecordResultGenerate(categoryID, data);
 
             DynamicEntity entity = DESchemaObjectAdapter.Instance.Load(masterEntityID) as DynamicEntity;
-
-            Assert.IsTrue(entity != null && entity.Fields.Any() && entity.OuterEntities.Any(), "生成实体及映射失败!");
+            //Assert.IsTrue(entity != null && entity.Fields.Any() && entity.OuterEntities.Any(), "生成实体及映射失败!");
+            Assert.IsTrue(entity != null && entity.Fields.Any(), "生成实体及映射失败!");
         }
 
         [TestCategory("没有子表的录屏结果生成实体及映射"), TestMethod]
@@ -80,8 +80,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.RecordResult
             string masterEntityID = DEObjectOperations.InstanceWithoutPermissions.RecordResultGenerate(categoryID, data);
 
             DynamicEntity entity = DESchemaObjectAdapter.Instance.Load(masterEntityID) as DynamicEntity;
-
-            Assert.IsTrue(entity != null && entity.Fields.Any() && entity.OuterEntities.Any(), "生成实体及映射失败!");
+            //Assert.IsTrue(entity != null && entity.Fields.Any() && entity.OuterEntities.Any(), "生成实体及映射失败!");
+            Assert.IsTrue(entity != null && entity.Fields.Any(), "生成实体及映射失败!");
         }
 
         /// <summary>

@@ -61,10 +61,11 @@ namespace MCS.Library.SOA.DataObjects
         /// 按照In条件加载对象
         /// </summary>
         /// <param name="inAction"></param>
+        /// <param name="dataFieldName">IN对应的数据字段名称</param>
         /// <returns></returns>
-        public virtual TCollection LoadByInBuilder(Action<InSqlClauseBuilder> inAction)
+        public virtual TCollection LoadByInBuilder(Action<InSqlClauseBuilder> inAction, string dataFieldName = "")
         {
-            return LoadByInBuilder(inAction, null);
+            return LoadByInBuilder(inAction, null, dataFieldName);
         }
 
         /// <summary>
@@ -72,15 +73,16 @@ namespace MCS.Library.SOA.DataObjects
         /// </summary>
         /// <param name="inAction"></param>
         /// <param name="orderByAction"></param>
+        /// <param name="dataFieldName">IN对应的数据字段名称</param>
         /// <returns></returns>
-        public virtual TCollection LoadByInBuilder(Action<InSqlClauseBuilder> inAction, Action<OrderBySqlClauseBuilder> orderByAction)
+        public virtual TCollection LoadByInBuilder(Action<InSqlClauseBuilder> inAction, Action<OrderBySqlClauseBuilder> orderByAction, string dataFieldName = "")
         {
             inAction.NullCheck("whereAction");
 
-            return this.LoadByInBuilder(inAction, orderByAction, this.GetQueryMappingInfo());
+            return this.LoadByInBuilder(inAction, orderByAction, this.GetQueryMappingInfo(), dataFieldName);
         }
 
-        public TCollection LoadByInBuilder(Action<InSqlClauseBuilder> inAction, Action<OrderBySqlClauseBuilder> orderByAction, ORMappingItemCollection mappings)
+        public TCollection LoadByInBuilder(Action<InSqlClauseBuilder> inAction, Action<OrderBySqlClauseBuilder> orderByAction, ORMappingItemCollection mappings, string dataFieldName = "")
         {
             inAction.NullCheck("whereAction");
 
@@ -88,7 +90,7 @@ namespace MCS.Library.SOA.DataObjects
 
             PerformanceMonitorHelper.GetDefaultMonitor().WriteExecutionDuration(string.Format("LoadByInBuilder({0})", this.GetType().FullName), () =>
             {
-                InSqlClauseBuilder inBuilder = new InSqlClauseBuilder();
+                InSqlClauseBuilder inBuilder = new InSqlClauseBuilder(dataFieldName);
 
                 inAction(inBuilder);
 

@@ -1,4 +1,5 @@
-﻿$HBRootNS.ImageUploader = function (element) {
+﻿$HBRootNS.ImageUploader = function (element)
+{
     $HBRootNS.ImageUploader.initializeBase(this, [element]);
     this._inputFileID;
     this._imageID;
@@ -23,10 +24,11 @@
     this._controlID = "";
     this._filePathChanged = false;
     this._autoUpload = false;
-}
+};
 
 $HBRootNS.ImageUploader.prototype = {
-    initialize: function () {
+    initialize: function ()
+    {
         $HBRootNS.ImageUploader.callBaseMethod(this, 'initialize');
 
         this._imgUploader = $get(this.get_inputFileID());
@@ -69,7 +71,8 @@ $HBRootNS.ImageUploader.prototype = {
         //        $addHandlers(this._imgUploader, this.uploader$delegate);
     },
 
-    setImage: function (src, width, height) {
+    setImage: function (src, width, height)
+    {
         var img = this._image;
 
         img.src = src;
@@ -81,15 +84,19 @@ $HBRootNS.ImageUploader.prototype = {
             img.height = height;
     },
 
-    saveClientState: function () {
+    saveClientState: function ()
+    {
         var state = [this._imageProperty, this.get_inputFileID()];
 
         return Sys.Serialization.JavaScriptSerializer.serialize(state);
     },
 
-    loadClientState: function (value) {
-        if (value) {
-            if (value != "") {
+    loadClientState: function (value)
+    {
+        if (value)
+        {
+            if (value != "")
+            {
                 var tempResult = Sys.Serialization.JavaScriptSerializer.deserialize(value);
                 if (Object.prototype.toString.apply(tempResult) === '[object Array]')
                     this._imageProperty = tempResult[0];
@@ -130,12 +137,14 @@ $HBRootNS.ImageUploader.prototype = {
 
     //    },
 
-    _isServerUrl: function (url) {
+    _isServerUrl: function (url)
+    {
         return url.indexOf("imagePropID") >= 0 &&
 				url.indexOf("filePath") >= 0;
     },
 
-    _uploadElement_onChange: function () {
+    _uploadElement_onChange: function ()
+    {
         this._filePathChanged = true;
         this._image.src = event.srcElement.value;
 
@@ -143,7 +152,8 @@ $HBRootNS.ImageUploader.prototype = {
         this._imageProperty.Height = this._image.height;
 
 
-        if (this._isServerUrl(this._image.src) == false) {
+        if (this._isServerUrl(this._image.src) == false)
+        {
             var fileName = this._image.src;
             var nFileNameStart = fileName.lastIndexOf("/");
             fileName = fileName.substring(nFileNameStart + 1);
@@ -152,7 +162,8 @@ $HBRootNS.ImageUploader.prototype = {
 
         this._imageProperty.Src = this._image.src;
 
-        if (this._autoUpload) {
+        if (this._autoUpload)
+        {
             this.doUpload();
         }
 
@@ -163,7 +174,8 @@ $HBRootNS.ImageUploader.prototype = {
         //        }), 300); //不延迟有问题，image还没load就doupload了。。。
     },
 
-    _imageElement_onError: function () {
+    _imageElement_onError: function ()
+    {
         this._filePathChanged = false;
         var img = this._image;
 
@@ -175,7 +187,8 @@ $HBRootNS.ImageUploader.prototype = {
         return false;
     },
 
-    _imageElement_onClick: function () {
+    _imageElement_onClick: function ()
+    {
         if (this._image.src.indexOf("file://") == 0)
             alert("图片地址是本地文件系统，不能在新窗口中打开");
         else
@@ -183,8 +196,10 @@ $HBRootNS.ImageUploader.prototype = {
 
     },
 
-    _uploadButtonElement_onClick: function () {
-        if (this._imgUploader && this._imgUploader.value == "") {
+    _uploadButtonElement_onClick: function ()
+    {
+        if (this._imgUploader && this._imgUploader.value == "")
+        {
             alert("请选择图片！");
             return;
         }
@@ -192,21 +207,25 @@ $HBRootNS.ImageUploader.prototype = {
         this.doUpload();
     },
 
-    doUpload: function () {
-        if (this._imgUploader && this._imgUploader.value != "") {
+    doUpload: function ()
+    {
+        if (this._imgUploader && this._imgUploader.value != "")
+        {
             var form = this._findServerForm(this._imgUploader);
 
             var clientOPHidden = $get("clientOPHidden");
             var clientImagePropertiesHidden = $get("clientImagePropertiesHidden");
 
-            if (form) {
+            if (form)
+            {
                 var allEmabledElements = this._findAllEnabledInputElements(form);
 
                 var oldTarget = form.target;
                 var oldAction = form.action;
                 var oldEncType = form.enctype;
 
-                try {
+                try
+                {
                     form.target = this.get_innerFrameID();
                     form.enctype = "multipart/form-data";
 
@@ -223,7 +242,8 @@ $HBRootNS.ImageUploader.prototype = {
 
                     this.set_enabled(false);
                 }
-                finally {
+                finally
+                {
                     form.target = oldTarget;
                     form.action = oldAction;
                     form.enctype = oldEncType;
@@ -234,8 +254,10 @@ $HBRootNS.ImageUploader.prototype = {
         }
     },
 
-    _setAllEnabledInputElementsDisabled: function (elements, enabled) {
-        for (var i = 0; i < elements.length; i++) {
+    _setAllEnabledInputElementsDisabled: function (elements, enabled)
+    {
+        for (var i = 0; i < elements.length; i++)
+        {
             var elem = elements[i];
 
             if (elem.type == "button" || (this._imgUploader && this._imgUploader.id == elem.id) ||
@@ -246,7 +268,8 @@ $HBRootNS.ImageUploader.prototype = {
         }
     },
 
-    _findAllEnabledInputElements: function (form) {
+    _findAllEnabledInputElements: function (form)
+    {
         var result = [];
 
         this._pushEnabledInputElementsToArray(form, "INPUT", result);
@@ -256,10 +279,12 @@ $HBRootNS.ImageUploader.prototype = {
         return result;
     },
 
-    _pushEnabledInputElementsToArray: function (form, tagName, result) {
+    _pushEnabledInputElementsToArray: function (form, tagName, result)
+    {
         var elements = form.getElementsByTagName(tagName);
 
-        for (var i = 0; i < elements.length; i++) {
+        for (var i = 0; i < elements.length; i++)
+        {
             var elem = elements[i];
 
             if (elem.disabled == false)
@@ -267,28 +292,34 @@ $HBRootNS.ImageUploader.prototype = {
         }
     },
 
-    get_enabled: function () {
+    get_enabled: function ()
+    {
         return this._enabled;
     },
 
-    set_enabled: function (enabled) {
+    set_enabled: function (enabled)
+    {
         this._set_elementEnabled(this._imgUploader, enabled);
         this._set_elementEnabled(this._uploadButton, enabled);
         this._set_elementEnabled(this._deleteButton, enabled);
     },
 
-    _set_elementEnabled: function (element, enabled) {
-        if (element) {
+    _set_elementEnabled: function (element, enabled)
+    {
+        if (element)
+        {
             element.disabled = !enabled;
         }
     },
 
-    _deleteButtonElement_onClick: function () {
+    _deleteButtonElement_onClick: function ()
+    {
         this._clearImageAndFileInput();
         this.raiseClientImageDeleted();
     },
 
-    _clearImageAndFileInput: function () {
+    _clearImageAndFileInput: function ()
+    {
         this._clearFileInput(this._imgUploader);
 
         this._image.src = this.get_defaultImg();
@@ -297,7 +328,8 @@ $HBRootNS.ImageUploader.prototype = {
         this._imageProperty.NewName = "";
     },
 
-    _clearFileInput: function (file) {
+    _clearFileInput: function (file)
+    {
         var form = document.createElement('form');
         document.body.appendChild(form);
         //记住file在旧表单中的的位置
@@ -308,11 +340,14 @@ $HBRootNS.ImageUploader.prototype = {
         document.body.removeChild(form);
     },
 
-    _findServerForm: function (elem) {
+    _findServerForm: function (elem)
+    {
         var form = null;
 
-        while (elem) {
-            if (elem.tagName == "FORM") {
+        while (elem)
+        {
+            if (elem.tagName == "FORM")
+            {
                 form = elem;
                 break;
             }
@@ -323,7 +358,8 @@ $HBRootNS.ImageUploader.prototype = {
         return form;
     },
 
-    uploadSuccess: function (str, imgUrl) {
+    uploadSuccess: function (str, imgUrl)
+    {
         this.set_enabled(true);
         this._resetAllHiddenStates();
 
@@ -340,12 +376,14 @@ $HBRootNS.ImageUploader.prototype = {
         this.raiseClientImageUploaded(str, true);
     },
 
-    _resetAllHiddenStates: function () {
+    _resetAllHiddenStates: function ()
+    {
         $get("clientImagePropertiesHidden").value = "";
         $get("clientOPHidden").value = "";
     },
 
-    uploadFail: function (message) {
+    uploadFail: function (message)
+    {
         this._clearImageAndFileInput();
 
         this.set_enabled(true);
@@ -358,90 +396,115 @@ $HBRootNS.ImageUploader.prototype = {
         this.raiseClientImageUploaded("", "", false);
     },
 
-    get_inputFileID: function () {
+    get_inputFileID: function ()
+    {
         return this._inputFileID;
     },
-    set_inputFileID: function (value) {
+    set_inputFileID: function (value)
+    {
         this._inputFileID = value;
     },
 
-    get_imageID: function () {
+    get_imageID: function ()
+    {
         return this._imageID;
     },
-    set_imageID: function (value) {
+    set_imageID: function (value)
+    {
         this._imageID = value;
     },
 
-    get_imageWidth: function () {
+    get_imageWidth: function ()
+    {
         return this._imageWidth;
     },
-    set_imageWidth: function (value) {
+    set_imageWidth: function (value)
+    {
         this._imageWidth = value;
     },
 
-    get_imageHeight: function () {
+    get_imageHeight: function ()
+    {
         return this._imageHeight;
     },
-    set_imageHeight: function (value) {
+    set_imageHeight: function (value)
+    {
         this._imageHeight = value;
     },
 
-    get_defaultImg: function () {
+    get_defaultImg: function ()
+    {
         return this._defaultImg;
     },
-    set_defaultImg: function (value) {
+    set_defaultImg: function (value)
+    {
         this._defaultImg = value;
     },
 
-    get_uploadButtonId: function () {
+    get_uploadButtonId: function ()
+    {
         return this._uploadButtonId;
     },
-    set_uploadButtonId: function (value) {
+    set_uploadButtonId: function (value)
+    {
         this._uploadButtonId = value;
     },
 
-    get_deleteButtonID: function () {
+    get_deleteButtonID: function ()
+    {
         return this._deleteButtonID;
     },
-    set_deleteButtonID: function (value) {
+    set_deleteButtonID: function (value)
+    {
         this._deleteButtonID = value;
     },
 
-    get_innerFrameID: function () {
+    get_innerFrameID: function ()
+    {
         return this._innerFrameID;
     },
-    set_innerFrameID: function (value) {
+    set_innerFrameID: function (value)
+    {
         this._innerFrameID = value;
     },
 
-    get_innerFrameContainerID: function () {
+    get_innerFrameContainerID: function ()
+    {
         return this._innerFrameContainerID;
     },
-    set_innerFrameContainerID: function (value) {
+    set_innerFrameContainerID: function (value)
+    {
         this._innerFrameContainerID = value;
     },
 
-    get_fileMaxSize: function () {
+    get_fileMaxSize: function ()
+    {
         return this._fileMaxSize;
     },
-    set_fileMaxSize: function (value) {
+    set_fileMaxSize: function (value)
+    {
         this._fileMaxSize = value;
     },
 
-    get_controlID: function () {
+    get_controlID: function ()
+    {
         return this._controlID;
     },
-    set_controlID: function (value) {
+    set_controlID: function (value)
+    {
         this._controlID = value;
     },
-    get_autoUpload: function () {
+    get_autoUpload: function ()
+    {
         return this._autoUpload;
     },
-    set_autoUpload: function (value) {
+    set_autoUpload: function (value)
+    {
         this._autoUpload = value;
     },
 
-    get_cloneableProperties: function () {
+    get_cloneableProperties: function ()
+    {
         var baseProperties = $HGRootNS.ImageUploader.callBaseMethod(this, "get_cloneableProperties");
         var currentProperties = ["imageWidth", "imageHeight", "clientStateField", "defaultImg", "currentPageUrl",
 					"fileMaxSize", "enabled", "autoUpload"];
@@ -451,7 +514,8 @@ $HBRootNS.ImageUploader.prototype = {
         return currentProperties;
     },
 
-    _prepareCloneablePropertyValues: function (newElement) {
+    _prepareCloneablePropertyValues: function (newElement)
+    {
         var properties = $HGRootNS.ImageUploader.callBaseMethod(this, "_prepareCloneablePropertyValues", [newElement]);
         this.replaceOldIDs(newElement.id, newElement, properties);
         properties.controlID = newElement.id;
@@ -461,10 +525,13 @@ $HBRootNS.ImageUploader.prototype = {
     },
 
     //递归替换element的OldID
-    replaceOldIDs: function (controlID, element, properties) {
-        for (var i = 0; i < element.childNodes.length; i++) {
+    replaceOldIDs: function (controlID, element, properties)
+    {
+        for (var i = 0; i < element.childNodes.length; i++)
+        {
             var curElement = element.childNodes[i];
-            switch (curElement.id) {
+            switch (curElement.id)
+            {
                 case this._inputFileID:
                     curElement.id = curElement.uniqueID;
                     //$clearHandlers(curElement);
@@ -495,19 +562,23 @@ $HBRootNS.ImageUploader.prototype = {
         }
     },
 
-    cloneElement: function () {
+    cloneElement: function ()
+    {
         var result = null;
         var sourceElement = this.get_element();
 
-        if (sourceElement != null) {
+        if (sourceElement != null)
+        {
             this.onBeforeCloneElement(sourceElement);
 
-            try {
+            try
+            {
                 result = sourceElement.cloneNode(true);
                 result.id = result.uniqueID;
                 result.control = undefined;
             }
-            finally {
+            finally
+            {
                 this.onAfterCloneElement(sourceElement, result);
             }
         }
@@ -526,19 +597,24 @@ $HBRootNS.ImageUploader.prototype = {
     //        }
     //    },
 
-    getImageUrl: function (imageID, filePath) {
-        if (imageID == undefined || imageID == "") {
+    getImageUrl: function (imageID, filePath)
+    {
+        if (imageID == undefined || imageID == "")
+        {
             return this.get_defaultImg();
         }
         else
             return this.get_currentPageUrl() + "?imagePropID=" + imageID + "&filePath=" + filePath;
     },
 
-    showImage: function (imageID, filePath) {
-        if (imageID == undefined || imageID == "") {
+    showImage: function (imageID, filePath)
+    {
+        if (imageID == undefined || imageID == "")
+        {
             this._image.src = this.get_defaultImg();
         }
-        else {
+        else
+        {
             var url = this.get_currentPageUrl() + "?imagePropID=" + imageID + "&filePath=" + filePath;
             this.setImage(url);
             this._imageProperty.Width = this._image.width;
@@ -549,43 +625,54 @@ $HBRootNS.ImageUploader.prototype = {
         }
     },
 
-    raiseClientImageUploaded: function (imgProJsonStr, isSuccess) {
+    raiseClientImageUploaded: function (imgProJsonStr, isSuccess)
+    {
         var handlers = this.get_events().getHandler("imageUploaded");
         var e = Sys.EventArgs.Empty;
-        e.ImgProJsonStr = imgProJsonStr;      
+        e.ImgProJsonStr = imgProJsonStr;
         e.IsSuccess = isSuccess;
-        if (handlers) {
+        if (handlers)
+        {
             handlers(this, e);
         }
     },
-    remove_clientImageUploaded: function (handler) {
+    remove_clientImageUploaded: function (handler)
+    {
         this.get_events().removeHandler("imageUploaded", handler);
     },
-    add_clientImageUploaded: function (handler) {
+    add_clientImageUploaded: function (handler)
+    {
         this.get_events().addHandler("imageUploaded", handler);
     },
 
-    raiseClientImageDeleted: function () {
+    raiseClientImageDeleted: function ()
+    {
         var handlers = this.get_events().getHandler("imageDeleted");
-        if (handlers) {
+        if (handlers)
+        {
             handlers(this, Sys.EventArgs.Empty);
         }
     },
-    remove_clientImageDeleted: function (handler) {
+    remove_clientImageDeleted: function (handler)
+    {
         this.get_events().removeHandler("imageDeleted", handler);
     },
-    add_clientImageDeleted: function (handler) {
+    add_clientImageDeleted: function (handler)
+    {
         this.get_events().addHandler("imageDeleted", handler);
     },
 
-    get_currentPageUrl: function () {
+    get_currentPageUrl: function ()
+    {
         return this._currentPageUrl;
     },
-    set_currentPageUrl: function (value) {
-        if (this._currentPageUrl != value) {
+    set_currentPageUrl: function (value)
+    {
+        if (this._currentPageUrl != value)
+        {
             this._currentPageUrl = value;
         }
     }
-}
+};
 
 $HBRootNS.ImageUploader.registerClass($HBRootNSName + ".ImageUploader", $HBRootNS.ControlBase);

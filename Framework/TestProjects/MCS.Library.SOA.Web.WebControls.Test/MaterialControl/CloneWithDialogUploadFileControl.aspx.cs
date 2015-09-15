@@ -18,7 +18,7 @@ namespace MCS.Library.SOA.Web.WebControls.Test
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            var data = MaterialControl.GetCommonDeltaMaterials();
+            //var data = MaterialControl.GetCommonDeltaMaterials();
         }
        
     }

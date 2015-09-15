@@ -183,7 +183,10 @@ namespace WorkflowDesigner.PlanScheduleDialog
 			if (e.ExecutingSelectCount == false)
 			{
 				WhereSqlClauseBuilder mappingbuilder = this.QueryCondition != null ? ConditionMapping.GetWhereSqlClauseBuilder(this.QueryCondition) : new WhereSqlClauseBuilder();
+                mappingbuilder.AppendTenantCode();
+
 				WhereSqlClauseBuilder where2 = (WhereSqlClauseBuilder)new WhereSqlClauseBuilder().AppendItem("SCHEDULE_ID", DBNull.Value, "IS NOT");
+                where2.AppendTenantCode();
 
 				ConnectiveSqlClauseCollection all = new ConnectiveSqlClauseCollection(mappingbuilder, where2);
 

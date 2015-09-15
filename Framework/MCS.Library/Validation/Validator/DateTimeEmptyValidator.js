@@ -2,7 +2,7 @@
 $HGRootNS.ValidatorManager.DateTimeEmptyValidator = function () {
     this.validate = function (cvalue) {
         var isValidate = false;
-        isValidate = (isNaN(cvalue) == false);
+        isValidate = (cvalue != "");
 
         if (isValidate)
             isValidate = Date.isMinDate(cvalue) == false;

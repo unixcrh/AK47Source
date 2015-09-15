@@ -137,7 +137,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
             var field = entity.Fields[0];
             field.FieldType = FieldTypeEnum.Collection;
             field.ReferenceEntityCodeName = childCodeName;
-            field.OuterEntityFields.Add(outField);
+           // field.OuterEntityFields.Add(outField);
             //主表入库
             DEObjectOperations.InstanceWithoutPermissions.AddEntity(entity);
 
@@ -150,8 +150,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
                 FieldLength = field.Length,
                 FieldName = field.Name,
                 FieldTypeName = field.FieldType.ToString(),
-                OuterFieldID = outField.ID,
-                OuterFieldName = outField.Name,
+                //OuterFieldID = outField.ID,
+                //OuterFieldName = outField.Name,
                 SortNo = field.SortNo
             };
             List<EntityFieldMapping> entityFieldMappingCollection = new List<EntityFieldMapping>();
@@ -181,11 +181,11 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
             Assert.IsNotNull(copyChildEntity, string.Format("子实体[/集团公司/销售板块/销售订单/{0}]复制失败", childEntity.Name));
             Assert.AreEqual(copyEntity.Fields[0].FieldType, FieldTypeEnum.Collection, string.Format("实体[/集团公司/销售板块/销售订单/{0}]的字段复制失败", entity.Name));
             Assert.AreEqual(copyEntity.Fields[0].ReferenceEntityCodeName, copyChildEntity.CodeName, string.Format("实体[/集团公司/销售板块/销售订单/{0}]的字段复制失败", entity.Name));
-            Assert.AreEqual(copyEntity.OuterEntities.Count, entity.OuterEntities.Count, "实体字段外部实体复制失败");
-            Assert.AreEqual(copyEntity.OuterEntities[0].Name, entity.OuterEntities[0].Name, "实体字段外部实体复制失败");
-            Assert.AreEqual(copyEntity.Fields[0].OuterEntityFields.Count, 1, "实体字段外部实体字段复制失败");
-            Assert.AreEqual(copyEntity.Fields[0].OuterEntityFields.Count, entity.Fields[0].OuterEntityFields.Count, "实体字段外部实体字段复制失败");
-            Assert.AreEqual(copyEntity.Fields[0].OuterEntityFields[0].Name, "OutField", "实体字段外部实体字段复制失败");
+            //Assert.AreEqual(copyEntity.OuterEntities.Count, entity.OuterEntities.Count, "实体字段外部实体复制失败");
+            //Assert.AreEqual(copyEntity.OuterEntities[0].Name, entity.OuterEntities[0].Name, "实体字段外部实体复制失败");
+            //Assert.AreEqual(copyEntity.Fields[0].OuterEntityFields.Count, 1, "实体字段外部实体字段复制失败");
+            //Assert.AreEqual(copyEntity.Fields[0].OuterEntityFields.Count, entity.Fields[0].OuterEntityFields.Count, "实体字段外部实体字段复制失败");
+            //Assert.AreEqual(copyEntity.Fields[0].OuterEntityFields[0].Name, "OutField", "实体字段外部实体字段复制失败");
         }
 
         #region 移动实体
@@ -211,7 +211,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
             DynamicEntity loadEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName("/集团公司/销售板块/销售订单/" + entity.Name) as DynamicEntity;
             Assert.IsNotNull(loadEntity, string.Format("移动实体[{0}]失败", entity.CodeName));
             DynamicEntity loadOldEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName("/集团公司/管道板块/运输/" + entity.Name) as DynamicEntity;
-            Assert.IsNotNull(loadOldEntity, string.Format("移动实体[/集团公司/管道板块/运输/{0}]失败", entity.Name));
+            Assert.IsNull(loadOldEntity, string.Format("移动实体[/集团公司/管道板块/运输/{0}]失败", entity.Name));
         }
 
         [TestCategory("MoveObject"), TestMethod]
@@ -247,9 +247,9 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test
             Assert.AreEqual(loadEntity.Fields[0].FieldType, FieldTypeEnum.Collection);
             Assert.AreEqual(loadEntity.Fields[0].ReferenceEntityCodeName, loadChildEntity.CodeName);
             DynamicEntity loadOldEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName(entity.CodeName) as DynamicEntity;
-            Assert.IsNotNull(loadOldEntity, "移动老实体时失败");
+            Assert.IsNull(loadOldEntity, "移动老实体时失败");
             DynamicEntity loadOldChildEntity = DEDynamicEntityAdapter.Instance.LoadByCodeName(childEntity.CodeName) as DynamicEntity;
-            Assert.IsNotNull(loadOldChildEntity, "移动老实体的子实体时失败");
+            Assert.IsNull(loadOldChildEntity, "移动老实体的子实体时失败");
         }
 
         #endregion

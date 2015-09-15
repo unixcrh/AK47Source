@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Web.WebControls.Test", "MCS.Web.WebControls.Test.csproj", "{8014406A-A695-4FDE-9395-7A370F014D15}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -14,10 +14,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Web.Library", "..\..\MCS.Web.Library\MCS.Web.Library.csproj", "{13C52DE4-BAFD-41E7-8D12-1C27221BACDD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4077B0B7-062A-4F6D-8A45-A180A2ED3215} = {4077B0B7-062A-4F6D-8A45-A180A2ED3215}
+		{78CD90D6-129A-401C-8396-E7AD8996219E} = {78CD90D6-129A-401C-8396-E7AD8996219E}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Web.WebControls", "..\..\MCS.Web.WebControls\MCS.Web.WebControls.csproj", "{C8E5AF14-62FB-44EE-9CCB-CFC263259863}"
 	ProjectSection(ProjectDependencies) = postProject
+		{4077B0B7-062A-4F6D-8A45-A180A2ED3215} = {4077B0B7-062A-4F6D-8A45-A180A2ED3215}
+		{78CD90D6-129A-401C-8396-E7AD8996219E} = {78CD90D6-129A-401C-8396-E7AD8996219E}
 		{13C52DE4-BAFD-41E7-8D12-1C27221BACDD} = {13C52DE4-BAFD-41E7-8D12-1C27221BACDD}
 	EndProjectSection
 EndProject

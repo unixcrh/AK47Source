@@ -7,6 +7,7 @@ using MCS.Library.SOA.DataObjects.Dynamics.Objects;
 using MCS.Library.SOA.DataObjects.Dynamics.Test.Common;
 using MCS.Library.SOA.DataObjects.Dynamics.Test.Mock;
 using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
+using MCS.Library.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -156,6 +157,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Objects
         //    Assert.IsTrue(dbResult.ID.Equals(entity.ID));
         //}
 
+        
         #endregion
 
         #region 操作实体字段

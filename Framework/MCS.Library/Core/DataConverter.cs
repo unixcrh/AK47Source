@@ -89,7 +89,7 @@ namespace MCS.Library.Core
                 else
                     if (targetType.IsEnum)
                     {
-                        if (srcType == typeof(string) || srcType == typeof(int))
+                        if (srcType == typeof(string) || srcType == typeof(int) || srcType == typeof(long))
                         {
                             if (srcValue is string && (srcValue).ToString().IsNullOrEmpty())
                             {
@@ -156,12 +156,12 @@ namespace MCS.Library.Core
                 }
                 else if (targetType == typeof(DateTime))
                 {
-                    result =Convert.ToDateTime(srcValue);
+                    result = Convert.ToDateTime(srcValue);
                 }
                 else
                 {
                     result = Convert.ChangeType(srcValue, targetType);
-                } 
+                }
             }
 
             return result;

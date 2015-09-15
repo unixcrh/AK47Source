@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [WF].[TASK_ASSIGNEES] (
     [ID]            NVARCHAR (36)  NOT NULL,
-    [RESOURCE_ID]   NVARCHAR (36)  NULL,
+    [RESOURCE_ID]   NVARCHAR (36)  NULL ,
     [INNER_ID]      INT            NULL,
     [TYPE]          NVARCHAR (36)  NULL,
     [ASSIGNEE_ID]   NVARCHAR (36)  NOT NULL,
@@ -22,3 +22,13 @@ CREATE NONCLUSTERED INDEX [IDX_TASK_ASSIGNEES_RESOURCE_ID]
 GO
 EXECUTE sp_addextendedproperty @name = N'MS_Description', @value = N'任务的分派人', @level0type = N'SCHEMA', @level0name = N'WF', @level1type = N'TABLE', @level1name = N'TASK_ASSIGNEES';
 
+
+GO
+EXEC sp_addextendedproperty @name = N'MS_Description',
+    @value = N'所属的对象的ID',
+    @level0type = N'SCHEMA',
+    @level0name = N'WF',
+    @level1type = N'TABLE',
+    @level1name = N'TASK_ASSIGNEES',
+    @level2type = N'COLUMN',
+    @level2name = N'RESOURCE_ID'

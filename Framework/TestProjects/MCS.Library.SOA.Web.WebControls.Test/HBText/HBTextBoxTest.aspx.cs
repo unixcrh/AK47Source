@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MCS.Web.Library.MVC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,20 @@ namespace MCS.Library.SOA.Web.WebControls.Test.HBText
             if (!IsPostBack)
             {
                 this.tbx1.Text = "3434343434343";
+                Scene.RenderAllChildrenReadOnly(this.Page, true);
+            }
+        }
+
+        public string GetText()
+        {
+            return "Hello world !";
+        }
+
+        protected bool IsReadOnly
+        {
+            get
+            {
+                throw new SystemException("Hello");
             }
         }
 

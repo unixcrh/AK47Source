@@ -1,24 +1,15 @@
-#region
-// -------------------------------------------------
-// Assembly	：	MCS.Web.WebControls
-// FileName	：	HBTextBox.cs
-// Remark	：	输入控件
-// -------------------------------------------------
-// VERSION		AUTHOR		     DATE			CONTENT
-// 1.0			英雄不留名		20080324    	果果14天 创建 
-// -------------------------------------------------
-#endregion
+using MCS.Library.Core;
+using MCS.Web.Library;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Globalization;
-using System.IO;
-using System.ComponentModel;
-using MCS.Web.Library;
-using System.Collections.Specialized;
 
 namespace MCS.Web.WebControls
 {
@@ -33,6 +24,40 @@ namespace MCS.Web.WebControls
                 this.Text = text;
 
             return text != null;
+        }
+
+        /// <summary>
+        /// 文本框的样式，对于TextBox，这个样式优先于CssClass
+        /// </summary>
+        [CssClassProperty]
+        [DefaultValue("")]
+        public virtual string TextBoxCssClass
+        {
+            get
+            {
+                return WebControlUtility.GetViewStateValue(ViewState, "TextBoxCssClass", string.Empty);
+            }
+            set
+            {
+                WebControlUtility.SetViewStateValue(ViewState, "TextBoxCssClass", value);
+            }
+        }
+
+        /// <summary>
+        /// Label的样式，对于Label，这个样式优先于CssClass
+        /// </summary>
+        [CssClassProperty]
+        [DefaultValue("")]
+        public virtual string LabelBoxCssClass
+        {
+            get
+            {
+                return WebControlUtility.GetViewStateValue(ViewState, "LabelBoxCssClass", string.Empty);
+            }
+            set
+            {
+                WebControlUtility.SetViewStateValue(ViewState, "LabelBoxCssClass", value);
+            }
         }
 
         [DefaultValue(false)]
@@ -54,7 +79,7 @@ namespace MCS.Web.WebControls
         /// <param name="writer"></param>
         protected override void Render(HtmlTextWriter writer)
         {
-            if (this.ReadOnly && KeepControlWhenReadOnly == false)
+            if (this.ReadOnly && this.KeepControlWhenReadOnly == false)
             {
                 RenderLabel(writer, this.ClientID);
             }
@@ -62,37 +87,37 @@ namespace MCS.Web.WebControls
             {
                 string lableID = string.Empty;
 
-                if (KeepControlWhenReadOnly && ReadOnly)
+                if (this.KeepControlWhenReadOnly && this.ReadOnly)
                 {
                     lableID = this.ClientID + "_Label";
 
                     RenderLabel(writer, lableID);
                 }
 
-                if (string.IsNullOrEmpty(lableID) == false)
+                if (lableID.IsNotEmpty())
                 {
                     writer.AddAttribute("relativeLabel", lableID);
                     writer.AddStyleAttribute(HtmlTextWriterStyle.Display, "none");
-                }
 
-                if (ReadOnly && KeepControlWhenReadOnly)
-                {
                     string script = "if (event.propertyName=='value' || event.propertyName=='innerText') {var textValue; if (event.srcElement.tagName=='INPUT') {textValue=event.srcElement.value;} else {textValue=event.srcElement.innerText;}\ndocument.getElementById('{0}').innerText=textValue;}";
 
                     script = script.Replace("{0}", lableID);
                     writer.AddAttribute("onpropertychange", script);
                 }
 
-                if (TextMode == TextBoxMode.MultiLine && this.ReadOnly == false)
+                if (this.TextBoxCssClass.IsNotEmpty())
+                    this.CssClass = this.TextBoxCssClass;
+
+                if (this.TextMode == TextBoxMode.MultiLine && this.ReadOnly == false)
                 {
                     writer.AddAttribute("onpropertychange",
                         "this.style.posHeight = (this.scrollHeight > parseInt(this.style.minHeight.replace('px', '')))" +
                         " ? this.scrollHeight : parseInt(this.style.minHeight.replace('px', ''));");
-                    if (string.IsNullOrEmpty(Height.ToString()))
-                    {
-                        Height = Unit.Pixel(20);
-                    }
-                    writer.AddStyleAttribute("min-height", Height.ToString());
+
+                    if (string.IsNullOrEmpty(this.Height.ToString()))
+                        this.Height = Unit.Pixel(20);
+
+                    writer.AddStyleAttribute("min-height", this.Height.ToString());
 
                     base.Render(writer);
 
@@ -102,7 +127,7 @@ namespace MCS.Web.WebControls
                         "document.getElementById('" + this.ClientID + "')");
 
                     string loadScript = "function(){" + adjustScript + "}";
-                    writer.WriteLine("if (window.attachEvent){window.attachEvent('onload', " + loadScript + ")}else{window.addEventListener('onload', " + loadScript + ", false)}");
+                    writer.WriteLine("if (window.attachEvent){window.attachEvent('onload', " + loadScript + ")}else{window.addEventListener('load', " + loadScript + ", false)}");
                     writer.WriteLine("</script>");
                 }
                 else
@@ -144,7 +169,12 @@ namespace MCS.Web.WebControls
             lb.ToolTip = this.ToolTip;
             lb.Visible = this.Visible;
             lb.Width = this.Width;
-            lb.CssClass = this.CssClass;
+
+            if (this.LabelBoxCssClass.IsNotEmpty())
+                lb.CssClass = this.LabelBoxCssClass;
+            else
+                lb.CssClass = this.CssClass;
+
             lb.Style.Add("word-wrap", "break-word");
 
             lb.RenderControl(writer);

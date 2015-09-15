@@ -28,7 +28,7 @@ namespace MCS.Dynamics.Web.Dialogs
             {
                 DynamicEntity entity = LoadEntity(Request.QueryString["ID"]);
                 this.bindingControl.Data = entity;
-                this.DestinationName.Text = entity.OuterEntities.Any() ? entity.OuterEntities.FirstOrDefault().Name : string.Empty;
+                //this.DestinationName.Text = entity.OuterEntities.Any() ? entity.OuterEntities.FirstOrDefault().Name : string.Empty;
                 //绑定字段类型
                 //this.ddl_FieldType.BindData(EnumItemDescriptionAttribute.GetDescriptionList(typeof(FieldTypeEnum)), "EnumValue", "Description");
             }
@@ -83,21 +83,21 @@ namespace MCS.Dynamics.Web.Dialogs
             bindingControl.CollectData(false);
             DynamicEntity entity = bindingControl.Data as DynamicEntity;
 
-            string HeadName = this.DestinationName.Text;
-            entity.OuterEntities.Add(new OuterEntity()
-                {
-                    Name = HeadName,
-                    ID = Guid.NewGuid().ToString()
-                });
+            //string HeadName = this.DestinationName.Text;
+            //entity.OuterEntities.Add(new OuterEntity()
+            //    {
+            //        Name = HeadName,
+            //        ID = Guid.NewGuid().ToString()
+            //    });
 
-            entity.Fields.ForEach(p =>
-            {
-                p.OuterEntityFields.Add(new OuterEntityField()
-                {
-                    Name = entity.DynamicEntityMappingCollection.FirstOrDefault(f => f.FieldID.Equals(p.ID)).DestinationName,
-                    ID = Guid.NewGuid().ToString()
-                });
-            });
+            //entity.Fields.ForEach(p =>
+            //{
+            //    p.OuterEntityFields.Add(new OuterEntityField()
+            //    {
+            //        Name = entity.DynamicEntityMappingCollection.FirstOrDefault(f => f.FieldID.Equals(p.ID)).DestinationName,
+            //        ID = Guid.NewGuid().ToString()
+            //    });
+            //});
 
             //DEObjectOperations.InstanceWithoutPermissions.AddEntityMapping(entity);
 

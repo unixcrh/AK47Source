@@ -93,7 +93,9 @@
     <Compile Include="DataObjects\MaterialTest.cs" />
     <Compile Include="DataObjects\PropertyAndValidators.cs" />
     <Compile Include="DataObjects\TaskAssigneeTest.cs" />
+    <Compile Include="DataObjects\ExtendedPropertiesTest.cs" />
     <Compile Include="DataObjects\UploadFileHistoryTest.cs" />
+    <Compile Include="Jobs\JobAdapterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SysTasks\SysTaskCommon.cs" />
     <Compile Include="SysTasks\BasicSysTaskTest.cs" />

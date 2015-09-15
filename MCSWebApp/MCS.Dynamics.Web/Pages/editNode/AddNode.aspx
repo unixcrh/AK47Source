@@ -44,31 +44,32 @@
     <table style="margin-left: 10px; margin-top: 15px;">
         <tr>
             <td>
-                <label for="CodeName" class="pc-label">
-                    显示名称</label>
+                <label for="CodeName" class="pc-label">显示名称</label>
+            </td>
+            <td>
                 <input type="text" runat="server" id="codeName" class="pc-textbox" />
             </td>
-            <td>
-                <label for="fjid" class="pc-label">
-                    父级ID(双击)</label>
-                <input type="text" runat="server" id="fjid" style="width: 255px;" ondblclick="fujidblClick()"
-                    class="pc-textbox" readonly />
-            </td>
-            <td>
-                <label for="description" class="pc-label">
-                    描述</label>
-                <input type="text" runat="server" id="description" style="width: 255px;" class="pc-textbox" />
-            </td>
         </tr>
-    </table>
-    <table style="margin-left: 69%;">
         <tr>
             <td>
-                <input type="button" runat="server" id="okButton" class="formButton" value="确定(O)"
-                    accesskey="O" onclick="okButtonClick();" />
+                <label for="fjid" class="pc-label">父级ID(双击)</label>
+            </td>
+            <td>
+                <input type="text" runat="server" id="fjid" style="width: 255px;" ondblclick="fujidblClick()"  class="pc-textbox" readonly />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="description" class="pc-label">描述</label>
+            </td>
+            <td><input type="text" runat="server" id="description" style="width: 255px;" class="pc-textbox" /></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="button" runat="server" id="okButton" class="formButton" value="确定(O)"  accesskey="O" onclick="okButtonClick();" />
                 <div style="display: none;">
-                    <input type="submit" runat="server" text="确定..." popupcaption="正在操作..." id="btn_save"
-                        onserverclick="okButton_Click" />
+                    <input type="submit" runat="server" text="确定..." popupcaption="正在操作..." id="btn_save" onserverclick="okButton_Click" />
                 </div>
             </td>
         </tr>

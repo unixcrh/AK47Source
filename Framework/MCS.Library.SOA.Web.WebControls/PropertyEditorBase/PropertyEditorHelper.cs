@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.UI;
-using System.IO;
-using MCS.Library.Core;
+﻿using MCS.Library.Caching;
 using MCS.Library.Configuration;
+using MCS.Library.Core;
 using MCS.Library.SOA.DataObjects;
 using MCS.Web.Library;
-using MCS.Library.Caching;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace MCS.Web.WebControls
@@ -29,12 +30,30 @@ namespace MCS.Web.WebControls
             }
         }
 
+        public static Control EnsureContainer(Page page)
+        {
+            HtmlGenericControl container = (HtmlGenericControl)page.Items["PropertyEditorContainer"];
+
+            if (container == null)
+            {
+                container = new HtmlGenericControl("div");
+
+                container.Style["display"] = "none";
+                page.Form.Controls.AddAt(0, container);
+                page.Items["PropertyEditorContainer"] = container;
+            }
+
+            return container;
+        }
+
         public static void AttachToPage(Page page)
         {
             page.NullCheck("page");
 
             if (page.Items.Contains("PropertyEditorHelper") == false)
             {
+                page_PreInit(page, new EventArgs());
+
                 page.Init += new EventHandler(page_Init);
                 page.Load += new EventHandler(page_Load);
                 //page.LoadComplete += new EventHandler(page_LoadComplete);
@@ -74,8 +93,15 @@ namespace MCS.Web.WebControls
             }
         }
 
-        static void page_Init(object sender, EventArgs e)
+        private static void page_PreInit(object sender, EventArgs e)
         {
+            AllEditors.ForEach(kp => { kp.Value.OnPagePreInit((Page)sender); });
+        }
+
+        private static void page_Init(object sender, EventArgs e)
+        {
+            EnsureContainer((Page)sender);
+
             AllEditors.ForEach(kp => { kp.Value.OnPageInit((Page)sender); });
         }
 

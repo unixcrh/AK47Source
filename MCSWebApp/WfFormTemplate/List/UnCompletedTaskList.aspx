@@ -1,12 +1,13 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UnCompletedTaskList.aspx.cs"
 	Inherits="WfFormTemplate.List.UnCompletedTaskList" %>
 
-<%@ Register TagPrefix="CCPC" Namespace="MCS.Library.Web.Controls" Assembly="MCS.Library.Passport" %>
 <%@ Register Assembly="MCS.Library.SOA.Web.WebControls" Namespace="MCS.Web.WebControls"
 	TagPrefix="hb" %>
 <%@ Register Assembly="MCS.Library.SOA.Web.WebControls" Namespace="MCS.Web.WebControls"
 	TagPrefix="hbex" %>
 <%@ Register Assembly="MCS.Web.WebControls" Namespace="MCS.Web.WebControls" TagPrefix="ccic" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
 	<title>待办列表</title>
@@ -45,7 +46,7 @@
 		</Services>--%>
 	</asp:ScriptManager>
 	<div>
-		<CCPC:SignInLogoControl runat="server" ID="SignInLogo" ReturnUrl="~/List/UnCompletedTaskList.aspx"
+		<passport:SignInLogoControl runat="server" ID="SignInLogo" ReturnUrl="~/List/UnCompletedTaskList.aspx"
 			AutoRedirect="True" />
 	</div>
 	<div>

@@ -59,7 +59,7 @@
     <AutoUpdateStatistics>True</AutoUpdateStatistics>
     <TornPageDetection>False</TornPageDetection>
     <DatabaseAccess>MULTI_USER</DatabaseAccess>
-    <Recovery>FULL</Recovery>
+    <Recovery>SIMPLE</Recovery>
     <EnableFullTextSearch>True</EnableFullTextSearch>
     <DatabaseChaining>False</DatabaseChaining>
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>

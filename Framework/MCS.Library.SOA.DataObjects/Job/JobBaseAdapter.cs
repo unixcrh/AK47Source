@@ -1,15 +1,15 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data;
+using MCS.Library.Data.Builder;
+using MCS.Library.Data.Mapping;
+using MCS.Library.SOA.DataObjects.Workflow;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
-using MCS.Library.Data;
-using MCS.Library.Data.Builder;
-using MCS.Library.Data.Mapping;
-using MCS.Library.SOA.DataObjects.Workflow;
 using System.Transactions;
 
 namespace MCS.Library.SOA.DataObjects
@@ -24,7 +24,7 @@ namespace MCS.Library.SOA.DataObjects
 
         internal const string UPDLOCK_LOAD_JOBS = "SELECT {0} * FROM WF.JOBS WITH(UPDLOCK READPAST) WHERE {1} ORDER BY CREATE_TIME";
 
-        internal const string SINGLEATA_JOB = "SELECT TOP(1) * FROM WF.JOBS WHERE {0}";
+        internal const string SINGLE_DATA_JOB = "SELECT TOP(1) * FROM WF.JOBS WHERE {0}";
 
         public static readonly JobBaseAdapter Instance = new JobBaseAdapter();
 
@@ -186,7 +186,7 @@ namespace MCS.Library.SOA.DataObjects
 
                     using (IDataReader dr = db.ExecuteReader(CommandType.Text,
                         string.Format(UPDLOCK_LOAD_JOBS, top,
-                            whereClause.AppendTenantCodeSqlClause(typeof(JobBase)).ToSqlString(TSqlBuilder.Instance))))
+                            whereClause.ToSqlString(TSqlBuilder.Instance))))
                     {
                         ORMapping.DataReaderToCollection(result, dr);
                     }
@@ -213,7 +213,12 @@ namespace MCS.Library.SOA.DataObjects
 
             return LoadSingleDataByJobID(builder);
         }
-
+        
+        /// <summary>
+        /// 没有TenantCode查找单一Job
+        /// </summary>
+        /// <param name="whereClause"></param>
+        /// <returns></returns>
         public JobBase LoadSingleDataByJobID(IConnectiveSqlClause whereClause)
         {
             JobBase result = null;
@@ -222,8 +227,18 @@ namespace MCS.Library.SOA.DataObjects
             {
                 using (DbContext context = DbHelper.GetDBContext(GetConnectionName()))
                 {
-                    using (IDataReader dr = DbHelper.RunSqlReturnDR(string.Format(SINGLEATA_JOB,
-                        whereClause.AppendTenantCodeSqlClause(typeof(JobBase)).ToSqlString(TSqlBuilder.Instance)), GetConnectionName()))
+                    //using (IDataReader dr = DbHelper.RunSqlReturnDR(string.Format(SINGLEATA_JOB,
+                    //    whereClause.AppendTenantCodeSqlClause(typeof(JobBase)).ToSqlString(TSqlBuilder.Instance)), GetConnectionName()))
+                    //{
+                    //    while (dr.Read())
+                    //    {
+                    //        result = new JobBase();
+                    //        ORMapping.DataReaderToObject(dr, result);
+                    //        break;
+                    //    }
+                    //}
+                    using (IDataReader dr = DbHelper.RunSqlReturnDR(string.Format(SINGLE_DATA_JOB,
+                        whereClause.ToSqlString(TSqlBuilder.Instance)), GetConnectionName()))
                     {
                         while (dr.Read())
                         {
@@ -343,7 +358,6 @@ namespace MCS.Library.SOA.DataObjects
                 InsertSqlClauseBuilder insertBuilder = new InsertSqlClauseBuilder();
                 insertBuilder.AppendItem("JOB_ID", data.JobID);
                 insertBuilder.AppendItem("SCHEDULE_ID", schedule.ID);
-                insertBuilder.AppendTenantCode();
 
                 insertClause.Append(INSERT_JOB_SCHEDULES_SQL_CLAUSE + insertBuilder.ToSqlString(TSqlBuilder.Instance));
                 insertClause.Append(TSqlBuilder.Instance.DBStatementSeperator);
@@ -376,7 +390,7 @@ namespace MCS.Library.SOA.DataObjects
             {
                 strBuilder.AppendFormat("{0} {1}",
                     DELETE_JOBS_SQL_CLAUSE,
-                    builder.AppendTenantCodeSqlClause().ToSqlString(TSqlBuilder.Instance));
+                    builder.ToSqlString(TSqlBuilder.Instance));
 
                 strBuilder.Append(GetJobSchedulesDeleteClause(ids));
 
@@ -391,7 +405,6 @@ namespace MCS.Library.SOA.DataObjects
             WhereSqlClauseBuilder builder = new WhereSqlClauseBuilder();
 
             builder.AppendItem("JOB_ID", data.JobID);
-            builder.AppendTenantCode();
 
             return DbHelper.RunSqlWithTransaction(string.Format("UPDATE WF.JOBS SET LAST_EXE_TIME = {0}, JOB_STATUS = {1} WHERE {2}",
                 TSqlBuilder.Instance.FormatDateTime(data.LastExecuteTime.Value),
@@ -405,7 +418,6 @@ namespace MCS.Library.SOA.DataObjects
             WhereSqlClauseBuilder builder = new WhereSqlClauseBuilder();
 
             builder.AppendItem("JOB_ID", data.JobID);
-            builder.AppendTenantCode();
 
             DbHelper.RunSqlWithTransaction(string.Format("UPDATE WF.JOBS SET LAST_START_EXE_TIME = {0}, JOB_STATUS = {1} WHERE {2}",
                 TSqlBuilder.Instance.FormatDateTime(data.LastStartExecuteTime.Value),
@@ -419,7 +431,6 @@ namespace MCS.Library.SOA.DataObjects
             WhereSqlClauseBuilder builder = new WhereSqlClauseBuilder();
 
             builder.AppendItem("JOB_ID", jobid);
-            builder.AppendTenantCode();
 
             string sql = string.Format(@"SELECT JOB_TYPE FROM WF.JOBS WHERE {0}",
                 builder.ToSqlString(TSqlBuilder.Instance));
@@ -440,7 +451,7 @@ namespace MCS.Library.SOA.DataObjects
             if (builder.Count > 0)
                 sql = string.Format("{0} {1}",
                     DELETE_JOB_SCHEDULES_SQL_CLAUSE,
-                    builder.AppendTenantCodeSqlClause().ToSqlString(TSqlBuilder.Instance));
+                    builder.ToSqlString(TSqlBuilder.Instance));
 
             return sql;
         }

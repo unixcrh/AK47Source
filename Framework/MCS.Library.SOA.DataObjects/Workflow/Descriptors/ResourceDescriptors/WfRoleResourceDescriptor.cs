@@ -33,13 +33,24 @@ namespace MCS.Library.SOA.DataObjects.Workflow
         {
             if (this._Role != null)
             {
-                SOARoleContext.DoAction(this._Role, this.ProcessInstance, (context) =>
+                bool includeMatrixUsers = ServiceBrokerContext.Current.Context.GetValue("includeMatrixUsers", true);
+
+                try
                 {
-                    foreach (IOguObject obj in this._Role.ObjectsInRole)
+                    ServiceBrokerContext.Current.Context["includeMatrixUsers"] = false;
+
+                    SOARoleContext.DoAction(this._Role, this.ProcessInstance, (context) =>
                     {
-                        FillObjectToUsers(users, obj);
-                    }
-                });
+                        foreach (IOguObject obj in this._Role.ObjectsInRole)
+                        {
+                            FillObjectToUsers(users, obj);
+                        }
+                    });
+                }
+                finally
+                {
+                    ServiceBrokerContext.Current.Context["includeMatrixUsers"] = includeMatrixUsers;
+                }
             }
         }
 

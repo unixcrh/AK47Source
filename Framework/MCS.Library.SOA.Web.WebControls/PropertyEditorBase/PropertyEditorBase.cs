@@ -67,8 +67,6 @@ namespace MCS.Web.WebControls
             return null;
         }
 
-        //private Dictionary<string, IEnumerable<ControlPropertyDefine>> controlsPropertyDefine = null;
-
         public ControlPropertyDefineKeyedCollection ControlsPropertyDefine
         {
             get
@@ -134,29 +132,6 @@ namespace MCS.Web.WebControls
             }
         }
 
-        //private Dictionary<string, Control> listControls = null;
-
-        //public Dictionary<string, Control> Controls
-        //{
-        //    get
-        //    {
-        //        if (this.listControls == null)
-        //            this.listControls = new Dictionary<string, Control>();
-
-        //        return this.listControls;
-        //    }
-        //}
-
-        //public virtual void AddCloneControl(Control cloneControl)
-        //{
-        //    this.Controls.Add(cloneControl.ID, cloneControl);
-        //}
-
-        //public virtual bool ContainsControlID(string controlID)
-        //{
-        //    return this.ControlsPropertyDefine.ContainsKey(controlID);
-        //}
-
         public virtual string DefaultCloneControlName()
         {
             return string.Empty;
@@ -178,19 +153,9 @@ namespace MCS.Web.WebControls
             return result;
         }
 
-        protected HtmlGenericControl GetControlsContainerInPage(Page page)
+        protected Control GetControlsContainerInPage(Page page)
         {
-            //var id = "propertyeditor-controls-container";
-            HtmlGenericControl div = null;// page.Form.FindControl(id) as HtmlGenericControl;
-
-            if (div == null)
-            {
-                div = new HtmlGenericControl() { };
-                div.Style["display"] = "none";
-                page.Form.Controls.AddAt(0, div);
-            }
-
-            return div;
+            return PropertyEditorHelper.EnsureContainer(page);
         }
 
         protected virtual void CreateControls(Page page)
@@ -255,16 +220,19 @@ namespace MCS.Web.WebControls
                             if (piDest.PropertyType == typeof(Unit))
                                 piDest.SetValue(currentControl, Unit.Parse(define.StringValue), null);
                             else
-                                piDest.SetValue(currentControl, define.GetRealValue(), null);
+                                piDest.SetValue(currentControl, DataConverter.ChangeType(define.GetRealValue(), piDest.PropertyType), null);
                         }
                     }
                 }
             }
         }
 
+        protected internal virtual void OnPagePreInit(Page page)
+        {
+        }
+
         protected internal virtual void OnPageInit(Page page)
         {
-
         }
 
         protected internal virtual void RegisterScript(Page page)

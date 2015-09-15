@@ -46,8 +46,6 @@ namespace MCS.Library.Passport
         {
             actionContext.NullCheck("actionContext");
 
-            IPrincipal principal = default(TPrincipal);
-
             object objectPrincipal = null;
 
             actionContext.Context.TryGetValue("Principal", out objectPrincipal);

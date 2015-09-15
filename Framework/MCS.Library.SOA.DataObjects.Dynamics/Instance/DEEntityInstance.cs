@@ -19,7 +19,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Instance
     [Serializable]
     public class DEEntityInstance : DEEntityInstanceBase
     {
-        internal DEEntityInstance(string entityID) :
+        public DEEntityInstance(string entityID) :
             base(entityID)
         {
         }

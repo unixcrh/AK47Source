@@ -248,6 +248,7 @@
     <Compile Include="PropertyEditorBase\RoleGraphPropertyEditor.cs" />
     <Compile Include="PropertyEditorBase\MaterialPropertyEditor.cs" />
     <Compile Include="PropertyEditorBase\ClientGridPropertyEditor.cs" />
+    <Compile Include="PropertyEditorBase\ValidatorsPropertyEditor.cs" />
     <Compile Include="PropertyForm\PropertyForm.cs" />
     <Compile Include="PropertyEditorBase\BooleanPropertyEditor.cs" />
     <Compile Include="PropertyEditorBase\DatePropertyEditor.cs" />
@@ -280,6 +281,7 @@
     <Compile Include="UEditorWrapper\UEditorWrapper.cs" />
     <Compile Include="UEditorWrapper\UEditorWrapperOperations.cs" />
     <Compile Include="UEditorWrapper\UEditorWrapperSettings.cs" />
+    <Compile Include="ValidatorSelector\ValidatorSelectorControl.cs" />
     <Compile Include="WfCollectParameterControl\WfCollectParameterControl.cs" />
     <Compile Include="WfCollectParameterControl\WFParameterValidationControl.cs" />
     <Compile Include="Workflow\PauseControl\WfPauseControl.cs" />
@@ -689,6 +691,8 @@
     <EmbeddedResource Include="ServiceImport\ServiceImport.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ValidatorSelector\ValidatorSelectorControl.js" />
+    <EmbeddedResource Include="ValidatorSelector\ou.gif" />
     <EmbeddedResource Include="RightSideNavigator\RightSideNavigator.css" />
     <EmbeddedResource Include="RightSideNavigator\RightSideNavigator.js" />
     <EmbeddedResource Include="RoleControl\RoleGraphControl.js" />

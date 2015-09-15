@@ -65,18 +65,15 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        <%-- <div class="pc-frame-header">
-             <uc1:Grid ID="UserControlChangeSkin1" runat="server" />
-         <pc:Banner ID="pcBanner" runat="server" ActiveMenuIndex="0" OnTimePointChanged="ReloadTree" />
-        </div>--%>
         <div class="pc-frame-container">
             <div class="pc-frame-vs" id="vspanel">
                 <div class="pc-frame-left">
                     <ul class="pc-tree-list" id="tl">
-                        <li style="position: static; zoom: 1; position: absolute; top: 20px; bottom: 0; left: 0;
-                                          right: 0; overflow: auto;">
+                        <li style="position: static; zoom: 1; position: absolute; top: 20px; bottom: 0; left: 0;right: 0; overflow: auto;">
                             <!-- 树控件 -->
-                            <DeluxeWorks:DeluxeTree ID="tree" runat="server" OnGetChildrenData="tree_GetChildrenData" InvokeWithoutViewState="true"
+                            <DeluxeWorks:DeluxeTree ID="tree" runat="server" 
+                                OnGetChildrenData="tree_GetChildrenData" 
+                                InvokeWithoutViewState="true"
                                 OnNodeSelecting="onNodeSelecting">
                             </DeluxeWorks:DeluxeTree>
                         </li>
@@ -85,8 +82,7 @@
                 </div>
                 <!------------------------------右侧列表------------------------------------------>
                 <div class="pc-frame-right">
-                    <iframe frameborder="0" id="frmView" name="frmView" style="height: 100%; width: 100%;"
-                        src="about:blank">您的浏览器必须支持IFrame！ </iframe>
+                    <iframe frameborder="0" id="frmView" name="frmView" style="height: 100%; width: 100%;" src="about:blank">您的浏览器必须支持IFrame！ </iframe>
                 </div>
                 <div class="pc-frame-splitter-mask" style="z-index: 13">
                     <div class="pc-frame-splitter" style="z-index: 14" unselectable="on">

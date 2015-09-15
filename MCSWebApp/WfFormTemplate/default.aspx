@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="WfFormTemplate._default" %>
 
-<%@ Register TagPrefix="CCPC" Namespace="MCS.Library.Web.Controls" Assembly="MCS.Library.Passport" %>
+ 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -25,7 +25,7 @@
                 if (processDescList.length > 0) {
                     var key = processDescList[0].Key;
 
-                    window.open("Forms/TemplateController.ashx?processDescKey=" + key, "_blank", 'height=600px, width=800px, top=100, left=300, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');
+                    window.open("Forms/TemplateController.ashx?processDescKey=" + key, "_blank", 'height=600px, width=1080px, top=100, left=300, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');
                 }
             }
 
@@ -66,7 +66,7 @@
             </asp:ScriptManager>
         </div>
         <div>
-            <CCPC:SignInLogoControl runat="server" ID="SignInLogo" ReturnUrl="~/Default.aspx"
+            <passport:SignInLogoControl runat="server" ID="SignInLogo" ReturnUrl="~/Default.aspx"
                 AutoRedirect="True" />
         </div>
         <div style="height: 40px">

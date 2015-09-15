@@ -1,6 +1,7 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCSServiceMain", "MCSServiceMain.csproj", "{CC58A8A2-E86E-47F5-8A4B-2E0D793D2252}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7905642F-4630-4D16-AF40-CB1FB70D516F} = {7905642F-4630-4D16-AF40-CB1FB70D516F}
@@ -19,7 +20,23 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCS.Library.SOA.DataObjects", "..\..\Framework\MCS.Library.SOA.DataObjects\MCS.Library.SOA.DataObjects.csproj", "{7905642F-4630-4D16-AF40-CB1FB70D516F}"
 EndProject
 Global
-	
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://code.cfldcn.com:8080/tfs/base
+		SccProjectUniqueName0 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects\\MCS.Library.SOA.DataObjects.csproj
+		SccProjectName0 = ../../Framework/MCS.Library.SOA.DataObjects
+		SccLocalPath0 = ..\\..\\Framework\\MCS.Library.SOA.DataObjects
+		SccProjectUniqueName1 = ..\\..\\Framework\\MCS.Library.ServiceBase\\MCS.Library.ServiceBase.csproj
+		SccProjectName1 = ../../Framework/MCS.Library.ServiceBase
+		SccLocalPath1 = ..\\..\\Framework\\MCS.Library.ServiceBase
+		SccProjectUniqueName2 = ..\\MCS.Services.Messages\\MCS.Services.Messages.csproj
+		SccProjectName2 = ../MCS.Services.Messages
+		SccLocalPath2 = ..\\MCS.Services.Messages
+		SccProjectUniqueName3 = MCSServiceMain.csproj
+		SccLocalPath3 = .
+		SccLocalPath4 = .
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

@@ -91,17 +91,22 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             msg = strB.ToString();
         }
 
-        //递归导入实体
+        /// <summary>
+        /// 递归导入实体
+        /// </summary>
+        /// <param name="xEntity">当前实体XML节点</param>
+        /// <param name="categoryID">类别ID</param>
+        /// <param name="elementAll"></param>
+        /// <param name="importedCodeNames"></param>
+        /// <returns></returns>
         private string ImportSingleEntity(XElement xEntity, string categoryID, XElement elementAll, HashSet<string> importedCodeNames)
         {
             DynamicEntity entity = new DynamicEntity();
             entity.FromXElement(xEntity);
 
-            //实体及实体字段入库
-            #region
+            #region [实体及实体字段入库]
 
-            //递归导入关联实体
-            #region 递归导入关联实体
+            #region [递归导入关联实体]
             //引用实体
             entity.Fields.Where(f => f.FieldType == FieldTypeEnum.Collection && f.ReferenceEntityCodeName.IsNotEmpty()).ForEach(
                 field =>
@@ -149,39 +154,40 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             importedCodeNames.Add(oldCodeName);
             #endregion
 
-            //外部实体及映射关系入库
-            #region
-            //当前实体
-            xEntity.XPathSelectElements("OuterEntities/OuterEntity").ForEach(oe =>
-            {
-                OuterEntity outerEntity = new OuterEntity();
-                outerEntity.FromXElement(oe);
+            #region [外部实体及映射关系入库 注释掉OuterEntity.By 王雷平 2015-8-13]
+            //xEntity.XPathSelectElements("OuterEntities/OuterEntity").ForEach(oe =>
+            //{
+            //    OuterEntity outerEntity = new OuterEntity();
+            //    outerEntity.FromXElement(oe);
 
-                EntityMapping mapping = new EntityMapping();
-                mapping.InnerEntity = entity;
+            //    EntityMapping mapping = new EntityMapping();
+            //    mapping.InnerEntity = entity;
 
-                mapping.EntityFieldMappingCollection.ForEach(fieldMapping =>
-                {
-                    var outerField = oe.XPathSelectElements("OuterFields/OuterField")
-                        .FirstOrDefault(of =>
-                            of.AttributeValue("MappingFieldID") == idMapping.FirstOrDefault(id => id.Key == fieldMapping.FieldID).Value);
+            //    #region 
+                
+            //    #endregion
+            //    mapping.EntityFieldMappingCollection.ForEach(fieldMapping =>
+            //    {
+            //        var outerField = oe.XPathSelectElements("OuterFields/OuterField")
+            //            .FirstOrDefault(of =>
+            //                of.AttributeValue("MappingFieldID") == idMapping.FirstOrDefault(id => id.Key == fieldMapping.FieldID).Value);
 
-                    if (outerField != null)
-                    {
-                        fieldMapping.OuterFieldID = Guid.NewGuid().ToString();          //outerField.AttributeValue("ID");
-                        fieldMapping.OuterFieldName = outerField.AttributeValue("Name");
-                    }
-                });
+            //        if (outerField != null)
+            //        {
+            //            fieldMapping.OuterFieldID = Guid.NewGuid().ToString();          //outerField.AttributeValue("ID");
+            //            fieldMapping.OuterFieldName = outerField.AttributeValue("Name");
+            //        }
+            //    });
 
-                //重新生成编码等信息
-                outerEntity.BuildNewEntity();
+            //    //重新生成编码等信息
+            //    outerEntity.BuildNewEntity();
 
-                mapping.OuterEntityID = outerEntity.ID;
-                mapping.OuterEntityInType = outerEntity.CustomType;
-                mapping.OuterEntityName = outerEntity.Name;
+            //    mapping.OuterEntityID = outerEntity.ID;
+            //    mapping.OuterEntityInType = outerEntity.CustomType;
+            //    mapping.OuterEntityName = outerEntity.Name;
 
-                DEObjectOperations.InstanceWithoutPermissions.AddEntityMapping(mapping);
-            });
+            //    DEObjectOperations.InstanceWithoutPermissions.AddEntityMapping(mapping);
+            //});
             #endregion
 
             return entity.CodeName;

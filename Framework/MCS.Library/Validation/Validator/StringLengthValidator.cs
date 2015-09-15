@@ -6,9 +6,29 @@ namespace MCS.Library.Validation
 {
 	internal class StringLengthValidator : Validator, IClientValidatable
 	{
-		private int lowerBound;
-		private int upperBound;
-
+        private int lowerBound;
+        /// <summary>
+        /// 下限
+        /// </summary>
+        public int LowerBound
+        {
+            get { return lowerBound; }
+            set { lowerBound = value; }
+        }
+        private int upperBound;
+        /// <summary>
+        /// 上限
+        /// </summary>
+        public int UpperBound
+        {
+            get { return upperBound; }
+            set { upperBound = value; }
+        }
+        /// <summary>
+        /// 无参数构造函数
+        /// </summary>
+        public StringLengthValidator()
+        { }
 		public StringLengthValidator(int upperBound)
 			: this(0, upperBound)
 		{

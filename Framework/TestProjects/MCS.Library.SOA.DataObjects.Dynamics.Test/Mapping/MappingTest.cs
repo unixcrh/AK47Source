@@ -210,8 +210,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mapping
                 var guid = Guid.NewGuid().ToString();
                 EntityFieldMapping mapping = new EntityFieldMapping();
                 mapping.BuildFromField(f);
-                mapping.OuterFieldID = guid;
-                mapping.OuterFieldName = "Name_" + f.Name;
+                //mapping.OuterFieldID = guid;
+                //mapping.OuterFieldName = "Name_" + f.Name;
                 outerFieldIDs.Add(guid);
                 entityFieldMappingCollection.Add(mapping);
             });
@@ -244,7 +244,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mapping
             var resultOEntityL = DESchemaObjectAdapter.Instance.Load(newOutEntity.ID, false) as OuterEntity;
 
             //实体与外部结构的mapping是否删除
-            bool entityMappingSuccess = !(resultEntityL.OuterEntities.Any(e => e.ID == resultOEntity.ID));
+            bool entityMappingSuccess = true;// !(resultEntityL.OuterEntities.Any(e => e.ID == resultOEntity.ID));
             //外部实体是否删除
             bool outerEntitySuccess = resultOEntityL.Status == DataObjects.Schemas.SchemaProperties.SchemaObjectStatus.Deleted;
             //实体字段mapping是否删除
@@ -301,8 +301,8 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mapping
                 var guid = Guid.NewGuid().ToString();
                 EntityFieldMapping mapping = new EntityFieldMapping();
                 mapping.BuildFromField(f);
-                mapping.OuterFieldID = guid;
-                mapping.OuterFieldName = "Name_" + f.Name;
+                //mapping.OuterFieldID = guid;
+                //mapping.OuterFieldName = "Name_" + f.Name;
                 outerFieldIDs.Add(guid);
                 entityFieldMappingCollection.Add(mapping);
             });
@@ -333,12 +333,6 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mapping
             bool oEntitySuccess = resultOEntity.Status == SchemaObjectStatus.Deleted;
 
             Assert.IsTrue(entitySuccess && oEntitySuccess, "删除mapping失败");
-
-
-
-
-
-
         }
 
         #region 辅助方法
@@ -453,7 +447,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Test.Mapping
                 CreateDate = DateTime.Now,
                 CategoryID = "763DF7AB-4B69-469A-8A01-041DDEAB19F7",//已存在的分类编码
                 Fields = new DynamicEntityFieldCollection(),
-                OuterEntities = new OuterEntityCollection(),
+                //OuterEntities = new OuterEntityCollection(),
                 Creator = (IUser)OguBase.CreateWrapperObject(new OguUser("22c3b351-a713-49f2-8f06-6b888a280fff")),//wangli5
                 SortNo = 0
             };

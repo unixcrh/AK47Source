@@ -16,7 +16,7 @@ namespace MCS.Library.SOA.DataObjects
 			{PropertyDataType.DataObject, typeof(object)},
 			{PropertyDataType.DateTime, typeof(DateTime)},
 			{PropertyDataType.Decimal, typeof(Decimal)},
-			{PropertyDataType.Integer, typeof(int)},
+			{PropertyDataType.Integer, typeof(long)},
 			{PropertyDataType.String, typeof(string)},
 			{PropertyDataType.Enum, typeof(int)}
 		};
