@@ -10,18 +10,25 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        <asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="true" />
-    </div>
-    <div>
-        <SOA:PropertyForm runat="server" ID="propertyForm" Width="100%" Height="300px" CssClass="styleproertyform" />
-    </div>
-    <p>
-        <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
-    </p>
-    <script type="text/javascript" src="../PropertyGrid/CustomObjectListPropertyEditor.js">
-    </script>
-    <%-- <script type="text/javascript" src="OUUserInputPropertyEditor.js">
+        <div>
+            <asp:DropDownList runat="server" ID="ddt" AutoPostBack="true" OnSelectedIndexChanged="ddt_SelectedIndexChanged">
+                <asp:ListItem Value="1" Text="One"></asp:ListItem>
+                <asp:ListItem Value="2" Text="Two"></asp:ListItem>
+            </asp:DropDownList>
+            <asp:Label runat="server" ID="logo"></asp:Label>
+        </div>
+        <div>
+            <asp:ScriptManager ID="ScriptManager1" runat="server" EnableScriptGlobalization="true" />
+        </div>
+        <div>
+            <SOA:PropertyForm runat="server" ID="propertyForm" Width="100%" Height="300px" CssClass="styleproertyform" />
+        </div>
+        <p>
+            <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
+        </p>
+        <script type="text/javascript" src="../PropertyGrid/CustomObjectListPropertyEditor.js">
+        </script>
+        <%-- <script type="text/javascript" src="OUUserInputPropertyEditor.js">
     </script>--%>
     </form>
 </body>

@@ -286,6 +286,8 @@ namespace WfFormTemplate.List
         {
             Response.Cache.SetNoStore();
 
+            IRole role = DeluxeIdentity.CurrentUser.Roles["InvitationPlatform", "InvestmentOfficer"];
+
             //RoleCollection urc = DeluxeIdentity.CurrentUser.Roles["InvitationPlatform"];
             //PermissionCollection permissions = DeluxeIdentity.CurrentUser.Permissions["InvitationPlatform"];
             //IPermission permission = DeluxeIdentity.CurrentUser.Permissions["InvitationPlatform", "OpenForm"];

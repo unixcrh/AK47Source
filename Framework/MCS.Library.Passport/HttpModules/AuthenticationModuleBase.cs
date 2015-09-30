@@ -47,7 +47,7 @@ namespace MCS.Library.Passport
             ProcessTimePoint();
 
             Page page = HttpContext.Current.GetCurrentPage();
-            
+
             if (page != null)
                 page.Init += CheckPermissionsOnPageInit;
         }
@@ -218,11 +218,13 @@ namespace MCS.Library.Passport
                 //是否使用测试帐户
                 userID = HttpContext.Current.Request.Headers["testUserID"];
 
-                if (string.IsNullOrEmpty(userID) == false)
+                if (userID.IsNotEmpty())
                     HttpContext.Current.Response.AppendHeader("testUserID", userID);
+                else
+                    userID = ImpersonateSettings.GetConfig().TestUserID;
             }
 
-            if (string.IsNullOrEmpty(userID))
+            if (userID.IsNullOrEmpty())
                 userID = GetLogOnName(out ticket);
 
             return userID;
@@ -254,7 +256,7 @@ namespace MCS.Library.Passport
         /// <param name="ticket"></param>
         private void SetTenantContext(ITicket ticket)
         {
-            if (TenantContext.Current.TenantCode.IsNullOrEmpty())
+            if (ticket != null && TenantContext.Current.TenantCode.IsNullOrEmpty())
                 TenantContext.Current.TenantCode = ticket.SignInInfo.TenantCode;
         }
 

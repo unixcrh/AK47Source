@@ -16,7 +16,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
         private readonly UserOperationLogCollection _OperationLogs = new UserOperationLogCollection();
         private UserTaskCollection _MoveToTasks = null;
         private UserTaskCollection _NotifyTasks = null;
-
+        private UserTaskCollection _AccomplishedUserTasks = null;
         public WfExecutorDataContext(WfExecutorBase executor, WfControlOperationType opType)
         {
             this._Executor = executor;
@@ -61,7 +61,23 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                 this._MoveToTasks = value;
             }
         }
+        
+        /// <summary>
+        /// 已办列表。Add By 王雷平，用于更新外部应用系统相关待办。
+        /// </summary>
+        public UserTaskCollection AccomplishedUserTasks
+        {
+            get
+            {
+                return this._AccomplishedUserTasks;
+            }
+            internal set
+            {
+                this._AccomplishedUserTasks = value;
+            }
+        }
 
+        
         public UserTaskCollection NotifyTasks
         {
             get

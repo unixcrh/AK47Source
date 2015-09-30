@@ -19,5 +19,17 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
                 return ConnectionNameMappingSettings.GetConfig().GetConnectionName("DynamicsEntity", "DynamicsEntity");
 			}
 		}
+
+
+        /// <summary>
+        /// 招商管理连接数据库配置文件中的配置名称
+        /// </summary>
+        public static string DBInvitationConnectionName
+        {
+            get
+            {
+                return ConnectionNameMappingSettings.GetConfig().GetConnectionName("Invitation", "Invitation");
+            }
+        }
 	}
 }

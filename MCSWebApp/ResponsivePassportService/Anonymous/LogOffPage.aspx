@@ -27,7 +27,7 @@
 		}
 
 		function redirectToTargetPage() {
-			window.navigate(returnHref.href);
+		    document.getElementById("returnHref").click();
 		}
 	</script>
 </head>

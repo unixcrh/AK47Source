@@ -199,7 +199,7 @@ namespace MCS.Web.Responsive.WebControls
 				"';\r\n parent.document.getElementById('" + SubmitButton.ProgressInfoChangedButtonID + "').click();";
 
 			if (addScriptTag)
-				script = "<script type=\"text/javascript\">" + script + "</script>";
+                script = "<script type=\"text/javascript\">try {" + script + "} catch (e) { }</script>";
 
 			return script;
 		}
@@ -216,7 +216,7 @@ namespace MCS.Web.Responsive.WebControls
 				SubmitButton.ProgressInfoChangedButtonID);
 
 			if (addScriptTag)
-				script = "<script type=\"text/javascript\">" + script + "</script>";
+                script = "<script type=\"text/javascript\">try {" + script + "} catch (e) { }</script>";
 
 			return script;
 		}

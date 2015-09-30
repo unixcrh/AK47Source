@@ -4,17 +4,22 @@
 	<title>跨站点页面刷新的桥接页面</title>
 
 	<script type="text/javascript">
-		function refreshPortal() {
-			try {
+        function refreshPortal()
+        {
+            try
+            {
 				var openerWnd = top.opener;
-				if (openerWnd && openerWnd.top) {
+				if (openerWnd && openerWnd.top)
+				{
 					var anchor = openerWnd.top.document.frames["left"].window.document.getElementById("checkUserTaskAnchor"); 
-					if (anchor) {
+					if (anchor)
+					{
 						anchor.click();
 					}
 				}
 			}
-			catch (e) { 
+            catch (e)
+            {
 			
 			}
 		}

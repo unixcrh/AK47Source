@@ -63,5 +63,10 @@ namespace MCS.Library.SOA.Web.WebControls.Test.PropertyForm
 			string lacount = this.propertyForm.Layouts.Count.ToString();
 			base.OnPreRenderComplete(e);
 		}
+
+        protected void ddt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            logo.Text = ((DropDownList)sender).SelectedValue;
+        }
 	}
 }

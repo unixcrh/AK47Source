@@ -50,6 +50,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AspNet.ScriptManager.jQuery">
+      <HintPath>C:\Users\Administrator\Desktop\images\AspNet.ScriptManager.jQuery.dll</HintPath>
+    </Reference>
     <Reference Include="MCS.Library, Version=1.2.0.0, Culture=neutral, PublicKeyToken=62ea08f894871798, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Bin\MCS.Library.dll</HintPath>
@@ -536,6 +539,7 @@
     <Content Include="scripts\timeline_2.3.0\timeline_js\timeline-bundle.css" />
     <Content Include="scripts\timeline_2.3.0\timeline_js\timeline-bundle.js" />
     <None Include="Properties\DataSources\System.Data.DataTable.datasource" />
+    <None Include="Properties\PublishProfiles\DynamicWeb.pubxml" />
     <None Include="Service References\Saplocalhost\MCS.Dynamics.Web.Saplocalhost.InstanceParam.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

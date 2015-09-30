@@ -23,7 +23,7 @@ namespace MCS.Library.Passport
         public const string TicketParamName = "t";
 
         //private static readonly string[] ReservedParams = { PassportManager.TicketParamName, "ru", "to", "aid", "ip", "lou", TenantExtensions.TenantCodeParamName };
-        private static readonly string[] ReservedParams = { PassportManager.TicketParamName, "ru", "to", "aid", "ip", "lou"};
+        private static readonly string[] ReservedParams = { PassportManager.TicketParamName, "ru", "to", "aid", "ip", "lou" };
 
         #region ¾²Ì¬·½·¨
         /// <summary>
@@ -219,6 +219,11 @@ namespace MCS.Library.Passport
 
                 strB.Append(settings.LogOffUrl);
 
+                if (settings.LogOffUrl.ToString().IndexOf("?") == -1)
+                    strB.Append("?");
+                else
+                    strB.Append("&");
+
                 NameValueCollection parameters = new NameValueCollection();
 
                 parameters.Add("asid", ticket.SignInInfo.SignInSessionID);
@@ -233,18 +238,7 @@ namespace MCS.Library.Passport
                 if (TenantContext.Current.Enabled)
                     parameters.Add(TenantExtensions.TenantCodeParamName, TenantContext.Current.TenantCode);
 
-                strB.Append("?" + parameters.ToUrlParameters(true));
-
-                //strB.AppendFormat("?asid={0}&ru={1}&lar={2}&appID={3}&lou={4}&loa={5}&wi={6}&lu={7}",
-                //    ticket.SignInInfo.SignInSessionID,
-                //    HttpUtility.UrlEncode(returnUrl),
-                //    logOffAutoRedirect.ToString().ToLower(),
-                //    ticket.AppID,
-                //    HttpUtility.UrlEncode(GetLogOffCallBackUrl().ToString()),
-                //    logOffAll.ToString().ToLower(),
-                //    ticket.SignInInfo.WindowsIntegrated.ToString().ToLower(),
-                //    ticket.SignInInfo.OriginalUserID
-                //    );
+                strB.Append(parameters.ToUrlParameters(true));
 
                 strResult = strB.ToString();
             }

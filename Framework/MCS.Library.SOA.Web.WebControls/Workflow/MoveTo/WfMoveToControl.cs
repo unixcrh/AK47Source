@@ -764,8 +764,7 @@ namespace MCS.Web.WebControls
 			{
 				case WfControlOperationType.Save:
 					script = string.Format("if (parent) parent.location.replace('{0}');",
-						WfClientContext.Current.ReplaceEntryPathByActivityID()
-						);
+						WfClientContext.Current.ReplaceEntryPathByActivityID());
 					break;
 				case WfControlOperationType.MoveTo:
 					if (WfClientContext.Current.OriginalActivity.Descriptor.Properties.GetValue("ForceCloseFormAfterMoveTo", false) == false)

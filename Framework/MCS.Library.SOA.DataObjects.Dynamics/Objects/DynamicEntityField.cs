@@ -397,6 +397,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
             this.ReadOnly = propertyDefine.ReadOnly;
             this.EditorKey = propertyDefine.EditorKey;
             this.EditorParams = propertyDefine.EditorParams;
+              
             switch (propertyDefine.DataType)
             {
                 case PropertyDataType.String:

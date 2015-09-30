@@ -6,7 +6,8 @@ span.input
 	overflow: none;
 	word-break: break-all;
 	word-wrap: break-word;
-	height: 21;
+	height:25px;
+    line-height:25px;
 	cursor: text;
 }
 span.rwRR, div.rcpLst span.rwRRO

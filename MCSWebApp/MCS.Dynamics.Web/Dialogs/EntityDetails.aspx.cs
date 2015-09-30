@@ -254,6 +254,17 @@ namespace MCS.Dynamics.Web.Dialogs
             #endregion
             //入库
             DEObjectOperations.InstanceWithPermissions.DoOperation(this.OperationMode, entity, null);
+            if (entity.SnapshotTable.IsNotEmpty())
+            {
+                if (this.OperationMode == SCObjectOperationMode.Add)
+                {
+                    INVDynamicEntitySnapshotAdapter.Instance.CreateSnapshot(entity);
+                }
+                else if(this.OperationMode == SCObjectOperationMode.Update)
+                {
+                    INVDynamicEntitySnapshotAdapter.Instance.UpdateSnapshot(entity);
+                }
+            }
             entity.ClearCacheData();
             this.HFEntityID.Value = entity.ID;
             this.HFEntityName.Value = entity.Name;

@@ -752,6 +752,7 @@
     <Content Include="TestFiles\MergeRequestorMatrix.xlsx" />
     <Content Include="TestFiles\SampleActivityMatrix.xlsx" />
     <Content Include="TestFiles\ActivityMatrixWithTransitions.xlsx" />
+    <None Include="Properties\PublishProfiles\WorkflowDesigner.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SaveWorkflow.ashx" />

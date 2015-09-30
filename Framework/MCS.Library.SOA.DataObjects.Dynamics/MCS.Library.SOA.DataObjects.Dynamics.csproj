@@ -91,6 +91,9 @@
     <Compile Include="Adapters\DEConnectionDefine.cs" />
     <Compile Include="Adapters\DEAclAdapter.cs" />
     <Compile Include="Adapters\DEDynamicEntityFieldSnapShotAdapter.cs" />
+    <Compile Include="Adapters\DEDynamicEntitySnapshotSqlBuilder.cs" />
+    <Compile Include="Adapters\DEDynamicEntitySnapshotAdapterBase.cs" />
+    <Compile Include="Adapters\INVDynamicEntitySnapshotAdapter.cs" />
     <Compile Include="Adapters\DEInstenceSnapshotAdapterBase.cs" />
     <Compile Include="Adapters\DEInstenceSnapshotAdapter.cs" />
     <Compile Include="Adapters\DESchemaObjectAdapter.cs" />

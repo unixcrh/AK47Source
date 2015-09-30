@@ -1,4 +1,8 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Globalization;
+using MCS.Library.Passport;
+using MCS.Web.Responsive.Library;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -6,156 +10,150 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using MCS.Library.Core;
-using MCS.Library.Globalization;
-using MCS.Library.Passport;
-using MCS.Web.Responsive.Library;
 
 namespace ResponsivePassportService.Anonymous
 {
-	public partial class LogOffPage : System.Web.UI.Page
-	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
-			Response.Cache.SetCacheability(HttpCacheability.NoCache);
+    public partial class LogOffPage : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
 
-			string sessionID = Request.QueryString.GetValue("asid", true, string.Empty);
+            LogOffInfo info = LogOffInfo.FromRequest();
 
-			string appID = Request.QueryString.GetValue("appID", true, string.Empty);
-			string returnUrl = Request.QueryString.GetValue("ru", true, string.Empty);
-			bool logOffAll = Request.QueryString.GetValue("loa", true, true);
+            if (info.SessionID.IsNotEmpty())
+            {
+                if (info.LogOffAll)
+                {
+                    this.LogOffAllAPP(info);
 
-			bool autoRedirectParams = Request.QueryString.GetValue("lar", true, false);
-			string callbackUrl = Request.QueryString.GetValue("lou", true, string.Empty);
-			bool windowsIntegrated = Request.QueryString.GetValue("wi", true, false);
-			string lastUserID = Request.QueryString.GetValue("lu", true, string.Empty);
+                    if (info.ReturnUrl.IsNotEmpty())
+                    {
+                        string retuenUrl = info.ReturnUrl;
 
-			if (sessionID.IsNotEmpty())
-			{
-				if (logOffAll)
-				{
-					LogOffAllAPP(sessionID, appID, callbackUrl);
+                        bool isFromApp = info.IsFromCascaseLogOffUrl == false && IsFromSelf() == false;
 
-					if (returnUrl.IsNotEmpty())
-					{
-						returnUrl = ModifyReturnUrl(returnUrl,
-							lastUserID,
-							windowsIntegrated);
+                        if (info.CascadeLogOffUrl.IsNotEmpty() && isFromApp)
+                            retuenUrl = info.CascadeLogOffUrl;
+                        else
+                            retuenUrl = ModifyReturnUrlWhenWindowsintegrated(info.ReturnUrl,
+                                info.LastUserID,
+                                info.WindowsIntegrated);
 
-						returnHref.HRef = returnUrl;
+                        returnHref.HRef = retuenUrl;
 
-						autoRedirect.Value = autoRedirectParams.ToString();
-					}
-				}
-				else
-				{
-					if (returnUrl.IsNotEmpty())
-						Response.Redirect(returnUrl);
-				}
-			}
+                        if (isFromApp)
+                            autoRedirect.Value = (info.NeedAutoRedirect).ToString();
+                        else
+                            autoRedirect.Value = (info.AutoRedirect).ToString();
+                    }
+                }
+                else
+                {
+                    if (info.ReturnUrl.IsNotEmpty())
+                        Response.Redirect(info.ReturnUrl);
+                }
+            }
 
-			Response.Expires = -1;
-		}
+            Response.Expires = -1;
+        }
 
-		protected override void OnPreRender(EventArgs e)
-		{
-			returnHref.InnerText = Translate("注销完成，点击这里返回应用");
-			base.OnPreRender(e);
-		}
+        protected override void OnPreRender(EventArgs e)
+        {
+            returnHref.InnerText = Translate("注销完成，点击这里返回应用");
+            base.OnPreRender(e);
+        }
 
-		private string ModifyReturnUrl(string returnUrl, string lastUserID, bool windowsIntegrated)
-		{
-			string result = returnUrl;
+        /// <summary>
+        /// 在集成Windows认证时，修改返回的地址为切换用户的地址
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <param name="lastUserID"></param>
+        /// <param name="windowsIntegrated"></param>
+        /// <returns></returns>
+        private static string ModifyReturnUrlWhenWindowsintegrated(string returnUrl, string lastUserID, bool windowsIntegrated)
+        {
+            string result = returnUrl;
 
-			if (windowsIntegrated)
-			{
-				result = string.Format("../Integration/ChangeUser.aspx?lastUserID={0}&ru={1}",
-					HttpUtility.UrlEncode(lastUserID ?? string.Empty),
-					HttpUtility.UrlEncode(returnUrl));
-			}
+            if (windowsIntegrated)
+            {
+                result = string.Format("../Integration/ChangeUser.aspx?lastUserID={0}&ru={1}",
+                    HttpUtility.UrlEncode(lastUserID ?? string.Empty),
+                    HttpUtility.UrlEncode(returnUrl));
+            }
 
-			return result;
-		}
+            return result;
+        }
 
-		private void LogOffAllAPP(string sessionID, string appID, string callbackUrl)
-		{
-			ExceptionHelper.CheckStringIsNullOrEmpty(sessionID, "sessionID");
-			ExceptionHelper.CheckStringIsNullOrEmpty(appID, "appID");
-			ExceptionHelper.CheckStringIsNullOrEmpty(callbackUrl, "callbackUrl");
+        private void LogOffAllAPP(LogOffInfo info)
+        {
+            List<AppLogOffCallBackUrl> urls = info.GetAllRelativeAppsLogOffCallBackUrl();
 
-			List<AppLogOffCallBackUrl> urls =
-				PassportSignInSettings.GetConfig().PersistSignInInfo.GetAllRelativeAppsLogOffCallBackUrl(sessionID);
+            this.RenderCallBackUrls(urls);
 
-			if (AppLogOffCallBackUrlExist(urls, appID, callbackUrl) == false)
-			{
-				AppLogOffCallBackUrl au = new AppLogOffCallBackUrl();
+            PassportSignInSettings.GetConfig().PersistSignInInfo.DeleteRelativeSignInInfo(info.SessionID);
+            PassportManager.ClearSignInCookie();
+        }
 
-				au.AppID = appID;
-				au.LogOffCallBackUrl = callbackUrl;
+        private void RenderCallBackUrls(List<AppLogOffCallBackUrl> urls)
+        {
+            foreach (AppLogOffCallBackUrl au in urls)
+            {
+                HtmlGenericControl tRow = new HtmlGenericControl("div");
+                appsContainer.Controls.Add(tRow);
 
-				urls.Add(au);
-			}
+                tRow.Attributes["class"] = "form-group";
 
-			this.RenderCallBackUrls(urls);
+                HtmlGenericControl imgCell = new HtmlGenericControl("div");
 
-			PassportSignInSettings.GetConfig().PersistSignInInfo.DeleteRelativeSignInInfo(sessionID);
-			PassportManager.ClearSignInCookie();
-		}
+                tRow.Controls.Add(imgCell);
+                imgCell.Attributes["class"] = "col-lg-2 col-md-2 col-sm-2 col-xs-2";
 
-		private void RenderCallBackUrls(List<AppLogOffCallBackUrl> urls)
-		{
-			foreach (AppLogOffCallBackUrl au in urls)
-			{
-				HtmlGenericControl tRow = new HtmlGenericControl("div");
-				appsContainer.Controls.Add(tRow);
+                HtmlImage img = new HtmlImage();
+                img.Align = "absmiddle";
+                img.Src = au.LogOffCallBackUrl;
+                img.Alt = img.Src;
+                imgCell.Controls.Add(img);
 
-				tRow.Attributes["class"] = "form-group";
+                HtmlGenericControl txtCell = new HtmlGenericControl("div");
 
-				HtmlGenericControl imgCell = new HtmlGenericControl("div");
+                tRow.Controls.Add(txtCell);
 
-				tRow.Controls.Add(imgCell);
-				imgCell.Attributes["class"] = "col-lg-2 col-md-2 col-sm-2 col-xs-2";
+                txtCell.Attributes["class"] = "col-lg-10 col-md-10 col-sm-10 col-xs-10";
 
-				HtmlImage img = new HtmlImage();
-				img.Align = "absmiddle";
-				img.Src = au.LogOffCallBackUrl;
-				img.Alt = img.Src;
-				imgCell.Controls.Add(img);
+                txtCell.InnerText = string.Format(Translate("退出应用程序{0}"), au.AppID);
+            }
+        }
 
-				HtmlGenericControl txtCell = new HtmlGenericControl("div");
+        private static string Translate(string sourceText)
+        {
+            CultureInfo culture = new CultureInfo(GlobalizationWebHelper.GetUserDefaultLanguage());
 
-				tRow.Controls.Add(txtCell);
+            return Translator.Translate(Define.DefaultCategory, sourceText, culture);
+        }
 
-				txtCell.Attributes["class"] = "col-lg-10 col-md-10 col-sm-10 col-xs-10";
+        private static bool IsFromSelf()
+        {
+            bool result = false;
 
-				txtCell.InnerText = string.Format(Translate("退出应用程序{0}"), au.AppID);
-			}
-		}
+            Uri uriReferrer = HttpContext.Current.Request.UrlReferrer;
+            Uri uriRequest = HttpContext.Current.Request.Url;
 
-		private static string Translate(string sourceText)
-		{
-			CultureInfo culture = new CultureInfo(GlobalizationWebHelper.GetUserDefaultLanguage());
+            if (uriReferrer != null)
+            {
+                result = string.Compare(uriRequest.Scheme, uriReferrer.Scheme, true) == 0;
 
-			return Translator.Translate(Define.DefaultCategory, sourceText, culture);
-		}
+                if (result)
+                    result = uriRequest.Port == uriReferrer.Port;
 
-		private bool AppLogOffCallBackUrlExist(List<AppLogOffCallBackUrl> list, string appID, string callbackUrl)
-		{
-			bool result = false;
+                if (result)
+                {
+                    result = string.Compare(uriRequest.GetComponents(UriComponents.Path, UriFormat.Unescaped),
+                        uriReferrer.GetComponents(UriComponents.Path, UriFormat.Unescaped), true) == 0;
+                }
+            }
 
-			for (int i = 0; i < list.Count; i++)
-			{
-				AppLogOffCallBackUrl au = list[i];
-
-				if (string.Compare(au.AppID, appID, true) == 0 &&
-					string.Compare(au.LogOffCallBackUrl, callbackUrl, true) == 0)
-				{
-					result = true;
-					break;
-				}
-			}
-
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 }

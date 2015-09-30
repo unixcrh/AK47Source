@@ -100,6 +100,7 @@
     <Compile Include="SysTasks\SysTaskCommon.cs" />
     <Compile Include="SysTasks\BasicSysTaskTest.cs" />
     <Compile Include="SysTasks\SysTaskProcessTest.cs" />
+    <Compile Include="Workflow\Helper\SOARoleHelper.cs" />
     <Compile Include="Workflow\ProcessParameterTest.cs" />
     <Compile Include="Workflow\GlobalParametersTest.cs" />
     <Compile Include="Workflow\Helper\ActivityMatrixHelper.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Workflow\ProcessDescriptorTest.cs" />
     <Compile Include="Workflow\ApprovalMatrixTest.cs" />
     <Compile Include="Workflow\ServiceDefinitionTest.cs" />
+    <Compile Include="Workflow\SOARoleTest.cs" />
     <Compile Include="Workflow\StartWorkflowExecutorTest.cs" />
     <Compile Include="Workflow\PersistQueueTest.cs" />
     <Compile Include="Workflow\ProcessRuntimeTest.cs" />

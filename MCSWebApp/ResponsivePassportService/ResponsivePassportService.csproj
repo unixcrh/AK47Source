@@ -92,6 +92,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AnonymousTestPage\CascadeLogOff.aspx" />
     <Content Include="Anonymous\Bind.aspx" />
     <Content Include="Anonymous\LogOffPage.aspx" />
     <Content Include="Anonymous\OpenIDBridge.aspx" />
@@ -166,6 +167,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnonymousTestPage\CascadeLogOff.aspx.cs">
+      <DependentUpon>CascadeLogOff.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AnonymousTestPage\CascadeLogOff.aspx.designer.cs">
+      <DependentUpon>CascadeLogOff.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Anonymous\Bind.aspx.cs">
       <DependentUpon>Bind.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

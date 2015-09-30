@@ -81,6 +81,22 @@ namespace MCS.Library.Core
     /// </summary>
     internal static class NativeMethods
     {
+        /// <summary>
+        /// SYSTEMTIME structure used by SetSystemTime
+        /// </summary>
+        [StructLayoutAttribute(LayoutKind.Sequential)]
+        public struct SYSTEMTIME
+        {
+            public short year;
+            public short month;
+            public short dayOfWeek;
+            public short day;
+            public short hour;
+            public short minute;
+            public short second;
+            public short milliseconds;
+        }
+
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
         public static extern int GetComputerNameEx(EnvironmentHelper.COMPUTER_NAME_FORMAT nameType, StringBuilder nameBuffer, ref uint bufferSize);
 
@@ -96,5 +112,8 @@ namespace MCS.Library.Core
 
         [DllImport("Kernel32.dll")]
         public static extern int GetLastError();
+
+        [DllImport("kernel32.dll")]
+        public static extern bool SetLocalTime(ref SYSTEMTIME time);
     }
 }

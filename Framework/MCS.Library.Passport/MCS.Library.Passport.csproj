@@ -150,6 +150,7 @@
     <Compile Include="DataObjects\AuthenticationCode.cs" />
     <Compile Include="DataObjects\AuthenticationCodeAdapter.cs" />
     <Compile Include="DataObjects\DataAdapter.cs" />
+    <Compile Include="DataObjects\LogOffInfo.cs" />
     <Compile Include="DataObjects\OpenIDBinding.cs" />
     <Compile Include="DataObjects\SignInInfo.cs" />
     <Compile Include="DataObjects\Ticket.cs" />

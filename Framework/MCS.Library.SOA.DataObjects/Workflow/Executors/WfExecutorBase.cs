@@ -170,11 +170,14 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                 {
                     dataContext.MoveToTasks = WfRuntime.ProcessContext.MoveToUserTasks;
                     dataContext.NotifyTasks = WfRuntime.ProcessContext.NotifyUserTasks;
+                    //获取已办列表。Add By 王雷平 2015-9-29
+                    dataContext.AccomplishedUserTasks = WfRuntime.ProcessContext.AccomplishedUserTasks;
                 }
                 else
                 {
                     dataContext.MoveToTasks = new UserTaskCollection();
                     dataContext.NotifyTasks = new UserTaskCollection();
+                    dataContext.AccomplishedUserTasks = new UserTaskCollection();
                 }
 
                 ExecuteAction("PrepareUserTaskTitles", dataContext);
@@ -371,6 +374,20 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 
         protected virtual void OnAfterMoveTo(WfExecutorDataContext dataContext, WfMoveToEventArgs eventArgs)
         {
+            if (WfRuntime.ProcessContext != null)
+            {
+                dataContext.MoveToTasks = WfRuntime.ProcessContext.MoveToUserTasks;
+                dataContext.NotifyTasks = WfRuntime.ProcessContext.NotifyUserTasks;
+                //获取已办列表。Add By 王雷平 2015-9-29
+                dataContext.AccomplishedUserTasks = WfRuntime.ProcessContext.AccomplishedUserTasks;
+            }
+            else
+            {
+                dataContext.MoveToTasks = new UserTaskCollection();
+                dataContext.NotifyTasks = new UserTaskCollection();
+                dataContext.AccomplishedUserTasks = new UserTaskCollection();
+            }
+
             if (AfterMoveTo != null)
                 AfterMoveTo(dataContext, eventArgs);
         }

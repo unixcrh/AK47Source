@@ -34,18 +34,17 @@ namespace MCS.Web.Library
 			string data = this.Page.Request.Form["__VIEWSTATE"];
 
 			if (string.IsNullOrEmpty(data) == false)
-			{
-				//Pair statePair = (Pair)StateFormatter.Deserialize(data);
-               // ControlState = this.Page.PageStatePersister.ControlState;
-				//ControlState = statePair.Second;
-				//ViewState = statePair.First;
-
+            {
+                #region ×¢ÊÍµôÔ­ÓÐµÄÂß¼­
+                //Pair statePair = (Pair)StateFormatter.Deserialize(data);
+                //ControlState = statePair.Second;
+                //ViewState = statePair.First;
+                #endregion
+               
 				long id;
-
 				if (long.TryParse(ViewState.ToString(), out id))
 				{
 					string stateStr = LoadStateFromDB(id);
-
 					ViewState = StateFormatter.Deserialize(stateStr);
 				}
 			}

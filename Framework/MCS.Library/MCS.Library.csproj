@@ -336,6 +336,8 @@
     <Compile Include="Globalization\UserCultureInfoSettings.cs" />
     <Compile Include="Globalization\WebTranslator.cs" />
     <Compile Include="Globalization\WebTranslatorConfigSettings.cs" />
+    <Compile Include="Net\Enumrations.cs" />
+    <Compile Include="Net\SNTPClient.cs" />
     <Compile Include="Passport\GenericTicketIdentity.cs" />
     <Compile Include="Passport\GenericTicketPrincipal.cs" />
     <Compile Include="Passport\GenericTicketToken.cs" />

@@ -516,6 +516,9 @@
   <ItemGroup>
     <Content Include="App_Themes\Platform\DeluxeGrid.skin" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\OACommonPages.pubxml" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v12.0\WebApplications\Microsoft.WebApplication.targets" />
   <ProjectExtensions>

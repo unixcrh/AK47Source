@@ -144,12 +144,19 @@ namespace MCS.Web.Library.MVC
 			{
 				if (settings.Enabled)
 				{
-					PageStatePersister persister = settings.Persister;
-					this.PageStatePersister.Load();
+                    PageStatePersister persister = settings.Persister;
+                    this.PageStatePersister.Load();
                     persister.ControlState = PageStatePersister.ControlState;
                     persister.ViewState = PageStatePersister.ViewState;
-					persister.Load();
+                    persister.Load();
                     result = new Pair(persister.ControlState, persister.ViewState);
+
+                    #region ×¢ÊÍµôÔ­ÓĞµÄÂß¼­
+                    //PageStatePersister persister = settings.Persister;
+                    //this.PageStatePersister.Load();
+                    //persister.Load();
+                    //result = new Pair(persister.ControlState, persister.ViewState);
+                    #endregion
 				}
 				else
 					result = base.LoadPageStateFromPersistenceMedium();
