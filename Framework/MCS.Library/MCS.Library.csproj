@@ -336,8 +336,21 @@
     <Compile Include="Globalization\UserCultureInfoSettings.cs" />
     <Compile Include="Globalization\WebTranslator.cs" />
     <Compile Include="Globalization\WebTranslatorConfigSettings.cs" />
-    <Compile Include="Net\Enumrations.cs" />
-    <Compile Include="Net\SNTPClient.cs" />
+    <Compile Include="Net\SNTP\ErrorData.cs" />
+    <Compile Include="Net\SNTP\LeapIndicator.cs" />
+    <Compile Include="Net\SNTP\Mode.cs" />
+    <Compile Include="Net\SNTP\QueryServerCompletedEventArgs.cs" />
+    <Compile Include="Net\SNTP\ReferenceIdentifier.cs" />
+    <Compile Include="Net\SNTP\RemoteSNTPServer.cs" />
+    <Compile Include="Net\SNTP\SNTPClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Net\SNTP\SNTPClient.Designer.cs">
+      <DependentUpon>SNTPClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Net\SNTP\SNTPData.cs" />
+    <Compile Include="Net\SNTP\Stratum.cs" />
+    <Compile Include="Net\SNTP\VersionNumber.cs" />
     <Compile Include="Passport\GenericTicketIdentity.cs" />
     <Compile Include="Passport\GenericTicketPrincipal.cs" />
     <Compile Include="Passport\GenericTicketToken.cs" />

@@ -84,6 +84,7 @@
     <Compile Include="CoreTest\PropertyTestObject.cs" />
     <Compile Include="Serialization\SerializationTest.cs" />
     <Compile Include="CoreTest\StringTest.cs" />
+    <Compile Include="SNTP\SNTPTest.cs" />
     <Compile Include="Tenant\TenantContextTest.cs" />
     <Compile Include="XmlLoader\XmlHelperTest.cs" />
   </ItemGroup>
