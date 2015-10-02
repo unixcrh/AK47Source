@@ -28,10 +28,10 @@ namespace MCS.Library.Test.SNTP
         {
             Console.WriteLine(SNTPClient.LocalOffset);
             Thread.Sleep(2000);
-            Console.WriteLine(DateTime.Now);
+            Console.WriteLine("Local: {0}", DateTime.Now);
             Console.WriteLine(SNTPClient.LocalOffset);
-            Console.WriteLine(SNTPClient.AdjustedLocalTime);
-            Console.WriteLine(SNTPClient.AdjustedUtcTime);
+            Console.WriteLine("Adjusted Local: {0}", SNTPClient.AdjustedLocalTime);
+            Console.WriteLine("Adjusted Utc: {0}", SNTPClient.AdjustedUtcTime);
         }
     }
 }

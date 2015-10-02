@@ -49,6 +49,8 @@ namespace MCS.Library.Net.SNTP
                 {
                     _RWLocalOffsetLock.ExitWriteLock();
                 }
+
+                Thread.Sleep(60000);
             }
             catch (System.Exception)
             {
