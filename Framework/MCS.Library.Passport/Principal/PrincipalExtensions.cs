@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,8 +59,8 @@ namespace MCS.Library.Principal
 				{
 					result = dt.OriginalSimulateTime();
 
-					if (result == DateTime.MinValue)
-						result = DateTime.Now;
+                    if (result == DateTime.MinValue)
+                        result = SNTPClient.AdjustedLocalTime;
 				}
 			}
 

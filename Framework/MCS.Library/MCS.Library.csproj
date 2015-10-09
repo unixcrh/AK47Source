@@ -349,6 +349,7 @@
       <DependentUpon>SNTPClient.cs</DependentUpon>
     </Compile>
     <Compile Include="Net\SNTP\SNTPData.cs" />
+    <Compile Include="Net\SNTP\SNTPSettings.cs" />
     <Compile Include="Net\SNTP\Stratum.cs" />
     <Compile Include="Net\SNTP\VersionNumber.cs" />
     <Compile Include="Passport\GenericTicketIdentity.cs" />

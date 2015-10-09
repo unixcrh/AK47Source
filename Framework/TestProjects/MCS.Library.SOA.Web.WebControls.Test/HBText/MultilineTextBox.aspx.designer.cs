@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MCS.Web.Passport {
+namespace MCS.Library.SOA.Web.WebControls.Test.HBText {
     
     
-    public partial class LogOffPage {
+    public partial class MultilineTextBox {
         
         /// <summary>
         /// serverForm control.
@@ -22,30 +22,12 @@ namespace MCS.Web.Passport {
         protected global::System.Web.UI.HtmlControls.HtmlForm serverForm;
         
         /// <summary>
-        /// autoRedirect control.
+        /// tbx1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden autoRedirect;
-        
-        /// <summary>
-        /// tableContainer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tableContainer;
-        
-        /// <summary>
-        /// returnHref control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor returnHref;
+        protected global::MCS.Web.WebControls.HBTextBox tbx1;
     }
 }

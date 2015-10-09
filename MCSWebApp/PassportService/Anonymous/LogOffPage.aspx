@@ -62,10 +62,7 @@
         }
 
         function redirectToTargetPage() {
-            if (window.location)
-                window.location.replace(returnHref.href);
-            else if (typeof (window.navigate) === 'function')
-                window.navigate(returnHref.href);
+            document.getElementById("returnHref").click();
         }
     </script>
 </head>

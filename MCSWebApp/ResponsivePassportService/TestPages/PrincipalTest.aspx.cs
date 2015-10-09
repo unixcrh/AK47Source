@@ -1,4 +1,5 @@
 ﻿using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
 using MCS.Library.Passport;
 using MCS.Library.Passport.Social.Configuration;
 using MCS.Library.Principal;
@@ -55,9 +56,10 @@ namespace ResponsivePassportService.TestPages
 					DeluxeIdentity.CurrentUser.TopOU.DisplayName,
 					DeluxeIdentity.CurrentUser.TopOU.FullPath));
 
-			ShowSinglePrincipalInfo(principalInfo, "Simulated Time", DateTime.Now.SimulateTime().ToString("yyyy-MM-dd HH:mm:ss"));
+            ShowSinglePrincipalInfo(principalInfo, "Local Now", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            ShowSinglePrincipalInfo(principalInfo, "Simulated Time", SNTPClient.AdjustedLocalTime.SimulateTime().ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            ShowSinglePrincipalInfo(principalInfo, "Simulated TimePoint", TimePointContext.Current.SimulatedTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 			ShowSinglePrincipalInfo(principalInfo, "Use Current Time", TimePointContext.Current.UseCurrentTime.ToString());
-			ShowSinglePrincipalInfo(principalInfo, "Simulated TimePoint", TimePointContext.Current.SimulatedTime.ToString("yyyy-MM-dd HH:mm:ss"));
             ShowSinglePrincipalInfo(principalInfo, "Tenant Code", TenantContext.Current.TenantCode);
 
 			ShowBindingLinks();

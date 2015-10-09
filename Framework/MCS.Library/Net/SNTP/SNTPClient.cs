@@ -35,25 +35,35 @@ namespace MCS.Library.Net.SNTP
         {
             double localOffset = 0;
 
-            try
+            while (true)
             {
-                localOffset = GetLocalClockOffset();
+                try
+                {
+                    localOffset = GetLocalClockOffset();
 
-                _RWLocalOffsetLock.EnterWriteLock();
+                    _RWLocalOffsetLock.EnterWriteLock();
+
+                    try
+                    {
+                        LocalOffsetSeconds = localOffset;
+                    }
+                    finally
+                    {
+                        _RWLocalOffsetLock.ExitWriteLock();
+                    }
+                }
+                catch (System.Exception)
+                {
+                }
 
                 try
                 {
-                    LocalOffsetSeconds = localOffset;
+                    Thread.Sleep(SNTPSettings.GetConfigOrDefault().PoolInterval);
                 }
-                finally
+                catch (System.Exception)
                 {
-                    _RWLocalOffsetLock.ExitWriteLock();
+                    Thread.Sleep(60000);
                 }
-
-                Thread.Sleep(60000);
-            }
-            catch (System.Exception)
-            {
             }
         }
 
@@ -64,16 +74,20 @@ namespace MCS.Library.Net.SNTP
         {
             get
             {
+                double offsetLocal = 0;
+
                 _RWLocalOffsetLock.EnterReadLock();
 
                 try
                 {
-                    return TimeSpan.FromSeconds(LocalOffsetSeconds);
+                    offsetLocal = LocalOffsetSeconds;
                 }
                 finally
                 {
                     _RWLocalOffsetLock.ExitReadLock();
                 }
+
+                return TimeSpan.FromSeconds(offsetLocal);
             }
         }
 
@@ -90,20 +104,24 @@ namespace MCS.Library.Net.SNTP
 
         #region Fields
 
-        private int _Timeout;
+        private TimeSpan _Timeout;
         private AsyncOperation asyncOperation = null;
+
         /// <summary>
         /// The server that is used by default.
         /// </summary>
         public static readonly RemoteSNTPServer DefaultServer = RemoteSNTPServer.Default;
+
         /// <summary>
         /// The default number of milliseconds used for send and receive.
         /// </summary>
         public const int DefaultTimeout = 5000;
+
         /// <summary>
         /// The default NTP/SNTP version number.
         /// </summary>
         public const VersionNumber DefaultVersionNumber = VersionNumber.Version3;
+
         private readonly SendOrPostCallback OperationCompleted;
         private readonly WorkerThreadStartDelegate ThreadStart;
         private readonly object SyncObject = new object();
@@ -122,7 +140,7 @@ namespace MCS.Library.Net.SNTP
             this.Initialize();
             this.ThreadStart = new WorkerThreadStartDelegate(WorkerThreadStart);
             this.OperationCompleted = new SendOrPostCallback(AsyncOperationCompleted);
-            this.Timeout = DefaultTimeout;
+            this.Timeout = SNTPSettings.GetConfigOrDefault().Timeout;
             this.VersionNumber = DefaultVersionNumber;
             this.UpdateLocalDateTime = false;
         }
@@ -191,14 +209,15 @@ namespace MCS.Library.Net.SNTP
         [Description("The timeout in milliseconds used for sending and receiving.")]
         [DefaultValue(DefaultTimeout),
         Category("Connection")]
-        public int Timeout
+        public TimeSpan Timeout
         {
-            get { return _Timeout; }
+            get
+            {
+                return this._Timeout;
+            }
             set
             {
-                if (value < -1)
-                    value = DefaultTimeout;
-                _Timeout = value;
+                this._Timeout = value;
             }
         }
 
@@ -230,9 +249,10 @@ namespace MCS.Library.Net.SNTP
 
         #region Delegates and Events
 
-        // Delegates
+        // Delegates
 
         private delegate void WorkerThreadStartDelegate();
+
         // Events 
 
         /// <summary>
@@ -264,7 +284,7 @@ namespace MCS.Library.Net.SNTP
         /// <returns>The real local date and time.</returns>
         public static DateTime GetNow()
         {
-            return GetNow(RemoteSNTPServer.Default, 500);
+            return GetNow(SNTPSettings.GetSNTPServer(), SNTPSettings.GetConfigOrDefault().Timeout);
         }
 
         /// <summary>
@@ -275,7 +295,7 @@ namespace MCS.Library.Net.SNTP
         /// <returns>The real local date and time.</returns>
         public static DateTime GetNow(RemoteSNTPServer remoteSNTPServer)
         {
-            return GetNow(remoteSNTPServer, 500);
+            return GetNow(remoteSNTPServer, SNTPSettings.GetConfigOrDefault().Timeout);
         }
 
         /// <summary>
@@ -284,9 +304,9 @@ namespace MCS.Library.Net.SNTP
         /// </summary>
         /// <param name="timeout">The timeout in milliseconds used for sending and receiving.</param>
         /// <returns>The real local date and time.</returns>
-        public static DateTime GetNow(int timeout)
+        public static DateTime GetNow(TimeSpan timeout)
         {
-            return GetNow(RemoteSNTPServer.Default, timeout);
+            return GetNow(SNTPSettings.GetSNTPServer(), timeout);
         }
 
         /// <summary>
@@ -296,12 +316,13 @@ namespace MCS.Library.Net.SNTP
         /// <param name="remoteSNTPServer">The server to use.</param>
         /// <param name="timeout">The timeout in milliseconds used for sending and receiving.</param>
         /// <returns>The real local date and time.</returns>
-        public static DateTime GetNow(RemoteSNTPServer remoteSNTPServer, int timeout)
+        public static DateTime GetNow(RemoteSNTPServer remoteSNTPServer, TimeSpan timeout)
         {
             SNTPClient sntpClient = new SNTPClient();
             sntpClient.UpdateLocalDateTime = false;
             sntpClient.RemoteSNTPServer = remoteSNTPServer;
             sntpClient.Timeout = timeout;
+
             QueryServerCompletedEventArgs args = sntpClient.QueryServer();
 
             if (args.Succeeded)
@@ -316,7 +337,7 @@ namespace MCS.Library.Net.SNTP
         /// <returns></returns>
         public static double GetLocalClockOffset()
         {
-            return GetLocalClockOffset(500);
+            return GetLocalClockOffset(SNTPSettings.GetConfigOrDefault().Timeout);
         }
 
         /// <summary>
@@ -324,9 +345,9 @@ namespace MCS.Library.Net.SNTP
         /// </summary>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static double GetLocalClockOffset(int timeout)
+        public static double GetLocalClockOffset(TimeSpan timeout)
         {
-            return GetLocalClockOffset(RemoteSNTPServer.Default, timeout);
+            return GetLocalClockOffset(SNTPSettings.GetSNTPServer(), timeout);
         }
 
         /// <summary>
@@ -335,7 +356,7 @@ namespace MCS.Library.Net.SNTP
         /// <param name="remoteSNTPServer">The server to use.</param>
         /// <param name="timeout">The timeout in milliseconds used for sending and receiving.</param>
         /// <returns>The real local offset by seconds.</returns>
-        public static double GetLocalClockOffset(RemoteSNTPServer remoteSNTPServer, int timeout)
+        public static double GetLocalClockOffset(RemoteSNTPServer remoteSNTPServer, TimeSpan timeout)
         {
             SNTPClient sntpClient = new SNTPClient();
             sntpClient.UpdateLocalDateTime = false;
@@ -390,7 +411,7 @@ namespace MCS.Library.Net.SNTP
         private void Initialize()
         {
             if (RemoteSNTPServer == null)
-                RemoteSNTPServer = DefaultServer;
+                RemoteSNTPServer = SNTPSettings.GetSNTPServer();
         }
 
         /// <summary>
@@ -407,8 +428,8 @@ namespace MCS.Library.Net.SNTP
                 // Configure and connect the socket.
                 client = new UdpClient();
                 IPEndPoint ipEndPoint = RemoteSNTPServer.GetIPEndPoint();
-                client.Client.SendTimeout = Timeout;
-                client.Client.ReceiveTimeout = Timeout;
+                client.Client.SendTimeout = (int)this.Timeout.TotalMilliseconds;
+                client.Client.ReceiveTimeout = (int)this.Timeout.TotalMilliseconds;
                 client.Connect(ipEndPoint);
 
                 // Send and receive the data, and save the completion DateTime.

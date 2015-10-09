@@ -164,6 +164,7 @@
     <Content Include="HBText\HBDropdownList.aspx" />
     <Content Include="HBText\HBTextBoxTest.aspx" />
     <Content Include="HBText\InvisibleHBDropdownList.aspx" />
+    <Content Include="HBText\MultilineTextBox.aspx" />
     <Content Include="HBWebHelperControl\HBWebHelperControl.CAB" />
     <Content Include="HBWebHelperControl\officeviewer7.5.0.331.cab" />
     <Content Include="HBWebHelperControl\officeviewer7.5.0.355.cab" />
@@ -1149,6 +1150,13 @@
     </Compile>
     <Compile Include="HBText\InvisibleHBDropdownList.aspx.designer.cs">
       <DependentUpon>InvisibleHBDropdownList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HBText\MultilineTextBox.aspx.cs">
+      <DependentUpon>MultilineTextBox.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HBText\MultilineTextBox.aspx.designer.cs">
+      <DependentUpon>MultilineTextBox.aspx</DependentUpon>
     </Compile>
     <Compile Include="HtmlToWord\default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>

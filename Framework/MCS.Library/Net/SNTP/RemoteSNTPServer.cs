@@ -18,22 +18,27 @@ namespace MCS.Library.Net.SNTP
 
         private string _HostNameOrAddress;
         private int _Port;
+
         /// <summary>
         /// African RemoteSNTPServer.
         /// </summary>
         public static readonly RemoteSNTPServer Africa = new RemoteSNTPServer("africa.pool.ntp.org");
+
         /// <summary>
         /// Apple Europe.
         /// </summary>
         public static readonly RemoteSNTPServer AppleEurope = new RemoteSNTPServer("time1.euro.apple.com");
+
         /// <summary>
         /// Apple Europe (2).
         /// </summary>
         public static readonly RemoteSNTPServer AppleEurope2 = new RemoteSNTPServer("time.euro.apple.com");
+
         /// <summary>
         /// Asian RemoteSNTPServer.
         /// </summary>
         public static readonly RemoteSNTPServer Asia = new RemoteSNTPServer("asia.pool.ntp.org");
+
         /// <summary>
         /// An array of Asian RemoteSNTPServers.
         /// See http://www.pool.ntp.org
@@ -44,10 +49,12 @@ namespace MCS.Library.Net.SNTP
             new RemoteSNTPServer("2.asia.pool.ntp.org"),
             new RemoteSNTPServer("3.asia.pool.ntp.org"),
         };
+
         /// <summary>
         /// Australian RemoteSNTPServer.
         /// </summary>
         public static readonly RemoteSNTPServer Australia = new RemoteSNTPServer("au.pool.ntp.org");
+
         /// <summary>
         /// An array of Australian RemoteSNTPServers.
         /// See http://www.pool.ntp.org
@@ -58,15 +65,18 @@ namespace MCS.Library.Net.SNTP
             new RemoteSNTPServer("2.au.pool.ntp.org"),
             new RemoteSNTPServer("3.au.pool.ntp.org"),
         };
+
         /// <summary>
         /// Blue Yonder UK (Virgin Media).
         /// [When I checked 12th July 2009, it was using USNavalObservatory3]
         /// </summary>
         public static readonly RemoteSNTPServer BlueYonder = new RemoteSNTPServer("ntp.blueyonder.co.uk");
+
         /// <summary>
         /// Canadian RemoteSNTPServer.
         /// </summary>
         public static readonly RemoteSNTPServer Canada = new RemoteSNTPServer("ca.pool.ntp.org");
+
         /// <summary>
         /// An array of Canadian RemoteSNTPServers.
         /// See http://www.pool.ntp.org
@@ -77,22 +87,27 @@ namespace MCS.Library.Net.SNTP
             new RemoteSNTPServer("2.ca.pool.ntp.org"),
             new RemoteSNTPServer("3.ca.pool.ntp.org"),
         };
+
         /// <summary>
         /// A remote NTP/SNTP server configured with the default values.
         /// </summary>
         public static readonly RemoteSNTPServer Default = new RemoteSNTPServer();
+
         /// <summary>
         /// The default server host name.
         /// </summary>
         public const string DefaultHostName = "time.nist.gov";
+
         /// <summary>
         /// The dafault port number for a NTP/SNTP server.
         /// </summary>
         public const int DefaultPort = 123;
+
         /// <summary>
         /// European RemoteSNTPServer.
         /// </summary>
         public static readonly RemoteSNTPServer Europe = new RemoteSNTPServer("europe.pool.ntp.org");
+
         /// <summary>
         /// An array of European RemoteSNTPServers.
         /// See http://www.pool.ntp.org
@@ -103,14 +118,17 @@ namespace MCS.Library.Net.SNTP
             new RemoteSNTPServer("2.europe.pool.ntp.org"),
             new RemoteSNTPServer("3.europe.pool.ntp.org"),
         };
+
         /// <summary>
         /// The Microsoft (Redmond, Washington) RemoteSNTPServer (time-nw.nist.gov).
         /// </summary>
         public static readonly RemoteSNTPServer Microsoft = new RemoteSNTPServer("time-nw.nist.gov");
+
         /// <summary>
         /// North American RemoteSNTPServer.
         /// </summary>
         public static readonly RemoteSNTPServer NorthAmerica = new RemoteSNTPServer("north-america.pool.ntp.org");
+
         /// <summary>
         /// An array of North American RemoteSNTPServers.
         /// See http://www.pool.ntp.org
@@ -121,14 +139,17 @@ namespace MCS.Library.Net.SNTP
             new RemoteSNTPServer("2.north-america.pool.ntp.org"),
             new RemoteSNTPServer("3.north-america.pool.ntp.org"),
         };
+
         /// <summary>
         /// NTL UK (Virgin Media).
         /// </summary>
         public static readonly RemoteSNTPServer NTL = new RemoteSNTPServer("time.cableol.net");
+
         /// <summary>
         /// Pacific RemoteSNTPServer.
         /// </summary>
         public static readonly RemoteSNTPServer Oceania = new RemoteSNTPServer("oceania.pool.ntp.org");
+
         /// <summary>
         /// An array of Pacific RemoteSNTPServers.
         /// See http://www.pool.ntp.org
@@ -139,10 +160,12 @@ namespace MCS.Library.Net.SNTP
             new RemoteSNTPServer("2.oceania.pool.ntp.org"),
             new RemoteSNTPServer("3.oceania.pool.ntp.org"),
         };
+
         /// <summary>
         /// General RemoteSNTPServer.
         /// </summary>
         public static readonly RemoteSNTPServer Pool = new RemoteSNTPServer("pool.ntp.org");
+
         /// <summary>
         /// An array of general RemoteSNTPServers.
         /// See http://www.pool.ntp.org
@@ -152,10 +175,12 @@ namespace MCS.Library.Net.SNTP
             new RemoteSNTPServer("1.pool.ntp.org"),
             new RemoteSNTPServer("2.pool.ntp.org"),
         };
+
         /// <summary>
         /// South American RemoteSNTPServer.
         /// </summary>
         public static readonly RemoteSNTPServer SouthAmerica = new RemoteSNTPServer("south-america.pool.ntp.org");
+
         /// <summary>
         /// An array of South American RemoteSNTPServers.
         /// See http://www.pool.ntp.org
@@ -166,14 +191,17 @@ namespace MCS.Library.Net.SNTP
             new RemoteSNTPServer("2.south-america.pool.ntp.org"),
             new RemoteSNTPServer("3.south-america.pool.ntp.org"),
         };
+
         /// <summary>
         /// A United Kindom GPS Primary server.
         /// </summary>
         public static readonly RemoteSNTPServer UKJanetGPS = new RemoteSNTPServer("ntp1.ja.net");
+
         /// <summary>
         /// United Kingdom RemoteSNTPServer.
         /// </summary>
         public static readonly RemoteSNTPServer UnitedKingdom = new RemoteSNTPServer("uk.pool.ntp.org");
+
         /// <summary>
         /// An array of UK RemoteSNTPServers.
         /// See http://www.pool.ntp.org
@@ -184,10 +212,12 @@ namespace MCS.Library.Net.SNTP
             new RemoteSNTPServer("2.uk.pool.ntp.org"),
             new RemoteSNTPServer("3.uk.pool.ntp.org"),
         };
+
         /// <summary>
         /// US RemoteSNTPServer.
         /// </summary>
         public static readonly RemoteSNTPServer UnitedStates = new RemoteSNTPServer("us.pool.ntp.org");
+
         /// <summary>
         /// An array of US RemoteSNTPServers.
         /// See http://www.pool.ntp.org
@@ -198,22 +228,27 @@ namespace MCS.Library.Net.SNTP
             new RemoteSNTPServer("2.us.pool.ntp.org"),
             new RemoteSNTPServer("3.us.pool.ntp.org"),
         };
+
         /// <summary>
         /// U.S. Naval Observatory.
         /// </summary>
         public static readonly RemoteSNTPServer USNavalObservatory = new RemoteSNTPServer("tock.usno.navy.mil");
+
         /// <summary>
         /// U.S. Naval Observatory (2).
         /// </summary>
         public static readonly RemoteSNTPServer USNavalObservatory2 = new RemoteSNTPServer("tick.usno.navy.mil");
+
         /// <summary>
         /// U.S. Naval Observatory (3).
         /// </summary>
         public static readonly RemoteSNTPServer USNavalObservatory3 = new RemoteSNTPServer("ntp1.usno.navy.mil");
+
         /// <summary>
         /// A United States GPS Primary server.
         /// </summary>
         public static readonly RemoteSNTPServer USXMissionGPS = new RemoteSNTPServer("clock.xmission.com");
+
         /// <summary>
         /// The Microsoft Windows RemoteSNTPServer (time.windows.com).
         /// </summary>

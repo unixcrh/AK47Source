@@ -114,10 +114,16 @@ namespace MCS.Web.WebControls
                         "this.style.posHeight = (this.scrollHeight > parseInt(this.style.minHeight.replace('px', '')))" +
                         " ? this.scrollHeight : parseInt(this.style.minHeight.replace('px', ''));");
 
-                    if (string.IsNullOrEmpty(this.Height.ToString()))
+                    if (this.CssClass.IsNullOrEmpty() && this.Height == Unit.Empty)
                         this.Height = Unit.Pixel(20);
 
-                    writer.AddStyleAttribute("min-height", this.Height.ToString());
+                    if (this.Height != Unit.Empty)
+                    {
+                        //if (string.IsNullOrEmpty(this.Height.ToString()))
+                        //    this.Height = Unit.Pixel(20);
+
+                        writer.AddStyleAttribute("min-height", this.Height.ToString());
+                    }
 
                     base.Render(writer);
 
@@ -156,8 +162,12 @@ namespace MCS.Web.WebControls
             lb.BorderStyle = this.BorderStyle;
             lb.BorderWidth = this.BorderWidth;
             lb.ControlStyle.CopyFrom(this.ControlStyle);
-            lb.Style["min-height"] = this.Height.ToString();
-            lb.Style["height"] = string.Empty;
+
+            if (this.Height != Unit.Empty)
+            {
+                lb.Style["min-height"] = this.Height.ToString();
+                lb.Style["height"] = string.Empty;
+            }
 
             lb.TabIndex = this.TabIndex;
             lb.TemplateControl = this.TemplateControl;

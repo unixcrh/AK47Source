@@ -1,72 +1,74 @@
+using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using MCS.Library.Principal;
 using System;
-using System.Data;
-using System.Configuration;
 using System.Collections;
+using System.Configuration;
+using System.Data;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using MCS.Library.Principal;
-using MCS.Library.Core;
 
 namespace MCS.Web.Passport.TestPages
 {
-	public partial class PrincipalTest : System.Web.UI.Page
-	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
-			SignInLogo.ReturnUrl = Request.Url.GetComponents(UriComponents.SchemeAndServer | UriComponents.Path, UriFormat.SafeUnescaped);
+    public partial class PrincipalTest : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            SignInLogo.ReturnUrl = Request.Url.GetComponents(UriComponents.SchemeAndServer | UriComponents.Path, UriFormat.SafeUnescaped);
 
-			if (Request.IsAuthenticated)
-			{
-				ShowPrincipalInfo();
-			}
-		}
+            if (Request.IsAuthenticated)
+            {
+                ShowPrincipalInfo();
+            }
+        }
 
-		private void ShowPrincipalInfo()
-		{
-			HtmlTable table = new HtmlTable();
-			table.Attributes["class"] = "table";
+        private void ShowPrincipalInfo()
+        {
+            HtmlTable table = new HtmlTable();
+            table.Attributes["class"] = "table";
 
-			ShowSinglePrincipalInfo(table, "User Logon Name", DeluxeIdentity.CurrentUser.LogOnName);
-			ShowSinglePrincipalInfo(table, "User Display Name", DeluxeIdentity.CurrentUser.DisplayName);
+            ShowSinglePrincipalInfo(table, "User Logon Name", DeluxeIdentity.CurrentUser.LogOnName);
+            ShowSinglePrincipalInfo(table, "User Display Name", DeluxeIdentity.CurrentUser.DisplayName);
 
-			if (DeluxeIdentity.CurrentUser.TopOU != null)
-				ShowSinglePrincipalInfo(table, "Top OU",
-					string.Format("{0}({1})",
-					DeluxeIdentity.CurrentUser.TopOU.DisplayName,
-					DeluxeIdentity.CurrentUser.TopOU.FullPath));
+            if (DeluxeIdentity.CurrentUser.TopOU != null)
+                ShowSinglePrincipalInfo(table, "Top OU",
+                    string.Format("{0}({1})",
+                    DeluxeIdentity.CurrentUser.TopOU.DisplayName,
+                    DeluxeIdentity.CurrentUser.TopOU.FullPath));
 
-			ShowSinglePrincipalInfo(table, "Simulated Time", DateTime.Now.SimulateTime().ToString("yyyy-MM-dd HH:mm:ss"));
-			ShowSinglePrincipalInfo(table, "Use Current Time", TimePointContext.Current.UseCurrentTime.ToString());
-			ShowSinglePrincipalInfo(table, "TimePoint Simulated Time", TimePointContext.Current.SimulatedTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            ShowSinglePrincipalInfo(table, "Simulated Time", SNTPClient.AdjustedLocalTime.SimulateTime().ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            ShowSinglePrincipalInfo(table, "TimePoint Simulated Time", TimePointContext.Current.SimulatedTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            ShowSinglePrincipalInfo(table, "Use Current Time", TimePointContext.Current.UseCurrentTime.ToString());
 
-			principalInfo.Controls.Add(table);
-		}
 
-		private void ShowSinglePrincipalInfo(Control parent, string name, string data)
-		{
-			HtmlTableRow row = new HtmlTableRow();
+            principalInfo.Controls.Add(table);
+        }
 
-			HtmlTableCell cell = new HtmlTableCell();
-			cell.InnerText = name + ":";
-			cell.Attributes["class"] = "captionCell";
-			row.Controls.Add(cell);
+        private void ShowSinglePrincipalInfo(Control parent, string name, string data)
+        {
+            HtmlTableRow row = new HtmlTableRow();
 
-			cell = new HtmlTableCell();
-			cell.InnerText = data;
-			row.Controls.Add(cell);
+            HtmlTableCell cell = new HtmlTableCell();
+            cell.InnerText = name + ":";
+            cell.Attributes["class"] = "captionCell";
+            row.Controls.Add(cell);
 
-			parent.Controls.Add(row);
-		}
+            cell = new HtmlTableCell();
+            cell.InnerText = data;
+            row.Controls.Add(cell);
 
-		protected void clearPrincipal_Click(object sender, EventArgs e)
-		{
-			DeluxePrincipal.Current.ClearCacheInWebApp();
+            parent.Controls.Add(row);
+        }
 
-			Response.Redirect(this.Request.Url.ToString());
-		}
-	}
+        protected void clearPrincipal_Click(object sender, EventArgs e)
+        {
+            DeluxePrincipal.Current.ClearCacheInWebApp();
+
+            Response.Redirect(this.Request.Url.ToString());
+        }
+    }
 }

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MCS.Library.Caching;
+using MCS.Library.Configuration;
+using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Caching;
 using System.Web;
-using MCS.Library.Configuration;
 
 namespace MCS.Library.Core
 {
@@ -38,12 +39,12 @@ namespace MCS.Library.Core
 		{
 			get
 			{
-				DateTime result = DateTime.Now;
+                DateTime result = SNTPClient.AdjustedLocalTime;
 
 				if (UseCurrentTime == false && this._SimulatedTime != DateTime.MinValue)
 					result = this._SimulatedTime;
 
-				return this._SimulatedTime;
+                return result;
 			}
 			set
 			{
