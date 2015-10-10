@@ -1,22 +1,23 @@
-﻿using System;
+﻿using MCS.Library.Caching;
+using MCS.Library.Core;
+using MCS.Library.Data;
+using MCS.Library.Data.Builder;
+using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
+using MCS.Library.Principal;
+using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
+using MCS.Library.SOA.DataObjects.Dynamics.Objects;
+using MCS.Library.SOA.DataObjects.Dynamics.Schemas;
+using MCS.Library.SOA.DataObjects.Schemas.Adapters;
+using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
+using MCS.Web.Library.Script;
+using System;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Transactions;
 using System.Web;
 using System.Web.Caching;
-using MCS.Library.Caching;
-using MCS.Library.Core;
-using MCS.Library.Data;
-using MCS.Library.Data.Builder;
-using MCS.Library.Data.Mapping;
-using MCS.Library.Principal;
-using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
-using MCS.Library.SOA.DataObjects.Dynamics.Objects;
-using MCS.Library.SOA.DataObjects.Dynamics.Schemas;
-using MCS.Web.Library.Script;
-using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
-using MCS.Library.SOA.DataObjects.Schemas.Adapters;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
 {
@@ -231,7 +232,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
 
         //        entity.NullCheck<ArgumentNullException>(string.Format("不能找到CodeName为[{0}]的对象", codeName));
 
-        //        HttpRuntime.Cache.Insert(key, entity, null, DateTime.Now.SimulateTime().AddHours(1), TimeSpan.Zero);
+        //        HttpRuntime.Cache.Insert(key, entity, null, SNTPClient.AdjustedTime.SimulateTime().AddHours(1), TimeSpan.Zero);
         //    }
         //    else
         //    {
@@ -262,7 +263,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             DECategory category = CategoryAdapter.Instance.GetByID(categoryID);
             string codeName = string.Format("{0}/{1}", category.FullPath, entityName);
 
-            ExceptionHelper.TrueThrow(DEDynamicEntityAdapter.Instance.ExistByCodeName(codeName, DateTime.Now.SimulateTime()), "已存在" + codeName);
+            ExceptionHelper.TrueThrow(DEDynamicEntityAdapter.Instance.ExistByCodeName(codeName, SNTPClient.AdjustedTime.SimulateTime()), "已存在" + codeName);
 
             return codeName;
         }
@@ -399,7 +400,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
 
         //public bool CheckExistCodeName(string schemas, string codeNames)
         //{
-        //    DESchemaObjectCollection result = this.LoadByCodeNameAndSchema(schemas, codeNames, true, false, DateTime.Now.SimulateTime());
+        //    DESchemaObjectCollection result = this.LoadByCodeNameAndSchema(schemas, codeNames, true, false, SNTPClient.AdjustedTime.SimulateTime());
         //    if (result.Any())
         //        return true;
         //    return false;

@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-using System.Transactions;
-using MCS.Library.Core;
+﻿using MCS.Library.Core;
 using MCS.Library.Data;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.DataObjects;
 using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
 using MCS.Library.SOA.DataObjects;
 using MCS.Library.SOA.DataObjects.Dynamics.Objects;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+using System.Transactions;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
 {
@@ -270,7 +271,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             StringBuilder sqlbuilder = new StringBuilder();
             ORMappingItemCollection mappings = GetMappingInfo(new Dictionary<string, object>());
             if (versionTime == DateTime.MinValue)
-                versionTime = DateTime.Now;
+                versionTime = SNTPClient.AdjustedTime;
 
             sqlbuilder.Append("DECLARE @CURRENTTIME DATETIME");
             sqlbuilder.Append(TSqlBuilder.Instance.DBStatementSeperator);
@@ -312,7 +313,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
 
             string sqlWhere = string.Format("CompanyCode = '{0}' AND VersionEndTime IS NULL", companyCode);
             if (versionTime == DateTime.MinValue)
-                versionTime = DateTime.Now;
+                versionTime = SNTPClient.AdjustedTime;
             if (sqlbuilder.ToString().Contains("DECLARE @CURRENTTIME DATETIME") == false)
             {
                 sqlbuilder.Append("DECLARE @CURRENTTIME DATETIME");
@@ -380,7 +381,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
                                                                                                 "VersionStartTime");
             whereBuilder.AppendItem("VersionEndTime", DBNull.Value, "IS");
             if (versionTime == DateTime.MinValue)
-                versionTime = DateTime.Now;
+                versionTime = SNTPClient.AdjustedTime;
             if (sqlbuilder.ToString().Contains("DECLARE @CURRENTTIME DATETIME") == false)
             {
                 sqlbuilder.Append("DECLARE @CURRENTTIME DATETIME");

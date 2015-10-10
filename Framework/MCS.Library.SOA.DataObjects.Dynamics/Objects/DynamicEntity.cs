@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Script.Serialization;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.XPath;
-using MCS.Library.Caching;
+﻿using MCS.Library.Caching;
 using MCS.Library.Core;
 using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
 using MCS.Library.Principal;
 using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
 using MCS.Library.SOA.DataObjects.Dynamics.Enums;
@@ -19,6 +12,14 @@ using MCS.Library.SOA.DataObjects.Dynamics.Schemas;
 using MCS.Library.SOA.DataObjects.Schemas.Adapters;
 using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
 using MCS.Library.Validation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Web.Script.Serialization;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
 {
@@ -380,7 +381,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
             foreach (var field in this.Fields)
             {
                 field.ID = UuidHelper.NewUuidString();
-                field.CreateDate = DateTime.Now.SimulateTime();
+                field.CreateDate = SNTPClient.AdjustedTime.SimulateTime();
                 field.VersionStartTime = DateTime.MinValue;
                 field.VersionEndTime = DateTime.MinValue;
             }
@@ -388,10 +389,9 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
             this.ID = UuidHelper.NewUuidString();
             this.CategoryID = categoryID;
             //this.BuidCodeName();
-            this.CreateDate = DateTime.Now.SimulateTime();
+            this.CreateDate = SNTPClient.AdjustedTime.SimulateTime();
             this.VersionStartTime = DateTime.MinValue;
             this.VersionEndTime = DateTime.MinValue;
-
         }
 
         #endregion

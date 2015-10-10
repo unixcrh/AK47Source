@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data;
+using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Transactions;
-using MCS.Library.Core;
-using MCS.Library.Data;
 
 namespace MCS.Library.SOA.DataObjects.Workflow
 {
@@ -221,7 +222,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                 OnError(ex, dataContext, ref autoThrow);
 
                 WfExecutorLogContextInfo.Writer.WriteLine("\t\t错误：{0}\n{1:yyyy-MM-dd HH:mm:ss.fff}",
-                    ex.GetRealException(), DateTime.Now);
+                    ex.GetRealException(), SNTPClient.AdjustedTime);
 
                 if (autoThrow)
                     throw;
@@ -293,7 +294,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             if (log.RealUser != null && log.OperationDescription.IsNullOrEmpty())
             {
                 log.OperationDescription = string.Format("{0}:{1}->'{2}' {3:yyyy-MM-dd HH:mm:ss}",
-                            log.OperationName, log.RealUser.DisplayName, log.Subject, DateTime.Now);
+                            log.OperationName, log.RealUser.DisplayName, log.Subject, SNTPClient.AdjustedTime);
             }
         }
 
@@ -374,20 +375,6 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 
         protected virtual void OnAfterMoveTo(WfExecutorDataContext dataContext, WfMoveToEventArgs eventArgs)
         {
-            if (WfRuntime.ProcessContext != null)
-            {
-                dataContext.MoveToTasks = WfRuntime.ProcessContext.MoveToUserTasks;
-                dataContext.NotifyTasks = WfRuntime.ProcessContext.NotifyUserTasks;
-                //获取已办列表。Add By 王雷平 2015-9-29
-                dataContext.AccomplishedUserTasks = WfRuntime.ProcessContext.AccomplishedUserTasks;
-            }
-            else
-            {
-                dataContext.MoveToTasks = new UserTaskCollection();
-                dataContext.NotifyTasks = new UserTaskCollection();
-                dataContext.AccomplishedUserTasks = new UserTaskCollection();
-            }
-
             if (AfterMoveTo != null)
                 AfterMoveTo(dataContext, eventArgs);
         }
@@ -448,7 +435,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             operationName.CheckStringIsNullOrEmpty("operationName");
 
             WfExecutorLogContextInfo.Writer.WriteLine("\t\t{0}开始：{1:yyyy-MM-dd HH:mm:ss.fff}",
-                    operationName, DateTime.Now);
+                    operationName, SNTPClient.AdjustedTime);
 
             Stopwatch sw = new Stopwatch();
 
@@ -461,7 +448,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             {
                 sw.Stop();
                 WfExecutorLogContextInfo.Writer.WriteLine("\t\t{0}结束：{1:yyyy-MM-dd HH:mm:ss.fff}；经过时间：{2:#,##0}毫秒",
-                    operationName, DateTime.Now, sw.ElapsedMilliseconds);
+                    operationName, SNTPClient.AdjustedTime, sw.ElapsedMilliseconds);
 
                 ProcessProgress.Current.Increment();
                 ProcessProgress.Current.Response();
@@ -479,7 +466,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             action.NullCheck("action");
 
             WfExecutorLogContextInfo.Writer.WriteLine("\t\t{0}开始：{1:yyyy-MM-dd HH:mm:ss.fff}",
-                    operationName, DateTime.Now);
+                    operationName, SNTPClient.AdjustedTime);
 
             Stopwatch sw = new Stopwatch();
 
@@ -492,7 +479,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             {
                 sw.Stop();
                 WfExecutorLogContextInfo.Writer.WriteLine("\t\t{0}结束：{1:yyyy-MM-dd HH:mm:ss.fff}；经过时间：{2:#,##0}毫秒",
-                    operationName, DateTime.Now, sw.ElapsedMilliseconds);
+                    operationName, SNTPClient.AdjustedTime, sw.ElapsedMilliseconds);
             }
         }
     }

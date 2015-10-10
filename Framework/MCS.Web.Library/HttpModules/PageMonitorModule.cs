@@ -1,11 +1,12 @@
-using System;
-using System.Web;
-using System.Text;
-using System.IO;
-using System.Diagnostics;
-using System.Collections.Generic;
-using MCS.Library.Logging;
 using MCS.Library.Core;
+using MCS.Library.Logging;
+using MCS.Library.Net.SNTP;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Web;
 
 namespace MCS.Web.Library
 {
@@ -56,7 +57,7 @@ namespace MCS.Web.Library
 					PerformanceMonitorHelper.DefaultMonitorName = PageMonitorModule.MonitorDataKey;
 
 					if (pme.EnableLogging)
-						md.LogWriter.WriteLine("请求{0}的开始时间: {1:yyyy-MM-dd HH:mm:ss.fff}", md.MonitorName, DateTime.Now);
+                        md.LogWriter.WriteLine("请求{0}的开始时间: {1:yyyy-MM-dd HH:mm:ss.fff}", md.MonitorName, SNTPClient.AdjustedTime);
 				}
 			}
 		}
@@ -73,7 +74,7 @@ namespace MCS.Web.Library
 
 					if (md.EnableLogging)
 						md.LogWriter.WriteLine("请求{0}的结束时间: {1:yyyy-MM-dd HH:mm:ss.fff}，经过{2:#,##0}毫秒",
-							md.MonitorName, DateTime.Now, md.Stopwatch.ElapsedMilliseconds);
+                            md.MonitorName, SNTPClient.AdjustedTime, md.Stopwatch.ElapsedMilliseconds);
 
 					CommitLogging(md);
 					SetCountersValue(md);

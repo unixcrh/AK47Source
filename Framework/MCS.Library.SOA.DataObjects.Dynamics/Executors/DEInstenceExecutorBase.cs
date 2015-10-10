@@ -1,6 +1,7 @@
 ﻿using MCS.Library.Core;
 using MCS.Library.Data;
 using MCS.Library.Data.Builder;
+using MCS.Library.Net.SNTP;
 using MCS.Library.SOA.DataObjects.Dynamics.Actions;
 using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
 using MCS.Library.SOA.DataObjects.Dynamics.Instance;
@@ -165,7 +166,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Executors
             action.NullCheck("action");
 
             DEExecutorLogContextInfo.Writer.WriteLine("\t\t{0}开始：{1:yyyy-MM-dd HH:mm:ss.fff}",
-                    operationName, DateTime.Now);
+                    operationName, SNTPClient.AdjustedTime);
 
             Stopwatch sw = new Stopwatch();
 
@@ -178,7 +179,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Executors
             {
                 sw.Stop();
                 DEExecutorLogContextInfo.Writer.WriteLine("\t\t{0}结束：{1:yyyy-MM-dd HH:mm:ss.fff}；经过时间：{2:#,##0}毫秒",
-                    operationName, DateTime.Now, sw.ElapsedMilliseconds);
+                    operationName, SNTPClient.AdjustedTime, sw.ElapsedMilliseconds);
             }
         }
     }

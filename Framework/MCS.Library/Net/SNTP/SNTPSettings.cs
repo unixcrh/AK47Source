@@ -99,5 +99,17 @@ namespace MCS.Library.Net.SNTP
                 return (TimeSpan)this["poolInterval"];
             }
         }
+
+        /// <summary>
+        /// 默认的日期类型（Local或者Utc，默认为Local）
+        /// </summary>
+        [ConfigurationProperty("defaultDateTimeKind", IsRequired = false, DefaultValue = DateTimeKind.Local)]
+        public DateTimeKind DefaultDateTimeKind
+        {
+            get
+            {
+                return (DateTimeKind)this["defaultDateTimeKind"];
+            }
+        }
     }
 }

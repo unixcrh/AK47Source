@@ -9,17 +9,18 @@
 // 1.1          ºú×ÔÇ¿      2008-12-2       Ìí¼Ó×¢ÊÍ
 // -------------------------------------------------
 #endregion
+using MCS.Library.Core;
+using MCS.Library.Data.DataObjects;
+using MCS.Library.Net.SNTP;
+using MCS.Library.OGUPermission;
+using MCS.Library.Passport;
+using MCS.Library.Passport.Properties;
 using System;
-using System.Web;
+using System.Collections.Generic;
+using System.Security.Principal;
 using System.Text;
 using System.Threading;
-using System.Security.Principal;
-using System.Collections.Generic;
-using MCS.Library.Core;
-using MCS.Library.Passport;
-using MCS.Library.OGUPermission;
-using MCS.Library.Passport.Properties;
-using MCS.Library.Data.DataObjects;
+using System.Web;
 
 namespace MCS.Library.Principal
 {
@@ -147,7 +148,7 @@ namespace MCS.Library.Principal
                     HttpContext.Current.Response.Cookies.Remove(cookieName);
 
                     cookie = new HttpCookie(cookieName, "Principal");
-                    cookie.Expires = DateTime.Now.AddDays(-1);
+                    cookie.Expires = SNTPClient.AdjustedTime.AddDays(-1);
 
                     HttpContext.Current.Response.Cookies.Add(cookie);
                 }

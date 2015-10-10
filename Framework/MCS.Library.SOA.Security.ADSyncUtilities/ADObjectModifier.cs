@@ -1,15 +1,16 @@
-﻿using System;
+﻿using MCS.Library;
+using MCS.Library.Core;
+using MCS.Library.Logging;
+using MCS.Library.Net.SNTP;
+using MCS.Library.OGUPermission;
+using MCS.Library.SOA.DataObjects.Security.Transfer;
+using MCS.Library.SOA.Security.ADSyncUtilities.Entity;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.DirectoryServices;
 using System.Linq;
 using System.Web;
-using MCS.Library;
-using MCS.Library.Core;
-using MCS.Library.Logging;
-using MCS.Library.OGUPermission;
-using MCS.Library.SOA.DataObjects.Security.Transfer;
-using MCS.Library.SOA.Security.ADSyncUtilities.Entity;
 
 namespace MCS.Library.SOA.Security.ADSyncUtilities
 {
@@ -246,7 +247,7 @@ namespace MCS.Library.SOA.Security.ADSyncUtilities
 			{
 				if (cex.ErrorCode == -2147019886)
 				{
-					string demoName = oguObject.Name + DateTime.Now.ToString("yyyyMMddHHmmss") + SynchronizeContext.Current.DelayActions.Count;
+                    string demoName = oguObject.Name + SNTPClient.AdjustedTime.ToString("yyyyMMddHHmmss") + SynchronizeContext.Current.DelayActions.Count;
 					var demo = parentEntry.Children.Add(oguObject.ObjectType.SchemaTypeToPrefix() + "=" + ADHelper.EscapeString(demoName), ((ADSchemaType)oguObject.ObjectType).ToObjectClass());
 					// 重名
 					SynchronizeContext.Current.DelayActions.Add(new DelayRenameAction(oguObject, demo.NativeGuid));

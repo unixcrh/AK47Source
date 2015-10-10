@@ -1,13 +1,14 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Globalization;
+using MCS.Library.Net.SNTP;
+using MCS.Library.OGUPermission;
+using MCS.Library.Principal;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using MCS.Library.Core;
-using MCS.Library.Globalization;
-using MCS.Library.OGUPermission;
-using MCS.Library.Principal;
 
 namespace MCS.Library.SOA.DataObjects.Workflow
 {
@@ -87,7 +88,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             this._MainStream = InitializeMainStream(processDesp);
 
             this._Descriptor = processDesp;
-            this._StartTime = DateTime.Now;
+            this._StartTime = SNTPClient.AdjustedTime;
             ((WfProcessDescriptor)processDesp).SetProcessInstance(this);
 
             processDesp.Activities.ForEach(actDesp =>
@@ -794,7 +795,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 
                     this.StatusContext["OriginalStatus"] = this.Status;
                     this.Status = WfProcessStatus.Aborted;
-                    this.EndTime = DateTime.Now;
+                    this.EndTime = SNTPClient.AdjustedTime;
 
                     if (this.CurrentActivity != null)
                     {
@@ -1125,7 +1126,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                 AdjustTransferParamsFromTemplates(nextActivity.Descriptor, transferParams);
 
                 this.Status = WfProcessStatus.Running;
-                nextActivity.StartTime = DateTime.Now;
+                nextActivity.StartTime = SNTPClient.AdjustedTime;
                 nextActivity.FromTransitionDescriptor = transferParams.FromTransitionDescriptor;
 
                 //Set Original Activity Status
@@ -1397,7 +1398,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             RegisterAndPrepareActions(originalActivity.LeaveActions);
 
             ((WfActivityBase)originalActivity).Status = WfActivityStatus.Completed;
-            ((WfActivityBase)originalActivity).EndTime = DateTime.Now;
+            ((WfActivityBase)originalActivity).EndTime = SNTPClient.AdjustedTime;
 
             //设置操作人
             IUser op = opUser;
@@ -1448,7 +1449,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                 nextActivity.Status = WfActivityStatus.Completed;
 
                 this.Status = WfProcessStatus.Completed;
-                this.EndTime = DateTime.Now;
+                this.EndTime = SNTPClient.AdjustedTime;
 
                 WfRuntime.ProcessContext.ResetContextByProcess(this);
 
@@ -1528,7 +1529,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                     DateTime startTime = actDesp.EstimateStartTime;
 
                     if (startTime == DateTime.MinValue)
-                        startTime = DateTime.Now;
+                        startTime = SNTPClient.AdjustedTime;
 
                     endTime = startTime.AddHours((double)duration);
 

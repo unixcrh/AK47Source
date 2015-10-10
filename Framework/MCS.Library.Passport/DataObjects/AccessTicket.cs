@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
-using System.Xml;
-using System.Collections.Specialized;
 using System.Web;
+using System.Xml;
 
 namespace MCS.Library.Passport
 {
@@ -118,7 +119,7 @@ namespace MCS.Library.Passport
 		/// <returns></returns>
 		public bool TimeStampIsValid(TimeSpan timeout)
 		{
-			return (DateTime.Now.Subtract(this.GenerateTime) <= timeout);
+            return (SNTPClient.AdjustedTime.Subtract(this.GenerateTime) <= timeout);
 		}
 
 		/// <summary>

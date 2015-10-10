@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
+using System.Configuration.Provider;
 using System.Linq;
 using System.Text;
-using System.Configuration.Provider;
-using MCS.Library.Core;
 
 namespace MCS.Library.SOA.DataObjects.Security.SyncLibrary
 {
@@ -69,7 +70,7 @@ namespace MCS.Library.SOA.DataObjects.Security.SyncLibrary
         {
             var log = SqlIncomeSyncLog.CreateLogFromEnvironment();
             log.LogID = UuidHelper.NewUuidString();
-            log.StartTime = DateTime.Now;
+            log.StartTime = SNTPClient.AdjustedTime;
             log.EndTime = new DateTime(9999, 9, 9);
             log.SourceName = this.sourceName;
             log.Status = IncomeSyncStatus.Running;
@@ -89,7 +90,7 @@ namespace MCS.Library.SOA.DataObjects.Security.SyncLibrary
                 this.log.Status = IncomeSyncStatus.FaultError;
             }
 
-            this.log.EndTime = DateTime.Now;
+            this.log.EndTime = SNTPClient.AdjustedTime;
             Adapters.SqlIncomeLogAdapter.Instance.Update(this.log);
         }
 

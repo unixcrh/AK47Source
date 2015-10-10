@@ -1,5 +1,6 @@
 ﻿using MCS.Library.Core;
 using MCS.Library.Expression;
+using MCS.Library.Net.SNTP;
 using MCS.Library.OGUPermission;
 using MCS.Library.SOA.DataObjects.Workflow.Builders;
 using MCS.Web.Library.Script;
@@ -187,7 +188,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                     DateTime estimateStartTime = this.Descriptor.Properties.GetValue("EstimateStartTime", DateTime.MinValue);
 
                     if (estimateStartTime != DateTime.MinValue)
-                        result = (DateTime.Compare(DateTime.Now, estimateStartTime) >= 0);
+                        result = (DateTime.Compare(SNTPClient.AdjustedTime, estimateStartTime) >= 0);
                 }
 
                 if (result)

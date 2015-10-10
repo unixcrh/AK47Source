@@ -1,4 +1,5 @@
 using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
 using MCS.Library.Passport.Properties;
 using MCS.Web.Responsive.Library;
 using System;
@@ -41,7 +42,7 @@ namespace MCS.Library.Passport
 
             if (cookie != null)
             {
-                cookie.Expires = DateTime.Now.AddDays(-1);
+                cookie.Expires = SNTPClient.AdjustedTime.AddDays(-1);
 
                 cookie.Value = null;
                 response.SetCookie(cookie);
@@ -63,7 +64,7 @@ namespace MCS.Library.Passport
 
             if (cookie != null)
             {
-                cookie.Expires = DateTime.Now.AddDays(-1);
+                cookie.Expires = SNTPClient.AdjustedTime.AddDays(-1);
                 cookie.Value = null;
                 cookie.HttpOnly = true;
 
@@ -437,7 +438,7 @@ namespace MCS.Library.Passport
         private static void AdjustSignInTimeout(ITicket ticket)
         {
             if (PassportClientSettings.GetConfig().HasSlidingExpiration)
-                ticket.AppSignInTime = DateTime.Now;
+                ticket.AppSignInTime = SNTPClient.AdjustedTime;
         }
 
         /// <summary>

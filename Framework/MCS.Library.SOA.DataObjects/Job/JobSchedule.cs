@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data.DataObjects;
+using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Data.Mapping;
-using MCS.Library.Data.DataObjects;
-using MCS.Library.Core;
-using System.Xml.Linq;
 using System.Web.Script.Serialization;
+using System.Xml.Linq;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -145,25 +146,6 @@ namespace MCS.Library.SOA.DataObjects
 			}
 		}
 
-		/*
-		public DateTime GetScheduleTime(DateTime lastExeTime)
-		{
-			DateTime result = DateTime.MaxValue;
-
-			if (EndTime == null || DateTime.Now <= EndTime)
-			{
-				DateTime baseTime = lastExeTime;
-
-				if (this.ScheduleFrequency.LastModifyTime > lastExeTime || lastExeTime < StartTime)
-					baseTime = StartTime;
-
-				result = ScheduleFrequency.CalculateDate(baseTime);
-			}
-
-			return result;
-		}
-		*/
-
 		/// <summary>
 		/// 检查checkPoint是否是下一个执行时间
 		/// </summary>
@@ -192,7 +174,7 @@ namespace MCS.Library.SOA.DataObjects
 		public List<DateTime> EstimateExecuteTime(TimeSpan timeOffset, int maxCount, TimeSpan timeout)
 		{
 			List<DateTime> result = null;
-			DateTime now = DateTime.Now;
+            DateTime now = SNTPClient.AdjustedTime;
 
 			if (this.ScheduleFrequency != null && now >= this.StartTime && now < this.NormalizedEndTime)
 				result = this.ScheduleFrequency.EstimateExecuteTime(this.StartTime, timeOffset, maxCount, timeout);

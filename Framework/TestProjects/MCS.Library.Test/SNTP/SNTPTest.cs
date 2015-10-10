@@ -26,10 +26,11 @@ namespace MCS.Library.Test.SNTP
         [TestMethod]
         public void LocalOffsetTest()
         {
-            Console.WriteLine(SNTPClient.LocalOffset);
+            Console.WriteLine("Local Offset: {0}", SNTPClient.LocalOffset);
             Thread.Sleep(2000);
             Console.WriteLine("Local: {0}", DateTime.Now);
-            Console.WriteLine(SNTPClient.LocalOffset);
+            Console.WriteLine("Local Offset: {0}", SNTPClient.LocalOffset);
+            Console.WriteLine("Adjusted Default: {0}", SNTPClient.AdjustedTime);
             Console.WriteLine("Adjusted Local: {0}", SNTPClient.AdjustedLocalTime);
             Console.WriteLine("Adjusted Utc: {0}", SNTPClient.AdjustedUtcTime);
         }

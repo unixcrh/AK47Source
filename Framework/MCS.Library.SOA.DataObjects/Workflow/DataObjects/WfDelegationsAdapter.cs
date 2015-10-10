@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MCS.Library.Caching;
+using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using MCS.Library.OGUPermission;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
-using MCS.Library.Caching;
-using MCS.Library.OGUPermission;
 
 namespace MCS.Library.SOA.DataObjects.Workflow
 {
@@ -64,7 +65,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 
 			WfDelegationCollection result = new WfDelegationCollection();
 
-			DateTime now = DateTime.Now;
+            DateTime now = SNTPClient.AdjustedTime;
 
 			foreach (WfDelegation delegation in delegationsInCache)
 			{

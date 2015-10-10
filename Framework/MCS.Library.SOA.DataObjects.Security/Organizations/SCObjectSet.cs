@@ -1,6 +1,7 @@
-﻿using System;
+﻿using MCS.Library.Net.SNTP;
 using MCS.Library.SOA.DataObjects.Security;
 using MCS.Library.SOA.DataObjects.Security.Permissions;
+using System;
 
 namespace MCS.Library.SOA.DataObjects.Security
 {
@@ -29,7 +30,7 @@ namespace MCS.Library.SOA.DataObjects.Security
 
 		public SCObjectSet()
 		{
-			this.timeContext = DateTime.Now;
+            this.timeContext = SNTPClient.AdjustedTime;
 		}
 
 		#endregion

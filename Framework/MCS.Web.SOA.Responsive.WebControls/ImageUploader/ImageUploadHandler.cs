@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Threading;
+﻿using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using MCS.Library.Security;
 using MCS.Library.SOA.DataObjects;
 using MCS.Web.Library.Script;
-using MCS.Library.Core;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using MCS.Library.Security;
-using System.Web.Caching;
+using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Web;
+using System.Web.Caching;
 using System.Web.UI;
 
 namespace MCS.Web.Responsive.WebControls
@@ -156,7 +157,7 @@ namespace MCS.Web.Responsive.WebControls
 
                     imgProp.NewName = UuidHelper.NewUuidString() + Path.GetExtension(imgProp.OriginalName);
                     imgProp.Changed = true;
-                    imgProp.UpdateTime = DateTime.Now;
+                    imgProp.UpdateTime = SNTPClient.AdjustedTime;
 
                     if (maxSize < 0 || file.ContentLength <= maxSize)
                     {

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Data.Mapping;
-using MCS.Library.Core;
 
 namespace MCS.Library.Passport
 {
@@ -85,7 +86,7 @@ namespace MCS.Library.Passport
 		public static string GenerateCode(int codeLength)
 		{
 			(codeLength > 0).FalseThrow("需要生成的认证码长度");
-			Random rnd = new Random((int)DateTime.Now.Ticks);
+            Random rnd = new Random((int)SNTPClient.AdjustedTime.Ticks);
 
 			string template = new string('0', codeLength);
 

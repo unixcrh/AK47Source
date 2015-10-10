@@ -57,7 +57,7 @@ namespace ResponsivePassportService.TestPages
 					DeluxeIdentity.CurrentUser.TopOU.FullPath));
 
             ShowSinglePrincipalInfo(principalInfo, "Local Now", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            ShowSinglePrincipalInfo(principalInfo, "Simulated Time", SNTPClient.AdjustedLocalTime.SimulateTime().ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            ShowSinglePrincipalInfo(principalInfo, "Simulated Time", SNTPClient.AdjustedTime.SimulateTime().ToString("yyyy-MM-dd HH:mm:ss.fff"));
             ShowSinglePrincipalInfo(principalInfo, "Simulated TimePoint", TimePointContext.Current.SimulatedTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 			ShowSinglePrincipalInfo(principalInfo, "Use Current Time", TimePointContext.Current.UseCurrentTime.ToString());
             ShowSinglePrincipalInfo(principalInfo, "Tenant Code", TenantContext.Current.TenantCode);

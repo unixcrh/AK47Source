@@ -1,3 +1,11 @@
+using MCS.Library.Caching;
+using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using MCS.Library.SOA.DataObjects;
+using MCS.Web.Library;
+using MCS.Web.Library.Script;
+using MCS.Web.Responsive.Library;
+using MCS.Web.Responsive.WebControls.Properties;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,13 +18,6 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using MCS.Library.Caching;
-using MCS.Library.Core;
-using MCS.Library.SOA.DataObjects;
-using MCS.Web.Library;
-using MCS.Web.Library.Script;
-using MCS.Web.Responsive.Library;
-using MCS.Web.Responsive.WebControls.Properties;
 
 namespace MCS.Web.Responsive.WebControls
 {
@@ -386,7 +387,7 @@ namespace MCS.Web.Responsive.WebControls
 
 					response.AppendHeader("fileIconPath", HttpUtility.UrlEncode("message=" + fileIconPath));
 
-					string dateTimeNow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                    string dateTimeNow = SNTPClient.AdjustedTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
 					response.AppendHeader("lastUploadTag", "message=" + dateTimeNow);
 					response.AppendHeader("newMaterialID", "message=" + HttpUtility.UrlEncode(newID));
 				}

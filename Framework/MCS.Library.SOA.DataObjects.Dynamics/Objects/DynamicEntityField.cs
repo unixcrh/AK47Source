@@ -1,5 +1,6 @@
 ﻿using MCS.Library.Core;
 using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
 using MCS.Library.Principal;
 using MCS.Library.SOA.DataObjects.Dynamics;
 using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
@@ -381,7 +382,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
         public void CopyFromPropertyDefine(PropertyDefine propertyDefine)
         {
             this.ID = UuidHelper.NewUuidString();
-            this.CreateDate = DateTime.Now;
+            this.CreateDate = SNTPClient.AdjustedTime;
             this.Creator = DeluxeIdentity.CurrentUser;
             this.Name = propertyDefine.Name;
             this.Length = propertyDefine.MaxLength;

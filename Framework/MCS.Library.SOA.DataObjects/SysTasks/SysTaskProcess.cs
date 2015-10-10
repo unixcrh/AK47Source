@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data.DataObjects;
+using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using MCS.Library.Core;
-using MCS.Library.Data.DataObjects;
-using MCS.Library.Data.Mapping;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -194,7 +195,7 @@ namespace MCS.Library.SOA.DataObjects
 		/// <returns>返回下一个活动，如果已经到了最后一个活动。则只返回最后一个活动</returns>
 		public SysTaskActivity MoveToNextActivity()
 		{
-			DateTime now = DateTime.Now;
+            DateTime now = SNTPClient.AdjustedTime;
 			this.Status = SysTaskProcessStatus.Running;
 
 			if (this._CurrentActivityIndex + 1 < this.Activities.Count)

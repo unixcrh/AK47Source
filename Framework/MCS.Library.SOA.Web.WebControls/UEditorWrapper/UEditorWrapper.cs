@@ -1,27 +1,28 @@
-﻿using System;
+﻿using MCS.Library.Caching;
+using MCS.Library.Core;
+using MCS.Library.Globalization;
+using MCS.Library.Net.SNTP;
+using MCS.Library.Passport;
+using MCS.Library.Security;
+using MCS.Library.SOA.DataObjects;
+using MCS.Web.Library;
+using MCS.Web.Library.Script;
+using MCS.Web.WebControls.Properties;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing.Design;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Collections.Specialized;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.Script.Serialization;
-using MCS.Library.Caching;
-using MCS.Library.Core;
-using MCS.Library.Security;
-using MCS.Web.Library.Script;
-using MCS.Web.Library;
-using MCS.Library.Passport;
-using MCS.Library.Globalization;
-using MCS.Web.WebControls.Properties;
-using System.Reflection;
-using System.IO;
-using MCS.Library.SOA.DataObjects;
 
 [assembly: WebResource("MCS.Web.WebControls.UEditorWrapper.UEditorLogo.png", "image/x-png")]
 [assembly: WebResource("MCS.Web.WebControls.UEditorWrapper.UEditorWrapper.js", "text/javascript")]
@@ -586,7 +587,7 @@ Source");
 
                     response.AppendHeader("fileIconPath", HttpUtility.UrlEncode("message=" + fileIconPath));
 
-                    string dateTimeNow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                    string dateTimeNow = SNTPClient.AdjustedTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
                     response.AppendHeader("lastUploadTag", "message=" + dateTimeNow);
                     response.AppendHeader("newMaterialID", "message=" + HttpUtility.UrlEncode(newID));
                 }

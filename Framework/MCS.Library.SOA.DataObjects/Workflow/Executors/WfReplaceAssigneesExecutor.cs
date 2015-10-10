@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using MCS.Library.OGUPermission;
+using MCS.Library.SOA.DataObjects.Workflow.Actions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
-using MCS.Library.OGUPermission;
-using MCS.Library.SOA.DataObjects.Workflow.Actions;
 namespace MCS.Library.SOA.DataObjects.Workflow
 {
     public sealed class WfReplaceAssigneesExecutor : WfExecutorBase
@@ -185,7 +186,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                     newTask.TaskID = UuidHelper.NewUuidString();
                     newTask.SendToUserID = user.ID;
                     newTask.SendToUserName = user.DisplayName;
-                    newTask.TaskStartTime = DateTime.Now;
+                    newTask.TaskStartTime = SNTPClient.AdjustedTime;
 
                     UserTaskActionBase.AddTaskContextParameters(newTask);
 
@@ -214,7 +215,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                     newTask.TaskID = UuidHelper.NewUuidString();
                     newTask.SendToUserID = user.ID;
                     newTask.SendToUserName = user.DisplayName;
-                    newTask.TaskStartTime = DateTime.Now;
+                    newTask.TaskStartTime = SNTPClient.AdjustedTime;
 
                     UserTaskActionBase.AddTaskContextParameters(newTask);
 
@@ -266,7 +267,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                     string originalUserName = UsersToString(this.OriginalAssignees);
 
                     log.OperationDescription = string.Format("{0}:{1}->{2}>>'{3}' {4:yyyy-MM-dd HH:mm:ss}",
-                                log.OperationName, log.RealUser.DisplayName, originalUserName, this.TargetAssigneesToString(), DateTime.Now);
+                                log.OperationName, log.RealUser.DisplayName, originalUserName, this.TargetAssigneesToString(), SNTPClient.AdjustedTime);
                 }
             }
         }

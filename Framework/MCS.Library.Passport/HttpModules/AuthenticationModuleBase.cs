@@ -2,6 +2,7 @@ using MCS.Library.Caching;
 using MCS.Library.Configuration;
 using MCS.Library.Core;
 using MCS.Library.Globalization;
+using MCS.Library.Net.SNTP;
 using MCS.Library.Passport.Properties;
 using MCS.Library.Principal;
 using MCS.Web.Responsive.Library;
@@ -140,7 +141,7 @@ namespace MCS.Library.Passport
 
             AccessTicket aTicket = new AccessTicket();
 
-            aTicket.GenerateTime = DateTime.Now;
+            aTicket.GenerateTime = SNTPClient.AdjustedTime;
 
             Uri targetUri = new Uri(request.QueryString[AccessTicket.AccquireAccessTicketParamName], UriKind.RelativeOrAbsolute);
 

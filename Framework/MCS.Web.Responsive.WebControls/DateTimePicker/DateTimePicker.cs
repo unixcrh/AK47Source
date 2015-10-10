@@ -1,14 +1,15 @@
-﻿using System;
+﻿using MCS.Library.Globalization;
+using MCS.Library.Net.SNTP;
+using MCS.Web.Library.Script;
+using MCS.Web.Responsive.Library;
+using MCS.Web.Responsive.Library.Script;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using MCS.Library.Globalization;
-using MCS.Web.Library.Script;
-using MCS.Web.Responsive.Library;
-using MCS.Web.Responsive.Library.Script;
 
 [assembly: WebResource("MCS.Web.Responsive.WebControls.DateTimePicker.bootstrap-datetimepicker.js", "application/x-javascript")]
 [assembly: WebResource("MCS.Web.Responsive.WebControls.DateTimePicker.moment.min.js", "application/x-javascript")]
@@ -336,7 +337,7 @@ namespace MCS.Web.Responsive.WebControls
 
             set
             {
-                this.Value = DateTime.Now.Date + value;
+                this.Value = SNTPClient.AdjustedTime.Date + value;
             }
         }
 
@@ -373,7 +374,7 @@ namespace MCS.Web.Responsive.WebControls
             {
                 object o = this.ViewState[vsKeyDayOfToday];
 
-                return o != null ? (DateTime)o : DateTime.Now;
+                return o != null ? (DateTime)o : SNTPClient.AdjustedTime;
             }
 
             set { this.ViewState[vsKeyDayOfToday] = value; }

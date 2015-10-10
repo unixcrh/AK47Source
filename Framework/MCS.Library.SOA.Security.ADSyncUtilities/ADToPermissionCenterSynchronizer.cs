@@ -1,14 +1,15 @@
-﻿using System;
+﻿using MCS.Library.Configuration;
+using MCS.Library.Core;
+using MCS.Library.Data.Builder;
+using MCS.Library.Net.SNTP;
+using MCS.Library.SOA.DataObjects.Security.Locks;
+using MCS.Library.SOA.Security.ADSyncUtilities.Entity;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.DirectoryServices;
 using System.Linq;
 using System.Text;
-using MCS.Library.Configuration;
-using MCS.Library.Core;
-using MCS.Library.Data.Builder;
-using MCS.Library.SOA.DataObjects.Security.Locks;
-using MCS.Library.SOA.Security.ADSyncUtilities.Entity;
 using PC = MCS.Library.SOA.DataObjects.Security;
 
 namespace MCS.Library.SOA.Security.ADSyncUtilities
@@ -48,7 +49,7 @@ namespace MCS.Library.SOA.Security.ADSyncUtilities
 				throw new SCCheckLockException(SCCheckLockException.CheckLockResultToMessage(checkResult));
 
 			this.synchronizeLock = syncLock;
-			this.lastExtendLockTime = DateTime.Now;
+            this.lastExtendLockTime = SNTPClient.AdjustedTime;
 		}
 
 		private void Unlock()
@@ -65,17 +66,17 @@ namespace MCS.Library.SOA.Security.ADSyncUtilities
 		{
 			if (this.synchronizeLock != null)
 			{
-				if (DateTime.Now.Subtract(this.lastExtendLockTime) > ExtendLockInterval)
+                if (SNTPClient.AdjustedTime.Subtract(this.lastExtendLockTime) > ExtendLockInterval)
 				{
 					SCLockAdapter.Instance.ExtendLockTime(this.synchronizeLock);
-					this.lastExtendLockTime = DateTime.Now;
+                    this.lastExtendLockTime = SNTPClient.AdjustedTime;
 				}
 			}
 		}
 
 		private ADToPermissionCenterSynchronizer(string taskID)
 		{
-			DateTime now = DateTime.Now;
+            DateTime now = SNTPClient.AdjustedTime;
 
 			this.Log = new ADReverseSynchronizeLog()
 			{
@@ -126,7 +127,7 @@ namespace MCS.Library.SOA.Security.ADSyncUtilities
 			}
 			finally
 			{
-				context.Log.EndTime = DateTime.Now;
+                context.Log.EndTime = SNTPClient.AdjustedTime;
 				Adapters.ADReverseSynchronizeLogAdapter.Instance.Update(context.Log);
 				context.Unlock();
 			}

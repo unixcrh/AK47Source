@@ -10,17 +10,18 @@
 
 #region using
 
-using System;
-using System.Web;
-using System.Text;
-using System.Data;
-using System.Threading;
-using System.Diagnostics;
-using System.Data.Common;
-using System.Transactions;
-using System.Collections.Generic;
 using MCS.Library.Core;
 using MCS.Library.Data.Properties;
+using MCS.Library.Net.SNTP;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Diagnostics;
+using System.Text;
+using System.Threading;
+using System.Transactions;
+using System.Web;
 
 #endregion
 
@@ -131,7 +132,7 @@ namespace MCS.Library.Data
                                 }
 
                                 WriteTraceInfo(refConnection.Connection.DataSource + "." + refConnection.Connection.Database
-                                    + "[" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss.fff") + "]",
+                                    + "[" + SNTPClient.AdjustedTime.ToString("yyyyMMdd HH:mm:ss.fff") + "]",
                                 " Close Connection ");
                             }
                         }

@@ -1,21 +1,21 @@
-﻿using System;
-using System.IO;
+﻿using MCS.Library.Core;
+using MCS.Library.Globalization;
+using MCS.Library.Net.SNTP;
+using MCS.Library.Security;
+using MCS.Library.SOA.DataObjects;
+using MCS.Web.Library;
+using MCS.Web.Library.Script;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reflection;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-
-using MCS.Web.Library.Script;
-using MCS.Web.Library;
-using MCS.Library.SOA.DataObjects;
-using MCS.Library.Core;
-using MCS.Library.Security;
-using MCS.Library.Globalization;
 
 [assembly: WebResource("MCS.Web.WebControls.ImageUploaderControl.ImageUploader.js", "application/x-javascript")]
 [assembly: WebResource("MCS.Web.WebControls.ImageUploaderControl.ImageUploader.css", "text/css")]
@@ -323,7 +323,7 @@ namespace MCS.Web.WebControls
 
 			imgProp.NewName = UuidHelper.NewUuidString() + Path.GetExtension(imgProp.OriginalName);
 			imgProp.Changed = true;
-			imgProp.UpdateTime = DateTime.Now;
+            imgProp.UpdateTime = SNTPClient.AdjustedTime;
 
 			return imgProp;
 		}

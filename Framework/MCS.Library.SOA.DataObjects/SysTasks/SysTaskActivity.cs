@@ -1,15 +1,16 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data;
+using MCS.Library.Data.DataObjects;
+using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
+using MCS.Web.Library.Script;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Web.Script.Serialization;
-using MCS.Library.Core;
-using MCS.Library.Data.DataObjects;
-using MCS.Library.Data.Mapping;
-using MCS.Web.Library.Script;
 using System.Transactions;
-using MCS.Library.Data;
+using System.Web.Script.Serialization;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -202,7 +203,7 @@ namespace MCS.Library.SOA.DataObjects
 				}
 				catch (System.Exception ex)
 				{
-					DateTime now = DateTime.Now;
+                    DateTime now = SNTPClient.AdjustedTime;
 
 					this.Status = SysTaskActivityStatus.Aborted;
 					this.EndTime = now;

@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
+﻿using MCS.Library.Net.SNTP;
 using MCS.Library.SOA.Contracts.DataObjects.Workflow;
 using MCS.Library.SOA.DataObjects.Workflow;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
 
 namespace MCS.Library.SOA.Contracts.DataObjects.Workflow
 {
@@ -46,7 +47,7 @@ namespace MCS.Library.SOA.Contracts.DataObjects.Workflow
 
             this._ProcessDescKey = descriptor.Process.Key;
             this._ActivityDescKey = descriptor.Key;
-            this._StartTime = DateTime.Now;
+            this._StartTime = SNTPClient.AdjustedTime;
         }
 
         [DataMember]

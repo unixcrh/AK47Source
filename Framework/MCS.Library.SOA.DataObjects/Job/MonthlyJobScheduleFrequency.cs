@@ -67,45 +67,5 @@ namespace MCS.Library.SOA.DataObjects
 		{
 			return date.Year * 12 + date.Month;
 		}
-
-		/*
-		protected override DateTime ApplyStrategy(DateTime basicDateTime)
-		{
-			if (basicDateTime.Day == this.Day)
-			{
-				return basicDateTime;
-			}
-
-			DateTime result = new DateTime(basicDateTime.Year, basicDateTime.Month, GetOccurDay(basicDateTime),
-				basicDateTime.Hour, basicDateTime.Minute, basicDateTime.Second);
-
-			if (result < DateTime.Now)
-			{
-				result = basicDateTime.AddMonths(this.DurationMonths);
-
-				result = new DateTime(result.Year, result.Month, GetOccurDay(result),
-					result.Hour, result.Minute, result.Second);
-			}
-
-			return result;
-		}
-
-		protected override int GetDurationDays()
-		{
-			return this.DurationMonths * 30;
-		}
-
-		protected override DateTime PlusDurationDateTime(DateTime basicDateTime)
-		{
-			return basicDateTime.AddMonths(this.DurationMonths);
-		}
-
-		private int GetOccurDay(DateTime basicDateTime)
-		{
-			int daysInMonth = DateTime.DaysInMonth(basicDateTime.Year, basicDateTime.Month);
-
-			return this.Day > daysInMonth ? daysInMonth : this.Day;
-		}
-		*/
 	}
 }

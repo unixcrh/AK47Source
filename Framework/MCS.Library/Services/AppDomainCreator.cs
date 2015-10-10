@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,7 @@ namespace MCS.Library.Services
 
             setupInfo.ApplicationName = appName;
 
-            string domainName = string.Format("{0}-{1:yyyy-MM-dd HH:mm:ss}", appName, DateTime.Now);
+            string domainName = string.Format("{0}-{1:yyyy-MM-dd HH:mm:ss}", appName, SNTPClient.AdjustedTime);
 
             return AppDomain.CreateDomain(domainName, null, setupInfo);
         }

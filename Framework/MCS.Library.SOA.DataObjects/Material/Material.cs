@@ -9,16 +9,17 @@
 // -------------------------------------------------
 #endregion
 
+using MCS.Library.Core;
+using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
+using MCS.Library.OGUPermission;
+using MCS.Library.Principal;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Script.Serialization;
 using System.Xml;
 using System.Xml.Linq;
-using MCS.Library.Core;
-using MCS.Library.Data.Mapping;
-using MCS.Library.OGUPermission;
-using MCS.Library.Principal;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -104,7 +105,7 @@ namespace MCS.Library.SOA.DataObjects
 				material.Creator = (IUser)OguUser.CreateWrapperObject(DeluxeIdentity.CurrentRealUser);
 
 			material.lastUploadTag = this.lastUploadTag;
-			material.createDateTime = DateTime.Now;
+            material.createDateTime = SNTPClient.AdjustedTime;
 			material.modifyTime = this.modifyTime;
 			material.wfProcessID = this.wfProcessID;
 			material.wfActivityID = this.wfActivityID;

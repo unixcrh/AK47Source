@@ -9,15 +9,16 @@
 // 1.1				yuanyong		20080926		添加注释头
 // -------------------------------------------------
 #endregion
-using System;
-using System.Web;
-using System.Xml;
-using System.Text;
-using System.Diagnostics;
-using System.Collections.Generic;
 using MCS.Library.Core;
 using MCS.Library.Data;
+using MCS.Library.Net.SNTP;
 using MCS.Library.Passport.Properties;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+using System.Web;
+using System.Xml;
 
 namespace MCS.Library.Passport
 {
@@ -430,7 +431,7 @@ namespace MCS.Library.Passport
         {
             DateTime newExpireDate = GetConfigExpireDate();
 
-            bool bExpired = (DateTime.Now >= newExpireDate);
+            bool bExpired = (SNTPClient.AdjustedTime >= newExpireDate);
 #if DELUXEWORKSTEST
             Debug.WriteLineIf(bExpired, "Absolute Time Expired", "SignInPage Check");
 #endif
@@ -458,7 +459,7 @@ namespace MCS.Library.Passport
             if (settings.HasSlidingExpiration)
             {
                 DateTime dtTO = this.SignInTime.Add(settings.SlidingExpiration);
-                bExpired = (DateTime.Now >= dtTO);		//相对时间过期
+                bExpired = (SNTPClient.AdjustedTime >= dtTO);		//相对时间过期
             }
 #if DELUXEWORKSTEST
             Debug.WriteLineIf(bExpired, "Sliding Expired", "SignInPage Check");

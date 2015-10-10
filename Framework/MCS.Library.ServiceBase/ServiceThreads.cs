@@ -1,12 +1,13 @@
+using MCS.Library.Core;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using MCS.Library.Core;
+using System.Text;
 
 namespace MCS.Library.Services
 {
+    using MCS.Library.Net.SNTP;
     using System.Threading;
 
     [Serializable]
@@ -140,7 +141,7 @@ namespace MCS.Library.Services
 					tp.ThreadTask.Initialize();
 					//tp.Log.Write("初始化线程：" + tp.Name);
 
-					DateTime startTime = DateTime.Now;
+                    DateTime startTime = SNTPClient.AdjustedTime;
 
 					while (true)
 					{
@@ -164,11 +165,11 @@ namespace MCS.Library.Services
 								else
 									tp.ThreadTask.OnThreadTaskStart();
 
-								TimeSpan ts = DateTime.Now - startTime;
+                                TimeSpan ts = SNTPClient.AdjustedTime - startTime;
 
 								if (ts >= tp.DisposeDuration)
 								{
-									startTime = DateTime.Now;
+                                    startTime = SNTPClient.AdjustedTime;
 									tp.ThreadTask.Dispose();
 								}
 							}
@@ -202,7 +203,7 @@ namespace MCS.Library.Services
 
             try
             {
-                this.lastPollTime = DateTime.Now;
+                this.lastPollTime = SNTPClient.AdjustedTime;
             }
             finally
             {

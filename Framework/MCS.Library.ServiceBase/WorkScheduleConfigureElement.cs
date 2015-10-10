@@ -1,7 +1,8 @@
+using MCS.Library.Net.SNTP;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Configuration;
+using System.Text;
 
 namespace MCS.Library.Services
 {
@@ -62,7 +63,7 @@ namespace MCS.Library.Services
 				{
 					string[] timeArray = strTimes.Split(',', ';');
 
-					DateTime dtCurrent = DateTime.Now;
+                    DateTime dtCurrent = SNTPClient.AdjustedTime;
 
 					for (int i = 0; i < timeArray.Length; i++)
 					{
@@ -74,7 +75,7 @@ namespace MCS.Library.Services
 					}
 				}
 				else
-					result = DateTime.Now;
+                    result = SNTPClient.AdjustedTime;
 			}
 
 			return result;
@@ -91,9 +92,11 @@ namespace MCS.Library.Services
 			{
 				strTime = strTime.Trim();
 
-				int nYear = DateTime.Now.Year;
-				int nMonth = DateTime.Now.Month;
-				int nDay = DateTime.Now.Day;
+                DateTime now = SNTPClient.AdjustedTime;
+
+				int nYear = now.Year;
+				int nMonth = now.Month;
+				int nDay = now.Day;
 
 				string[] timePart = strTime.Split(':');
 

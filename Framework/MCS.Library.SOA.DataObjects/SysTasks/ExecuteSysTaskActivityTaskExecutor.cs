@@ -5,6 +5,7 @@ using System.Text;
 using MCS.Library.Core;
 using System.Transactions;
 using MCS.Library.Data;
+using MCS.Library.Net.SNTP;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -62,7 +63,7 @@ namespace MCS.Library.SOA.DataObjects
             {
                 //对于第一个活动就带子流程的场景，其状态是NotRunning且有可能被阻塞不能流转，需要通过此操作启动子流程的Task
                 if (activity.Status == SysTaskActivityStatus.NotRunning)
-                    SysTaskProcess.EnterActivity(activity, DateTime.Now);
+                    SysTaskProcess.EnterActivity(activity, SNTPClient.AdjustedTime);
             }
         }
     }

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
-using System.Diagnostics;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -63,7 +64,7 @@ namespace MCS.Library.SOA.DataObjects
 		{
 			// 修改Task的状态为Running
 			if (task.StartTime == DateTime.MinValue)
-				task.StartTime = DateTime.Now;
+                task.StartTime = SNTPClient.AdjustedTime;
 
 			SysTaskAdapter.Instance.UpdateStatus(task.TaskID, SysTaskStatus.Running);
 		}

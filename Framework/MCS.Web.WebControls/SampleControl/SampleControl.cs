@@ -1,14 +1,15 @@
+using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using MCS.Web.Library;
+using MCS.Web.Library.Script;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
+using System.Reflection;
+using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Reflection;
-using MCS.Library.Core;
-using MCS.Web.Library;
-using MCS.Web.Library.Script;
 
 //在Assembly中需要暴露出的资源
 [assembly: WebResource("MCS.Web.WebControls.SampleControl.SampleControl.js", "application/x-javascript")]
@@ -98,7 +99,7 @@ namespace MCS.Web.WebControls
         {
             //在客户端，客户端控件对应的DomElement为DIV控件
             this.inputAttribute = new System.Web.UI.AttributeCollection(this.ViewState);
-            this.samObject = new SampleObject(DateTime.Now, "LiShiMin", 188);
+            this.samObject = new SampleObject(SNTPClient.AdjustedTime, "LiShiMin", 188);
             this.CssClass = "sampleControl";
         }
 
@@ -308,8 +309,8 @@ namespace MCS.Web.WebControls
         protected override string SaveClientState()
         {
             List<SampleObject> objs = new List<SampleObject>();
-            objs.Add(new SampleObject(DateTime.Now, "1234", 111));
-            objs.Add(new SampleObject(DateTime.Now, "5566", 222));
+            objs.Add(new SampleObject(SNTPClient.AdjustedTime, "1234", 111));
+            objs.Add(new SampleObject(SNTPClient.AdjustedTime, "5566", 222));
             return JSONSerializerExecute.Serialize(objs);// (new System.Web.Script.Serialization.JavaScriptSerializer()).Serialize(this.samObject);// base.SaveClientState();
         }
 

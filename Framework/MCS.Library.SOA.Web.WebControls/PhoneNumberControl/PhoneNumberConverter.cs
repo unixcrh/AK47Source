@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using MCS.Library.SOA.DataObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
-using MCS.Library.SOA.DataObjects;
-using MCS.Library.Core;
 
 namespace MCS.Web.WebControls
 {
@@ -35,7 +36,7 @@ namespace MCS.Web.WebControls
 			phonenumber.IsDefault = DictionaryHelper.GetValue(dictionary, "isDefault", 0);
 			phonenumber.Description = DictionaryHelper.GetValue(dictionary, "description", "");
 			phonenumber.Changed = DictionaryHelper.GetValue(dictionary, "changed", false);
-			phonenumber.VersionStartTime = DictionaryHelper.GetValue(dictionary, "versionStartTime",DateTime.Now);
+            phonenumber.VersionStartTime = DictionaryHelper.GetValue(dictionary, "versionStartTime", SNTPClient.AdjustedTime);
 			phonenumber.VersionEndTime = DictionaryHelper.GetValue(dictionary, "versionEndTime", ConnectionDefine.MaxVersionEndTime);
 
 			return phonenumber;

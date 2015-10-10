@@ -1,16 +1,17 @@
-﻿using System;
+﻿using MCS.Library;
+using MCS.Library.Caching;
+using MCS.Library.Net.SNTP;
+using MCS.Library.OGUPermission;
+using MCS.Library.SOA.Security.ADSyncUtilities.Entity;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.DirectoryServices;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using MCS.Library;
-using MCS.Library.Caching;
-using MCS.Library.OGUPermission;
-using MCS.Library.SOA.Security.ADSyncUtilities.Entity;
-using System.Collections;
-using System.Diagnostics;
 
 namespace MCS.Library.SOA.Security.ADSyncUtilities
 {
@@ -661,7 +662,7 @@ namespace MCS.Library.SOA.Security.ADSyncUtilities
 		/// <param stringValue="parentEntry"></param>
 		public static void SolveConflictAboutMove(IOguObject oguObject, DirectoryEntry targetObject, DirectoryEntry parentEntry)
 		{
-			string magic = oguObject.Name + DateTime.Now.ToString("yyMMddHHmmss") + SynchronizeContext.Current.DelayActions.Count;
+            string magic = oguObject.Name + SNTPClient.AdjustedTime.ToString("yyMMddHHmmss") + SynchronizeContext.Current.DelayActions.Count;
 
 			targetObject.Rename(oguObject.ObjectType.SchemaTypeToPrefix() + "=" + ADHelper.EscapeString(magic));
 			targetObject.CommitChanges();

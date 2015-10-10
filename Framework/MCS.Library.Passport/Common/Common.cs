@@ -9,16 +9,17 @@
 // 1.1          ºú×ÔÇ¿      2008-12-2       Ìí¼Ó×¢ÊÍ
 // -------------------------------------------------
 #endregion
-using System;
-using System.Xml;
-using System.Web;
-using System.Text;
-using System.Diagnostics;
-using System.Configuration;
-using System.Collections.Generic;
 using MCS.Library.Core;
-using System.Web.Configuration;
+using MCS.Library.Net.SNTP;
 using MCS.Library.Passport.Properties;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
+using System.Text;
+using System.Web;
+using System.Web.Configuration;
+using System.Xml;
 
 namespace MCS.Library.Passport
 {
@@ -93,7 +94,7 @@ namespace MCS.Library.Passport
 
 			XmlHelper.AppendNode(xmlDoc.DocumentElement, "DSUID", bDontSaveUserID);
 			XmlHelper.AppendNode(xmlDoc.DocumentElement, "ASI", bAutoSignIn);
-			XmlHelper.AppendNode(xmlDoc.DocumentElement, "STime", DateTimeStandardFormat(DateTime.Now));
+			XmlHelper.AppendNode(xmlDoc.DocumentElement, "STime", DateTimeStandardFormat(SNTPClient.AdjustedTime));
 			XmlHelper.AppendNode(xmlDoc.DocumentElement, "AS", request.Url.Host + ":" + request.Url.Port);
 
 			if (userInfo.Properties.Count > 0)
@@ -165,13 +166,13 @@ namespace MCS.Library.Passport
 
 			XmlHelper.AppendNode(xmlDoc.DocumentElement, "AppSSID", Guid.NewGuid().ToString());
 			XmlHelper.AppendNode(xmlDoc.DocumentElement, "AppID", strAppID);
-			XmlHelper.AppendNode(xmlDoc.DocumentElement, "AppSTime", DateTimeStandardFormat(DateTime.Now));
+			XmlHelper.AppendNode(xmlDoc.DocumentElement, "AppSTime", DateTimeStandardFormat(SNTPClient.AdjustedTime));
 			XmlHelper.AppendNode(xmlDoc.DocumentElement, "IP", strIP);
 
 			DateTime dtExpireTime = DateTime.MaxValue;
 
 			if (nTimeout >= 0)
-				dtExpireTime = DateTime.Now.AddSeconds(nTimeout);
+                dtExpireTime = SNTPClient.AdjustedTime.AddSeconds(nTimeout);
 			else
 				if (nTimeout < -1)
 					dtExpireTime = DateTime.MinValue;

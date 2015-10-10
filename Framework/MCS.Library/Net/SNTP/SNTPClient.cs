@@ -52,8 +52,9 @@ namespace MCS.Library.Net.SNTP
                         _RWLocalOffsetLock.ExitWriteLock();
                     }
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
+                    Trace.Write(ex);
                 }
 
                 try
@@ -178,6 +179,23 @@ namespace MCS.Library.Net.SNTP
             get
             {
                 return AdjustedLocalTime.ToUniversalTime();
+            }
+        }
+
+        /// <summary>
+        /// 调整后的时间。根据SNTPSettings的DefaultDateTimeKind决定是否使用Local还是Utc时间。
+        /// 默认是Local
+        /// </summary>
+        public static DateTime AdjustedTime
+        {
+            get
+            {
+                DateTime result = AdjustedLocalTime;
+
+                if (SNTPSettings.GetConfigOrDefault().DefaultDateTimeKind == DateTimeKind.Utc)
+                    result = AdjustedUtcTime;
+
+                return result;
             }
         }
 
@@ -422,50 +440,45 @@ namespace MCS.Library.Net.SNTP
         {
             QueryServerCompletedEventArgs result = new QueryServerCompletedEventArgs();
             Initialize();
-            UdpClient client = null;
-            try
+            using (UdpClient client = new UdpClient())
             {
-                // Configure and connect the socket.
-                client = new UdpClient();
-                IPEndPoint ipEndPoint = RemoteSNTPServer.GetIPEndPoint();
-                client.Client.SendTimeout = (int)this.Timeout.TotalMilliseconds;
-                client.Client.ReceiveTimeout = (int)this.Timeout.TotalMilliseconds;
-                client.Connect(ipEndPoint);
-
-                // Send and receive the data, and save the completion DateTime.
-                SNTPData request = SNTPData.GetClientRequestPacket(this.VersionNumber);
-                client.Send(request, request.Length);
-                result.Data = client.Receive(ref ipEndPoint);
-                result.Data.DestinationDateTime = DateTime.Now.ToUniversalTime();
-
-                // Check the data
-                if (result.Data.Mode == Mode.Server)
+                try
                 {
-                    result.Succeeded = true;
+                    // Configure and connect the socket.
+                    IPEndPoint ipEndPoint = RemoteSNTPServer.GetIPEndPoint();
+                    client.Client.SendTimeout = (int)this.Timeout.TotalMilliseconds;
+                    client.Client.ReceiveTimeout = (int)this.Timeout.TotalMilliseconds;
+                    client.Connect(ipEndPoint);
 
-                    // Call other method(s) if needed
-                    if (this.UpdateLocalDateTime)
+                    // Send and receive the data, and save the completion DateTime.
+                    SNTPData request = SNTPData.GetClientRequestPacket(this.VersionNumber);
+                    client.Send(request, request.Length);
+                    result.Data = client.Receive(ref ipEndPoint);
+                    result.Data.DestinationDateTime = DateTime.Now.ToUniversalTime();
+
+                    // Check the data
+                    if (result.Data.Mode == Mode.Server)
                     {
-                        this.UpdateTime(result.Data.LocalClockOffset);
-                        result.LocalDateTimeUpdated = true;
+                        result.Succeeded = true;
+
+                        // Call other method(s) if needed
+                        if (this.UpdateLocalDateTime)
+                        {
+                            this.UpdateTime(result.Data.LocalClockOffset);
+                            result.LocalDateTimeUpdated = true;
+                        }
                     }
+                    else
+                    {
+                        result.ErrorData = new ErrorData("The response from the server was invalid.");
+                    }
+                    return result;
                 }
-                else
+                catch (Exception ex)
                 {
-                    result.ErrorData = new ErrorData("The response from the server was invalid.");
+                    result.ErrorData = new ErrorData(ex);
+                    return result;
                 }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                result.ErrorData = new ErrorData(ex);
-                return result;
-            }
-            finally
-            {
-                // Close the socket
-                if (client != null)
-                    client.Close();
             }
         }
 

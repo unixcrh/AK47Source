@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Logging;
+using MCS.Library.Net.SNTP;
+using MCS.Library.SOA.Security.ADSyncUtilities.Adapters;
+using MCS.Library.SOA.Security.ADSyncUtilities.Entity;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
-using MCS.Library.Core;
-using MCS.Library.Logging;
-using MCS.Library.SOA.Security.ADSyncUtilities.Adapters;
-using MCS.Library.SOA.Security.ADSyncUtilities.Entity;
 
 namespace MCS.Library.SOA.Security.ADSyncUtilities
 {
@@ -35,7 +36,7 @@ namespace MCS.Library.SOA.Security.ADSyncUtilities
 				{
 					LogID = Guid.NewGuid().ToString(),
 					SynchronizeID = context.SynchronizeID,
-					StartTime = DateTime.Now,
+                    StartTime = SNTPClient.AdjustedTime,
 					OperatorID = operatorID,
 					OperatorName = operatorName,
 					ExceptionCount = context.ExceptionCount,
@@ -50,7 +51,7 @@ namespace MCS.Library.SOA.Security.ADSyncUtilities
 			}
 			else
 			{
-				context.LogEntity.EndTime = DateTime.Now;
+                context.LogEntity.EndTime = SNTPClient.AdjustedTime;
 				context.LogEntity.ExceptionCount = context.ExceptionCount;
 				context.LogEntity.SynchronizeResult = context.SynchronizeResult;
 				context.LogEntity.AddingItemCount = context.AddingItemCount;
@@ -90,7 +91,7 @@ namespace MCS.Library.SOA.Security.ADSyncUtilities
 				SCObjectID = scObjectID,
 				ADObjectID = adObjectID,
 				ADObjectName = adObjectName,
-				CreateTime = DateTime.Now,
+                CreateTime = SNTPClient.AdjustedTime,
 				Summary = summary,
 				Detail = detail,
 			};

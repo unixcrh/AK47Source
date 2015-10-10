@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Globalization;
+using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
-using MCS.Library.Core;
-using MCS.Library.Globalization;
 
 namespace MCS.Library.Passport
 {
@@ -80,7 +81,7 @@ namespace MCS.Library.Passport
 		{
 			AccessTicket aTicket = new AccessTicket();
 
-			aTicket.GenerateTime = DateTime.Now;
+            aTicket.GenerateTime = SNTPClient.AdjustedTime;
 
 			return aTicket;
 		}

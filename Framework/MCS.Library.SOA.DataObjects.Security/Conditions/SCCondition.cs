@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data.DataObjects;
+using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
+using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
-using MCS.Library.Data.DataObjects;
-using MCS.Library.Data.Mapping;
-using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
 
 namespace MCS.Library.SOA.DataObjects.Security.Conditions
 {
@@ -112,7 +113,7 @@ namespace MCS.Library.SOA.DataObjects.Security.Conditions
 
 		public void ReplaceItemsWith(SCConditionCollection source, string ownerID, string type)
 		{
-			DateTime ve = DateTime.Now;
+            DateTime ve = SNTPClient.AdjustedTime;
 			DateTime vm = new DateTime(9999, 9, 9);
 
 			//合并时，先将已经删除的过滤，将剩下的设置成删除，添加新的项目。

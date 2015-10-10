@@ -9,16 +9,16 @@
 // 1.1          ºú×ÔÇ¿      2008-12-2       Ìí¼Ó×¢ÊÍ
 // -------------------------------------------------
 #endregion
-using System;
-using System.Xml;
-using System.Web;
-using System.Text;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-
 using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
 using MCS.Library.Passport.Properties;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+using System.Xml;
 
 namespace MCS.Library.Passport
 {
@@ -402,7 +402,7 @@ namespace MCS.Library.Passport
         {
             DateTime newExpireDate = GetConfigExpireDate();
 
-            return DateTime.Now >= newExpireDate;
+            return SNTPClient.AdjustedTime >= newExpireDate;
         }
 
         private DateTime GetConfigExpireDate()
@@ -435,7 +435,7 @@ namespace MCS.Library.Passport
             if (settings.HasSlidingExpiration)
             {
                 DateTime dtTO = this.AppSignInTime.Add(settings.AppSlidingExpiration);
-                bExpired = (DateTime.Now >= dtTO);
+                bExpired = (SNTPClient.AdjustedTime >= dtTO);
             }
 
             return bExpired;

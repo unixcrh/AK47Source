@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.DirectoryServices;
-using System.Linq;
-using System.Web;
-using MCS.Library;
+﻿using MCS.Library;
 using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
 using MCS.Library.OGUPermission;
 using MCS.Library.SOA.DataObjects.Security.Transfer;
 using MCS.Library.SOA.Security.ADSyncUtilities.Entity;
+using System;
+using System.Collections.Generic;
+using System.DirectoryServices;
+using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Web;
 
 namespace MCS.Library.SOA.Security.ADSyncUtilities
 {
@@ -136,7 +137,8 @@ namespace MCS.Library.SOA.Security.ADSyncUtilities
 
 		private static void MakeTimePostfixToBuilderAndTrim(StringBuilder builder)
 		{
-			char[] time = DateTime.Now.ToString("yyyyMMddHHmmssfff").ToCharArray();
+            char[] time = SNTPClient.AdjustedTime.ToString("yyyyMMddHHmmssfff").ToCharArray();
+
 			if (builder.Length + time.Length > 64)
 			{
 				builder.Length = 64 - time.Length;

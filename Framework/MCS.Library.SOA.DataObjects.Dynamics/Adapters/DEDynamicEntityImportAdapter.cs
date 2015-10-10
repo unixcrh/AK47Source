@@ -1,4 +1,19 @@
-﻿using System;
+﻿using MCS.Library.Caching;
+using MCS.Library.Core;
+using MCS.Library.Data;
+using MCS.Library.Data.Builder;
+using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
+using MCS.Library.Principal;
+using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
+using MCS.Library.SOA.DataObjects.Dynamics.Enums;
+using MCS.Library.SOA.DataObjects.Dynamics.Executors;
+using MCS.Library.SOA.DataObjects.Dynamics.Objects;
+using MCS.Library.SOA.DataObjects.Dynamics.Schemas;
+using MCS.Library.SOA.DataObjects.Schemas.Adapters;
+using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
+using MCS.Web.Library.Script;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -6,20 +21,6 @@ using System.Text;
 using System.Transactions;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using MCS.Library.Caching;
-using MCS.Library.Core;
-using MCS.Library.Data;
-using MCS.Library.Data.Builder;
-using MCS.Library.Data.Mapping;
-using MCS.Library.Principal;
-using MCS.Library.SOA.DataObjects.Dynamics.Adapters;
-using MCS.Library.SOA.DataObjects.Dynamics.Enums;
-using MCS.Library.SOA.DataObjects.Dynamics.Executors;
-using MCS.Library.SOA.DataObjects.Dynamics.Objects;
-using MCS.Library.SOA.DataObjects.Dynamics.Schemas;
-using MCS.Web.Library.Script;
-using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
-using MCS.Library.SOA.DataObjects.Schemas.Adapters;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
 {
@@ -133,7 +134,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             entity.CategoryID = categoryID;
             entity.VersionStartTime = DateTime.MinValue;
             entity.VersionEndTime = DateTime.MinValue;
-            entity.CreateDate = DateTime.Now.SimulateTime();
+            entity.CreateDate = SNTPClient.AdjustedTime.SimulateTime();
             //entity.BuidCodeName();
 
             //字段ID编码，更新前后的结果集
@@ -146,7 +147,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
                 f.ID = mapping.Key;
                 f.VersionStartTime = DateTime.MinValue;
                 f.VersionEndTime = DateTime.MinValue;
-                f.CreateDate = DateTime.Now.SimulateTime();
+                f.CreateDate = SNTPClient.AdjustedTime.SimulateTime();
             });
 
             DEObjectOperations.InstanceWithoutPermissions.DoOperation(SCObjectOperationMode.Add, entity, null);

@@ -11,13 +11,13 @@
 // -------------------------------------------------
 #endregion
 
+using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
+using System.Text;
 using System.Threading;
-
-using MCS.Library.Core;
 
 namespace MCS.Library.Logging
 {
@@ -236,7 +236,7 @@ namespace MCS.Library.Logging
                     {
                         try
                         {
-                            string msg = string.Format("{1}[{0:yyyy-MM-dd HH:mm:ss}] \n 错误堆栈为：{2}", DateTime.Now, ex.Message, ex.StackTrace);
+                            string msg = string.Format("{1}[{0:yyyy-MM-dd HH:mm:ss}] \n 错误堆栈为：{2}", SNTPClient.AdjustedTime, ex.Message, ex.StackTrace);
 
                             EventLog.WriteEntry("Application", "写事件查看器异常：" + msg, EventLogEntryType.Warning);
                         }

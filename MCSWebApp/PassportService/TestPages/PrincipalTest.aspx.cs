@@ -40,7 +40,7 @@ namespace MCS.Web.Passport.TestPages
                     DeluxeIdentity.CurrentUser.TopOU.DisplayName,
                     DeluxeIdentity.CurrentUser.TopOU.FullPath));
 
-            ShowSinglePrincipalInfo(table, "Simulated Time", SNTPClient.AdjustedLocalTime.SimulateTime().ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            ShowSinglePrincipalInfo(table, "Simulated Time", SNTPClient.AdjustedTime.SimulateTime().ToString("yyyy-MM-dd HH:mm:ss.fff"));
             ShowSinglePrincipalInfo(table, "TimePoint Simulated Time", TimePointContext.Current.SimulatedTime.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             ShowSinglePrincipalInfo(table, "Use Current Time", TimePointContext.Current.UseCurrentTime.ToString());
 

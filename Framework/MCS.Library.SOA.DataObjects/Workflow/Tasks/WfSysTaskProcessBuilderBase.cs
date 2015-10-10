@@ -1,8 +1,9 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
 
 namespace MCS.Library.SOA.DataObjects.Workflow.Tasks
 {
@@ -36,7 +37,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow.Tasks
 
 			sysProcess.ID = UuidHelper.NewUuidString();
 			sysProcess.Status = SysTaskProcessStatus.NotRunning;
-			sysProcess.StartTime = DateTime.Now;
+            sysProcess.StartTime = SNTPClient.AdjustedTime;
 
 			return sysProcess;
 		}

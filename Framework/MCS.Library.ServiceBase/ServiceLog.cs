@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Threading;
-
 using MCS.Library.Core;
 using MCS.Library.Logging;
+using MCS.Library.Net.SNTP;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MCS.Library.Services
 {
@@ -282,7 +282,7 @@ namespace MCS.Library.Services
 
             try
             {
-                this.lastExceptionMessage = string.Format("{1}[{0:yyyy-MM-dd HH:mm:ss}] \n ´íÎó¶ÑÕ»Îª£º{2}", DateTime.Now, ex.Message, ex.StackTrace);
+                this.lastExceptionMessage = string.Format("{1}[{0:yyyy-MM-dd HH:mm:ss}] \n ´íÎó¶ÑÕ»Îª£º{2}", SNTPClient.AdjustedTime, ex.Message, ex.StackTrace);
             }
             finally
             {
@@ -296,7 +296,7 @@ namespace MCS.Library.Services
 
             try
             {
-                this.lastMessage = string.Format("{1}[{0:yyyy-MM-dd HH:mm:ss}]", DateTime.Now, message);
+                this.lastMessage = string.Format("{1}[{0:yyyy-MM-dd HH:mm:ss}]", SNTPClient.AdjustedTime, message);
             }
             finally
             {

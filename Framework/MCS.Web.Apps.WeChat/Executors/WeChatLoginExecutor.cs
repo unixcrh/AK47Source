@@ -1,13 +1,14 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using MCS.Web.Apps.WeChat.DataObjects;
+using MCS.Web.Library.Script;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
-using MCS.Library.Core;
-using MCS.Web.Apps.WeChat.DataObjects;
-using MCS.Web.Library.Script;
 
 namespace MCS.Web.Apps.WeChat.Executors
 {
@@ -92,7 +93,7 @@ namespace MCS.Web.Apps.WeChat.Executors
 				{
 					token = retInfo.RedirectUrl.Split(new char[] { '&' })[2].Split(new char[] { '=' })[1].ToString();//取得令牌
 					loginInfo.LoginCookie = this.Request.CookieContainer;
-					loginInfo.CreateDate = DateTime.Now;
+                    loginInfo.CreateDate = SNTPClient.AdjustedTime;
 					loginInfo.Token = token;
 
 					CookieCollection cookies = this.Request.CookieContainer.GetCookies(new Uri("https://mp.weixin.qq.com/"));

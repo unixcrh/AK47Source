@@ -15,6 +15,7 @@
 using MCS.Library.Caching;
 using MCS.Library.Core;
 using MCS.Library.Data.Properties;
+using MCS.Library.Net.SNTP;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -324,7 +325,7 @@ namespace MCS.Library.Data
                                     rConnection.Connection.Close();
 
                                 WriteTraceInfo(rConnection.Connection.DataSource + "." + rConnection.Connection.Database
-                                            + "[" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss.fff") + "]",
+                                            + "[" + SNTPClient.AdjustedTime.ToString("yyyyMMdd HH:mm:ss.fff") + "]",
                                             " Close Connection ");
                             }
                             finally
@@ -420,7 +421,7 @@ namespace MCS.Library.Data
                 OpenConnection(name, connection);
 
                 WriteTraceInfo(connection.DataSource + "." + connection.Database
-                    + "[" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss.fff") + "]", " Open Connection ");
+                    + "[" + SNTPClient.AdjustedTime.ToString("yyyyMMdd HH:mm:ss.fff") + "]", " Open Connection ");
             }
 
             return new Tuple<DbConnection, bool>(connection, isConnectionCreator);
@@ -443,7 +444,7 @@ namespace MCS.Library.Data
                 await OpenConnectionAsync(name, connection);
 
                 WriteTraceInfo(connection.DataSource + "." + connection.Database
-                    + "[" + DateTime.Now.ToString("yyyyMMdd HH:mm:ss.fff") + "]", " Open Connection ");
+                    + "[" + SNTPClient.AdjustedTime.ToString("yyyyMMdd HH:mm:ss.fff") + "]", " Open Connection ");
             }
 
             return new Tuple<DbConnection, bool>(connection, isConnectionCreator);

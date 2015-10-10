@@ -1,8 +1,9 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
-using MCS.Library.Core;
+using System.Text;
 
 namespace MCS.Library.Office.SpreadSheet
 {
@@ -210,7 +211,7 @@ namespace MCS.Library.Office.SpreadSheet
 			table.Columns.Add("User Name", typeof(string));
 			table.Columns.Add("Birthday", typeof(DateTime));
 
-			Random rand = new Random((int)DateTime.Now.Ticks);
+            Random rand = new Random((int)SNTPClient.AdjustedTime.Ticks);
 
 			for (int i = 0; i < 10; i++)
 			{

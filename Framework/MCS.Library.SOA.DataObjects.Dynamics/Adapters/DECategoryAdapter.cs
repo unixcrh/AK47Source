@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data;
+using MCS.Library.Data.Builder;
+using MCS.Library.Net.SNTP;
+using MCS.Library.SOA.DataObjects.Dynamics.Objects;
+using System;
 using System.Data;
 using System.Linq;
-using MCS.Library.Core;
-using MCS.Library.Data;
-using MCS.Library.SOA.DataObjects.Dynamics.Objects;
-using MCS.Library.Data.Builder;
 namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
 {
     public class CategoryAdapter : TypeEntityBAdapterBase<DECategory, CategoryCollection>
@@ -106,7 +107,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             //描述
             addData.Desc = description;
             //版本开始时间
-            addData.VersionStartTime = DateTime.Now;
+            addData.VersionStartTime = SNTPClient.AdjustedTime;
             //id
             addData.Code = code;
             //状态
@@ -116,7 +117,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             //层级
             addData.Level = level;
             //创建时间
-            addData.CreateTime = DateTime.Now;
+            addData.CreateTime = SNTPClient.AdjustedTime;
             //创建者
             addData.Creator = creator;
             return this.UpdateCurrentData(addData, DateTime.MinValue);
@@ -139,11 +140,11 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             //层级
             addData.Level = level;
             //创建时间
-            addData.CreateTime = DateTime.Now;
+            addData.CreateTime = SNTPClient.AdjustedTime;
             //创建者
             addData.Creator = creator;
 
-            return this.UpdateData(addData, DateTime.Now, sqlWhere);
+            return this.UpdateData(addData, SNTPClient.AdjustedTime, sqlWhere);
         }
     }
 }

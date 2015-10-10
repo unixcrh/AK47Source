@@ -39,7 +39,7 @@ namespace MCS.Library.Core
 		{
 			get
 			{
-                DateTime result = SNTPClient.AdjustedLocalTime;
+                DateTime result = SNTPClient.AdjustedTime;
 
 				if (UseCurrentTime == false && this._SimulatedTime != DateTime.MinValue)
 					result = this._SimulatedTime;

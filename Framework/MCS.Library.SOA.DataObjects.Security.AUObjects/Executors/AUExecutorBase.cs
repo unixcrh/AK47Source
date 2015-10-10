@@ -1,17 +1,18 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data;
+using MCS.Library.Data.Builder;
+using MCS.Library.Net.SNTP;
+using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
+using MCS.Library.SOA.DataObjects.Security.Adapters;
+using MCS.Library.SOA.DataObjects.Security.AUObjects.Adapters;
+using MCS.Library.SOA.DataObjects.Security.AUObjects.Logs;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using MCS.Library.SOA.DataObjects.Security.Adapters;
 using System.Transactions;
-using MCS.Library.Data;
-using MCS.Library.SOA.DataObjects.Security.AUObjects.Logs;
-using MCS.Library.Core;
-using MCS.Library.Data.Builder;
-using System.Diagnostics;
 using PC = MCS.Library.SOA.DataObjects.Security;
-using MCS.Library.SOA.DataObjects.Security.AUObjects.Adapters;
-using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
 
 namespace MCS.Library.SOA.DataObjects.Security.AUObjects.Executors
 {
@@ -145,7 +146,7 @@ namespace MCS.Library.SOA.DataObjects.Security.AUObjects.Executors
 			action.NullCheck("action");
 
 			AUExecutorLogContextInfo.Writer.WriteLine("\t\t{0}开始：{1:yyyy-MM-dd HH:mm:ss.fff}",
-					operationName, DateTime.Now);
+                    operationName, SNTPClient.AdjustedTime);
 
 			Stopwatch sw = new Stopwatch();
 
@@ -158,7 +159,7 @@ namespace MCS.Library.SOA.DataObjects.Security.AUObjects.Executors
 			{
 				sw.Stop();
 				AUExecutorLogContextInfo.Writer.WriteLine("\t\t{0}结束：{1:yyyy-MM-dd HH:mm:ss.fff}；经过时间：{2:#,##0}毫秒",
-					operationName, DateTime.Now, sw.ElapsedMilliseconds);
+                    operationName, SNTPClient.AdjustedTime, sw.ElapsedMilliseconds);
 			}
 		}
 	}

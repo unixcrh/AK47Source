@@ -1,14 +1,15 @@
-﻿using System;
+﻿using MCS.Library;
+using MCS.Library.Caching;
+using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using MCS.Library.OGUPermission;
+using MCS.Library.SOA.DataObjects.Security.Locks;
+using MCS.Library.SOA.DataObjects.Security.Transfer;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
-using MCS.Library;
-using MCS.Library.Caching;
-using MCS.Library.Core;
-using MCS.Library.OGUPermission;
-using MCS.Library.SOA.DataObjects.Security.Locks;
-using MCS.Library.SOA.DataObjects.Security.Transfer;
 
 namespace MCS.Library.SOA.Security.ADSyncUtilities.Entity
 {
@@ -460,7 +461,7 @@ namespace MCS.Library.SOA.Security.ADSyncUtilities.Entity
 				throw new SCCheckLockException(SCCheckLockException.CheckLockResultToMessage(checkResult));
 
 			this._SynchronizeLock = syncLock;
-			this._LastExtendLockTime = DateTime.Now;
+            this._LastExtendLockTime = SNTPClient.AdjustedTime;
 		}
 
 		public void DeleteLock()
@@ -477,10 +478,10 @@ namespace MCS.Library.SOA.Security.ADSyncUtilities.Entity
 		{
 			if (this._SynchronizeLock != null)
 			{
-				if (DateTime.Now.Subtract(this._LastExtendLockTime) > ExtendLockInterval)
+                if (SNTPClient.AdjustedTime.Subtract(this._LastExtendLockTime) > ExtendLockInterval)
 				{
 					SCLockAdapter.Instance.ExtendLockTime(this._SynchronizeLock);
-					this._LastExtendLockTime = DateTime.Now;
+                    this._LastExtendLockTime = SNTPClient.AdjustedTime;
 				}
 			}
 		}

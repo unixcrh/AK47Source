@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data.Mapping;
+using MCS.Library.Net.SNTP;
+using MCS.Library.OGUPermission;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
-using System.Data;
-using MCS.Library.Data.Mapping;
-using MCS.Library.OGUPermission;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -85,7 +86,7 @@ namespace MCS.Library.SOA.DataObjects
 		#region 构造函数
 		public Lock()
 		{
-			LockTime = DateTime.Now;
+            LockTime = SNTPClient.AdjustedTime;
 		}
 
 		public Lock(string lockID, string personID)
@@ -103,7 +104,7 @@ namespace MCS.Library.SOA.DataObjects
 			this.lockID = lockID;
 			this.resourceID = resID;
 			this.personID = personID;
-			this.lockTime = DateTime.Now;
+            this.lockTime = SNTPClient.AdjustedTime;
 			this.effectiveTime = effectiveTime;
 			this.lockType = lockType;
 		}

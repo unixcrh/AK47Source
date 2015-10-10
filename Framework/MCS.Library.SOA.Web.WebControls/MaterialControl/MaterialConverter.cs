@@ -8,17 +8,17 @@
 // 1.0			’≈¡∫		20070731		¥¥Ω®
 // -------------------------------------------------
 #endregion
-using System;
-using System.IO;
-using System.Collections;
-using System.Web.UI.WebControls;
-using System.Collections.Generic;
-using System.Web.Script.Serialization;
-
-using MCS.Web.Library;
-using MCS.Web.Library.Script;
+using MCS.Library.Net.SNTP;
 using MCS.Library.OGUPermission;
 using MCS.Library.SOA.DataObjects;
+using MCS.Web.Library;
+using MCS.Web.Library.Script;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Web.Script.Serialization;
+using System.Web.UI.WebControls;
 
 namespace MCS.Web.WebControls
 {
@@ -88,12 +88,11 @@ namespace MCS.Web.WebControls
 
 			object createDateTime;
 			if (dictionary.TryGetValue("createDateTime", out createDateTime))
-				material.CreateDateTime = createDateTime == null ? DateTime.Now : DateTime.Parse(createDateTime.ToString());
+                material.CreateDateTime = createDateTime == null ? SNTPClient.AdjustedTime : DateTime.Parse(createDateTime.ToString());
 
 			object modifyTime;
 			if (dictionary.TryGetValue("modifyTime", out modifyTime))
 				material.ModifyTime = (DateTime)modifyTime;
-			//material.ModifyTime = modifyTime == null ? DateTime.Now.ToLocalTime() : DateTime.Parse(modifyTime.ToString()).ToLocalTime();
 
 			object wfProcessID = string.Empty;
 			if (dictionary.TryGetValue("wfProcessID", out wfProcessID))

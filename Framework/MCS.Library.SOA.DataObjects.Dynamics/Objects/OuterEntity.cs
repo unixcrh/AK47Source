@@ -13,6 +13,7 @@ using MCS.Library.SOA.DataObjects.Dynamics.Organizations;
 using MCS.Library.SOA.DataObjects.Dynamics.Schemas;
 using MCS.Library.SOA.DataObjects.Schemas.Adapters;
 using MCS.Library.SOA.DataObjects.Dynamics.Contract;
+using MCS.Library.Net.SNTP;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
 {
@@ -27,9 +28,10 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
         {
         }
 
-        public OuterEntity(string schomeType) : base(schomeType)
+        public OuterEntity(string schomeType)
+            : base(schomeType)
         {
-            
+
         }
 
         public DEObjectContainerRelationCollection GetCurrentMemberOfRelations()
@@ -231,13 +233,13 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
             foreach (var field in this.Fields)
             {
                 field.ID = Guid.NewGuid().ToString();
-                field.CreateDate = DateTime.Now.SimulateTime();
+                field.CreateDate = SNTPClient.AdjustedTime.SimulateTime();
                 field.VersionStartTime = DateTime.MinValue;
                 field.VersionEndTime = DateTime.MinValue;
             }
 
             this.ID = Guid.NewGuid().ToString();
-            this.CreateDate = DateTime.Now.SimulateTime();
+            this.CreateDate = SNTPClient.AdjustedTime.SimulateTime();
             this.VersionStartTime = DateTime.MinValue;
             this.VersionEndTime = DateTime.MinValue;
 

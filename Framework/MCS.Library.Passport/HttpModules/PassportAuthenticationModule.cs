@@ -9,16 +9,17 @@
 // 1.1          ºú×ÔÇ¿      2008-12-2       Ìí¼Ó×¢ÊÍ
 // -------------------------------------------------
 #endregion
+using MCS.Library.Caching;
+using MCS.Library.Core;
+using MCS.Library.Net.SNTP;
+using MCS.Library.Passport.Properties;
+using MCS.Library.Principal;
 using System;
-using System.Web;
-using System.Text;
+using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Security.Principal;
-using System.Collections.Generic;
-using MCS.Library.Core;
-using MCS.Library.Caching;
-using MCS.Library.Principal;
-using MCS.Library.Passport.Properties;
+using System.Text;
+using System.Web;
 
 namespace MCS.Library.Passport
 {
@@ -94,7 +95,7 @@ namespace MCS.Library.Passport
             HttpResponse response = HttpContext.Current.Response;
 
             response.Cache.SetCacheability(HttpCacheability.NoCache);
-            response.Cache.SetExpires(DateTime.Now.AddDays(-1));
+            response.Cache.SetExpires(SNTPClient.AdjustedTime.AddDays(-1));
             response.ContentType = "image/gif";
             try
             {

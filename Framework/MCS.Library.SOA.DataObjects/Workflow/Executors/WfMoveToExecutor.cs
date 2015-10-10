@@ -1,13 +1,14 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Globalization;
+using MCS.Library.Net.SNTP;
+using MCS.Library.OGUPermission;
+using MCS.Library.Principal;
+using MCS.Library.SOA.DataObjects;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
-using MCS.Library.Core;
-using MCS.Library.SOA.DataObjects;
-using MCS.Library.Principal;
-using MCS.Library.Globalization;
-using MCS.Library.OGUPermission;
 
 namespace MCS.Library.SOA.DataObjects.Workflow
 {
@@ -225,7 +226,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                     log.OperationDescription = string.Format("{0}:{1}->{2}, '{3}' {4:yyyy-MM-dd HH:mm:ss}",
                             log.OperationName, log.RealUser.DisplayName,
                             Translator.Translate(Define.DefaultCulture, transitionName),
-                            log.Subject, DateTime.Now);
+                            log.Subject, SNTPClient.AdjustedTime);
 
                     dealed = true;
                 }

@@ -89,6 +89,11 @@ namespace MCS.Library.Net.SNTP
         };
 
         /// <summary>
+        /// 中国授时中心的服务器地址
+        /// </summary>
+        public static readonly RemoteSNTPServer China = new RemoteSNTPServer("cn.pool.ntp.org");
+
+        /// <summary>
         /// A remote NTP/SNTP server configured with the default values.
         /// </summary>
         public static readonly RemoteSNTPServer Default = new RemoteSNTPServer();
@@ -252,7 +257,7 @@ namespace MCS.Library.Net.SNTP
         /// <summary>
         /// The Microsoft Windows RemoteSNTPServer (time.windows.com).
         /// </summary>
-        public static readonly RemoteSNTPServer Windows = new RemoteSNTPServer("time.windows.com");
+        public static readonly RemoteSNTPServer Windows = new RemoteSNTPServer("Windows");
 
         #endregion Fields
 

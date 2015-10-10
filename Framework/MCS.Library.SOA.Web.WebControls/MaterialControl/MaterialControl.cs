@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Text;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using MCS.Library.Core;
+﻿using MCS.Library.Core;
 using MCS.Library.Globalization;
+using MCS.Library.Net.SNTP;
 using MCS.Library.OGUPermission;
 using MCS.Library.Passport;
 using MCS.Library.Principal;
@@ -17,6 +10,14 @@ using MCS.Web.Library;
 using MCS.Web.Library.MVC;
 using MCS.Web.Library.Script;
 using MCS.Web.WebControls.Properties;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 #region assembly
 
@@ -1720,7 +1721,7 @@ namespace MCS.Web.WebControls
                 HttpResponse response = HttpContext.Current.Response;
                 response.Clear();
                 response.ContentType = "application/javascript";
-                string dateTimeNow = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                string dateTimeNow = SNTPClient.AdjustedTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
                 response.Write(dateTimeNow);
                 response.End();
 
@@ -1746,7 +1747,7 @@ namespace MCS.Web.WebControls
                 string fileName = HttpUtility.UrlEncode(WebUtility.GetRequestQueryValue<string>("fileName", string.Empty));
                 string IconPath = FileConfigHelper.GetFileIconPath(fileName);
 
-                var obj = new { materialID = newID, fileIconPath = IconPath, uploadTag = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") };
+                var obj = new { materialID = newID, fileIconPath = IconPath, uploadTag = SNTPClient.AdjustedTime.ToString("yyyy-MM-dd HH:mm:ss.fff") };
 
                 response.Write(JSONSerializerExecute.Serialize(obj));
                 response.End();

@@ -9,24 +9,25 @@
 // 1.1          ºú×ÔÇ¿      2008-12-2       Ìí¼Ó×¢ÊÍ
 // -------------------------------------------------
 #endregion
-using System;
-using System.Xml;
-using System.Web;
-using System.Text;
-using System.Web.UI;
-using System.Drawing;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Reflection;
-using System.Diagnostics;
-using System.ComponentModel;
-using System.Collections.Generic;
-using MCS.Library.Core;
 using MCS.Library.Configuration;
-using MCS.Library.Passport;
-using MCS.Library.Passport.Properties;
+using MCS.Library.Core;
 using MCS.Library.Globalization;
+using MCS.Library.Net.SNTP;
+using MCS.Library.Passport;
 using MCS.Library.Passport.Performance;
+using MCS.Library.Passport.Properties;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Reflection;
+using System.Text;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Xml;
 
 namespace MCS.Library.Web.Controls
 {
@@ -248,7 +249,7 @@ namespace MCS.Library.Web.Controls
         private void AdjustSignInTimeout(ISignInInfo signInInfo)
         {
             if (PassportSignInSettings.GetConfig().HasSlidingExpiration)
-                signInInfo.SignInTime = DateTime.Now;
+                signInInfo.SignInTime = SNTPClient.AdjustedTime;
         }
 
         /// <summary>
