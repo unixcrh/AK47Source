@@ -67,6 +67,38 @@ namespace MCS.Web.WebControls
         }
 
         /// <summary>
+        /// 当只读模式时，如果下拉列表选择的是默认项显示的文本
+        /// </summary>
+        [DefaultValue("")]
+        public virtual string ReadOnlyDefaultText
+        {
+            get
+            {
+                return WebControlUtility.GetViewStateValue(ViewState, "ReadOnlyDefaultText", string.Empty);
+            }
+            set
+            {
+                WebControlUtility.SetViewStateValue(ViewState, "ReadOnlyDefaultText", value);
+            }
+        }
+
+        /// <summary>
+        /// 是否启用只读模式下下拉列表选择的是默认项显示文本
+        /// </summary>
+        [DefaultValue(false)]
+        public virtual bool EnableReadOnlyDefaultText
+        {
+            get
+            {
+                return WebControlUtility.GetViewStateValue(ViewState, "EnableReadOnlyDefaultText", false);
+            }
+            set
+            {
+                WebControlUtility.SetViewStateValue(ViewState, "EnableReadOnlyDefaultText", value);
+            }
+        }
+
+        /// <summary>
         /// Label的样式，对于Label，这个样式优先于CssClass
         /// </summary>
         [CssClassProperty]
@@ -163,8 +195,8 @@ namespace MCS.Web.WebControls
                 }
                 else
                 {
-                    if (SelectedItem != null)
-                        this.selectedTextHidden.Value = SelectedItem.Text;
+                    if (this.SelectedItem != null)
+                        this.selectedTextHidden.Value = this.SelectedItem.Text;
                 }
 
                 return this.selectedTextHidden.Value;
@@ -275,10 +307,15 @@ namespace MCS.Web.WebControls
             lb.TabIndex = this.TabIndex;
             lb.TemplateControl = this.TemplateControl;
 
-            if (this.SelectedItem != null)
-                lb.Text = HttpUtility.HtmlEncode(this.SelectedItem.Text);
+            if (this.EnableReadOnlyDefaultText && this.SelectedIndex <= 0)
+                lb.Text = this.ReadOnlyDefaultText;
             else
-                lb.Text = "";
+            {
+                if (this.SelectedItem != null)
+                    lb.Text = HttpUtility.HtmlEncode(this.SelectedItem.Text);
+                else
+                    lb.Text = this.SelectedValue;
+            }
 
             lb.ToolTip = this.ToolTip;
             lb.Visible = this.Visible;
