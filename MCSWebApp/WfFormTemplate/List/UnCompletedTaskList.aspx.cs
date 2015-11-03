@@ -279,7 +279,7 @@ namespace WfFormTemplate.List
                     break;
             }
 
-            return result;
+            return result; 
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -290,7 +290,7 @@ namespace WfFormTemplate.List
 
             //RoleCollection urc = DeluxeIdentity.CurrentUser.Roles["InvitationPlatform"];
             //PermissionCollection permissions = DeluxeIdentity.CurrentUser.Permissions["InvitationPlatform"];
-            //IPermission permission = DeluxeIdentity.CurrentUser.Permissions["InvitationPlatform", "OpenForm"];
+            IPermission permission = DeluxeIdentity.CurrentUser.Permissions["InvitationPlatform", "OpenForm"];
 
             if (this.Page.IsPostBack == false)
             {

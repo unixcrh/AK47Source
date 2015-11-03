@@ -26,7 +26,7 @@ namespace MCS.Library.Passport
     /// <summary>
     /// 单点登录认证类
     /// </summary>
-    public sealed class PassportAuthenticationModule : AuthenticationModuleBase
+    public class PassportAuthenticationModule : AuthenticationModuleBase
     {
         /// <summary>
         /// 初始化函数

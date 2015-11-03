@@ -63,10 +63,21 @@ add textbox icon
 {
 	width:100px;
 	color: #000000;
-	border: solid 1px #ccc;
-	line-height: 150%;
-	background-color: #f5f6f6;
-	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50, style=1, finishOpacity=100, startx=0, starty=0, finishx=0, finishy=1024);
+	border: solid 1px #828282;
+    height:25px !important;
+	line-height:25px !important;
+    font-family:"Î¢ÈíÑÅºÚ",Arial, Helvetica, sans-serif !important;
+    padding-left:3px;
+}
+.ajax__calendar_textbox_readonly
+{
+	border: 0px !important;
+    width:100px;
+	color: #000000;
+    height:25px !important;
+	line-height:25px !important;
+    font-family:"Î¢ÈíÑÅºÚ",Arial, Helvetica, sans-serif !important;
+    padding-left:3px;
 }
 .ajax__calendar_imagebutton
 {

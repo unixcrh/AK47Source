@@ -18,18 +18,20 @@ namespace MCS.Library.SOA.DataObjects
     [TenantRelativeObject]
 	public class GenericOpinion
 	{
-		private string id = String.Empty;
-		private string resourceID = String.Empty;
-		private string content = String.Empty;
+        private string id = string.Empty;
+        private string resourceID = string.Empty;
+        private string content = string.Empty;
 		private IUser issuePerson = null;
 		private DateTime issueDatetime;
 		protected IUser appendPerson = null;
 		private DateTime appendDatetime;
-		private string processID = String.Empty;
-		private string activityID = String.Empty;
-		private string levelName = String.Empty;
-		private string levelDesp = String.Empty;
+        private string processID = string.Empty;
+        private string activityID = string.Empty;
+        private string levelName = string.Empty;
+        private string levelDesp = string.Empty;
 		private string opinionType = string.Empty;
+        private string taskID = string.Empty;
+        private DateTime? taskDatetime;
 		private ApprovalScore evalue;
 		private ApprovalResult result;
 		private IDictionary<string, object> extraData = null;
@@ -123,17 +125,16 @@ namespace MCS.Library.SOA.DataObjects
 			set { this.issueDatetime = value; }
 		}
 
-
-		/// <summary>
-		/// 修改意见的时间
-		/// </summary>
-		[ORFieldMapping("APPEND_DATETIME")]
-		[SqlBehavior(ClauseBindingFlags.All, DefaultExpression = "getdate()")]
-		public DateTime AppendDatetime
-		{
-			get { return this.appendDatetime; }
-			set { this.appendDatetime = value; }
-		}
+        /// <summary>
+        /// 修改意见的时间
+        /// </summary>
+        [ORFieldMapping("APPEND_DATETIME")]
+        [SqlBehavior(ClauseBindingFlags.All, DefaultExpression = "getdate()")]
+        public DateTime AppendDatetime
+        {
+            get { return this.appendDatetime; }
+            set { this.appendDatetime = value; }
+        }
 
 		/// <summary>
 		/// 对应流程的ID
@@ -174,6 +175,28 @@ namespace MCS.Library.SOA.DataObjects
 			get { return this.levelDesp; }
 			set { this.levelDesp = value; }
 		}
+
+        /// <summary>
+        /// 待办ID
+        /// </summary>
+        [ORFieldMapping("TASK_ID")]
+        [SqlBehavior(ClauseBindingFlags.Insert | ClauseBindingFlags.Select | ClauseBindingFlags.Where)]
+        public string TaskID
+        {
+            get { return this.taskID; }
+            set { this.taskID = value; }
+        }
+
+        /// <summary>
+        /// 待办的创建时间。（Added by wangleiping,为计算审批效率设置）
+        /// </summary>
+        [ORFieldMapping("TASK_DATETIME")]
+        [SqlBehavior(ClauseBindingFlags.Insert | ClauseBindingFlags.Select | ClauseBindingFlags.Where)]
+        public DateTime? TaskDatetime
+        {
+            get { return this.taskDatetime; }
+            set { this.taskDatetime = value; }
+        }
 
 		/// <summary>
 		/// 意见的类型

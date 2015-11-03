@@ -51,7 +51,9 @@ body table
 	/*border-top-width : 1px; border-right-width : 1px;
 	border-bottom-width : 1px; border-left-width : 1px;*/
 }
-
+.DeluxeGird > tbody > tr > th { padding: 10px 5px 10px 5px;}
+.DeluxeGird > thead > tr > th { padding: 10px 5px 10px 5px;}
+.DeluxeGird > tbody > tr > td { padding: 10px 5px 10px 5px;}
 
 /*用于待办页字体样式*/
 .titem a,.titem a:link{color:#000;text-decoration:none;font-weight:bold;}

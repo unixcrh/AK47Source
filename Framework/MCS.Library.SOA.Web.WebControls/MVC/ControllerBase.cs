@@ -19,7 +19,7 @@ namespace MCS.Web.Library.MVC
 	{
 		#region IHttpHandler Members
 
-		bool IHttpHandler.IsReusable
+		public bool IsReusable
 		{
 			get
 			{
@@ -27,7 +27,7 @@ namespace MCS.Web.Library.MVC
 			}
 		}
 
-		void IHttpHandler.ProcessRequest(HttpContext context)
+        public virtual void ProcessRequest(HttpContext context)
 		{
 			context.Response.Cache.SetCacheability(HttpCacheability.NoCache);
 			context.Response.Cache.SetNoStore();

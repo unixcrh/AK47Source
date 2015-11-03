@@ -257,7 +257,12 @@ namespace MCS.Library.SOA.DataObjects
         {
             PropertyValue pv = obj as PropertyValue;
 
-            return this.GetStringForHashCode() == pv.GetStringForHashCode();
+            bool result = false;
+
+            if (pv != null)
+                result = this.GetStringForHashCode() == pv.GetStringForHashCode();
+
+            return result;
         }
 
         private string GetStringForHashCode()

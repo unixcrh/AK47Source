@@ -34,6 +34,13 @@
 	width: 100%;
 }
 
+.ajax__propertyGrid_input_Readonly
+{
+	background-color: white;
+	font-size: 12px;
+	border: none !important;
+	width: 100%;
+}
 .ajax__propertyForm_nameCell_selected
 {
 	background-color: #3399ff;
@@ -118,7 +125,7 @@
 
 .ajax_propertyForm_defaultValue_diff_style
 {
-	font-weight: bold;
+	font-weight:normal;
 }
 
 .ajax__propertyForm_categoryNameCell
@@ -142,7 +149,7 @@
 	padding: 1px 3px;
 	vertical-align: middle;
 	background-color: rgb(255, 255, 255);
-	background-image: url(<%=WebResource("MCS.Web.WebControls.PropertyEditorBase.invalid_line.gif")%>);
+	/*background-image: url(<%=WebResource("MCS.Web.WebControls.PropertyEditorBase.invalid_line.gif")%>);*/
 }
 
 .ajax__propertyEditor_readOnlyStyle
@@ -151,5 +158,4 @@
 	display: block;
 	margin: 0px;
 	padding: 0px;
-	filter: DropShadow(Color=#000000, OffX=1, OffY=1, Positive=1);
 }

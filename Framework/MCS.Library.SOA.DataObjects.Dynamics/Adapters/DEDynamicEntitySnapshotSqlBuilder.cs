@@ -196,7 +196,7 @@ WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW
         /// <returns>验证快照表是否已在数据库中存在SQ</returns>
         public string PrepareCheckTableExistsSql(string tableName)
         {
-            return string.Format("SELECT COUNT(OBJECT_ID) AS RecordCount FROM SYS.TABLES WHERE NAME='{0}' AND TYPE = 'U'", tableName);
+            return string.Format("SELECT COUNT(ID)  AS RecordCount FROM SYSOBJECTS WHERE ID = OBJECT_ID('{0}') AND TYPE = 'U'", tableName);
         }
 
 
