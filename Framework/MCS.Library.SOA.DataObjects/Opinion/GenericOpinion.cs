@@ -176,27 +176,27 @@ namespace MCS.Library.SOA.DataObjects
 			set { this.levelDesp = value; }
 		}
 
-        /// <summary>
-        /// 待办ID
-        /// </summary>
-        [ORFieldMapping("TASK_ID")]
-        [SqlBehavior(ClauseBindingFlags.Insert | ClauseBindingFlags.Select | ClauseBindingFlags.Where)]
-        public string TaskID
-        {
-            get { return this.taskID; }
-            set { this.taskID = value; }
-        }
+        ///// <summary>
+        ///// 待办ID
+        ///// </summary>
+        //[ORFieldMapping("TASK_ID")]
+        //[SqlBehavior(ClauseBindingFlags.Insert | ClauseBindingFlags.Select | ClauseBindingFlags.Where)]
+        //public string TaskID
+        //{
+        //    get { return this.taskID; }
+        //    set { this.taskID = value; }
+        //}
 
-        /// <summary>
-        /// 待办的创建时间。（Added by wangleiping,为计算审批效率设置）
-        /// </summary>
-        [ORFieldMapping("TASK_DATETIME")]
-        [SqlBehavior(ClauseBindingFlags.Insert | ClauseBindingFlags.Select | ClauseBindingFlags.Where)]
-        public DateTime? TaskDatetime
-        {
-            get { return this.taskDatetime; }
-            set { this.taskDatetime = value; }
-        }
+        ///// <summary>
+        ///// 待办的创建时间。（Added by wangleiping,为计算审批效率设置）
+        ///// </summary>
+        //[ORFieldMapping("TASK_DATETIME")]
+        //[SqlBehavior(ClauseBindingFlags.Insert | ClauseBindingFlags.Select | ClauseBindingFlags.Where)]
+        //public DateTime? TaskDatetime
+        //{
+        //    get { return this.taskDatetime; }
+        //    set { this.taskDatetime = value; }
+        //}
 
 		/// <summary>
 		/// 意见的类型
