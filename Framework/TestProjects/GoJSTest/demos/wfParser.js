@@ -2,6 +2,19 @@
     wf = {};
 
 wf.nodeElapsedParser = function (v) {
+    var result = "yellow";
+
+    switch (v) {
+        case true:
+        case "true":
+            result = "green";
+            break;
+    }
+
+    return result;
+}
+
+wf.linkElapsedParser = function (v) {
     var result = "gray";
 
     switch (v) {
