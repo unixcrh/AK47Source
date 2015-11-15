@@ -20,19 +20,16 @@
           $(go.Node, "Auto",
             $(go.Shape, "RoundedRectangle",
               new go.Binding("fill", "color"),
-              new go.Binding("stroke", "elapsed", wf.nodeElapsedParser)
+              new go.Binding("stroke", "elapsed", wf.nodeElapsedParser),
+              new go.Binding("location", "loc", go.Point.parse)
             ),
             $(go.Panel,
                 "Table",
                 { defaultAlignment: go.Spot.Left, margin: 4 },
-                $(go.RowColumnDefinition, [{ column: 1, width: 4 }]),
                 $(go.TextBlock, "名称",
-                  { row: 1, column: 0 }),
+                  { row: 1, column: 0, margin: 4 }),
                 $(go.TextBlock,
-                  { row: 1, column: 2 },
-                  new go.Binding("text", "name")),
-                $(go.TextBlock,
-                  { row: 1, column: 2 },
+                  { row: 1, column: 2, margin: 4 },
                   new go.Binding("text", "name")),
                 $("Button",
                 {
@@ -42,11 +39,30 @@
                 { row: 1, column: 3 },
                 $(go.TextBlock, "S", { font: "9pt consolas" })),
                 $(go.TextBlock, "操作人",
-                  { row: 2, column: 0 }),
+                  { row: 2, column: 0, margin: 4 }),
                 $(go.TextBlock,
-                  { row: 2, column: 2 },
+                  { row: 2, column: 2, margin: 4 },
                   new go.Binding("text", "operator"))
-              )
+              ),
+              {
+                  toolTip:
+                  $(go.Adornment, "Auto",
+                      $(go.Shape, "RoundedRectangle", { fill: "#FFFFCC", stroke: "silver" }),
+                      $(go.Panel, "Table",
+                      new go.Binding("itemArray", "", wf.nodeToolTip),
+                      {
+                          defaultAlignment: go.Spot.Left,
+                          margin: 4,
+                          itemTemplate: $(go.Panel, "TableRow",
+                              $(go.TextBlock, new go.Binding("text", "label"),
+                                { column: 0, margin: 4, font: "9pt 微软雅黑,sans-serif" }),
+                              $(go.TextBlock, new go.Binding("text", "description"),
+                                { column: 1, margin: 4, font: "9pt 微软雅黑,sans-serif" })
+                            )
+                      }
+                    )
+                  )
+              }
         );
 
         diagram.linkTemplate =
@@ -65,10 +81,10 @@
 
         diagram.model = new go.GraphLinksModel(
         [
-          { key: "Alpha", name: "起草", color: "lightblue", elapsed: true, operator: "刘闽辉", hasBranchProcess: false },
-          { key: "Beta", name: "部门审批", color: "orange", elapsed: true, operator: "樊海云", hasBranchProcess: true },
-          { key: "Gamma", name: "CFO", color: "lightgreen", elapsed: false, operator: "曲毅民", hasBranchProcess: false },
-          { key: "Delta", name: "CEO", color: "pink", elapsed: false, operator: "李明", hasBranchProcess: false }
+          { id: "A11", key: "Alpha", name: "起草", color: "lightblue", elapsed: true, operator: "刘闽辉", hasBranchProcess: false, loc: "100 100" },
+          { id: "A12", key: "Beta", name: "部门审批", color: "orange", elapsed: true, operator: "樊海云", hasBranchProcess: true, loc: "100 80" },
+          { id: "A13", key: "Gamma", name: "CFO", color: "lightgreen", elapsed: false, operator: "曲毅民", hasBranchProcess: false, loc: "100 100" },
+          { id: "A14", key: "Delta", name: "CEO", color: "pink", elapsed: false, operator: "李明", hasBranchProcess: false, loc: "100 100" }
         ],
         [
           { from: "Alpha", to: "Beta", elapsed: true },
@@ -77,6 +93,8 @@
           { from: "Gamma", to: "Delta", elapsed: false },
           { from: "Delta", to: "Alpha", elapsed: false, isReturn: true }
         ]);
+
+        diagram.model.isReadOnly = true;
     </script>
 </body>
 </html>

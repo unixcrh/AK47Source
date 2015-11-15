@@ -39,3 +39,13 @@ wf.returnLinkParser = function (v) {
 
     return result;
 }
+
+wf.nodeToolTip = function (model) {
+    var descriptors = [];
+
+    descriptors.push({ label: "活动ID", description: model.id });
+    descriptors.push({ label: "活动Key", description: model.key });
+    descriptors.push({ label: "活动名称", description: model.name });
+
+    return descriptors;
+}
