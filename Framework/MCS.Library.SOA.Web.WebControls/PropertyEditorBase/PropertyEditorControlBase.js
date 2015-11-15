@@ -929,15 +929,15 @@ $HGRootNS.StandardPropertyEditor.prototype =
         if (rex.test(num))
         {
             var varpointIndex = num.lastIndexOf(".");
-            var varintPart = num.substring(0, pointIndex);
-            var varpointPart = num.substring(pointIndex + 1, num.length);
-            var intPart = intPart + "";
+            var varintPart = num.substring(0, varpointIndex);
+            var varpointPart = num.substring(varpointIndex + 1, num.length);
+            var intPart = varintPart + "";
             
             while (re.test(intPart))
             {
                 intPart = intPart.replace(re, "$1,$2")
             }
-            num = intPart + "." + pointPart;
+            num = intPart + "." + varpointPart;
         } else
         {
             num = num + "";
