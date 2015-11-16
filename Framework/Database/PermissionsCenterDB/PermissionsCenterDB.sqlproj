@@ -184,6 +184,7 @@
     <Build Include="SC\Functions\GetOrgUserXml.sql" />
     <Build Include="SC\Functions\GetOrgTreeXml.sql" />
     <Build Include="SC\Functions\GetOrganizationXml.sql" />
+    <Build Include="SC\Procedures\ClearHistoryData.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PermissionsCenterDB.local.UnitTest.publish.xml" />

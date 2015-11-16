@@ -912,37 +912,31 @@ $HGRootNS.StandardPropertyEditor.prototype =
 
         return result;
     },
+
     //格式化数字字符串，加千分位
-    formatCurrency : function (num)
-    {
-        if (num.trim() == "")
-        {
+    formatCurrency: function (num) {
+        if (num.trim() == "") {
             return "0";
         }
 
-        if (isNaN(num))
-        {
+        if (isNaN(num)) {
             return "0";
         }
-        var rex=/^.*\..*$/;
+        var rex = /^.*\..*$/;
         var re = /(-?\d+)(\d{3})/;
-        if (rex.test(num))
-        {
+        if (rex.test(num)) {
             var varpointIndex = num.lastIndexOf(".");
             var varintPart = num.substring(0, varpointIndex);
             var varpointPart = num.substring(varpointIndex + 1, num.length);
             var intPart = varintPart + "";
-            
-            while (re.test(intPart))
-            {
+
+            while (re.test(intPart)) {
                 intPart = intPart.replace(re, "$1,$2")
             }
             num = intPart + "." + varpointPart;
-        } else
-        {
+        } else {
             num = num + "";
-            while (re.test(num))
-            {
+            while (re.test(num)) {
                 num = num.replace(re, "$1,$2")
             }
         }
@@ -950,24 +944,19 @@ $HGRootNS.StandardPropertyEditor.prototype =
         return num;
     },
 
-    _editElement_onfocus: function (eventElement)
-    {
+    _editElement_onfocus: function (eventElement) {
         //如果是数字类型且值为0时，则不显示0；
         if (this.get_property().dataType == $HGRootNS.PropertyDataType.Integer ||
-            this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal)
-        {
+            this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal) {
             var v = eventElement.handlingElement.value.replace(/,/gi, '');
-            if (!isNaN(v) && Number(v) == 0)
-            {
+            if (!isNaN(v) && Number(v) == 0) {
                 eventElement.handlingElement.value = "";
             }
-            else
-            {
+            else {
                 eventElement.handlingElement.value = v;
             }
         }
-        if (eventElement.handlingElement.createTextRange)
-        {
+        if (eventElement.handlingElement.createTextRange) {
             var range = eventElement.handlingElement.createTextRange();
             range.move("character", eventElement.handlingElement.value.length);
             range.collapse(true);
@@ -976,103 +965,93 @@ $HGRootNS.StandardPropertyEditor.prototype =
         this._delegations["editorEnter"](this.get_property());
     },
 
-    _isInteger: function (value)
-    {
+    _isInteger: function (value) {
         var pattern = /^\d+$/;
         return pattern.test(value);
     },
 
-    _editElement_onblur: function (eventElement)
-    {
+    _editElement_onblur: function (eventElement) {
         //如果是数字类型且值为非数字类型时，则显示为0；
-        if (this.get_property().dataType == $HGRootNS.PropertyDataType.Integer || this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal)
-        {
+        if (this.get_property().dataType == $HGRootNS.PropertyDataType.Integer || this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal) {
             var v = eventElement.handlingElement.value.replace(/,/gi, '');
-            if (!isNaN(v) && Number(v) == 0)
-            {
+            if (!isNaN(v) && Number(v) == 0) {
                 eventElement.handlingElement.value = "0";
             }
-            else
-            {
+            else {
                 eventElement.handlingElement.value = this.formatCurrency(v);
             }
         }
         this._delegations["editorLeave"](this.get_property());
     },
 
-    _editElement_onchange: function (eventElement)
-    {
+    _editElement_onchange: function (eventElement) {
         var validateEventArgs = new Sys.EventArgs();
         validateEventArgs.result = true;
 
-        if (this._delegations["editorValidating"])
-        {
+        if (this._delegations["editorValidating"]) {
             this._delegations["editorValidating"](this.get_property(), eventElement.handlingElement);
-            if (this.get_property().dataType == $HGRootNS.PropertyDataType.Integer)
-            {
+            if (this.get_property().dataType == $HGRootNS.PropertyDataType.Integer) {
                 //只能输入整数
                 eventElement.handlingElement.value = eventElement.handlingElement.value.replace(/\D/g, '');
             }
-            if (this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal)
-            {
+            if (this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal) {
                 //只能输入数字和小数点
                 if (isNaN(eventElement.handlingElement.value)) execCommand('undo');
             }
-            if (this._delegations["editorValidate"])
-            {
+            if (this._delegations["editorValidate"]) {
                 this._delegations["editorValidate"](this.get_property(), eventElement.handlingElement, validateEventArgs);
             }
-            if (validateEventArgs.result == false)
-            {
+            if (validateEventArgs.result == false) {
                 eventElement.preventDefault();
                 return false;
             }
         }
-        if (this._delegations["editorValidated"])
-        {
+        if (this._delegations["editorValidated"]) {
             this._delegations["editorValidated"](this.get_property(), eventElement.handlingElement, validateEventArgs);
         }
     },
 
-    _editElement_onkeypress: function (eventElement)
-    {
+    _editElement_onkeypress: function (eventElement) {
         //data type is integer
-        if (this.get_property().dataType == $HGRootNS.PropertyDataType.Integer)
-        {
+        if (this.get_property().dataType == $HGRootNS.PropertyDataType.Integer) {
             //只能输入整数
             eventElement.handlingElement.value = eventElement.handlingElement.value.replace(/\D/g, '');
         }
-        if (this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal)
-        {
+
+        if (this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal) {
             //只能输入数字和小数点
-            if (isNaN(element.value)) execCommand('undo');
+            if (isNaN(element.value))
+                execCommand('undo');
         }
-        if (eventElement.charCode == 13)
-        {
+
+        if (eventElement.charCode == 13) {
             var validateEventArgs = new Sys.EventArgs();
             validateEventArgs.result = true;
+
             if (this._delegations["editorValidating"]) {
                 this._delegations["editorValidating"](this.get_property(), eventElement.handlingElement);
-                if (this.get_property().dataType == $HGRootNS.PropertyDataType.Integer)
-                {
-                    if (!this._isInteger(eventElement.handlingElement.value))
-                    {
+                if (this.get_property().dataType == $HGRootNS.PropertyDataType.Integer) {
+                    if (!this._isInteger(eventElement.handlingElement.value)) {
                         alert("input error");
                         eventElement.preventDefault();
                         return;
                     }
                 }
+
                 if (this._delegations["editorValidate"]) {
                     this._delegations["editorValidate"](this.get_property(), eventElement.handlingElement, validateEventArgs);
                 }
+
                 if (validateEventArgs.result == false) {
                     eventElement.preventDefault();
                     return false;
                 }
             }
+
             if (this._delegations["editorValidated"]) {
                 this._delegations["editorValidated"](this.get_property(), eventElement.handlingElement, validateEventArgs);
             }
+
             if (this._delegations["editorEnterPress"]) {
                 this._delegations["editorEnterPress"]();
             }
@@ -1080,25 +1059,20 @@ $HGRootNS.StandardPropertyEditor.prototype =
         this._changeFormatStyle();
     },
 
-    commitValue: function ()
-    {
-        if (this._editElement)
-        {
+    commitValue: function () {
+        if (this._editElement) {
             //如果是数字类型的，将字符串中的千分位去掉。add By wangleiping 2015-10-15
             if (this.get_property().dataType == $HGRootNS.PropertyDataType.Integer ||
-                this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal)
-            {
+                this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal) {
                 this.get_property().value = this._editElement.value.replace(/,/gi, '');
             }
-            else
-            {
+            else {
                 this.get_property().value = this._editElement.value;
             }
-        }  
+        }
     },
 
-    _createEditElement: function ()
-    {
+    _createEditElement: function () {
         this.get_container().innerHTML = "";
 
         var inputContainer = $HGDomElement.createElementFromTemplate(
@@ -1127,8 +1101,7 @@ $HGRootNS.StandardPropertyEditor.prototype =
         return htmlDomElement;
     },
 
-    _createReadOnlyElement: function ()
-    {
+    _createReadOnlyElement: function () {
 
         this.get_container().innerHTML = "";
         var prop = this.get_property();
@@ -1154,26 +1127,20 @@ $HGRootNS.StandardPropertyEditor.prototype =
         return htmlDomElement;
     },
 
-    _formatText: function (inputSpan)
-    {
-        if (this.get_property().value)
-        {
+    _formatText: function (inputSpan) {
+        if (this.get_property().value) {
             //如果是数字类型的，则格式化为带千分位的字符串。add By wangleiping 2015-10-15
             if (this.get_property().dataType == $HGRootNS.PropertyDataType.Integer ||
-                this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal)
-            {
-                if (!isNaN(this.get_property().value))
-                {
-                  
+                this.get_property().dataType == $HGRootNS.PropertyDataType.Decimal) {
+                if (!isNaN(this.get_property().value)) {
+
                     inputSpan.innerText = this.formatCurrency(this.get_property().value);
                 }
-                else
-                {
+                else {
                     inputSpan.innerText = this.get_property().value;
                 }
             }
-            else
-            {
+            else {
                 inputSpan.innerText = this.get_property().value;
             }
         }
@@ -1716,58 +1683,47 @@ $HGRootNS.EnumPropertyEditor.prototype =
         }
     },
 
-    _getDownlistSource: function ()
-    {
+    _getDownlistSource: function () {
         var editorParam = this.get_currentEditorParams();
 
         var e = new Sys.EventArgs();
         e.property = this.get_property();
-        if (editorParam != null)
-        {
-            if (typeof (editorParam) === "object")
-            {
-                if (editorParam.hasOwnProperty("enumTypeName"))
-                {
+        if (editorParam != null) {
+            if (typeof (editorParam) === "object") {
+                if (editorParam.hasOwnProperty("enumTypeName")) {
                     e.enumDesc = this._delegations._owner._findPredefinedEnumDescription(editorParam.enumTypeName);
                 }
-                else if (editorParam.hasOwnProperty("dropDownDataSourceID"))
-                {
+                else if (editorParam.hasOwnProperty("dropDownDataSourceID")) {
                     e.enumDesc = this._delegations._owner._findPredefinedEnumDescription(editorParam.dropDownDataSourceID);
                 }
             }
-            else
-            {
+            else {
                 //add by wangleiping,2015-08-29:如果editorparam是以“|”分割的字符串，认为是自定义的下拉列表项，并生产下拉列表选项
-                if (editorParam.indexOf("|") > 0)
-                {
+                if (editorParam.indexOf("|") > 0) {
                     var arrEnumDesc = [];
                     arrEnumDesc.push({ text: "请选择", value: "" });
 
                     var arr = editorParam.split("|");
-                    for(var i=0;i<arr.length;i++)
-                    {
+                    for (var i = 0; i < arr.length; i++) {
                         arrEnumDesc.push({ text: arr[i], value: arr[i] });
                     }
                     e.enumDesc = arrEnumDesc;
                 }
-                else
-                {
+                else {
                     e.enumDesc = this._delegations._owner._findPredefinedEnumDescription(editorParam);
                 }
-                
+
             }
         }
 
-        if (this._delegations["bindEditorDropdownList"])
-        {
+        if (this._delegations["bindEditorDropdownList"]) {
             this._delegations["bindEditorDropdownList"](this.get_property(), e);
         }
 
         return e.enumDesc ? e.enumDesc : null;
     },
 
-    _dropDownListSelectChange: function (sender)
-    {
+    _dropDownListSelectChange: function (sender) {
         this.get_property().value = sender.target.value;
 
         var isChange = (sender.target.value == this.get_property().defaultValue) ? false : true;
@@ -1776,8 +1732,7 @@ $HGRootNS.EnumPropertyEditor.prototype =
 
         var editorParam = this.get_currentEditorParams();
         if (editorParam != null) {
-            if (typeof (editorParam) === "object")
-            {
+            if (typeof (editorParam) === "object") {
                 if (editorParam.hasOwnProperty("childKeys")) {
                     if (editorParam.childKeys != null) {
                         var childs = editorParam.childKeys.split(",");
@@ -1941,20 +1896,15 @@ $HGRootNS.DatePropertyEditor.prototype =
 
     },
 
-    _changeEditElementStyle: function (ischange)
-    {
+    _changeEditElementStyle: function (ischange) {
         var styleName = this._getChangeFromatStyleName();
-        if (ischange)
-        {
-            if (Sys.UI.DomElement.containsCssClass(this._dateInputElement, styleName) == false)
-            {
+        if (ischange) {
+            if (Sys.UI.DomElement.containsCssClass(this._dateInputElement, styleName) == false) {
                 Sys.UI.DomElement.addCssClass(this._dateInputElement, styleName);
             }
         }
-        else
-        {
-            if (Sys.UI.DomElement.containsCssClass(this._dateInputElement, styleName))
-            {
+        else {
+            if (Sys.UI.DomElement.containsCssClass(this._dateInputElement, styleName)) {
                 Sys.UI.DomElement.removeCssClass(this._dateInputElement, styleName);
             }
         }
@@ -2643,8 +2593,7 @@ $HGRootNS.ClientGridPropertyEditor.prototype =
 $HGRootNS.ClientGridPropertyEditor.registerClass($HGRootNSName + ".ClientGridPropertyEditor", $HGRootNS.StandardPropertyEditor);
 
 
-$HGRootNS.ValidatorsPropertyEditor = function (prop, container, delegations)
-{
+$HGRootNS.ValidatorsPropertyEditor = function (prop, container, delegations) {
 
     $HGRootNS.ValidatorsPropertyEditor.initializeBase(this, [prop, container, delegations]);
     $addHandlers(this._editElement, this._editElement$delegate);
@@ -2652,39 +2601,32 @@ $HGRootNS.ValidatorsPropertyEditor = function (prop, container, delegations)
 
 $HGRootNS.ValidatorsPropertyEditor.prototype =
 {
-    get_ClonedControlID: function ()
-    {
+    get_ClonedControlID: function () {
         var para = this.get_currentEditorParams();
         var cloneControlID = "ValidatorsPropertyEditor_ValidatorSelectorControl";
-        if (para)
-        {
-            if (para.cloneControlID)
-            {
+        if (para) {
+            if (para.cloneControlID) {
                 cloneControlID = para.cloneControlID;
             }
         }
         return cloneControlID;
     },
 
-    _getFormatValue: function (value)
-    {
+    _getFormatValue: function (value) {
         var propertyFormatValue = value;
-        if ((typeof (value) == "string" || value.constructor == String) && value != "")
-        {
+        if ((typeof (value) == "string" || value.constructor == String) && value != "") {
             propertyFormatValue = Sys.Serialization.JavaScriptSerializer.deserialize(value);
         }
 
         return propertyFormatValue;
     },
 
-    _createReadOnlyElement: function ()
-    {
+    _createReadOnlyElement: function () {
         var validatorEditor = $find(this.get_ClonedControlID());
         this.get_container().appendChild(validatorEditor.get_element());
 
         var curValue = this.get_property().value;
-        if (curValue)
-        {
+        if (curValue) {
             var objValue = Sys.Serialization.JavaScriptSerializer.deserialize(curValue);
             validatorEditor.set_dataSource(objValue);
         }
@@ -2692,13 +2634,11 @@ $HGRootNS.ValidatorsPropertyEditor.prototype =
         return validatorEditor.get_element();
     },
 
-    _createEditElement: function ()
-    {
+    _createEditElement: function () {
         var validatorEditor = $find(this.get_ClonedControlID());
         this.get_container().appendChild(validatorEditor.get_element());
         var curValue = this.get_property().value;
-        if (curValue)
-        {
+        if (curValue) {
             //var objValue = Sys.Serialization.JavaScriptSerializer.deserialize(curValue);
             validatorEditor.set_dataSource(curValue);
         }
@@ -2708,32 +2648,26 @@ $HGRootNS.ValidatorsPropertyEditor.prototype =
         return validatorEditor.get_element();
     },
 
-    _dataValueChange: function (sender, e)
-    {
+    _dataValueChange: function (sender, e) {
         var jonsValue = sender.get_value();
-        if (jonsValue.length > 0)
-        {
+        if (jonsValue.length > 0) {
             this.commitValue(jonsValue);
         }
-        else
-        {
+        else {
             this.commitValue("");
         }
     },
 
-    _changeFormatStyle: function ()
-    {
+    _changeFormatStyle: function () {
 
     },
 
-    show: function ()
-    {
+    show: function () {
 
     },
 
-    commitValue: function (value)
-    {
-       
+    commitValue: function (value) {
+
         this.get_property().value = value;
     }
 };
