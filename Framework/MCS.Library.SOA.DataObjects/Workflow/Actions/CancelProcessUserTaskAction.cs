@@ -25,15 +25,18 @@ namespace MCS.Library.SOA.DataObjects.Workflow.Actions
                         UserTaskAdapter.Instance.LoadUserTasks(builder => builder.AppendItem("PROCESS_ID",
                             currentActivity.Process.ID));
 
-                WfRuntime.ProcessContext.DeletedUserTasks.CopyFromNotExistedTaskID(currentProcessTasks);
-
                 UserTaskCollection toAccomplishedTasks = new UserTaskCollection();
+                UserTaskCollection toDeletedTasks = new UserTaskCollection();
 
                 currentProcessTasks.ForEach(u =>
                 {
                     if (u.Status == TaskStatus.Ban)
                         toAccomplishedTasks.Add(u);
+                    else
+                        toDeletedTasks.Add(u);
                 });
+
+                WfRuntime.ProcessContext.DeletedUserTasks.CopyFromNotExistedTaskID(toDeletedTasks);
 
                 UserTaskCollection userTasksInContext = RemoveTasksInContext(actionParams);
 

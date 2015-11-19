@@ -26,18 +26,21 @@ BEGIN
 	WHERE (R.VersionStartTime <= @time AND R.VersionEndTime > @time AND R.R_VersionStartTime <= @time AND R.R_VersionEndTime > @time AND R.Status = 1 AND R.R_Status = 1) OR R.ID IS NULL
 
 	--准备用来替换Data字段的临时表
-	DECLARE @originalData TABLE(ObjectID NVARCHAR(36), ParentID NVARCHAR(36), OldFullPath NVARCHAR(414), FullPath NVARCHAR(414), OldGlobalSort NVARCHAR(414), GlobalSort NVARCHAR(414), Data NVARCHAR(MAX))
+	DECLARE @originalData TABLE(ObjectID NVARCHAR(36), ParentID NVARCHAR(36), OldFullPath NVARCHAR(414), FullPath NVARCHAR(414), OldGlobalSort NVARCHAR(414), GlobalSort NVARCHAR(414), Data XML)
 
 	INSERT INTO @originalData
-		SELECT R.ObjectID, R.ParentID, R.FullPath, T.FullPath, R.GlobalSort, T.GlobalSort, CAST(R.Data AS NVARCHAR(MAX))
+		SELECT R.ObjectID, R.ParentID, R.FullPath, T.FullPath, R.GlobalSort, T.GlobalSort, R.Data
 		FROM SC.SchemaRelationObjects R INNER JOIN @calculatedObjs T ON R.ObjectID = T.ID
 		WHERE R.VersionStartTime <= @time AND R.VersionEndTime > @time AND (R.FullPath IS NULL OR R.FullPath <> T.FullPath OR R.GlobalSort IS NULL OR R.GlobalSort <> T.GlobalSort)
 
 	UPDATE @originalData
-	SET Data = REPLACE(Data, 'FullPath="' + ISNULL(OldFullPath, '') + '"', 'FullPath="' + ISNULL(FullPath, '') + '"')
-	
+	SET OldFullPath = ISNULL(OldFullPath, '') , GlobalSort = ISNULL(GlobalSort, '')
+
 	UPDATE @originalData
-	SET Data = REPLACE(Data, 'GlobalSort="' + ISNULL(OldGlobalSort, '') + '"', 'GlobalSort="' + ISNULL(GlobalSort, '') + '"')
+	SET Data.modify('replace value of (/Object/@FullPath)[1] with sql:column("FullPath")')
+
+	UPDATE @originalData
+	SET Data.modify('replace value of (/Object/@GlobalSort)[1] with sql:column("GlobalSort")')
 
 	UPDATE SC.SchemaRelationObjects
 	SET FullPath = T.FullPath, GlobalSort = T.GlobalSort, Data = OT.Data
