@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Data;
-using MCS.Library.Core;
+﻿using MCS.Library.Core;
+using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
 using MCS.Library.Data.Builder;
-using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
 using MCS.Library.SOA.DataObjects;
+using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
 using MCS.Library.SOA.DataObjects.Security;
 using MCS.Library.SOA.DataObjects.Security.Adapters;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
 using PC = MCS.Library.SOA.DataObjects.Security;
-using MCS.Library.Data;
 
 namespace PermissionCenter.Adapters
 {

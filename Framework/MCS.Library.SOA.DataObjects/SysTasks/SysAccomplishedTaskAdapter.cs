@@ -9,6 +9,7 @@ using MCS.Library.Data.Builder;
 using MCS.Library.Data.DataObjects;
 using MCS.Library.Data.Mapping;
 using MCS.Library.OGUPermission;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects
 {

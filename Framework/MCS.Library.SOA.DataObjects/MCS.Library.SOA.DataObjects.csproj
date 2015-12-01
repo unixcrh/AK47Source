@@ -133,7 +133,6 @@
     <Compile Include="ClientValidator\ClientVdtAttribute.cs" />
     <Compile Include="CommonInfoMapping\CommonInfoMappingSettings.cs" />
     <Compile Include="CommonInfoMapping\DefaultCommonInfoMappingUpdater.cs" />
-    <Compile Include="Common\Common.cs" />
     <Compile Include="Common\CommonAdapter.cs" />
     <Compile Include="Common\DataViewDataSourceQueryAdapterBase.cs" />
     <Compile Include="Common\Define.cs" />
@@ -141,15 +140,12 @@
     <Compile Include="Common\Enumerations.cs" />
     <Compile Include="Common\IBusinessObject.cs" />
     <Compile Include="Common\IClonableBusinessObject.cs" />
-    <Compile Include="Common\ILoadableDataEntity.cs" />
     <Compile Include="Common\IVersionDataObject.cs" />
     <Compile Include="Common\TicketDESEncryptor.cs" />
     <Compile Include="Common\ObjectDataSourceQueryAdapterBase.cs" />
     <Compile Include="Common\RelativeTicket.cs" />
     <Compile Include="Common\RelativeTicketSettings.cs" />
     <Compile Include="Common\DBTimePointActionContext.cs" />
-    <Compile Include="Common\UpdatableAdapterBase.cs" />
-    <Compile Include="Common\UpdatableAndLoadableAdapterBase..cs" />
     <Compile Include="Common\VersionStrategyQuerySqlBuilder.cs" />
     <Compile Include="Common\VersionStrategyUpdateSqlBuilder.cs" />
     <Compile Include="Common\VersionStrategyUpdateSqlHelper.cs" />

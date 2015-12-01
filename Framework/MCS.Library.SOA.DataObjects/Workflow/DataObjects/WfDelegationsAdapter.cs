@@ -1,5 +1,6 @@
 ﻿using MCS.Library.Caching;
 using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
 using MCS.Library.Net.SNTP;
 using MCS.Library.OGUPermission;
 using System;

@@ -1,5 +1,6 @@
 ﻿using MCS.Library.Caching;
 using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.Mapping;
 using System;
@@ -154,7 +155,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                 strBuilder.Append(TSqlBuilder.Instance.DBStatementSeperator);
             }
 
-            return DbHelper.RunSqlWithTransaction(strBuilder.ToString());
+            return DbHelper.RunSqlWithTransaction(strBuilder.ToString(), ConnectionDefine.DBConnectionName);
         }
 
         protected override string GetConnectionName()

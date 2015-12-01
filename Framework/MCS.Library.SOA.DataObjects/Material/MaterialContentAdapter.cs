@@ -10,6 +10,7 @@ using MCS.Library.Data;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.Mapping;
 using MCS.Library.SOA.DataObjects.Workflow;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects
 {

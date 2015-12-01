@@ -1,4 +1,13 @@
-﻿using System;
+﻿using MCS.Library.Caching;
+using MCS.Library.Core;
+using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
+using MCS.Library.Data.Builder;
+using MCS.Library.Data.DataObjects;
+using MCS.Library.Data.Mapping;
+using MCS.Library.Security;
+using MCS.Library.SOA.DataObjects;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -6,14 +15,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using MCS.Library.Caching;
-using MCS.Library.Core;
-using MCS.Library.Data;
-using MCS.Library.Data.Builder;
-using MCS.Library.Data.DataObjects;
-using MCS.Library.Data.Mapping;
-using MCS.Library.Security;
-using MCS.Library.SOA.DataObjects;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics
 {

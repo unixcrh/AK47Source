@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using MCS.Library.Data.Builder;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects.Schemas.Adapters
 {

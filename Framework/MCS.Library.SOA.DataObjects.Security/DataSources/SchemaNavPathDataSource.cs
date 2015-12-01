@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
+using MCS.Library.Data.Builder;
+using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
+using MCS.Library.SOA.DataObjects.Security.Adapters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Data.Builder;
-using MCS.Library.Core;
-using MCS.Library.SOA.DataObjects.Security.Adapters;
-using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
 
 namespace MCS.Library.SOA.DataObjects.Security.DataSources
 {
@@ -31,7 +32,7 @@ namespace MCS.Library.SOA.DataObjects.Security.DataSources
 			System.Collections.Generic.Stack<SchemaNavPathNode> stack = new Stack<SchemaNavPathNode>();
 
 			StringBuilder sb = new StringBuilder();
-			var db = DbHelper.GetDBDatabase();
+            var db = DbHelper.GetDBDatabase(SCConnectionDefine.DBConnectionName);
 			SchemaNavPathNode node;
 			do
 			{

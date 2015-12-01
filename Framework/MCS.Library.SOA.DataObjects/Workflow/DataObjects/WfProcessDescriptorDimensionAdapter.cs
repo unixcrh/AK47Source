@@ -1,4 +1,5 @@
 ﻿using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.Mapping;
 using System;
@@ -83,6 +84,11 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                 mappings.TableName,
                 uBuilder.ToSqlString(TSqlBuilder.Instance),
                 wBuilder.ToSqlString(TSqlBuilder.Instance));
+        }
+
+        protected override string GetConnectionName()
+        {
+            return ConnectionDefine.DBConnectionName;
         }
     }
 }

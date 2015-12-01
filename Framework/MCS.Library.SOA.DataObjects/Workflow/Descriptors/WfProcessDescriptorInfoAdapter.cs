@@ -1,15 +1,16 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
+using MCS.Library.Data.Builder;
+using MCS.Library.Data.Mapping;
+using MCS.Library.OGUPermission;
+using MCS.Library.Principal;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
-using MCS.Library.Data.Mapping;
-using MCS.Library.Data.Builder;
-using System.Data;
 using System.Transactions;
-using MCS.Library.Data;
-using MCS.Library.Principal;
-using MCS.Library.OGUPermission;
 
 namespace MCS.Library.SOA.DataObjects.Workflow
 {
@@ -30,7 +31,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             string sql = string.Format("SELECT COUNT(*) FROM WF.PROCESS_DESCRIPTORS WHERE {0}",
                 builder.ToSqlString(TSqlBuilder.Instance));
 
-            int count = (int)DbHelper.RunSqlReturnScalar(sql);
+            int count = (int)DbHelper.RunSqlReturnScalar(sql, this.GetConnectionName());
 
             return count > 0;
         }
@@ -78,7 +79,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             string sql = string.Format("SELECT * FROM WF.PROCESS_DESCRIPTORS WHERE {0}",
                 builder.ToSqlString(TSqlBuilder.Instance));
 
-            DataTable table = DbHelper.RunSqlReturnDS(sql).Tables[0];
+            DataTable table = DbHelper.RunSqlReturnDS(sql, this.GetConnectionName()).Tables[0];
 
             (table.Rows.Count > 0).FalseThrow("不能根据\"{0}\"找到对应的流程定义", processKey);
 
@@ -98,7 +99,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             string sql = string.Format("DELETE FROM WF.PROCESS_DESCRIPTORS WHERE {0}",
                     builder.ToSqlString(TSqlBuilder.Instance));
 
-            DbHelper.RunSql(sql);
+            DbHelper.RunSql(sql, this.GetConnectionName());
         }
 
         public WfProcessDescriptorInfoCollection LoadWfProcessDescriptionInfos(Action<WhereSqlClauseBuilder> action, bool ignoreProcessData)
@@ -117,7 +118,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 
             WfProcessDescriptorInfoCollection result = new WfProcessDescriptorInfoCollection();
 
-            DataTable table = DbHelper.RunSqlReturnDS(sql).Tables[0];
+            DataTable table = DbHelper.RunSqlReturnDS(sql, this.GetConnectionName()).Tables[0];
 
             foreach (DataRow row in table.Rows)
             {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MCS.Web.Library.Script;
 using MCS.Library.Data.Builder;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -45,5 +46,10 @@ namespace MCS.Library.SOA.DataObjects
 
 			base.BeforeInnerUpdate(data, context);
 		}
+
+        protected override string GetConnectionName()
+        {
+            return ConnectionDefine.DBConnectionName;
+        }
 	}
 }

@@ -95,6 +95,9 @@
   <ItemGroup>
     <Compile Include="Accessories\CryptoHelper.cs" />
     <Compile Include="Accessories\DbTraceHelper.cs" />
+    <Compile Include="Adapters\DbHelper.cs" />
+    <Compile Include="Adapters\UpdatableAdapterBase.cs" />
+    <Compile Include="Adapters\UpdatableAndLoadableAdapterBase.cs" />
     <Compile Include="Builder\BytesDescriptionGenerator.cs" />
     <Compile Include="Builder\ExpressionDescriptionGenerator.cs" />
     <Compile Include="Builder\NullDescriptionGenerator.cs" />

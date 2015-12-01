@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MCS.Library.Caching;
+using MCS.Library.Data.Adapters;
+using MCS.Library.Data.DataObjects;
+using MCS.Library.Data.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Data.DataObjects;
-using MCS.Library.Data.Mapping;
-using MCS.Library.Caching;
 
 namespace MCS.Library.SOA.DataObjects
 {

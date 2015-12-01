@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MCS.Library.Data.Adapters;
+using MCS.Library.SOA.DataObjects;
+using MCS.Library.SOA.Security.ADSyncUtilities.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.SOA.DataObjects;
-using MCS.Library.SOA.Security.ADSyncUtilities.Entity;
 
 namespace MCS.Library.SOA.Security.ADSyncUtilities.Adapters
 {

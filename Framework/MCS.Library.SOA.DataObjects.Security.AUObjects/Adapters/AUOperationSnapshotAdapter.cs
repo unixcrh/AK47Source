@@ -1,8 +1,9 @@
-﻿using System;
+﻿using MCS.Library.Data.Adapters;
+using MCS.Library.Principal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Principal;
 
 namespace MCS.Library.SOA.DataObjects.Security.AUObjects.Adapters
 {

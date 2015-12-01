@@ -1,4 +1,5 @@
 ﻿using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
 using MCS.Library.SOA.DataObjects.Workflow;
 using System;
 using System.Collections.Generic;

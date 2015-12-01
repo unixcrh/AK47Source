@@ -6,6 +6,7 @@ using System.Data;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data;
 using MCS.Library.Data.Mapping;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -28,8 +29,13 @@ namespace MCS.Library.SOA.DataObjects
 				sqlStrB.AppendFormat("{0} ; \n", ORMapping.GetInsertSql(data, mappings, TSqlBuilder.Instance));
 			}
 
-			return DbHelper.RunSql(sqlStrB.ToString());
+            return DbHelper.RunSql(sqlStrB.ToString(), this.GetConnectionName());
 		}
+
+        protected override string GetConnectionName()
+        {
+            return ConnectionDefine.DBConnectionName;
+        }
 
 	    /*
 		public DataTable GetTopOperationTasksLogs(WhereSqlClauseBuilder where, int count)

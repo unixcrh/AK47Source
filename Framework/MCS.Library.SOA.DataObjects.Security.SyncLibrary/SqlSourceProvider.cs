@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MCS.Library.Data.Adapters;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Configuration.Provider;
 using System.Data;
+using System.Linq;
+using System.Text;
 
 namespace MCS.Library.SOA.DataObjects.Security.SyncLibrary
 {

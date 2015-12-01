@@ -9,6 +9,7 @@ using MCS.Library.Data;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.Mapping;
 using MCS.Library.SOA.DataObjects.Workflow;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -181,7 +182,7 @@ namespace MCS.Library.SOA.DataObjects
         public StartWorkflowJobCollection LoadValidData()
         {
             var result = new StartWorkflowJobCollection();
-            var ds = DbHelper.RunSqlReturnDS(LOAD_VALID_JOB_SQL_CLAUSE);
+            var ds = DbHelper.RunSqlReturnDS(LOAD_VALID_JOB_SQL_CLAUSE, this.GetConnectionName());
             ORMapping.DataViewToCollection(result, ds.Tables[0].DefaultView);
 
             List<string> jobIDs = new List<string>();

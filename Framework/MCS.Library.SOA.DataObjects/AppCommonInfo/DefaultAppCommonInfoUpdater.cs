@@ -8,6 +8,7 @@ using MCS.Library.Data.Mapping;
 using MCS.Library.Data.Builder;
 using MCS.Library.Core;
 using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -79,14 +80,14 @@ namespace MCS.Library.SOA.DataObjects
 
             string sql = ORMapping.GetUpdateSql(aci, TSqlBuilder.Instance, ignoredProperties.ToArray());
 
-            return DbHelper.RunSql(sql);
+            return DbHelper.RunSql(sql, this.GetConnectionName());
         }
 
         protected override void InnerInsert(AppCommonInfo aci, Dictionary<string, object> context)
         {
             string sql = ORMapping.GetInsertSql(aci, TSqlBuilder.Instance);
 
-            DbHelper.RunSql(sql);
+            DbHelper.RunSql(sql, this.GetConnectionName());
         }
 
         protected override string GetConnectionName()

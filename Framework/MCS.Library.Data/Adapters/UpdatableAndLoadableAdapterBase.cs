@@ -8,7 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace MCS.Library.SOA.DataObjects
+namespace MCS.Library.Data.Adapters
 {
     /// <summary>
     /// 带读取和更新功能Adapter的基类
@@ -20,11 +20,20 @@ namespace MCS.Library.SOA.DataObjects
     {
         private static readonly Dictionary<string, object> _FixedContext = new Dictionary<string, object>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public virtual T CreateNewData()
         {
             return (T)TypeCreator.CreateInstance(typeof(T));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
         public virtual T CreateNewData(DataRow row)
         {
             return CreateNewData();
@@ -40,6 +49,12 @@ namespace MCS.Library.SOA.DataObjects
             return this.Exists(whereAction, this.GetQueryMappingInfo());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="whereAction"></param>
+        /// <param name="mappings"></param>
+        /// <returns></returns>
         public bool Exists(Action<WhereSqlClauseBuilder> whereAction, ORMappingItemCollection mappings)
         {
             whereAction.NullCheck("whereAction");
@@ -82,6 +97,14 @@ namespace MCS.Library.SOA.DataObjects
             return this.LoadByInBuilder(inAction, orderByAction, this.GetQueryMappingInfo(), dataFieldName);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inAction"></param>
+        /// <param name="orderByAction"></param>
+        /// <param name="mappings"></param>
+        /// <param name="dataFieldName"></param>
+        /// <returns></returns>
         public TCollection LoadByInBuilder(Action<InSqlClauseBuilder> inAction, Action<OrderBySqlClauseBuilder> orderByAction, ORMappingItemCollection mappings, string dataFieldName = "")
         {
             inAction.NullCheck("whereAction");
@@ -210,6 +233,13 @@ namespace MCS.Library.SOA.DataObjects
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <param name="orderByBuilder"></param>
+        /// <param name="mappings"></param>
+        /// <returns></returns>
         protected TCollection InnerLoadByBuilder(string condition, OrderBySqlClauseBuilder orderByBuilder, ORMappingItemCollection mappings)
         {
             string sql = string.Format("SELECT * FROM {0}", mappings.TableName);
@@ -235,6 +265,14 @@ namespace MCS.Library.SOA.DataObjects
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TData"></typeparam>
+        /// <typeparam name="TDataCollection"></typeparam>
+        /// <param name="mapping"></param>
+        /// <param name="sql"></param>
+        /// <returns></returns>
         protected TDataCollection QueryData<TData, TDataCollection>(ORMappingItemCollection mapping, string sql)
             where TData : new()
             where TDataCollection : EditableDataObjectCollectionBase<TData>, new()
@@ -255,6 +293,11 @@ namespace MCS.Library.SOA.DataObjects
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
         protected TCollection QueryData(string sql)
         {
             ORMappingItemCollection mapping = this.GetQueryMappingInfo();
@@ -262,6 +305,12 @@ namespace MCS.Library.SOA.DataObjects
             return QueryData(mapping, sql);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapping"></param>
+        /// <param name="sql"></param>
+        /// <returns></returns>
         protected TCollection QueryData(ORMappingItemCollection mapping, string sql)
         {
             TCollection result = new TCollection();

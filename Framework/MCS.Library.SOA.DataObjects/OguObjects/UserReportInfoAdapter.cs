@@ -7,6 +7,7 @@ using MCS.Library.Core;
 using System.Data;
 using MCS.Library.Data.Builder;
 using MCS.Library.Caching;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects
 {

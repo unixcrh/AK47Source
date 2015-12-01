@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MCS.Library.Core;
 using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -18,7 +19,7 @@ namespace MCS.Library.SOA.DataObjects
 		{
 			ExceptionHelper.CheckStringIsNullOrEmpty(counterID, "counterID");
 
-			using (DbContext dbi = DbHelper.GetDBContext())
+			using (DbContext dbi = DbHelper.GetDBContext(ConnectionDefine.DBConnectionName))
 			{
 				Database db = DatabaseFactory.Create(dbi);
                 return (int)db.ExecuteScalar("WF.NewCountValue", PrepareParameters(counterID));
@@ -34,7 +35,7 @@ namespace MCS.Library.SOA.DataObjects
 		{
 			ExceptionHelper.CheckStringIsNullOrEmpty(counterID, "counterID");
 
-			using (DbContext dbi = DbHelper.GetDBContext())
+            using (DbContext dbi = DbHelper.GetDBContext(ConnectionDefine.DBConnectionName))
 			{
 				Database db = DatabaseFactory.Create(dbi);
                 return (int)db.ExecuteScalar("WF.PeekCountValue", PrepareParameters(counterID));
@@ -52,7 +53,7 @@ namespace MCS.Library.SOA.DataObjects
 			ExceptionHelper.CheckStringIsNullOrEmpty(counterID, "counterID");
 			ExceptionHelper.TrueThrow(countValue < 0, "计数值不能小于零");
 
-			using (DbContext dbi = DbHelper.GetDBContext())
+            using (DbContext dbi = DbHelper.GetDBContext(ConnectionDefine.DBConnectionName))
 			{
 				Database db = DatabaseFactory.Create(dbi);
                 db.ExecuteScalar("WF.SetCountValue", PrepareParameters(counterID, countValue));

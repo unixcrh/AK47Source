@@ -10,6 +10,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects.Workflow
 {
@@ -159,7 +160,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             whereBuilder.AppendItem("R." + DB_FIELD_MATRIX_ID, matrixID);
             whereBuilder.AppendTenantCode("R.TENANT_CODE");
 
-            DataSet ds = DbHelper.RunSqlReturnDS(SELECT_SQL_CLAUSE + whereBuilder.ToSqlString(TSqlBuilder.Instance));
+            DataSet ds = DbHelper.RunSqlReturnDS(SELECT_SQL_CLAUSE + whereBuilder.ToSqlString(TSqlBuilder.Instance), this.GetConnectionName());
 
             rows.CopyFrom(ds.Tables[0].DefaultView);
         }
@@ -201,7 +202,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             strBuilder.Append(DELETE_MU_SQL_CLAUSE);
             strBuilder.Append(whereBuilder.ToSqlString(TSqlBuilder.Instance));
 
-            return DbHelper.RunSqlWithTransaction(strBuilder.ToString());
+            return DbHelper.RunSqlWithTransaction(strBuilder.ToString(), ConnectionDefine.DBConnectionName);
         }
 
         public int DeleteByProcessKey(string processKey)
@@ -236,7 +237,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             var result = matrixCollection.First();
 
             var selectClause = BuildSqlClause(queryParams);
-            var ds = DbHelper.RunSqlReturnDS(selectClause.ToString());
+            var ds = DbHelper.RunSqlReturnDS(selectClause.ToString(), this.GetConnectionName());
 
             result.Loaded = false;
             result.Rows.CopyFrom(ds.Tables[0].DefaultView);
@@ -292,7 +293,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             return result.ToString();
         }
 
-        private static int DeleteRelatedData(string wfMatrixID)
+        private int DeleteRelatedData(string wfMatrixID)
         {
             WhereSqlClauseBuilder whereBuilder = new WhereSqlClauseBuilder();
 
@@ -314,7 +315,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
             strBuilder.Append(DELETE_MU_SQL_CLAUSE);
             strBuilder.Append(whereBuilder.ToSqlString(TSqlBuilder.Instance));
 
-            return DbHelper.RunSql(strBuilder.ToString());
+            return DbHelper.RunSql(strBuilder.ToString(), this.GetConnectionName());
         }
 
         private static void SaveWfMatrixDefinition(WfMatrixDefinition def)

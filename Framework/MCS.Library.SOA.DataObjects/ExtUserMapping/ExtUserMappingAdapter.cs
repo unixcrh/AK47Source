@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
+using MCS.Library.Data.Builder;
+using MCS.Library.OGUPermission;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
-using MCS.Library.OGUPermission;
-using MCS.Library.Data.Builder;
 using System.Transactions;
-using MCS.Library.Data;
-using System.Data;
 
 namespace MCS.Library.SOA.DataObjects
 {

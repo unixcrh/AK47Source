@@ -31,7 +31,6 @@ namespace MCS.Library.SOA.DataObjects
         private string levelDesp = string.Empty;
 		private string opinionType = string.Empty;
         private string taskID = string.Empty;
-        private DateTime? taskDatetime;
 		private ApprovalScore evalue;
 		private ApprovalResult result;
 		private IDictionary<string, object> extraData = null;

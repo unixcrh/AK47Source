@@ -277,6 +277,7 @@
     <Compile Include="Data\DataObjects\GroupNode.cs" />
     <Compile Include="Data\DataObjects\GroupNodeCollection.cs" />
     <Compile Include="Data\DataObjects\ILabelTreeNode.cs" />
+    <Compile Include="Data\DataObjects\ILoadableDataEntity.cs" />
     <Compile Include="Data\DataObjects\IObjectCompareInfo.cs" />
     <Compile Include="Data\DataObjects\IObjectCompareResult.cs" />
     <Compile Include="Data\DataObjects\IPropertyCompareInfo.cs" />

@@ -1,5 +1,6 @@
 ﻿using MCS.Library.Core;
 using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
 using MCS.Library.SOA.DataObjects.Dynamics.Enums;
 using MCS.Library.SOA.DataObjects.Dynamics.Objects;
 using System;

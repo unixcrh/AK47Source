@@ -1,5 +1,6 @@
 ﻿using MCS.Library.Core;
 using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.Mapping;
 using MCS.Library.SOA.DataObjects.Workflow;
@@ -435,7 +436,7 @@ namespace MCS.Library.SOA.DataObjects
             string sql = string.Format(@"SELECT JOB_TYPE FROM WF.JOBS WHERE {0}",
                 builder.ToSqlString(TSqlBuilder.Instance));
 
-            object obj = DbHelper.RunSqlReturnScalar(sql);
+            object obj = DbHelper.RunSqlReturnScalar(sql, ConnectionDefine.DBConnectionName);
 
             return (JobType)Enum.Parse(typeof(JobType), obj.ToString());
         }

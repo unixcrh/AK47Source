@@ -6,6 +6,7 @@ using System.Data;
 using MCS.Library.Core;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.Mapping;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects.Workflow
 {
@@ -57,7 +58,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 				string sql = string.Format("DELETE FROM WF.PENDING_ACTIVITIES WHERE {0}",
 					builder.ToSqlString(TSqlBuilder.Instance));
 
-				DbHelper.RunSql(sql);
+                DbHelper.RunSql(sql, this.GetConnectionName());
 			}
 		}
 
@@ -74,7 +75,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 				string sql = string.Format("DELETE FROM WF.PENDING_ACTIVITIES WHERE {0}",
                     builder.ToSqlString(TSqlBuilder.Instance));
 
-				DbHelper.RunSql(sql);
+                DbHelper.RunSql(sql, this.GetConnectionName());
 			}
 		}
 
@@ -92,7 +93,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 				string sql = string.Format("DELETE FROM WF.PENDING_ACTIVITIES WHERE {0}",
                     builder.ToSqlString(TSqlBuilder.Instance));
 
-				DbHelper.RunSql(sql);
+                DbHelper.RunSql(sql, this.GetConnectionName());
 			}
 		}
 

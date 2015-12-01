@@ -21,6 +21,7 @@ using MCS.Library.Data.Mapping;
 using MCS.Library.Data.Builder;
 using MCS.Library.Core;
 using MCS.Library.Principal;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -110,7 +111,7 @@ namespace MCS.Library.SOA.DataObjects
             if (orderby != string.Empty && orderby != null)
                 sql += string.Format("ORDER BY {0}", orderby);
 
-            DataView dv = DbHelper.RunSqlReturnDS(sql).Tables[0].DefaultView;
+            DataView dv = DbHelper.RunSqlReturnDS(sql, ConnectionDefine.DBConnectionName).Tables[0].DefaultView;
             TaskCategoryCollection tcc = new TaskCategoryCollection();
 
             tcc.LoadFromDataView(dv);
@@ -136,7 +137,7 @@ namespace MCS.Library.SOA.DataObjects
                 strSQL = string.Format("SELECT * FROM WF.USER_TASK_CATEGORY WHERE {0} ORDER BY INNER_SORT_ID",
                     inSQL.AppendTenantCodeSqlClause(typeof(TaskCategory)).ToSqlString(TSqlBuilder.Instance));
 
-                DataView dv = DbHelper.RunSqlReturnDS(strSQL).Tables[0].DefaultView;
+                DataView dv = DbHelper.RunSqlReturnDS(strSQL, ConnectionDefine.DBConnectionName).Tables[0].DefaultView;
                 taskCategories.LoadFromDataView(dv);
             }
 
@@ -151,7 +152,7 @@ namespace MCS.Library.SOA.DataObjects
         {
             string strSql = ORMapping.GetInsertSql(taskCategory, TSqlBuilder.Instance);
 
-            DbHelper.RunSqlWithTransaction(strSql);
+            DbHelper.RunSqlWithTransaction(strSql, ConnectionDefine.DBConnectionName);
         }
 
         /// <summary>
@@ -162,7 +163,7 @@ namespace MCS.Library.SOA.DataObjects
         {
             string strSql = ORMapping.GetUpdateSql(taskCategory, TSqlBuilder.Instance);
 
-            DbHelper.RunSqlWithTransaction(strSql);
+            DbHelper.RunSqlWithTransaction(strSql, ConnectionDefine.DBConnectionName);
         }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace MCS.Library.SOA.DataObjects
 
             strSql += " DELETE WF.USER_TASK_CATEGORY WHERE " + builder.ToSqlString(TSqlBuilder.Instance);
 
-            DbHelper.RunSqlWithTransaction(strSql);
+            DbHelper.RunSqlWithTransaction(strSql, ConnectionDefine.DBConnectionName);
         }
 
         /// <summary>
@@ -201,7 +202,7 @@ namespace MCS.Library.SOA.DataObjects
             string strSQL = string.Format("SELECT MAX(INNER_SORT_ID) AS NUM FROM WF.USER_TASK_CATEGORY WHERE {0}",
                 builder.ToSqlString(TSqlBuilder.Instance));
 
-            object num = DbHelper.RunSqlReturnScalar(strSQL);
+            object num = DbHelper.RunSqlReturnScalar(strSQL, ConnectionDefine.DBConnectionName);
 
             if (num.ToString() != string.Empty)
             {

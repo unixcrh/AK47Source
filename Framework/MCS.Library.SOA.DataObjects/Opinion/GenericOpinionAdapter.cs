@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
+using MCS.Library.Data.Builder;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
-using MCS.Library.Data.Builder;
 
 namespace MCS.Library.SOA.DataObjects
 {
@@ -98,5 +99,10 @@ namespace MCS.Library.SOA.DataObjects
 			data.AppendDatetime = DateTime.MinValue;
 			data.RawExtData = GenericOpinion.ConvertExtraDataToXmlString(data.ExtData);
 		}
+
+        protected override string GetConnectionName()
+        {
+            return ConnectionDefine.DBConnectionName;
+        }
 	}
 }

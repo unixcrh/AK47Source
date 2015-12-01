@@ -1,18 +1,19 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
+using MCS.Library.OGUPermission;
+using MCS.Library.SOA.DataObjects;
+using MCS.Web.Library;
+using MCS.Web.Library.MVC;
+using MCS.Web.WebControls;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using MCS.Library.Core;
-using MCS.Library.OGUPermission;
-using MCS.Library.SOA.DataObjects;
-using MCS.Web.Library;
-using System.Data.SqlClient;
-using System.Data;
-using MCS.Web.Library.MVC;
-using MCS.Web.WebControls;
 
 namespace MCS.OA.CommonPages.UserInfoExtend
 {

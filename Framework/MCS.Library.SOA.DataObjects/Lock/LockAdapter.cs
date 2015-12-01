@@ -1,5 +1,6 @@
 ﻿using MCS.Library.Core;
 using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.Mapping;
 using System;
@@ -28,13 +29,14 @@ namespace MCS.Library.SOA.DataObjects
 			using (TransactionScope ts = TransactionScopeFactory.Create(TransactionScopeOption.Required))
 			{
 				DataTable table = DbHelper.RunSPReturnDS("WF.SetLock",
-											  lockInfo.LockID,
-											  lockInfo.ResourceID,
-											  lockInfo.PersonID,
-											  lockInfo.EffectiveTime.TotalSeconds,
-											  lockInfo.LockType,
-                                              TenantContext.Current.TenantCode,
-											  forceLock ? "y" : "n").Tables[0];
+                                                ConnectionDefine.DBConnectionName,
+                                                lockInfo.LockID,
+                                                lockInfo.ResourceID,
+                                                lockInfo.PersonID,
+                                                lockInfo.EffectiveTime.TotalSeconds,
+                                                lockInfo.LockType,
+                                                TenantContext.Current.TenantCode,
+                                                forceLock ? "y" : "n").Tables[0];
 				ts.Complete();
 
 				return new SetLockResult(lockInfo.PersonID, table);
@@ -54,7 +56,7 @@ namespace MCS.Library.SOA.DataObjects
 			string sql = string.Format("SELECT *, GETDATE() AS [CURRENT_TIME] FROM WF.LOCK WHERE {0}",
                 builder.ToSqlString(TSqlBuilder.Instance));
 
-			DataTable table = DbHelper.RunSqlReturnDS(sql).Tables[0];
+            DataTable table = DbHelper.RunSqlReturnDS(sql, ConnectionDefine.DBConnectionName).Tables[0];
 
 			return new CheckLockResult(personID, table);
 		}
@@ -112,7 +114,7 @@ namespace MCS.Library.SOA.DataObjects
 			{
 				string sql = string.Format("DELETE FROM WF.LOCK WHERE {0}", strWhere.ToString());
 
-				DbHelper.RunSqlWithTransaction(sql);
+                DbHelper.RunSqlWithTransaction(sql, ConnectionDefine.DBConnectionName);
 			}
 		}
 
@@ -129,7 +131,7 @@ namespace MCS.Library.SOA.DataObjects
 			{
 				string sql = string.Format("DELETE FROM WF.LOCK WHERE {0}", builder.AppendTenantCodeSqlClause().ToSqlString(TSqlBuilder.Instance));
 
-				DbHelper.RunSqlWithTransaction(sql);
+				DbHelper.RunSqlWithTransaction(sql, ConnectionDefine.DBConnectionName);
 			}
 		}
 
@@ -150,7 +152,7 @@ namespace MCS.Library.SOA.DataObjects
 			{
                 string sql = string.Format("DELETE FROM WF.LOCK WHERE {0}", builder.AppendTenantCodeSqlClause().ToSqlString(TSqlBuilder.Instance));
 
-				DbHelper.RunSqlWithTransaction(sql);
+                DbHelper.RunSqlWithTransaction(sql, ConnectionDefine.DBConnectionName);
 			}
 		}
 	}

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
+using MCS.Library.Data.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
 using System.Transactions;
-using MCS.Library.Data;
-using MCS.Library.Data.Mapping;
 
 namespace MCS.Library.SOA.DataObjects
 {

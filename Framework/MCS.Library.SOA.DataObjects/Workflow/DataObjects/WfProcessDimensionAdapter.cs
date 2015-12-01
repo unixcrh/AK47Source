@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects.Workflow
 {
@@ -53,6 +54,11 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 
                 DbHelper.RunSql(sql, GetConnectionName());
             }
+        }
+
+        protected override string GetConnectionName()
+        {
+            return ConnectionDefine.DBConnectionName;
         }
 	}
 }

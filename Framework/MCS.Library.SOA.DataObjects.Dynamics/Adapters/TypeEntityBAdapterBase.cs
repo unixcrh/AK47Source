@@ -1,5 +1,6 @@
 ﻿using MCS.Library.Core;
 using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.DataObjects;
 using MCS.Library.Data.Mapping;
@@ -17,7 +18,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
     /// <summary>
     /// 开放时间段版本控制Adapter基类
     /// </summary>
-    public class TypeEntityBAdapterBase<T, TCollection> : UpdatableAndLoadableAdapterBase<T, TCollection>
+    public abstract class TypeEntityBAdapterBase<T, TCollection> : UpdatableAndLoadableAdapterBase<T, TCollection>
         where TCollection : EditableDataObjectCollectionBase<T>, new()
         where T : VersionedEntityBase, new()
     {
@@ -69,7 +70,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
         {
             string sql = GetSqlByWhereAction(whereAction, "COUNT(*)");
 
-            return (int)DbHelper.RunSqlReturnScalar(sql) > 0;
+            return (int)DbHelper.RunSqlReturnScalar(sql, this.GetConnectionName()) > 0;
         }
 
         private string GetSqlByWhereAction(Action<WhereSqlClauseBuilder> whereAction, string fields)
@@ -174,7 +175,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
         {
             string sql = GetSqlByWhereActionAndTime(whereAction, dateTime, "COUNT(*)");
 
-            return (int)DbHelper.RunSqlReturnScalar(sql) > 0;
+            return (int)DbHelper.RunSqlReturnScalar(sql, this.GetConnectionName()) > 0;
         }
 
         private string GetSqlByWhereActionAndTime(Action<WhereSqlClauseBuilder> whereAction, DateTime dateTime, string fields)

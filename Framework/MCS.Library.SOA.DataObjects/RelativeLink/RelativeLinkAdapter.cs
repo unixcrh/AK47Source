@@ -1,4 +1,5 @@
-﻿
+﻿using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
 using System.Linq;
 
 namespace MCS.Library.SOA.DataObjects

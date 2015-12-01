@@ -1,5 +1,6 @@
 ﻿using MCS.Library.Core;
 using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
 using MCS.Library.SOA.DataObjects.Dynamics.Instance;
 using MCS.Library.SOA.DataObjects.Dynamics.Objects;
 using System.Data;
@@ -68,7 +69,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Adapters
             obj.EntityDefine.SnapshotTable.CheckStringIsNullOrEmpty("SnapshotTable");
             string sql = DEInstanceSnapshotSqlBuilder.Instance.PrepareLoadSql(obj);
 
-            DataSet ds = DbHelper.RunSPReturnDS(sql);
+            DataSet ds = DbHelper.RunSPReturnDS(sql, this.GetConnectionName());
             if (ds != null && ds.Tables.Count > 0)
                 return ds.Tables[0].DefaultView;
             else

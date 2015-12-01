@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MCS.Library.Core;
+using MCS.Library.Data.DataObjects;
 using MCS.Library.Data.Mapping;
-using MCS.Library.Core;
 using MCS.Library.SOA.DataObjects;
-using System.ComponentModel;
 using MCS.Library.Validation;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
 
 namespace MCS.Library.SOA.DataObjects.Dynamics.Objects
 {

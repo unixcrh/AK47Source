@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
+using MCS.Library.SOA.DataObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using MCS.Library.Data;
-using MCS.Library.SOA.DataObjects;
 
 namespace MCS.OA.CommonPages.AppTrace
 {
@@ -24,7 +25,7 @@ namespace MCS.OA.CommonPages.AppTrace
     FROM SinoOceanOgus.dbo.OU_USERS 
     AS OUU	INNER JOIN SinoOceanOgus.dbo.USERS AS U ON OUU.USER_GUID = U.GUID
     WHERE OUU.STATUS = 1 AND U.POSTURAL <>1 ;
-EXEC [WF].[ImportInvalidAssignees]");
+EXEC [WF].[ImportInvalidAssignees]", ConnectionDefine.DBConnectionName);
 		}
 	}
 }

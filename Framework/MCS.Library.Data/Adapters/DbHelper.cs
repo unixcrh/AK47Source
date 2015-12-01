@@ -1,58 +1,63 @@
-#region ◊˜’ﬂ∞Ê±æ
-// -------------------------------------------------
-// Assembly	£∫	HB.DataObjects
-// FileName	£∫	Common.cs
-// Remark	£∫	
-// -------------------------------------------------
-// VERSION  	AUTHOR		DATE			CONTENT
-// 1.0		    ¿Ó√Á	    20070724		¥¥Ω®
-// -------------------------------------------------
-#endregion
-
-using System;
-using System.Text;
-using System.Data;
-using System.Transactions;
-using System.Collections.Generic;
-using System.Xml;
-using MCS.Library.Core;
-using MCS.Library.Data;
-using MCS.Library.Data.Builder;
-using MCS.Library.Data.Mapping;
+Ôªøusing MCS.Library.Core;
 using MCS.Library.Validation;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
+using System.Xml;
 
-namespace MCS.Library.SOA.DataObjects
+namespace MCS.Library.Data.Adapters
 {
-    [System.Diagnostics.DebuggerNonUserCode]
+    /// <summary>
+    /// 
+    /// </summary>
     public static class DbHelper
     {
-        #region   ˝æ›∑√Œ ∫Ø ˝
+        #region  Êï∞ÊçÆËÆøÈóÆÂáΩÊï∞
 
-        public static DbContext GetDBContext()
-        {
-            return DbContext.GetContext(ConnectionDefine.DBConnectionName);
-        }
+        //public static DbContext GetDBContext()
+        //{
+        //    return DbContext.GetContext(ConnectionDefine.DBConnectionName);
+        //}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionName"></param>
+        /// <returns></returns>
         public static DbContext GetDBContext(string connectionName)
         {
             return DbContext.GetContext(connectionName);
         }
 
-        public static Database GetDBDatabase()
-        {
-            return DatabaseFactory.Create(ConnectionDefine.DBConnectionName);
-        }
+        //public static Database GetDBDatabase()
+        //{
+        //    return DatabaseFactory.Create(ConnectionDefine.DBConnectionName);
+        //}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionName"></param>
+        /// <returns></returns>
         public static Database GetDBDatabase(string connectionName)
         {
             return DatabaseFactory.Create(connectionName);
         }
 
-        public static void RunSql(Action<Database> action)
-        {
-            RunSql(action, ConnectionDefine.DBConnectionName);
-        }
+        //public static void RunSql(Action<Database> action)
+        //{
+        //    RunSql(action, ConnectionDefine.DBConnectionName);
+        //}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="connectionName"></param>
         public static void RunSql(Action<Database> action, string connectionName)
         {
             using (DbContext context = DbContext.GetContext(connectionName))
@@ -63,11 +68,17 @@ namespace MCS.Library.SOA.DataObjects
             }
         }
 
-        public static object RunSqlReturnScalar(string strSql)
-        {
-            return RunSqlReturnScalar(strSql, ConnectionDefine.DBConnectionName);
-        }
+        //public static object RunSqlReturnScalar(string strSql)
+        //{
+        //    return RunSqlReturnScalar(strSql, ConnectionDefine.DBConnectionName);
+        //}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <param name="connectionName"></param>
+        /// <returns></returns>
         public static object RunSqlReturnScalar(string strSql, string connectionName)
         {
             using (DbContext dbi = DbContext.GetContext(connectionName))
@@ -78,13 +89,13 @@ namespace MCS.Library.SOA.DataObjects
             }
         }
 
-        public static int RunSql(string strSql)
-        {
-            return RunSql(strSql, ConnectionDefine.DBConnectionName);
-        }
+        //public static int RunSql(string strSql)
+        //{
+        //    return RunSql(strSql, ConnectionDefine.DBConnectionName);
+        //}
 
         /// <summary>
-        /// ÷‹—Ó”⁄20090715–ﬁ∏ƒ
+        /// Âë®Êù®‰∫é20090715‰øÆÊîπ
         /// </summary>
         /// <param name="strSql"></param>
         /// <param name="connectionName"></param>
@@ -98,11 +109,17 @@ namespace MCS.Library.SOA.DataObjects
             }
         }
 
-        public static int RunSqlWithTransaction(string strSql)
-        {
-            return RunSqlWithTransaction(strSql, ConnectionDefine.DBConnectionName);
-        }
+        //public static int RunSqlWithTransaction(string strSql)
+        //{
+        //    return RunSqlWithTransaction(strSql, ConnectionDefine.DBConnectionName);
+        //}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <param name="connectionName"></param>
+        /// <returns></returns>
         public static int RunSqlWithTransaction(string strSql, string connectionName)
         {
             using (TransactionScope ts = TransactionScopeFactory.Create(TransactionScopeOption.Required))
@@ -115,11 +132,17 @@ namespace MCS.Library.SOA.DataObjects
             }
         }
 
-        public static IDataReader RunSqlReturnDR(string strSql)
-        {
-            return RunSqlReturnDR(strSql, ConnectionDefine.DBConnectionName);
-        }
+        //public static IDataReader RunSqlReturnDR(string strSql)
+        //{
+        //    return RunSqlReturnDR(strSql, ConnectionDefine.DBConnectionName);
+        //}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <param name="connectionName"></param>
+        /// <returns></returns>
         public static IDataReader RunSqlReturnDR(string strSql, string connectionName)
         {
             using (DbContext dbi = DbContext.GetContext(connectionName))
@@ -130,11 +153,17 @@ namespace MCS.Library.SOA.DataObjects
             }
         }
 
-        public static DataSet RunSqlReturnDS(string strSql)
-        {
-            return RunSqlReturnDS(strSql, ConnectionDefine.DBConnectionName);
-        }
+        //public static DataSet RunSqlReturnDS(string strSql)
+        //{
+        //    return RunSqlReturnDS(strSql, ConnectionDefine.DBConnectionName);
+        //}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <param name="connectionName"></param>
+        /// <returns></returns>
         public static DataSet RunSqlReturnDS(string strSql, string connectionName)
         {
             using (DbContext dbi = DbContext.GetContext(connectionName))
@@ -145,11 +174,17 @@ namespace MCS.Library.SOA.DataObjects
             }
         }
 
-        public static XmlDocument RunSQLReturnXmlDoc(string strSql)
-        {
-            return RunSQLReturnXmlDoc(strSql, ConnectionDefine.DBConnectionName);
-        }
+        //public static XmlDocument RunSQLReturnXmlDoc(string strSql)
+        //{
+        //    return RunSQLReturnXmlDoc(strSql, ConnectionDefine.DBConnectionName);
+        //}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <param name="connectionName"></param>
+        /// <returns></returns>
         public static XmlDocument RunSQLReturnXmlDoc(string strSql, string connectionName)
         {
             string xmlStr = string.Empty;
@@ -159,7 +194,7 @@ namespace MCS.Library.SOA.DataObjects
                 strSql += " FOR XML AUTO, ELEMENTS";
             }
 
-            object obj = RunSqlReturnScalar(strSql);
+            object obj = RunSqlReturnScalar(strSql, connectionName);
 
             if (obj != null)
 
@@ -172,9 +207,16 @@ namespace MCS.Library.SOA.DataObjects
             return xmlDoc;
         }
 
-        public static DataSet RunSPReturnDS(string spName, params object[] parameterValues)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="spName"></param>
+        /// <param name="connectionName"></param>
+        /// <param name="parameterValues"></param>
+        /// <returns></returns>
+        public static DataSet RunSPReturnDS(string spName, string connectionName, params object[] parameterValues)
         {
-            using (DbContext dbi = GetDBContext())
+            using (DbContext dbi = GetDBContext(connectionName))
             {
                 Database db = DatabaseFactory.Create(dbi);
 
@@ -182,55 +224,34 @@ namespace MCS.Library.SOA.DataObjects
             }
         }
 
-        public static IDataReader RunSPReturnDR(string spName, params object[] parameterValues)
-        {
-            using (DbContext dbi = GetDBContext())
-            {
-                Database db = DatabaseFactory.Create(dbi);
+        //public static IDataReader RunSPReturnDR(string spName, params object[] parameterValues)
+        //{
+        //    using (DbContext dbi = GetDBContext())
+        //    {
+        //        Database db = DatabaseFactory.Create(dbi);
 
-                return db.ExecuteReader(spName, parameterValues);
-            }
-        }
-
-        /*
-    /// <summary>
-    /// ∑µªÿÕ®”√≤È—Øµƒ¥Ê¥¢π˝≥Ãµƒ≤È—ØΩ·π˚°£
-    /// </summary>
-    /// <param name="fields">∑µªÿµƒ◊÷∂Œ</param>
-    /// <param name="tables">≤È—Ø…Êº∞µΩµƒ±Ì£¨∂‡∏ˆ±Ì”…∂∫∫≈∑÷∏Ó</param>
-    /// <param name="where">≤È—ØÃıº˛</param>
-    /// <param name="orderBy">≈≈–ÚÃıº˛</param>
-    /// <param name="key">≤È—ØΩ·π˚÷–µƒπÿº¸◊÷</param>
-    /// <param name="pageNo">∑µªÿµ⁄º∏“≥</param>
-    /// <param name="pageCount">√ø“≥µƒº«¬º ˝</param>
-    /// <param name="retRowCount">µ⁄“ª“≥µƒ∑µªÿºØ£¨ «∑Ò∑µªÿ◊‹º«¬º ˝</param>
-    /// <returns></returns>
-    [Obsolete]
-    public static DataSet SplitPageQuery(string fields, string tables, string where, string orderBy, string key, int pageNo, int pageCount, bool retRowCount)
-    {
-
-        using (DbContext dbi = GetDBContext())
-        {
-            Database db = DatabaseFactory.Create(dbi);
-
-            return db.ExecuteDataSet("CommonSplitPageQuery", fields,
-                tables,
-                where,
-                orderBy,
-                key,
-                pageNo,
-                pageCount,
-                retRowCount ? (int)1 : (int)0);
-        }
-    }*/
+        //        return db.ExecuteReader(spName, parameterValues);
+        //    }
+        //}
         #endregion
 
-        #region  ˝æ›—È÷§
+        #region Êï∞ÊçÆÈ™åËØÅ
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validateObject"></param>
+        /// <param name="unValidates"></param>
         public static void ValidateFalseThrow(object validateObject, params string[] unValidates)
         {
             ValidateFalseThrow<SystemSupportException>(validateObject, unValidates);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="validateObject"></param>
+        /// <param name="unValidates"></param>
         public static void ValidateFalseThrow<T>(object validateObject, params string[] unValidates) where T : System.Exception
         {
             List<string> unValidatesList = new List<string>();
@@ -244,6 +265,12 @@ namespace MCS.Library.SOA.DataObjects
             CheckValidationResults<T>(validationResults);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="validateObject"></param>
+        /// <param name="ruleset"></param>
         public static void ValidateFalseThrow<T>(object validateObject, string ruleset) where T : System.Exception
         {
             Validator validator = ValidationFactory.CreateValidator(validateObject.GetType(), ruleset);
@@ -252,6 +279,11 @@ namespace MCS.Library.SOA.DataObjects
             CheckValidationResults<T>(validationResults);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="validationResults"></param>
         public static void CheckValidationResults<T>(ValidationResults validationResults) where T : System.Exception
         {
             if (validationResults.IsValid() == false)
