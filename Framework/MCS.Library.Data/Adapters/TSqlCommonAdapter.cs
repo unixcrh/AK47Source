@@ -1,23 +1,26 @@
-using MCS.Library.Core;
-using MCS.Library.Data;
+ï»¿using MCS.Library.Core;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.DataObjects;
 using MCS.Library.Data.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace MCS.Library.SOA.DataObjects
+namespace MCS.Library.Data.Adapters
 {
-    public class CommonAdapter
+    /// <summary>
+    /// 
+    /// </summary>
+    public class TSqlCommonAdapter
     {
         private string connectionName = string.Empty;
 
         /// <summary>
-        /// »ñµÃÊ¹ÓÃµÄÊı¾İ¿âÁ¬½Ó´®Ãû
+        /// è·å¾—ä½¿ç”¨çš„æ•°æ®åº“è¿æ¥ä¸²å
         /// </summary>
         public string ConnectionName
         {
@@ -27,18 +30,16 @@ namespace MCS.Library.SOA.DataObjects
             }
         }
 
-        private CommonAdapter() { }
+        private TSqlCommonAdapter() { }
 
         /// <summary>
-        /// Êı¾İ¿âÁ¬½Ó´®ÃûÄ¬ÈÏÊÇHB2008£¬ÈôĞèÒª¸Ä±äÁ¬½Ó´®ÃûÔòÊ¹ÓÃ±¾¹¹Ôìº¯Êı£¬¸ÃÖÖÓÃ·¨ÏÂ±¾Àà²»ÊÇµ¥¼şÄ£Ê½
+        /// æ•°æ®åº“è¿æ¥ä¸²åé»˜è®¤æ˜¯HB2008ï¼Œè‹¥éœ€è¦æ”¹å˜è¿æ¥ä¸²ååˆ™ä½¿ç”¨æœ¬æ„é€ å‡½æ•°ï¼Œè¯¥ç§ç”¨æ³•ä¸‹æœ¬ç±»ä¸æ˜¯å•ä»¶æ¨¡å¼
         /// </summary>
-        /// <param name="connectionName">Ê¹ÓÃµÄÊı¾İ¿âÁ¬½Ó´®Ãû</param>
-        public CommonAdapter(string connectionName)
+        /// <param name="connectionName">ä½¿ç”¨çš„æ•°æ®åº“è¿æ¥ä¸²å</param>
+        public TSqlCommonAdapter(string connectionName)
         {
             this.connectionName = connectionName;
         }
-
-        public static readonly CommonAdapter Instance = new CommonAdapter();
 
         /// <summary>
         /// 
@@ -55,6 +56,12 @@ namespace MCS.Library.SOA.DataObjects
             return SplitPageQuery<T, TCollection>(qc, DefaultDataRowToObject<T, TCollection>, ref totalCount);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="qc"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
         public DataView SplitPageQuery(QueryCondition qc, ref int totalCount)
         {
             DataSet ds = this.SplitPageQuery(qc, totalCount <= 0);
@@ -64,7 +71,7 @@ namespace MCS.Library.SOA.DataObjects
             if (ds.Tables.Count > 1)
                 totalCount = (int)ds.Tables[1].Rows[0][0];
 
-            //µ±Ò³Âë³¬³öË÷ÒıµÄ£¬·µ»Ø×î´óÒ³
+            //å½“é¡µç è¶…å‡ºç´¢å¼•çš„ï¼Œè¿”å›æœ€å¤§é¡µ
             if (result.Count == 0 && totalCount > 0)
             {
                 int newStartRowIndex = (totalCount - 1) / qc.PageSize * qc.PageSize;
@@ -105,7 +112,7 @@ namespace MCS.Library.SOA.DataObjects
             if (ds.Tables.Count > 1)
                 totalCount = (int)ds.Tables[1].Rows[0][0];
 
-            //µ±Ò³Âë³¬³öË÷ÒıµÄ£¬·µ»Ø×î´óÒ³
+            //å½“é¡µç è¶…å‡ºç´¢å¼•çš„ï¼Œè¿”å›æœ€å¤§é¡µ
             if (result.Count == 0 && totalCount > 0)
             {
                 int newStartRowIndex = (totalCount - 1) / qc.PageSize * qc.PageSize;
@@ -120,6 +127,12 @@ namespace MCS.Library.SOA.DataObjects
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="qc"></param>
+        /// <param name="retrieveTotalCount"></param>
+        /// <returns></returns>
         public DataSet SplitPageQuery(QueryCondition qc, bool retrieveTotalCount)
         {
             ExceptionHelper.TrueThrow<ArgumentNullException>(null == qc, "qc");
@@ -129,7 +142,7 @@ namespace MCS.Library.SOA.DataObjects
 
             DataSet ds = null;
 
-            if (qc.RowIndex == 0 && qc.PageSize == 0)	//Ò»ÖÖ¼ÙÉè£¬qc.RowIndex == 0 && qc.PageSize == 0ÈÏÎª²»·ÖÒ³
+            if (qc.RowIndex == 0 && qc.PageSize == 0)	//ä¸€ç§å‡è®¾ï¼Œqc.RowIndex == 0 && qc.PageSize == 0è®¤ä¸ºä¸åˆ†é¡µ
                 ds = DoNoSplitPageQuery(qc);
             else
                 ds = DoSplitPageQuery(qc, retrieveTotalCount);
@@ -138,7 +151,7 @@ namespace MCS.Library.SOA.DataObjects
         }
 
         /// <summary>
-        /// µÃµ½²éÑ¯×ÜĞĞÊıµÄSQL
+        /// å¾—åˆ°æŸ¥è¯¢æ€»è¡Œæ•°çš„SQL
         /// </summary>
         /// <param name="qc"></param>
         /// <returns></returns>
@@ -161,11 +174,17 @@ namespace MCS.Library.SOA.DataObjects
             return sql;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="qc"></param>
+        /// <param name="retrieveTotalCount"></param>
+        /// <returns></returns>
         public string GetQuerySql(QueryCondition qc, bool retrieveTotalCount)
         {
             string sql = ResourceHelper.LoadStringFromResource(
                             Assembly.GetExecutingAssembly(),
-                            "MCS.Library.SOA.DataObjects.Common.SplitPage.sql");
+                            "MCS.Library.Data.Adapters.SplitPage.sql");
 
             sql = string.Format(
                 sql,
@@ -187,13 +206,13 @@ namespace MCS.Library.SOA.DataObjects
         {
             string sql = GetQuerySql(qc, retrieveTotalCount);
 
-            using (DbContext context = DbContext.GetContext(string.IsNullOrEmpty(this.ConnectionName) ? ConnectionDefine.DBConnectionName : this.ConnectionName))
+            using (DbContext context = DbContext.GetContext(this.ConnectionName))
             {
                 DataSet ds = null;
                 int serverVersion = Convert.ToInt32(context.Connection.ServerVersion.Split('.')[0]);
 
                 Database db = DatabaseFactory.Create(context);
-                //¸ù¾İSQL Server°æ±¾Ñ¡Ôñ·ÖÒ³Óï¾äµÄĞ´·¨
+                //æ ¹æ®SQL Serverç‰ˆæœ¬é€‰æ‹©åˆ†é¡µè¯­å¥çš„å†™æ³•
                 if (serverVersion > 8)
                     ds = db.ExecuteDataSet(CommandType.Text, sql, "RESULT", "RESULT_COUNT");
                 else
@@ -215,7 +234,7 @@ namespace MCS.Library.SOA.DataObjects
         {
             string sql = GetNoSplitPageSql(qc);
 
-            using (DbContext context = DbContext.GetContext(string.IsNullOrEmpty(this.ConnectionName) ? ConnectionDefine.DBConnectionName : this.ConnectionName))
+            using (DbContext context = DbContext.GetContext(this.ConnectionName))
             {
                 Database db = DatabaseFactory.Create(context);
 

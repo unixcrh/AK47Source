@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MCS.Library.Caching;
+using MCS.Library.Data.Adapters;
 using MCS.Library.Data.DataObjects;
 using MCS.Library.Data.Mapping;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using MCS.Library.Caching;
+using System.Linq;
+using System.Text;
 
-namespace MCS.Library.SOA.DataObjects
+namespace MCS.Library.Data.Adapters
 {
     /// <summary>
     /// 为Asp.net的ObjectDataSource对应的分页查询类所做的基类
@@ -18,16 +19,40 @@ namespace MCS.Library.SOA.DataObjects
         where T : new()
         where TCollection : EditableDataObjectCollectionBase<T>, new()
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startRowIndex"></param>
+        /// <param name="maximumRows"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
         public TCollection Query(int startRowIndex, int maximumRows, ref int totalCount)
         {
             return Query(startRowIndex, maximumRows, string.Empty, string.Empty, ref totalCount);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startRowIndex"></param>
+        /// <param name="maximumRows"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
         public TCollection Query(int startRowIndex, int maximumRows, string orderBy, ref int totalCount)
         {
             return Query(startRowIndex, maximumRows, string.Empty, orderBy, ref totalCount);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startRowIndex"></param>
+        /// <param name="maximumRows"></param>
+        /// <param name="where"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
         public TCollection Query(int startRowIndex, int maximumRows, string where, string orderBy, ref int totalCount)
         {
             TCollection result = InnerQuery(startRowIndex, maximumRows, where, orderBy, ref totalCount);
@@ -44,7 +69,7 @@ namespace MCS.Library.SOA.DataObjects
 
             OnBuildQueryCondition(qc);
 
-            CommonAdapter adapter = new CommonAdapter(GetConnectionName());
+            TSqlCommonAdapter adapter = new TSqlCommonAdapter(GetConnectionName());
 
             TCollection result = adapter.SplitPageQuery<T, TCollection>(qc, this.OnDataRowToObject, ref totalCount);
 
@@ -53,6 +78,11 @@ namespace MCS.Library.SOA.DataObjects
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataCollection"></param>
+        /// <param name="row"></param>
         protected virtual void OnDataRowToObject(TCollection dataCollection, DataRow row)
         {
             T data = new T();
@@ -79,11 +109,22 @@ namespace MCS.Library.SOA.DataObjects
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
         public int GetQueryCount(ref int totalCount)
         {
             return (int)ObjectContextCache.Instance[ContextCacheKey];
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="where"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
         public int GetQueryCount(string where, ref int totalCount)
         {
             return (int)ObjectContextCache.Instance[ContextCacheKey];
@@ -100,11 +141,21 @@ namespace MCS.Library.SOA.DataObjects
             }
         }
 
-        protected virtual string GetConnectionName()
-        {
-            return ConnectionDefine.SearchConnectionName;
-        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        protected abstract string GetConnectionName();
 
+        //protected virtual string GetConnectionName()
+        //{
+        //    return ConnectionDefine.SearchConnectionName;
+        //}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected virtual ORMappingItemCollection GetMappingInfo()
         {
             return ORMapping.GetMappingInfo<T>();

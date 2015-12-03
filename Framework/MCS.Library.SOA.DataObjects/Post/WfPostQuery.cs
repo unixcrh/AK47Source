@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
+using MCS.Library.Data.DataObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
-using MCS.Library.Data.DataObjects;
 
 namespace MCS.Library.SOA.DataObjects
 {

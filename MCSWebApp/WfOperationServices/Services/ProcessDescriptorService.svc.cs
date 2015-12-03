@@ -1,4 +1,5 @@
 ﻿using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.DataObjects;
 using MCS.Library.Data.Mapping;
@@ -144,7 +145,7 @@ namespace WfOperationServices.Services
 
             qc.WhereClause = where;
 
-            CommonAdapter adapter = new CommonAdapter(WfProcessDescriptorInfoAdapter.Instance.ConnectionName);
+            TSqlCommonAdapter adapter = new TSqlCommonAdapter(WfProcessDescriptorInfoAdapter.Instance.ConnectionName);
 
             WfProcessDescriptorInfoCollection processInfo = adapter.SplitPageQuery<WfProcessDescriptorInfo, WfProcessDescriptorInfoCollection>(qc, ref totalCount);
 

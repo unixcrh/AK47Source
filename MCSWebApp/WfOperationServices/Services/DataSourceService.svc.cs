@@ -1,4 +1,5 @@
 ﻿using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.DataObjects;
 using MCS.Library.Data.Mapping;
@@ -108,7 +109,7 @@ namespace WfOperationServices.Services
 
         private static WfClientUserOperationLogPageQueryResult QueryUserOperationLog(QueryCondition qc, int totalCount)
         {
-            CommonAdapter adapter = new CommonAdapter(UserOperationLogAdapter.Instance.ConnectionName);
+            TSqlCommonAdapter adapter = new TSqlCommonAdapter(UserOperationLogAdapter.Instance.ConnectionName);
 
             UserOperationLogCollection serverLogs = adapter.SplitPageQuery<UserOperationLog, UserOperationLogCollection>(qc, ref totalCount);
 

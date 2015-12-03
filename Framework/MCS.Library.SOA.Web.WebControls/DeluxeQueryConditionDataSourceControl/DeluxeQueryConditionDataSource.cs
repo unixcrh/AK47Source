@@ -1,19 +1,20 @@
-﻿using System;
-using System.Data;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.UI.WebControls;
-using System.ComponentModel;
-using System.Drawing;
-using System.Web.UI;
-using MCS.Library.Caching;
+﻿using MCS.Library.Caching;
 using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
+using MCS.Library.Data.Builder;
+using MCS.Library.Data.DataObjects;
+using MCS.Library.Data.Mapping;
 using MCS.Library.SOA.DataObjects;
 using MCS.Web.Library;
-using MCS.Library.Data.Builder;
-using MCS.Library.Data.Mapping;
-using MCS.Library.Data.DataObjects;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace MCS.Web.WebControls
 {
@@ -183,7 +184,7 @@ namespace MCS.Web.WebControls
 
             //OnBuildQueryCondition(qc);
 
-            CommonAdapter adapter = new CommonAdapter(connection);
+            TSqlCommonAdapter adapter = new TSqlCommonAdapter(connection);
 
             DataSet result = adapter.SplitPageQuery(qc, totalCount <= 0);
 

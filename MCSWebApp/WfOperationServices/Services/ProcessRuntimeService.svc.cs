@@ -647,7 +647,7 @@ namespace WfOperationServices.Services
 
         private static WfClientProcessCurrentInfoPageQueryResult QueryProcessInfo(QueryCondition qc, int totalCount)
         {
-            CommonAdapter adapter = new CommonAdapter(WfProcessCurrentInfoAdapter.Instance.ConnectionName);
+            TSqlCommonAdapter adapter = new TSqlCommonAdapter(WfProcessCurrentInfoAdapter.Instance.ConnectionName);
 
             WfProcessCurrentInfoCollection processInfo = adapter.SplitPageQuery<WfProcessCurrentInfo, WfProcessCurrentInfoCollection>(qc, ref totalCount);
 

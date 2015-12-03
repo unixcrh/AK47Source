@@ -1,4 +1,10 @@
-﻿/*
+﻿using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
+using MCS.Library.Data.Builder;
+using MCS.Library.Data.DataObjects;
+using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
+using MCS.Library.SOA.DataObjects.Security.Adapters;
+/*
  * created 2012-07-10
  * created by v-weirf
  * 
@@ -7,11 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.Data.DataObjects;
-using MCS.Library.Core;
-using MCS.Library.Data.Builder;
-using MCS.Library.SOA.DataObjects.Security.Adapters;
-using MCS.Library.SOA.DataObjects.Schemas.SchemaProperties;
 
 namespace MCS.Library.SOA.DataObjects.Security.DataSources
 {

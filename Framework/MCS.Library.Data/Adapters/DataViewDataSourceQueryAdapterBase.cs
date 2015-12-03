@@ -1,13 +1,14 @@
-﻿using System;
-using System.Data;
+﻿using MCS.Library.Caching;
+using MCS.Library.Core;
+using MCS.Library.Data.Adapters;
+using MCS.Library.Data.DataObjects;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
-using MCS.Library.Core;
-using MCS.Library.Caching;
-using MCS.Library.Data.DataObjects;
 
-namespace MCS.Library.SOA.DataObjects
+namespace MCS.Library.Data.Adapters
 {
     /// <summary>
     /// 为Asp.net的ObjectDataSource对应的分页查询类所做的基类，返回的是通用的DataView类型，不需要通过ORMapping
@@ -16,6 +17,9 @@ namespace MCS.Library.SOA.DataObjects
     {
         private string _DefaultTableName = string.Empty;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DataViewDataSourceQueryAdapterBase()
         {
         }
@@ -31,16 +35,40 @@ namespace MCS.Library.SOA.DataObjects
             this._DefaultTableName = tableName;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startRowIndex"></param>
+        /// <param name="maximumRows"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
         public DataView Query(int startRowIndex, int maximumRows, ref int totalCount)
         {
             return Query(startRowIndex, maximumRows, string.Empty, string.Empty, ref totalCount);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startRowIndex"></param>
+        /// <param name="maximumRows"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
         public DataView Query(int startRowIndex, int maximumRows, string orderBy, ref int totalCount)
         {
             return Query(startRowIndex, maximumRows, string.Empty, orderBy, ref totalCount);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="startRowIndex"></param>
+        /// <param name="maximumRows"></param>
+        /// <param name="where"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
         public DataView Query(int startRowIndex, int maximumRows, string where, string orderBy, ref int totalCount)
         {
             DataView result = InnerQuery(startRowIndex, maximumRows, where, orderBy, ref totalCount);
@@ -50,11 +78,22 @@ namespace MCS.Library.SOA.DataObjects
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
         public int GetQueryCount(ref int totalCount)
         {
             return (int)ObjectContextCache.Instance[ContextCacheKey];
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="where"></param>
+        /// <param name="totalCount"></param>
+        /// <returns></returns>
         public int GetQueryCount(string where, ref int totalCount)
         {
             return (int)ObjectContextCache.Instance[ContextCacheKey];
@@ -67,7 +106,7 @@ namespace MCS.Library.SOA.DataObjects
 
             OnBuildQueryCondition(qc);
 
-            CommonAdapter adapter = new CommonAdapter(GetConnectionName());
+            TSqlCommonAdapter adapter = new TSqlCommonAdapter(GetConnectionName());
 
             DataView result = adapter.SplitPageQuery(qc, ref totalCount);
 
@@ -103,9 +142,15 @@ namespace MCS.Library.SOA.DataObjects
             }
         }
 
-        protected virtual string GetConnectionName()
-        {
-            return ConnectionDefine.SearchConnectionName;
-        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        protected abstract string GetConnectionName();
+
+        //protected virtual string GetConnectionName()
+        //{
+        //    return ConnectionDefine.SearchConnectionName;
+        //}
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using MCS.Library.Core;
 using System.Data;
 using MCS.Library.Data.DataObjects;
+using MCS.Library.Data.Adapters;
 
 namespace MCS.Library.SOA.DataObjects
 {

@@ -133,8 +133,6 @@
     <Compile Include="ClientValidator\ClientVdtAttribute.cs" />
     <Compile Include="CommonInfoMapping\CommonInfoMappingSettings.cs" />
     <Compile Include="CommonInfoMapping\DefaultCommonInfoMappingUpdater.cs" />
-    <Compile Include="Common\CommonAdapter.cs" />
-    <Compile Include="Common\DataViewDataSourceQueryAdapterBase.cs" />
     <Compile Include="Common\Define.cs" />
     <Compile Include="Common\DeltaDataCollectionBase.cs" />
     <Compile Include="Common\Enumerations.cs" />
@@ -142,7 +140,6 @@
     <Compile Include="Common\IClonableBusinessObject.cs" />
     <Compile Include="Common\IVersionDataObject.cs" />
     <Compile Include="Common\TicketDESEncryptor.cs" />
-    <Compile Include="Common\ObjectDataSourceQueryAdapterBase.cs" />
     <Compile Include="Common\RelativeTicket.cs" />
     <Compile Include="Common\RelativeTicketSettings.cs" />
     <Compile Include="Common\DBTimePointActionContext.cs" />
@@ -773,7 +770,6 @@
     <EmbeddedResource Include="Workflow\Matrix\MatrixTemplate.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Common\SplitPage.sql" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

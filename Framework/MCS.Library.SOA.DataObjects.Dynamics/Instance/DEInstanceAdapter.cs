@@ -1,6 +1,7 @@
 ﻿using MCS.Library.Caching;
 using MCS.Library.Core;
 using MCS.Library.Data;
+using MCS.Library.Data.Adapters;
 using MCS.Library.Data.Builder;
 using MCS.Library.Data.DataObjects;
 using MCS.Library.Data.Mapping;
@@ -185,7 +186,7 @@ namespace MCS.Library.SOA.DataObjects.Dynamics.Instance.Adapters
 
             QueryCondition qc = new QueryCondition(startRowIndex, pageSize, "*", ORMapping.GetMappingInfo<DEEntityInstanceBase>().TableName, orderBy, wsc.ToSqlString(TSqlBuilder.Instance));
 
-            CommonAdapter adapter = new CommonAdapter(GetConnectionName());
+            TSqlCommonAdapter adapter = new TSqlCommonAdapter(GetConnectionName());
 
             DataSet ds = adapter.SplitPageQuery(qc, totalCount <= 0);
 

@@ -95,7 +95,10 @@
   <ItemGroup>
     <Compile Include="Accessories\CryptoHelper.cs" />
     <Compile Include="Accessories\DbTraceHelper.cs" />
+    <Compile Include="Adapters\DataViewDataSourceQueryAdapterBase.cs" />
     <Compile Include="Adapters\DbHelper.cs" />
+    <Compile Include="Adapters\ObjectDataSourceQueryAdapterBase.cs" />
+    <Compile Include="Adapters\TSqlCommonAdapter.cs" />
     <Compile Include="Adapters\UpdatableAdapterBase.cs" />
     <Compile Include="Adapters\UpdatableAndLoadableAdapterBase.cs" />
     <Compile Include="Builder\BytesDescriptionGenerator.cs" />
@@ -195,7 +198,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Adapters\SplitPage.sql" />
+  </ItemGroup>
   <Target Name="BeforeBuild">
   </Target>
   <Target Name="AfterBuild">

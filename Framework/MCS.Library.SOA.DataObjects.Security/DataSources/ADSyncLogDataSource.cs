@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MCS.Library.Data.Adapters;
+using MCS.Library.SOA.DataObjects.Security;
+using MCS.Library.SOA.DataObjects.Security.Adapters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MCS.Library.SOA.DataObjects.Security;
-using MCS.Library.SOA.DataObjects.Security.Adapters;
 
 namespace MCS.Library.SOA.DataObjects.Security.DataSources
 {
