@@ -50,6 +50,9 @@
     <Reference Include="MCS.Library">
       <HintPath>..\..\Bin\MCS.Library.dll</HintPath>
     </Reference>
+    <Reference Include="MCS.Library.Data">
+      <HintPath>..\..\Bin\MCS.Library.Data.dll</HintPath>
+    </Reference>
     <Reference Include="MCS.Web.Library.Script.Json">
       <HintPath>..\..\Bin\MCS.Web.Library.Script.Json.dll</HintPath>
     </Reference>
@@ -84,6 +87,8 @@
     <Compile Include="Common\GenericDesigner.cs" />
     <Compile Include="Common\LoadingDialogContentEventArgs.cs" />
     <Compile Include="Common\SR.cs" />
+    <Compile Include="DataSource\DeluxeObjectDataSource.cs" />
+    <Compile Include="DataSource\DeluxeQueryConditionDataSource.cs" />
     <Compile Include="DateTimePicker\DateTimePicker.cs" />
     <Compile Include="DateTimePicker\DateTimeScriptReference.cs" />
     <Compile Include="DeluxeDataPager\DeluxeDataPager.cs" />
