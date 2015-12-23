@@ -23,7 +23,7 @@ namespace MCS.Library.SOA.DataObjects
         internal static readonly string SELECT_JOB_SCHEDULES_ID_CLAUSE = "SELECT SCHEDULE_ID FROM WF.JOB_SCHEDULES WHERE ";
         internal static readonly string INSERT_JOB_SCHEDULES_SQL_CLAUSE = "INSERT INTO WF.JOB_SCHEDULES ";
 
-        internal const string UPDLOCK_LOAD_JOBS = "SELECT {0} * FROM WF.JOBS WITH(UPDLOCK READPAST) WHERE {1} ORDER BY CREATE_TIME";
+        internal const string UPDLOCK_LOAD_JOBS = "SELECT {0} * FROM WF.JOBS WITH(UPDLOCK, READPAST) WHERE {1} ORDER BY CREATE_TIME";
 
         internal const string SINGLE_DATA_JOB = "SELECT TOP(1) * FROM WF.JOBS WHERE {0}";
 
@@ -92,7 +92,7 @@ namespace MCS.Library.SOA.DataObjects
         //public JobCollection FetchNotDispatchedJobs(int batchCount, TimeSpan timeOffset, Action<JobBase> action)
         //{
         //    JobCollection result = new JobCollection();
-        //    string sql = "SELECT {0} J.* FROM WF.JOBS J WITH(UPDLOCK READPAST) LEFT JOIN WF.SYS_NOT_RUNNING_TASK T WITH(UPDLOCK READPAST) ON J.JOB_ID = T.RESOURCE_ID WHERE (T.STATUS IS NULL) AND {1} ORDER BY CREATE_TIME";
+        //    string sql = "SELECT {0} J.* FROM WF.JOBS J WITH(UPDLOCK, READPAST) LEFT JOIN WF.SYS_NOT_RUNNING_TASK T WITH(UPDLOCK READPAST) ON J.JOB_ID = T.RESOURCE_ID WHERE (T.STATUS IS NULL) AND {1} ORDER BY CREATE_TIME";
 
         //    using (DbContext context = DbContext.GetContext(this.GetConnectionName()))
         //    {
@@ -261,7 +261,7 @@ namespace MCS.Library.SOA.DataObjects
         /// <returns></returns>
         public IList<string> LoadUnTaskedJobs(int batchCount, TimeSpan timeOffset)
         {
-            string sqlTemplate = "SELECT {0} J.JOB_ID FROM WF.JOBS J LEFT JOIN WF.SYS_NOT_RUNNING_TASK T WITH(UPDLOCK READPAST) ON J.JOB_ID = T.RESOURCE_ID WHERE (T.STATUS IS NULL) AND {1} ORDER BY J.CREATE_TIME";
+            string sqlTemplate = "SELECT {0} J.JOB_ID FROM WF.JOBS J LEFT JOIN WF.SYS_NOT_RUNNING_TASK T WITH(UPDLOCK, READPAST) ON J.JOB_ID = T.RESOURCE_ID WHERE (T.STATUS IS NULL) AND {1} ORDER BY J.CREATE_TIME";
             string top = batchCount >= 0 ? "TOP " + batchCount : string.Empty;
 
             WhereSqlClauseBuilder builder = new WhereSqlClauseBuilder();
@@ -293,7 +293,7 @@ namespace MCS.Library.SOA.DataObjects
 
         public JobBase LoadOneUnTaskedJob(string jobID)
         {
-            string sqlTemplate = "SELECT J.* FROM WF.JOBS J WITH(UPDLOCK READPAST) LEFT JOIN WF.SYS_NOT_RUNNING_TASK T WITH(UPDLOCK READPAST) ON J.JOB_ID = T.RESOURCE_ID WHERE (T.STATUS IS NULL) AND J.JOB_ID = {0}";
+            string sqlTemplate = "SELECT J.* FROM WF.JOBS J WITH(UPDLOCK, READPAST) LEFT JOIN WF.SYS_NOT_RUNNING_TASK T WITH(UPDLOCK READPAST) ON J.JOB_ID = T.RESOURCE_ID WHERE (T.STATUS IS NULL) AND J.JOB_ID = {0}";
 
             string sql = string.Format(sqlTemplate, TSqlBuilder.Instance.CheckUnicodeQuotationMark(jobID));
 

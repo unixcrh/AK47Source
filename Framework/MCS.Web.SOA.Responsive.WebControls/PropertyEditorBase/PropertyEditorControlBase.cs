@@ -1,16 +1,16 @@
-﻿using System;
+﻿using MCS.Library.Data.DataObjects;
+using MCS.Library.SOA.DataObjects;
+using MCS.Library.Validation;
+using MCS.Web.Library.Script;
+using MCS.Web.Responsive.Library.Resources;
+using MCS.Web.Responsive.Library.Script;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Web.UI;
-using MCS.Web.Responsive.Library.Script;
-using MCS.Web.Responsive.Library.Resources;
-using MCS.Library.SOA.DataObjects;
-using MCS.Web.Library.Script;
-using MCS.Library.Data.DataObjects;
-using System.ComponentModel;
-using MCS.Library.Validation;
 using System.Text.RegularExpressions;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 [assembly: WebResource("MCS.Web.Responsive.WebControls.PropertyEditorBase.InvalidLine.gif", "image/gif")]
@@ -273,7 +273,8 @@ namespace MCS.Web.Responsive.WebControls
                     Validator vali = propValidator.GetValidator();
                     if (vali is IClientValidatable)
                     {
-                        ClientVdtAttribute cvArt = new ClientVdtAttribute(propValidator);
+                        ClientVdtAttribute cvArt = propValidator.ToClientVdtAttribute();
+
                         if (string.IsNullOrEmpty(cvArt.ClientValidateMethodName) == false)
                         {
                             this.Page.ClientScript.RegisterStartupScript(this.GetType(), cvArt.ClientValidateMethodName, ((IClientValidatable)vali).GetClientValidateScript(), true);

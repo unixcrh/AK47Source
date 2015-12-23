@@ -134,7 +134,6 @@
     <Compile Include="Configuration\WfRuntimeViewerSettings.cs" />
     <Compile Include="Contexts\AclContext.cs" />
     <Compile Include="DataBindingControl\ClientDataBindingItem.cs" />
-    <Compile Include="DataBindingControl\ClientVdtAttribute.cs" />
     <Compile Include="DataBindingControl\DataBindingControl.cs" />
     <Compile Include="DataBindingControl\DataBindingInnerValidationControl.cs" />
     <Compile Include="DataBindingControl\DataBindingItem.cs" />

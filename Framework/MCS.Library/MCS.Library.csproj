@@ -228,6 +228,7 @@
     <Compile Include="Configuration\IdentityConfigSettings.cs" />
     <Compile Include="Configuration\IdentityConfigurationElement.cs" />
     <Compile Include="Configuration\PrincipalSettings.cs" />
+    <Compile Include="Configuration\QueueManagerSettings.cs" />
     <Compile Include="Configuration\ServerInfoConfigSettings.cs" />
     <Compile Include="Configuration\TenantContextSettings.cs" />
     <Compile Include="Configuration\TimePointSimulationSettings.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Contexts\TenantContext.cs" />
     <Compile Include="Contexts\TenantExtensions.cs" />
     <Compile Include="Contexts\TenantRelativeObjectAttribute.cs" />
+    <Compile Include="Contexts\TimeZoneContext.cs" />
     <Compile Include="Core\ArgumentsParser.cs" />
     <Compile Include="Core\CookieHelper.cs" />
     <Compile Include="Core\GeneralEqualityComparer.cs" />
@@ -249,6 +251,7 @@
     <Compile Include="Core\NativeMethods.cs" />
     <Compile Include="Core\PartitionedDictionary.cs" />
     <Compile Include="Core\ProcessProgress.cs" />
+    <Compile Include="Core\QueueManager.cs" />
     <Compile Include="Core\UnknownSerializationType.cs" />
     <Compile Include="Core\ValidatorParameterConfigurationElement.cs" />
     <Compile Include="Core\ValidatorSettings.cs" />
@@ -307,6 +310,7 @@
     <Compile Include="Data\DataObjects\TreeNodeBase.cs" />
     <Compile Include="Data\DataObjects\TreeNodeBaseCollection.cs" />
     <Compile Include="Data\DbConnectionMappingContext.cs" />
+    <Compile Include="Core\IQueue.cs" />
     <Compile Include="Data\Mapping\ConditionMappingAttribute.cs" />
     <Compile Include="Data\Mapping\EnumDefine.cs" />
     <Compile Include="Data\Mapping\ORFieldMappingAttribute.cs" />
@@ -539,6 +543,8 @@
     </Compile>
     <Compile Include="Services\WebMethodServerCountersExtension.cs" />
     <Compile Include="Validation\BaseValidatorAttribute.cs" />
+    <Compile Include="Validation\ClientVdtAttribute.cs" />
+    <Compile Include="Validation\ClientVdtData.cs" />
     <Compile Include="Validation\CompositeValidatorBuilder.cs" />
     <Compile Include="Validation\EnumDefine.cs" />
     <Compile Include="Validation\IClientValidatable.cs" />

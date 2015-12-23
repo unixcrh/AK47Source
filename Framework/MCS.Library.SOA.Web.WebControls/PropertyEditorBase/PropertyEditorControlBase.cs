@@ -270,7 +270,8 @@ namespace MCS.Web.WebControls
                     Validator vali = propValidator.GetValidator();
                     if (vali is IClientValidatable)
                     {
-                        ClientVdtAttribute cvArt = new ClientVdtAttribute(propValidator);
+                        ClientVdtAttribute cvArt = propValidator.ToClientVdtAttribute();
+
                         if (string.IsNullOrEmpty(cvArt.ClientValidateMethodName) == false)
                         {
                             this.Page.ClientScript.RegisterStartupScript(this.GetType(), cvArt.ClientValidateMethodName, ((IClientValidatable)vali).GetClientValidateScript(), true);

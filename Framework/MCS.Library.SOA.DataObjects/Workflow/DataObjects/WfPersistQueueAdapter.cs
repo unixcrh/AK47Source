@@ -186,7 +186,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 
             string top = count < 0 ? string.Empty : "TOP " + count;
 
-            string sql = string.Format("SELECT {0} * FROM {1} WITH (UPDLOCK READPAST) ORDER BY SORT_ID", top, mappingInfo.TableName);
+            string sql = string.Format("SELECT {0} * FROM {1} WITH (UPDLOCK, READPAST) ORDER BY SORT_ID", top, mappingInfo.TableName);
 
             WfPersistQueueCollection result = new WfPersistQueueCollection();
 

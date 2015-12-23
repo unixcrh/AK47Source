@@ -110,7 +110,7 @@ namespace MCS.Library.SOA.DataObjects
             builder.AppendItem("1", 1);
             builder.AppendTenantCode();
 
-            string sql = string.Format("SELECT {0}* FROM MSG.EMAIL_MESSAGES WITH (UPDLOCK READPAST) WHERE {1} ORDER BY SORT_ID",
+            string sql = string.Format("SELECT {0}* FROM MSG.EMAIL_MESSAGES WITH (UPDLOCK, READPAST) WHERE {1} ORDER BY SORT_ID",
                 topDesp,
                 builder.ToSqlString(TSqlBuilder.Instance));
 

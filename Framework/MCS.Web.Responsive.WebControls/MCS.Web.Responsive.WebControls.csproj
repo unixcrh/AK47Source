@@ -87,6 +87,18 @@
     <Compile Include="Common\GenericDesigner.cs" />
     <Compile Include="Common\LoadingDialogContentEventArgs.cs" />
     <Compile Include="Common\SR.cs" />
+    <Compile Include="DataBinding\ClientDataBindingItem.cs" />
+    <Compile Include="DataBinding\DataBindingControl.cs" />
+    <Compile Include="DataBinding\DataBindingInnerValidationControl.cs" />
+    <Compile Include="DataBinding\DataBindingItem.cs" />
+    <Compile Include="DataBinding\DataBindingItemsEditor.cs" />
+    <Compile Include="DataBinding\DataBindingItemsEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataBinding\DataBindingItemsEditorForm.Designer.cs">
+      <DependentUpon>DataBindingItemsEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataBinding\ProcessParameterEvalMode.cs" />
     <Compile Include="DataSource\DeluxeObjectDataSource.cs" />
     <Compile Include="DataSource\DeluxeQueryConditionDataSource.cs" />
     <Compile Include="DateTimePicker\DateTimePicker.cs" />
@@ -147,6 +159,9 @@
     <None Include="MCS.Library.snk" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DataBinding\DataBindingItemsEditorForm.resx">
+      <DependentUpon>DataBindingItemsEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DeluxeTree\DeluxeTreeItemsEditorForm.resx">
       <DependentUpon>DeluxeTreeItemsEditorForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -222,6 +237,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SubmitButton\SubmitButton.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataBinding\DataBindingControl.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

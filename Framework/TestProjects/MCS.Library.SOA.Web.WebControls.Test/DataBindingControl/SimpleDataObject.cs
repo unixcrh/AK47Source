@@ -24,8 +24,8 @@ namespace MCS.Library.SOA.Web.WebControls.Test.DataBindingControl
         }
 
         [IntegerRangeValidator(1, 20, MessageTemplate = "请输入1-20之间的整数")]
-        [StringByteLengthValidator(2, 5, MessageTemplate = "字节范围2-5")]
-        [RegexValidator(@"^\d{3,4}$", MessageTemplate = "IntegerInput格式不正确")]
+        //[StringByteLengthValidator(2, 5, MessageTemplate = "字节范围2-5")]
+        //[RegexValidator(@"^\d{3,4}$", MessageTemplate = "IntegerInput格式不正确")]
         public string IntegerInput
         {
             get;

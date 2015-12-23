@@ -24,11 +24,12 @@ namespace MCS.Library.Data.Mapping
     public class ORFieldMappingAttribute : System.Attribute
     {
         private string dataFieldName = string.Empty;
-		private string format = string.Empty;
+        private string format = string.Empty;
         private bool isIdentity = false;
         private bool primaryKey = false;
         private int length = 0;
         private bool isNullable = true;
+        private bool utcTimeToLocal = false;
 
         /// <summary>
         /// 构造方法
@@ -90,14 +91,14 @@ namespace MCS.Library.Data.Mapping
             set { this.dataFieldName = value; }
         }
 
-		/// <summary>
-		/// 生成SQL Value的格式化串{0:0000}
-		/// </summary>
-		public string Format
-		{
-			get { return this.format; }
-			set { this.format = value; }
-		}
+        /// <summary>
+        /// 生成SQL Value的格式化串{0:0000}
+        /// </summary>
+        public string Format
+        {
+            get { return this.format; }
+            set { this.format = value; }
+        }
 
         /// <summary>
         /// 是否标识列
@@ -121,6 +122,15 @@ namespace MCS.Library.Data.Mapping
         {
             get { return this.primaryKey; }
             set { this.primaryKey = value; }
+        }
+
+        /// <summary>
+        /// 假设数据库中存放的是UTC time，转换为TimeZoneContext中的时区
+        /// </summary>
+        public bool UtcTimeToLocal
+        {
+            get { return this.utcTimeToLocal; }
+            set { this.utcTimeToLocal = value; }
         }
     }
 

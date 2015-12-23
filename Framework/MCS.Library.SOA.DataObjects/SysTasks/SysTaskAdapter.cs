@@ -161,7 +161,7 @@ namespace MCS.Library.SOA.DataObjects
             builder.AppendItem("1", 1);
             builder.AppendTenantCode();
 
-            string sql = string.Format("SELECT {0} * FROM WF.SYS_NOT_RUNNING_TASK WITH(UPDLOCK READPAST) WHERE {1} ORDER BY SORT_ID ASC",
+            string sql = string.Format("SELECT {0} * FROM WF.SYS_NOT_RUNNING_TASK WITH(UPDLOCK, READPAST) WHERE {1} ORDER BY SORT_ID ASC",
                 batchClause, builder.ToSqlString(TSqlBuilder.Instance));
 
             return this.QueryData(sql);

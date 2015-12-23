@@ -249,11 +249,12 @@ namespace MCS.Library.SOA.DataObjects
                 Validator vali = propValidator.GetValidator();
                 if (vali is IClientValidatable)
                 {
-                    ClientVdtAttribute cvArt = new ClientVdtAttribute(propValidator);
-                    cdtData.CvtList.Add(cvArt);
+                    ClientVdtAttribute cvAttr = propValidator.ToClientVdtAttribute();
 
-                    if (string.IsNullOrEmpty(cvArt.ClientValidateMethodName) == false)
-                        cvArt.AdditionalData = ((IClientValidatable)vali).GetClientValidateAdditionalData(vali.Tag);
+                    cdtData.CvtList.Add(cvAttr);
+
+                    if (string.IsNullOrEmpty(cvAttr.ClientValidateMethodName) == false)
+                        cvAttr.AdditionalData = ((IClientValidatable)vali).GetClientValidateAdditionalData(vali.Tag);
                 }
             }
 

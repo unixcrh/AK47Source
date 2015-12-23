@@ -52,9 +52,8 @@ namespace MCS.Library.Net.SNTP
                         _RWLocalOffsetLock.ExitWriteLock();
                     }
                 }
-                catch (System.Exception ex)
+                catch (System.Exception)
                 {
-                    Trace.Write(ex);
                 }
 
                 try

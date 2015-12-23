@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using MCS.Library.Data.Adapters;
 using MCS.Library.SOA.DataObjects;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MCS.Library.SOA.Web.WebControls.Test.DeluxeSearch.DataObjects
 {

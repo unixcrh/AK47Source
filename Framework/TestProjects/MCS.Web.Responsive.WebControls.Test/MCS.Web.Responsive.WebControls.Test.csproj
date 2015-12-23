@@ -105,6 +105,7 @@
     <Content Include="css\table.css" />
     <Content Include="css\treeview.css" />
     <Content Include="css\widget.css" />
+    <Content Include="DataBinding\SimpleDataBindingTest.aspx" />
     <Content Include="DateTimePicker\DateTimePickerCloneTest.aspx" />
     <Content Include="DateTimePicker\DateTimePickerTest.aspx" />
     <Content Include="default.aspx" />
@@ -217,6 +218,15 @@
     <Compile Include="CommandInput\CommandInputTest.aspx.designer.cs">
       <DependentUpon>CommandInputTest.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DataBinding\SimpleDataBindingTest.aspx.cs">
+      <DependentUpon>SimpleDataBindingTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataBinding\SimpleDataBindingTest.aspx.designer.cs">
+      <DependentUpon>SimpleDataBindingTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataBinding\SimpleDataObject.cs" />
+    <Compile Include="DataBinding\SimpleUser.cs" />
     <Compile Include="DateTimePicker\DateTimePickerCloneTest.aspx.cs">
       <DependentUpon>DateTimePickerCloneTest.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

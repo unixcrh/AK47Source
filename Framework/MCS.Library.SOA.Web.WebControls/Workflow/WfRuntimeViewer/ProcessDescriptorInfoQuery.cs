@@ -1,5 +1,4 @@
 ﻿using MCS.Library.Data.Adapters;
-using MCS.Library.Data.Adapters;
 using MCS.Library.Data.DataObjects;
 using MCS.Library.SOA.DataObjects;
 using MCS.Library.SOA.DataObjects.Workflow;
