@@ -12,7 +12,7 @@ namespace MCS.OA.CommonPages.DelegationAuthorized
     {
         protected override string GetConnectionName()
         {
-            return ConnectionNameMappingSettings.GetConfig().GetConnectionName("HB2008", string.Empty);
+            return ConnectionNameMappingSettings.GetConfig().GetConnectionName(ConnectionDefine.DBConnectionName, ConnectionDefine.DBConnectionName);
         }
 
         protected override void OnBuildQueryCondition(QueryCondition qc)

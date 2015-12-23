@@ -106,7 +106,7 @@ namespace MCS.Web.Responsive.WebControls
     [Designer(typeof(DeluxePagerDesigner))]
     [ParseChildren(true),
     PersistChildren(false)]
-    public class DeluxePager : WebControl, IPostBackEventHandler, IPostBackContainer, INamingContainer, ICascadePagedControl //ScriptControlBase
+    public class DeluxePager : WebControl, IPostBackContainer, INamingContainer, ICascadePagedControl, IPostBackEventHandler
     {
         /// <summary>
         /// ¹¹Ôìº¯Êý
@@ -1226,22 +1226,63 @@ namespace MCS.Web.Responsive.WebControls
 
         #endregion
 
-        void IPostBackEventHandler.RaisePostBackEvent(string eventArgument)
+        //protected override void OnLoad(EventArgs e)
+        //{
+        //    string eventTarget = HttpContext.Current.Request.Form["__EVENTTARGET"];
+
+        //    if (this.UniqueID == eventTarget && HttpContext.Current.Items[eventTarget] == null)
+        //    {
+        //        string eventArgument = HttpContext.Current.Request.Form["__EVENTARGUMENT"];
+
+        //        if (eventArgument.IsNotEmpty())
+        //        {
+        //            this.RaisePostBackEvent2(eventArgument);
+        //        }
+
+        //        HttpContext.Current.Items[eventTarget] = true;
+        //    }
+
+        //    base.OnLoad(e);
+        //}
+
+        internal int ProcessPostBackEvent()
         {
-            this.RaisePostBackEvent(eventArgument);
+            string eventTarget = HttpContext.Current.Request.Form["__EVENTTARGET"];
+
+            if (this.UniqueID == eventTarget && HttpContext.Current.Items[eventTarget] == null)
+            {
+                string eventArgument = HttpContext.Current.Request.Form["__EVENTARGUMENT"];
+
+                if (eventArgument.IsNotEmpty())
+                {
+                    this.RaisePostBackEvent2(eventArgument);
+                }
+
+                HttpContext.Current.Items[eventTarget] = true;
+            }
+
+            return this.PageIndex;
         }
 
-        private void RaisePostBackEvent(string eventArgument)
+        void IPostBackEventHandler.RaisePostBackEvent(string eventArgument)
+        {
+            this.RaisePostBackEvent2(eventArgument);
+        }
+
+        private int RaisePostBackEvent2(string eventArgument)
         {
             int index = eventArgument.IndexOf('$');
+
             if (index >= 0)
             {
                 CommandEventArgs args = new CommandEventArgs(eventArgument.Substring(0, index), eventArgument.Substring(index + 1));
                 this.HandleEvent(args);
             }
+
+            return this.PageIndex;
         }
 
-        private void HandleEvent(CommandEventArgs args)
+        private int HandleEvent(CommandEventArgs args)
         {
             if (args != null)
             {
@@ -1280,6 +1321,8 @@ namespace MCS.Web.Responsive.WebControls
 
                 SetPageIndex(this.PageIndex);
             }
+
+            return this.PageIndex;
         }
 
         PostBackOptions IPostBackContainer.GetPostBackOptions(IButtonControl buttonControl)
