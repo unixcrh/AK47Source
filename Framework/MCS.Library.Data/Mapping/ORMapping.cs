@@ -453,7 +453,7 @@ namespace MCS.Library.Data.Mapping
                     {
                         DateTime dt = (DateTime)data;
 
-                        dt = DateTime.SpecifyKind(dt, DateTimeKind.Local);
+                        dt = DateTime.SpecifyKind(dt, DateTimeKind.Unspecified);
 
                         data = TimeZoneContext.Current.ConvertTimeToUtc(dt);
                     }

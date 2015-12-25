@@ -27,6 +27,8 @@ namespace MCS.Library.Data.Test
         [TestMethod]
         public void LocalTimeToUtcTest()
         {
+            TimeZoneContext.Current.CurrentTimeZone = TimeZoneInfo.CreateCustomTimeZone("TimeZoneInfoContext", TimeSpan.FromMinutes(480), "TimeZoneInfoContext", "TimeZoneInfoContext");
+
             TestObject data = new TestObject();
 
             data.LocalTime = DateTime.Now;
@@ -45,6 +47,8 @@ namespace MCS.Library.Data.Test
         [TestMethod]
         public void UtcTimeToLocalTest()
         {
+            TimeZoneContext.Current.CurrentTimeZone = TimeZoneInfo.CreateCustomTimeZone("TimeZoneInfoContext", TimeSpan.FromMinutes(480), "TimeZoneInfoContext", "TimeZoneInfoContext");
+
             DataTable table = PrepareTestTable();
 
             TestObject data = new TestObject();

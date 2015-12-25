@@ -22,6 +22,34 @@ namespace MCS.Library.Test.TimeZoneRel
         }
 
         [TestMethod]
+        public void CustomTimeConvertFromUtc()
+        {
+            TimeZoneInfo chinaTZ = TimeZoneInfo.CreateCustomTimeZone("TimeZoneInfoContext", TimeSpan.FromMinutes(480), "TimeZoneInfoContext", "TimeZoneInfoContext");
+
+            DateTime utcTime = new DateTime(2015, 12, 22, 0, 0, 0, DateTimeKind.Utc);
+
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, chinaTZ);
+
+            Console.WriteLine(localTime);
+
+            Assert.AreEqual(8, localTime.Hour);
+        }
+
+        [TestMethod]
+        public void CustomTimeConvertToUtc()
+        {
+            TimeZoneInfo chinaTZ = TimeZoneInfo.CreateCustomTimeZone("TimeZoneInfoContext", TimeSpan.FromMinutes(480), "TimeZoneInfoContext", "TimeZoneInfoContext");
+            
+            DateTime localTime = new DateTime(2015, 12, 22, 16, 0, 0, DateTimeKind.Unspecified);
+
+            DateTime utcTime = TimeZoneInfo.ConvertTimeToUtc(localTime, chinaTZ);
+
+            Console.WriteLine(utcTime);
+
+            Assert.AreEqual(8, utcTime.Hour);
+        }
+
+        [TestMethod]
         public void LocalTimeConvert()
         {
             DateTime utcTime = new DateTime(2015, 12, 22, 0, 0, 0, DateTimeKind.Utc);
@@ -38,9 +66,11 @@ namespace MCS.Library.Test.TimeZoneRel
         [TestMethod]
         public void TimeZoneContextLocalTimeConvert()
         {
+            TimeZoneContext.Current.CurrentTimeZone = TimeZoneInfo.CreateCustomTimeZone("TimeZoneInfoContext", TimeSpan.FromMinutes(480), "TimeZoneInfoContext", "TimeZoneInfoContext");
+
             DateTime utcTime = new DateTime(2015, 12, 22, 0, 0, 0, DateTimeKind.Utc);
 
-            Console.WriteLine(TimeZoneInfo.Local.Id);
+            Console.WriteLine(TimeZoneContext.Current.CurrentTimeZone.Id);
 
             DateTime localTime = TimeZoneContext.Current.ConvertTimeFromUtc(utcTime);
 
