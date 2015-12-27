@@ -26,7 +26,7 @@ namespace MCS.Library.Test.TimeZoneRel
         {
             TimeZoneInfo chinaTZ = TimeZoneInfo.CreateCustomTimeZone("TimeZoneInfoContext", TimeSpan.FromMinutes(480), "TimeZoneInfoContext", "TimeZoneInfoContext");
 
-            DateTime utcTime = new DateTime(2015, 12, 22, 0, 0, 0, DateTimeKind.Utc);
+            DateTime utcTime = new DateTime(2015, 12, 22, 0, 0, 0, DateTimeKind.Unspecified);
 
             DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, chinaTZ);
 
@@ -38,11 +38,11 @@ namespace MCS.Library.Test.TimeZoneRel
         [TestMethod]
         public void CustomTimeConvertToUtc()
         {
-            TimeZoneInfo chinaTZ = TimeZoneInfo.CreateCustomTimeZone("TimeZoneInfoContext", TimeSpan.FromMinutes(480), "TimeZoneInfoContext", "TimeZoneInfoContext");
+            TimeZoneContext.Current.CurrentTimeZone = TimeZoneInfo.CreateCustomTimeZone("TimeZoneInfoContext", TimeSpan.FromMinutes(480), "TimeZoneInfoContext", "TimeZoneInfoContext");
             
-            DateTime localTime = new DateTime(2015, 12, 22, 16, 0, 0, DateTimeKind.Unspecified);
+            DateTime localTime = new DateTime(2015, 12, 22, 16, 0, 0, DateTimeKind.Local);
 
-            DateTime utcTime = TimeZoneInfo.ConvertTimeToUtc(localTime, chinaTZ);
+            DateTime utcTime = TimeZoneContext.Current.ConvertTimeToUtc(localTime);
 
             Console.WriteLine(utcTime);
 

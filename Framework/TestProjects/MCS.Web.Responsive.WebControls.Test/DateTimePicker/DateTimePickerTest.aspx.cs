@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Threading;
+using MCS.Web.Library.Script;
 
 namespace MCS.Web.Responsive.WebControls.Test.DateTimePicker
 {
@@ -14,6 +15,7 @@ namespace MCS.Web.Responsive.WebControls.Test.DateTimePicker
         {
             if (Page.IsPostBack == false)
             {
+                //sdt.Value = JSONSerializerExecute.Serialize(new { StartTime = new DateTime(2015, 12, 27, 9, 0, 0, DateTimeKind.Local) });
                 var culture = Thread.CurrentThread.CurrentUICulture;
                 bool hasThis = false;
                 foreach (ListItem item in this.cultureList.Items)

@@ -297,7 +297,8 @@ namespace MCS.Library.Data.Mapping
                 if (item.UtcTimeToLocal)
                 {
                     DateTime changedDT = DateTime.SpecifyKind(dt, DateTimeKind.Utc);
-                    result = TimeZoneContext.Current.ConvertTimeFromUtc(changedDT);
+                    DateTime convertedDT = TimeZoneContext.Current.ConvertTimeFromUtc(changedDT);
+                    result = DateTime.SpecifyKind(convertedDT, DateTimeKind.Local);
                 }
                 else
                 {

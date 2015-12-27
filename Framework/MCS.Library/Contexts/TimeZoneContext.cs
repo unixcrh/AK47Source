@@ -41,7 +41,9 @@ namespace MCS.Library.Core
             if (tz == null)
                 tz = TimeZoneInfo.Local;
 
-            return TimeZoneInfo.ConvertTimeFromUtc(utcTime, tz);
+            DateTime convertedTime = DateTime.SpecifyKind(utcTime, DateTimeKind.Utc);
+
+            return TimeZoneInfo.ConvertTimeFromUtc(convertedTime, tz);
         }
 
         /// <summary>
@@ -56,7 +58,26 @@ namespace MCS.Library.Core
             if (tz == null)
                 tz = TimeZoneInfo.Local;
 
-            return TimeZoneInfo.ConvertTimeToUtc(localTime, tz);
+            DateTime convertedTime = DateTime.SpecifyKind(localTime, DateTimeKind.Unspecified);
+
+            return TimeZoneInfo.ConvertTimeToUtc(convertedTime, tz);
+        }
+
+        /// <summary>
+        /// 将本机Local的时间转换为当前上下文中的时间
+        /// </summary>
+        /// <param name="localTime"></param>
+        /// <returns></returns>
+        public DateTime ConvertLocalTimeToCurrent(DateTime localTime)
+        {
+            TimeZoneInfo tz = this.CurrentTimeZone;
+
+            if (tz == null)
+                tz = TimeZoneInfo.Local;
+
+            DateTime convertedTime = DateTime.SpecifyKind(localTime, DateTimeKind.Unspecified);
+
+            return TimeZoneInfo.ConvertTime(localTime, TimeZoneInfo.Local, tz);
         }
     }
 }

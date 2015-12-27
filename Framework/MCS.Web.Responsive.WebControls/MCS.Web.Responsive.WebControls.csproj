@@ -102,6 +102,7 @@
     <Compile Include="DataSource\DeluxeObjectDataSource.cs" />
     <Compile Include="DataSource\DeluxeQueryConditionDataSource.cs" />
     <Compile Include="DateTimePicker\DateTimePicker.cs" />
+    <Compile Include="DateTimePicker\DateTimePickerDataPackConverter.cs" />
     <Compile Include="DateTimePicker\DateTimeScriptReference.cs" />
     <Compile Include="DeluxeDataPager\DeluxeDataPager.cs" />
     <Compile Include="DeluxeGrid\CheckBoxTemplate..cs" />

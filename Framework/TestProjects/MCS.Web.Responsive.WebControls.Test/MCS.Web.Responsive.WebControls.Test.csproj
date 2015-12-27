@@ -56,6 +56,10 @@
     <Reference Include="MCS.Library.Data">
       <HintPath>..\..\..\Bin\MCS.Library.Data.dll</HintPath>
     </Reference>
+    <Reference Include="MCS.Web.Library.Script.Json, Version=1.0.0.0, Culture=neutral, PublicKeyToken=62ea08f894871798, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\MCS.Web.Library.Script.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />

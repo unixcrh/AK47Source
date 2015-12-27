@@ -54,6 +54,7 @@ namespace MCS.Web.Responsive.WebControls
         public DateTimePicker()
             : base(true, "div")
         {
+            JSONSerializerExecute.RegisterConverter(typeof(DateTimePickerDataPackConverter));
         }
 
         #region 属性
@@ -448,7 +449,7 @@ namespace MCS.Web.Responsive.WebControls
 
         protected override string SaveClientState()
         {
-            return JSONSerializerExecute.Serialize(new DateTimePickerDataPack(this.Mode, this.Value) { });
+            return JSONSerializerExecute.Serialize(new DateTimePickerDataPack(this.Mode, this.Value));
         }
     }
 

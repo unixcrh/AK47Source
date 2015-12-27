@@ -16,7 +16,7 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 
 			WfKeyedDescriptorBase desp = CreateInstance(key, dictionary, type, serializer);
 
-			desp.Name = DictionaryHelper.GetValue(dictionary, "Name", string.Empty); ;
+			desp.Name = DictionaryHelper.GetValue(dictionary, "Name", string.Empty);
 			desp.Enabled = DictionaryHelper.GetValue(dictionary, "Enabled", false);
 			desp.Description = DictionaryHelper.GetValue(dictionary, "Description", string.Empty);
 

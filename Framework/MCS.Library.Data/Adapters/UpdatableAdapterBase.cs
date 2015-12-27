@@ -16,6 +16,8 @@ namespace MCS.Library.Data.Adapters
     /// <typeparam name="T"></typeparam>
     public abstract class UpdatableAdapterBase<T>
     {
+        private static readonly Dictionary<string, object> _DefaultContext = new Dictionary<string, object>();
+
         /// <summary>
         /// 得到连接串的名称
         /// </summary>
@@ -96,10 +98,8 @@ namespace MCS.Library.Data.Adapters
                 {
                     Dictionary<string, object> context = new Dictionary<string, object>();
 
-                    ORMappingItemCollection mappings = GetMappingInfo(context);
-
                     string sql = string.Format("DELETE {0} WHERE {1}",
-                        mappings.TableName,
+                        this.GetTableName(),
                         builder.ToSqlString(TSqlBuilder.Instance));
 
                     BeforeInnerDelete(builder, context);
@@ -122,7 +122,7 @@ namespace MCS.Library.Data.Adapters
         [Conditional("DEBUG")]
         public virtual void ClearAll()
         {
-            string sql = "DELETE FROM " + this.GetMappingInfo(new Dictionary<string, object>()).TableName;
+            string sql = "DELETE FROM " + this.GetTableName();
             DbHelper.RunSql(sql, GetConnectionName());
         }
 
@@ -204,7 +204,7 @@ namespace MCS.Library.Data.Adapters
             WhereSqlClauseBuilder builder = ORMapping.GetWhereSqlClauseBuilderByPrimaryKey(data, mappings);
 
             ExceptionHelper.FalseThrow(builder.Count > 0, "必须为对象{0}指定关键字", typeof(T));
-            string sql = string.Format("DELETE FROM {0} WHERE {1}", mappings.TableName, builder.ToSqlString(TSqlBuilder.Instance));
+            string sql = string.Format("DELETE FROM {0} WHERE {1}", this.GetTableName(), builder.ToSqlString(TSqlBuilder.Instance));
 
             int result = 0;
 
@@ -221,6 +221,15 @@ namespace MCS.Library.Data.Adapters
         protected virtual ORMappingItemCollection GetMappingInfo(Dictionary<string, object> context)
         {
             return ORMapping.GetMappingInfo<T>();
+        }
+
+        /// <summary>
+        /// 得到表名
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GetTableName()
+        {
+            return this.GetMappingInfo(_DefaultContext).TableName;
         }
 
         /// <summary>
