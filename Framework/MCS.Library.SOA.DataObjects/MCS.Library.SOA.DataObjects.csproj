@@ -404,6 +404,7 @@
     <Compile Include="UserTask\UserTaskOperationSettings.cs" />
     <Compile Include="UserTask\UserTaskServicePlugin.cs" />
     <Compile Include="UserTask\UserTaskServicePluginBroker.cs" />
+    <Compile Include="UserTask\WriteToLoggerUserTaskOperationImpl.cs" />
     <Compile Include="Validators\DecimalRangeValidator.cs" />
     <Compile Include="Validators\DecimalRangeValidatorAttribute.cs" />
     <Compile Include="Validators\DoubleRangeValidator.cs" />

@@ -37,7 +37,8 @@ namespace MCS.Library.SOA.DataObjects.Workflow.Actions
 
                     if (preparedUserTasks != null)
                     {
-                        WfRuntime.ProcessContext.MoveToUserTasks.CopyFrom(preparedUserTasks);
+                        //2016-1-15，沈峥注释，没有必要再发送待办，直接转已办即可
+                        //WfRuntime.ProcessContext.MoveToUserTasks.CopyFrom(preparedUserTasks);
                         currentActTasks = preparedUserTasks;
                     }
                 }

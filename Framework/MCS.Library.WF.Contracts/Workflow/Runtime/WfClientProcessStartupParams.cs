@@ -18,6 +18,7 @@ namespace MCS.Library.WF.Contracts.Workflow.Runtime
         private bool _AutoStartInitialActivity = true;
         private bool _CheckStartProcessUserPermission = true;
         private Dictionary<string, object> _ApplicationRuntimeParameters = null;
+        private Dictionary<string, object> _OverridableInitialActivityProperties = null;
         private Dictionary<string, object> _ProcessContext = null;
         private WfClientAssigneeCollection _Assignees = null;
 
@@ -42,6 +43,20 @@ namespace MCS.Library.WF.Contracts.Workflow.Runtime
             get
             {
                 return this._Assignees = this._Assignees ?? new WfClientAssigneeCollection();
+            }
+        }
+
+        /// <summary>
+        /// 可覆盖的起始活动的属性值
+        /// </summary>
+        public Dictionary<string, object> OverridableInitialActivityProperties
+        {
+            get
+            {
+                if (this._OverridableInitialActivityProperties == null)
+                    this._OverridableInitialActivityProperties = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+
+                return this._OverridableInitialActivityProperties;
             }
         }
 

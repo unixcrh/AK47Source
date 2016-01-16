@@ -42,6 +42,8 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 
         private Dictionary<string, object> _ApplicationRuntimeParameters = null;
 
+        private Dictionary<string, object> _OverridableInitialActivityProperties = null;
+
         public Dictionary<string, object> ApplicationRuntimeParameters
         {
             get
@@ -50,6 +52,20 @@ namespace MCS.Library.SOA.DataObjects.Workflow
                     this._ApplicationRuntimeParameters = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
                 return this._ApplicationRuntimeParameters;
+            }
+        }
+
+        /// <summary>
+        /// 可覆盖的起始活动的属性值
+        /// </summary>
+        public Dictionary<string, object> OverridableInitialActivityProperties
+        {
+            get
+            {
+                if (this._OverridableInitialActivityProperties == null)
+                    this._OverridableInitialActivityProperties = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+
+                return this._OverridableInitialActivityProperties;
             }
         }
 

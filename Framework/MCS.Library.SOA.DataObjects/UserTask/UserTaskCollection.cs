@@ -26,6 +26,7 @@ using MCS.Library.OGUPermission;
 
 namespace MCS.Library.SOA.DataObjects
 {
+    [XmlRootMapping("UserTaskCollection", false)]
     [Serializable]
     public class UserTaskCollection : EditableDataObjectCollectionBase<UserTask>
     {

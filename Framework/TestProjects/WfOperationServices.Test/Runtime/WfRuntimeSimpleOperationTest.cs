@@ -84,6 +84,11 @@ namespace WfOperationServices.Test.Runtime
             WfClientProcessDescriptor processDesp = OperationHelper.PrepareSimpleProcess();
 
             WfClientProcessStartupParams clientStartupParams = ProcessRuntimeHelper.PrepareClientProcessStartupParams(processDesp.Key);
+
+            //第一个环节不发送待办
+            clientStartupParams.OverridableInitialActivityProperties["AutoSendUserTask"] = false;
+            clientStartupParams.AutoCommit = false;
+
             clientStartupParams.Opinion = new WfClientOpinion() { Content = "我启动流程很高兴" };
 
             WfClientProcessInfo processInfo = WfClientProcessRuntimeServiceProxy.Instance.StartWorkflowAndMoveTo(clientStartupParams, null, null);

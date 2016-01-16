@@ -155,6 +155,25 @@ namespace MCS.Library.SOA.DataObjects.Workflow
 
             if (startupParams.RuntimeProcessName.IsNotEmpty() && processDesp.Properties.ContainsKey("RuntimeProcessName"))
                 processDesp.Properties.SetValue("RuntimeProcessName", startupParams.RuntimeProcessName);
+
+            FillInitialActivityDescriptorProperties(startupParams, processDesp.InitialActivity);
+        }
+
+        /// <summary>
+        /// 根据WfProcessStartupParams中OverridableInitialActivityProperties的内容，填充起始活动的属性
+        /// </summary>
+        /// <param name="startupParams"></param>
+        /// <param name="actDesp"></param>
+        private static void FillInitialActivityDescriptorProperties(WfProcessStartupParams startupParams, IWfActivityDescriptor actDesp)
+        {
+            if (actDesp != null)
+            {
+                foreach(KeyValuePair<string, object> kp in startupParams.OverridableInitialActivityProperties)
+                {
+                    if (kp.Value != null)
+                        actDesp.Properties.TrySetValue(kp.Key, kp.Value.ToString());
+                }
+            }
         }
 
         private static void FillProcessInstanceProperties(WfProcessStartupParams startupParams, WfProcess process)

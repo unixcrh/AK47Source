@@ -38,6 +38,7 @@ namespace MCS.Library.WF.Contracts.Converters.Runtime
                 server.ProcessDescriptor = WfProcessDescriptorManager.GetDescriptor(client.ProcessDescriptorKey);
 
             WfClientDictionaryConverter.Instance.ClientToServer(client.ApplicationRuntimeParameters, server.ApplicationRuntimeParameters);
+            WfClientDictionaryConverter.Instance.ClientToServer(client.OverridableInitialActivityProperties, server.OverridableInitialActivityProperties);
 
             server.AutoCommit = client.AutoCommit;
             server.AutoStartInitialActivity = client.AutoStartInitialActivity;
@@ -68,6 +69,7 @@ namespace MCS.Library.WF.Contracts.Converters.Runtime
                 client.ProcessDescriptorKey = server.ProcessDescriptor.Key;
 
             WfClientDictionaryConverter.Instance.ServerToClient(server.ApplicationRuntimeParameters, client.ApplicationRuntimeParameters);
+            WfClientDictionaryConverter.Instance.ServerToClient(server.OverridableInitialActivityProperties, client.OverridableInitialActivityProperties);
 
             client.AutoCommit = server.AutoCommit;
             client.AutoStartInitialActivity = server.AutoStartInitialActivity;

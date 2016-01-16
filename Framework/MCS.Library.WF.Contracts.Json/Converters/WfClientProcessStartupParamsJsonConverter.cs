@@ -39,6 +39,7 @@ namespace MCS.Library.WF.Contracts.Json.Converters
 
             JSONSerializerExecute.FillDeserializedCollection(dictionary.GetValue("assignees", (object)null), startupParams.Assignees);
             JSONSerializerExecute.FillDeserializedDictionary(dictionary, "applicationRuntimeParameters", startupParams.ApplicationRuntimeParameters);
+            JSONSerializerExecute.FillDeserializedDictionary(dictionary, "overridableInitialActivityProperties", startupParams.OverridableInitialActivityProperties);
             JSONSerializerExecute.FillDeserializedDictionary(dictionary, "processContext", startupParams.ProcessContext);
 
             return startupParams;
@@ -67,6 +68,7 @@ namespace MCS.Library.WF.Contracts.Json.Converters
 
             dictionary["assignees"] = startupParams.Assignees;
             dictionary["applicationRuntimeParameters"] = startupParams.ApplicationRuntimeParameters;
+            dictionary["overridableInitialActivityProperties"] = startupParams.OverridableInitialActivityProperties;
             dictionary["processContext"] = startupParams.ProcessContext;
 
             dictionary.AddNonDefaultValue("opinion", startupParams.Opinion);
